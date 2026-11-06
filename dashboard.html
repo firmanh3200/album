@@ -22,7 +22,8 @@
             min-height: 100vh;
             padding-bottom: 40px;
         }
-        /* Sticky Header di bagian atas */
+
+        /* Sticky Header Responsif dengan Iframe di Tengah */
         .sticky-header {
             position: sticky;
             top: 0;
@@ -34,18 +35,35 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
+            padding: 12px 30px;
             z-index: 1000;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         .user-info h3 {
-            margin: 0 0 3px 0;
+            margin: 0 0 2px 0;
             color: #2d3748;
-            font-size: 16px;
+            font-size: 15px;
         }
         .user-info p {
             margin: 0;
             color: #718096;
-            font-size: 13px;
+            font-size: 12px;
+        }
+        .header-widget {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            min-width: 250px;
+            max-width: 450px;
+            height: 42px;
+        }
+        .header-widget iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
         }
         .btn-logout {
             background-color: #fed7d7;
@@ -62,21 +80,27 @@
             background-color: #feb2b2;
         }
 
-        /* Container utama untuk card di tengah */
+        /* Container Utama dengan Tata Letak Fleksibel (Horizontal / Vertikal otomatis) */
         .main-container {
             flex: 1;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
             width: 100%;
-            max-width: 580px;
-            padding: 20px;
+            max-width: 1250px;
+            padding: 25px 20px;
             gap: 25px;
         }
+
+        /* Card Responsive */
         .dashboard-card {
             background: #ffffff;
-            width: 100%;
-            padding: 35px 40px;
+            flex: 1;
+            min-width: 320px;
+            max-width: 380px;
+            padding: 30px;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             animation: fadeIn 0.4s ease-in-out;
@@ -87,7 +111,7 @@
         }
         h2 {
             color: #5c1d24;
-            font-size: 24px;
+            font-size: 22px;
             letter-spacing: 2px;
             margin-top: 0;
             margin-bottom: 5px;
@@ -95,7 +119,7 @@
         }
         .section-title {
             color: #1a202c;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             text-align: center;
             margin-bottom: 5px;
@@ -103,27 +127,28 @@
         .subtitle {
             text-align: center;
             color: #718096;
-            font-size: 13px;
-            margin-bottom: 25px;
+            font-size: 12px;
+            margin-bottom: 20px;
+            min-height: 30px;
         }
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             color: #4a5568;
         }
         select {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 12px;
             border: 1px solid #cbd5e0;
             border-radius: 8px;
             background-color: #fff;
             color: #2d3748;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
             cursor: pointer;
@@ -136,26 +161,26 @@
             display: none !important;
         }
         .result-box {
-            margin-top: 25px;
-            padding: 15px;
+            margin-top: 20px;
+            padding: 12px;
             background-color: #ebf8ff;
             border-left: 4px solid #3182ce;
             border-radius: 4px;
             color: #2b6cb0;
-            font-size: 13px;
-            line-height: 1.5;
+            font-size: 12px;
+            line-height: 1.4;
         }
         .btn-submit {
             width: 100%;
             background-color: #3182ce;
             color: white;
             border: none;
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 12px;
             transition: background 0.2s;
         }
         .btn-submit:hover {
@@ -165,27 +190,33 @@
 </head>
 <body>
 
-    <!-- Sticky Header Informasi Pengguna -->
+    <!-- Sticky Header Informasi Pengguna & Iframe di Tengah -->
     <header class="sticky-header">
         <div class="user-info">
             <h3 id="user-name">Memuat...</h3>
             <p id="user-email">-</p>
         </div>
+        
+        <!-- Iframe di tengah header -->
+        <div class="header-widget">
+            <iframe src="https://firmanh3200.github.io/linglung" title="Widget Header"></iframe>
+        </div>
+
         <button class="btn-logout" onclick="handleLogout()">Keluar</button>
     </header>
 
-    <!-- Konten Utama di Tengah -->
+    <!-- Konten Utama dengan Layout Responsive Flex (Horizontal & Vertikal) -->
     <div class="main-container">
 
-        <!-- Card Baru: PEDULI Portal Edukasi dan Literasi -->
+        <!-- Card 1: PEDULI Portal Edukasi dan Literasi -->
         <div class="dashboard-card">
             <h2>P E D U L I</h2>
             <div class="section-title">Portal Edukasi dan Literasi</div>
-            <p class="subtitle">Silakan pilih literasi, buku saku, atau panduan yang ingin diakses.</p>
+            <p class="subtitle">Silakan pilih literasi, buku saku, atau panduan.</p>
 
             <div class="form-group" style="margin-bottom: 0;">
                 <label for="peduli-select">Pilih Menu / Tautan Literasi</label>
-                <select id="peduli-select" onchange="handlePeduliRedirect()">
+                <select id="peduli-select" onchange="handleRedirect('peduli-select')">
                     <option value="" disabled selected>-- Pilih Buku Saku / Portal --</option>
                     <option value="https://firmanh3200.github.io/pd32/">Audit Pengendali Dokumen ISO</option>
                     <option value="https://firmanh3200.github.io/peduli/cantik.html">Buku Saku Desa Cantik</option>
@@ -206,15 +237,45 @@
                     <option value="https://firmanh3200.github.io/zean/">Kamus Percakapan Inggis dan Jepang</option>
                     <option value="https://firmanh3200.github.io/ppid32/">PPID Berkibar</option>
                     <option value="https://firmanh3200.github.io/32iso26/">QnA ISO 9001:2015</option>
+                    <option value="https://www.youtube.com/@diseminasistatistikbps272">Youtube Diseminasi Statistik</option>
                 </select>
             </div>
         </div>
 
-        <!-- Card Lama: Portal Layanan Organisasi -->
+        <!-- Card 2: PRESISI Portal Aplikasi Harian (Sort Ascending) -->
+        <div class="dashboard-card">
+            <h2>P R E S I S I</h2>
+            <div class="section-title">Portal Aplikasi Harian</div>
+            <p class="subtitle">Mempercepat - mempermudah - menyederhanakan.</p>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="presisi-select">Pilih Aplikasi Harian</label>
+                <select id="presisi-select" onchange="handleRedirect('presisi-select')">
+                    <option value="" disabled selected>-- Pilih Aplikasi --</option>
+                    <option value="http://bimasena-harian.32net.id">Bimasena</option>
+                    <option value="https://data-pokok-desa.streamlit.app/">Data Pokok Desa Jabar</option>
+                    <option value="https://konpersi.streamlit.app/">File Toolkit</option>
+                    <option value="https://gemini.google.com">Gemini</option>
+                    <option value="https://drive.google.com/file/d/1B5B_nSl2em-BEKVIXcnNBy6XEtt51mxb/view?usp=drive_link">Lekas Beres Inflasi</option>
+                    <option value="https://drive.google.com/file/d/1mQzGiB69kZLbjIVhDD-SJUkG4F4wbnh8/view?usp=drive_link">Lekas Beres NTP</option>
+                    <option value="https://drive.google.com/file/d/1Vil6gRBi4RML-CQ9rtOQ8JQf0P0IEQ3w/view?usp=drive_link">Lekas Beres TPK</option>
+                    <option value="https://drive.google.com/file/d/1aOAy_I19I_L_KpyjwyUoTXZ4nQuuLqau/view?usp=drive_link">Lekas Beres Wisman</option>
+                    <option value="https://drive.google.com/file/d/1kCxRkKqvTVf_KoV_3GtE1sMOehVa_W63/view?usp=drive_link">Lekas Beres Wisnus</option>
+                    <option value="https://notebooklm.google.com" style="display:none;">NotebookLM</option>
+                    <option value="http://patani-harian.32net.id" style="display:none;">Patani</option>
+                    <option value="http://patani.32net.id">Patani</option>
+                    <option value="https://pss3200.streamlit.app/">Pembinaan Statistik Sektoral</option>
+                    <option value="https://fhy-olah.streamlit.app/">Studio Olah Data</option>
+                    <option value="https://chat.z.ai">Z AI Agent</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Card 3: PREMIUM Portal Layanan Organisasi -->
         <div class="dashboard-card">
             <h2>P R E M I U M</h2>
-            <div class="section-title">Portal Monev</div>
-            <p class="subtitle">Silakan pilih bidang dan sub-bagian terkait sesuai struktur kerja.</p>
+            <div class="section-title">Portal Monev Kinerja</div>
+            <p class="subtitle">Silakan pilih bidang dan bagian.</p>
 
             <!-- Pilihan Utama (Dropdown 1) -->
             <div class="form-group">
@@ -348,9 +409,9 @@
             window.location.href = "index.html";
         }
 
-        // Fungsi Redirect Otomatis untuk Card PEDULI
-        function handlePeduliRedirect() {
-            const selectElement = document.getElementById("peduli-select");
+        // Fungsi Redirect Otomatis untuk Card PEDULI dan PRESISI
+        function handleRedirect(elementId) {
+            const selectElement = document.getElementById(elementId);
             const targetUrl = selectElement.value;
             if (targetUrl) {
                 window.location.href = targetUrl;
@@ -464,8 +525,6 @@
         }
 
         function navigateToTargetUrl() {
-            // Placeholder: URL tujuan dapat ditambahkan atau disesuaikan di sini nanti
-            // Contoh: window.location.href = "halaman-tujuan.html?path=" + encodeURIComponent(finalPathData);
             alert("Pilihan final tercatat:\n" + finalPathData + "\n\n(URL tujuan akan diarahkan ke sini sesuai konfigurasi berikutnya).");
         }
 
