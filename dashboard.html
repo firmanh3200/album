@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Sistem Informasi Organisasi</title>
+    <title>Dashboard - Premium</title>
 
     <!-- SDK Supabase versi UMD -->
     <script src="supabase.js"></script>
@@ -17,36 +17,30 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             margin: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding-bottom: 40px;
         }
-        .dashboard-card {
-            background: #ffffff;
+        /* Sticky Header di bagian atas */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 580px;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .user-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #edf2f7;
-            padding-bottom: 20px;
-            margin-bottom: 25px;
+            padding: 15px 30px;
+            z-index: 1000;
         }
         .user-info h3 {
-            margin: 0 0 5px 0;
+            margin: 0 0 3px 0;
             color: #2d3748;
-            font-size: 18px;
+            font-size: 16px;
         }
         .user-info p {
             margin: 0;
@@ -67,24 +61,50 @@
         .btn-logout:hover {
             background-color: #feb2b2;
         }
-        h1 {
-            color: #7a202c;
-            margin-top: 0;
-            margin-bottom: 8px;
-            text-align: center;
+
+        /* Container utama untuk card di tengah */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 580px;
+            padding: 20px;
+            gap: 25px;
+        }
+        .dashboard-card {
+            background: #ffffff;
+            width: 100%;
+            padding: 35px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         h2 {
-            color: #1a202c;
-            font-size: 22px;
+            color: #5c1d24;
+            font-size: 24px;
+            letter-spacing: 2px;
             margin-top: 0;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             text-align: center;
+        }
+        .section-title {
+            color: #1a202c;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 5px;
         }
         .subtitle {
             text-align: center;
             color: #718096;
-            font-size: 14px;
-            margin-bottom: 30px;
+            font-size: 13px;
+            margin-bottom: 25px;
         }
         .form-group {
             margin-bottom: 20px;
@@ -145,118 +165,157 @@
 </head>
 <body>
 
-    <div class="dashboard-card">
-        <!-- Informasi User & Tombol Keluar -->
-        <div class="user-header">
-            <div class="user-info">
-                <h3 id="user-name">Memuat...</h3>
-                <p id="user-email">-</p>
+    <!-- Sticky Header Informasi Pengguna -->
+    <header class="sticky-header">
+        <div class="user-info">
+            <h3 id="user-name">Memuat...</h3>
+            <p id="user-email">-</p>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">Keluar</button>
+    </header>
+
+    <!-- Konten Utama di Tengah -->
+    <div class="main-container">
+
+        <!-- Card Baru: PEDULI Portal Edukasi dan Literasi -->
+        <div class="dashboard-card">
+            <h2>P E D U L I</h2>
+            <div class="section-title">Portal Edukasi dan Literasi</div>
+            <p class="subtitle">Silakan pilih literasi, buku saku, atau panduan yang ingin diakses.</p>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="peduli-select">Pilih Menu / Tautan Literasi</label>
+                <select id="peduli-select" onchange="handlePeduliRedirect()">
+                    <option value="" disabled selected>-- Pilih Buku Saku / Portal --</option>
+                    <option value="https://firmanh3200.github.io/pd32/">Audit Pengendali Dokumen ISO</option>
+                    <option value="https://firmanh3200.github.io/peduli/cantik.html">Buku Saku Desa Cantik</option>
+                    <option value="https://firmanh3200.github.io/peduli/epss.html">Buku Saku EPSS</option>
+                    <option value="https://firmanh3200.github.io/peduli/cantik/index.html">Buku Saku GSBPM Desa</option>
+                    <option value="https://firmanh3200.github.io/peduli/pekppp.html">Buku Saku PEKPPP</option>
+                    <option value="https://firmanh3200.github.io/peduli/pss.html">Buku Saku PSS</option>
+                    <option value="https://firmanh3200.github.io/peduli/pst.html">Buku Saku PST</option>
+                    <option value="https://firmanh3200.github.io/peduli/sakip.html">Buku Saku SAKIP</option>
+                    <option value="https://firmanh3200.github.io/peduli/spip.html">Buku Saku SPIP</option>
+                    <option value="https://firmanh3200.github.io/peduli/">Buku Saku Berakhlak</option>
+                    <option value="https://firmanh3200.github.io/peduli/rbzi.html">Buku Saku ZI/WBK/WBBM</option>
+                    <option value="https://firmanh3200.github.io/desacantik32/">Dashboard Administrasi Kependudukan</option>
+                    <option value="https://firmanh3200.github.io/cantik32/">Contoh Dashboard Kelurahan</option>
+                    <option value="https://firmanh3200.github.io/contoiki/">Contoh Indikator Kinerja Individu</option>
+                    <option value="https://firmanh3200.github.io/webbarukelurahan/">Contoh Web Kelurahan</option>
+                    <option value="https://firmanh3200.github.io/makro32/">Indikator Makro Jabar Terkini</option>
+                    <option value="https://firmanh3200.github.io/zean/">Kamus Percakapan Inggis dan Jepang</option>
+                    <option value="https://firmanh3200.github.io/ppid32/">PPID Berkibar</option>
+                    <option value="https://firmanh3200.github.io/32iso26/">QnA ISO 9001:2015</option>
+                </select>
             </div>
-            <button class="btn-logout" onclick="handleLogout()">Keluar</button>
         </div>
 
-        <h1>P R E M I U M</h1>
-        <h2>Portal Layanan Organisasi</h2>
-        <p class="subtitle">Silakan pilih bidang dan sub-bagian terkait sesuai struktur kerja.</p>
+        <!-- Card Lama: Portal Layanan Organisasi -->
+        <div class="dashboard-card">
+            <h2>P R E M I U M</h2>
+            <div class="section-title">Portal Monev</div>
+            <p class="subtitle">Silakan pilih bidang dan sub-bagian terkait sesuai struktur kerja.</p>
 
-        <!-- Pilihan Utama (Dropdown 1) -->
-        <div class="form-group">
-            <label for="main-category">Pilih Bagian / Bidang Utama</label>
-            <select id="main-category" onchange="handleMainCategoryChange()">
-                <option value="" disabled selected>-- Pilih Bagian / Bidang --</option>
-                <option value="umum">Bagian Umum</option>
-                <option value="produksi">Bidang Produksi Statistik</option>
-                <option value="pengolahan-diseminasi-evaluasi">Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik</option>
-            </select>
+            <!-- Pilihan Utama (Dropdown 1) -->
+            <div class="form-group">
+                <label for="main-category">Pilih Bagian / Bidang Utama</label>
+                <select id="main-category" onchange="handleMainCategoryChange()">
+                    <option value="" disabled selected>-- Pilih Bagian / Bidang --</option>
+                    <option value="umum">Bagian Umum</option>
+                    <option value="produksi">Bidang Produksi Statistik</option>
+                    <option value="pengolahan-diseminasi-evaluasi">Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik</option>
+                </select>
+            </div>
+
+            <!-- Dropdown Turunan: Bagian Umum -->
+            <div class="form-group hidden" id="group-umum">
+                <label for="sub-umum">Pilih Rincian Unit / Kegiatan (Bagian Umum)</label>
+                <select id="sub-umum" onchange="checkFinalSelection()">
+                    <option value="" disabled selected>-- Pilih Rincian Unit Kerja --</option>
+                    <option value="Pelaksanaan manajemen risiko, pemantauan, analisis, evaluasi, dan penyusunan laporan">Pelaksanaan manajemen risiko, pemantauan, analisis, evaluasi, dan penyusunan laporan</option>
+                    <option value="Pelaksanaan urusan hubungan masyarakat, administrasi kerja sama, hukum, kearsipan, dan persandian">Pelaksanaan urusan hubungan masyarakat, administrasi kerja sama, hukum, kearsipan, dan persandian</option>
+                    <option value="Pelaksanaan urusan keuangan dan barang milik negara">Pelaksanaan urusan keuangan dan barang milik negara</option>
+                    <option value="Pelaksanaan urusan ketatausahaan, serta perlengkapan dan rumah tangga">Pelaksanaan urusan ketatausahaan, serta perlengkapan dan rumah tangga</option>
+                    <option value="Penyusunan rencana program, kegiatan, dan anggaran">Penyusunan rencana program, kegiatan, dan anggaran</option>
+                    <option value="Pengelolaan urusan administrasi sumber daya manusia">Pengelolaan urusan administrasi sumber daya manusia</option>
+                    <option value="Penyiapan penataan organisasi dan tata laksana, administrasi dan fasilitasi reformasi birokrasi">Penyiapan penataan organisasi dan tata laksana, administrasi dan fasilitasi reformasi birokrasi</option>
+                </select>
+            </div>
+
+            <!-- Dropdown Turunan: Bidang Produksi Statistik -->
+            <div class="form-group hidden" id="group-produksi">
+                <label for="sub-produksi">Pilih Rincian Unit / Kegiatan (Bidang Produksi Statistik)</label>
+                <select id="sub-produksi" onchange="checkFinalSelection()">
+                    <option value="" disabled selected>-- Pilih Rincian Unit Kerja --</option>
+                    <option value="Koordinasi tugas teknis bidang produksi statistik">Koordinasi tugas teknis bidang produksi statistik</option>
+                    <option value="Pelaksanaan tugas teknis bidang produksi statistik">Pelaksanaan tugas teknis bidang produksi statistik</option>
+                    <option value="Pembinaan tugas teknis bidang produksi statistik">Pembinaan tugas teknis bidang produksi statistik</option>
+                    <option value="Pengendalian tugas teknis bidang produksi statistik">Pengendalian tugas teknis bidang produksi statistik</option>
+                    <option value="Penyiapan tugas teknis bidang produksi statistik">Penyiapan tugas teknis bidang produksi statistik</option>
+                </select>
+            </div>
+
+            <!-- Dropdown Utama Level 2: Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik -->
+            <div class="form-group hidden" id="group-pde-main">
+                <label for="sub-pde-main">Pilih Kategori Bidang</label>
+                <select id="sub-pde-main" onchange="handlePdeMainChange()">
+                    <option value="" disabled selected>-- Pilih Kategori --</option>
+                    <option value="diseminasi">Diseminasi</option>
+                    <option value="evaluasi">Evaluasi</option>
+                    <option value="pengolahan">Pengolahan</option>
+                </select>
+            </div>
+
+            <!-- Dropdown Turunan Level 3: Pengolahan -->
+            <div class="form-group hidden" id="group-pde-pengolahan">
+                <label for="sub-pde-pengolahan">Pilih Rincian Kegiatan (Pengolahan)</label>
+                <select id="sub-pde-pengolahan" onchange="checkFinalSelection()">
+                    <option value="" disabled selected>-- Pilih Kegiatan Pengolahan --</option>
+                    <option value="Analisis Pengolahan">Analisis Pengolahan</option>
+                    <option value="Evaluasi Pengolahan">Evaluasi Pengolahan</option>
+                    <option value="Koordinasi Pengolahan">Koordinasi Pengolahan</option>
+                    <option value="Pelaksanaan Pengolahan">Pelaksanaan Pengolahan</option>
+                    <option value="Pelaporan Pengolahan">Pelaporan Pengolahan</option>
+                    <option value="Pemantauan Pengolahan">Pemantauan Pengolahan</option>
+                    <option value="Pembinaan Pengolahan">Pembinaan Pengolahan</option>
+                </select>
+            </div>
+
+            <!-- Dropdown Turunan Level 3: Diseminasi -->
+            <div class="form-group hidden" id="group-pde-diseminasi">
+                <label for="sub-pde-diseminasi">Pilih Rincian Kegiatan (Diseminasi)</label>
+                <select id="sub-pde-diseminasi" onchange="checkFinalSelection()">
+                    <option value="" disabled selected>-- Pilih Kegiatan Diseminasi --</option>
+                    <option value="Analisis Diseminasi">Analisis Diseminasi</option>
+                    <option value="Evaluasi Diseminasi">Evaluasi Diseminasi</option>
+                    <option value="Koordinasi Diseminasi">Koordinasi Diseminasi</option>
+                    <option value="Pelaksanaan Diseminasi">Pelaksanaan Diseminasi</option>
+                    <option value="Pelaporan Diseminasi">Pelaporan Diseminasi</option>
+                    <option value="Pemantauan Diseminasi">Pemantauan Diseminasi</option>
+                    <option value="Pembinaan Diseminasi">Pembinaan Diseminasi</option>
+                </select>
+            </div>
+
+            <!-- Dropdown Turunan Level 3: Evaluasi -->
+            <div class="form-group hidden" id="group-pde-evaluasi">
+                <label for="sub-pde-evaluasi">Pilih Rincian Kegiatan (Evaluasi)</label>
+                <select id="sub-pde-evaluasi" onchange="checkFinalSelection()">
+                    <option value="" disabled selected>-- Pilih Kegiatan Evaluasi --</option>
+                    <option value="Analisis evaluasi penyelenggaraan dan penjaminan kualitas">Analisis evaluasi penyelenggaraan dan penjaminan kualitas</option>
+                    <option value="Evaluasi evaluasi penyelenggaraan dan penjaminan kualitas">Evaluasi evaluasi penyelenggaraan dan penjaminan kualitas</option>
+                    <option value="Pelaksanaan evaluasi penyelenggaraan dan penjaminan kualitas">Pelaksanaan evaluasi penyelenggaraan dan penjaminan kualitas</option>
+                    <option value="Pelaporan evaluasi penyelenggaraan dan penjaminan kualitas">Pelaporan evaluasi penyelenggaraan dan penjaminan kualitas</option>
+                    <option value="Pemantauan evaluasi penyelenggaraan dan penjaminan kualitas">Pemantauan evaluasi penyelenggaraan dan penjaminan kualitas</option>
+                </select>
+            </div>
+
+            <!-- Kotak Informasi Pilihan & Tombol Lanjut -->
+            <div id="result-container" class="result-box hidden">
+                <strong>Pilihan Anda:</strong> <span id="selected-summary">-</span>
+                <button id="btn-goto-url" class="btn-submit hidden" onclick="navigateToTargetUrl()">Lanjut ke Halaman Tujuan</button>
+            </div>
         </div>
 
-        <!-- Dropdown Turunan: Bagian Umum -->
-        <div class="form-group hidden" id="group-umum">
-            <label for="sub-umum">Pilih Rincian Unit / Kegiatan (Bagian Umum)</label>
-            <select id="sub-umum" onchange="checkFinalSelection()">
-                <option value="" disabled selected>-- Pilih Rincian Unit Kerja --</option>
-                <option value="Penyusunan rencana program, kegiatan, dan anggaran">Penyusunan rencana program, kegiatan, dan anggaran</option>
-                <option value="Pelaksanaan urusan keuangan dan barang milik negara">Pelaksanaan urusan keuangan dan barang milik negara</option>
-                <option value="Pengelolaan urusan administrasi sumber daya manusia">Pengelolaan urusan administrasi sumber daya manusia</option>
-                <option value="Pelaksanaan urusan hubungan masyarakat, administrasi kerja sama, hukum, kearsipan, dan persandian">Pelaksanaan urusan hubungan masyarakat, administrasi kerja sama, hukum, kearsipan, dan persandian</option>
-                <option value="Penyiapan penataan organisasi dan tata laksana, administrasi dan fasilitasi reformasi birokrasi">Penyiapan penataan organisasi dan tata laksana, administrasi dan fasilitasi reformasi birokrasi</option>
-                <option value="Pelaksanaan manajemen risiko, pemantauan, analisis, evaluasi, dan penyusunan laporan">Pelaksanaan manajemen risiko, pemantauan, analisis, evaluasi, dan penyusunan laporan</option>
-                <option value="Pelaksanaan urusan ketatausahaan, serta perlengkapan dan rumah tangga">Pelaksanaan urusan ketatausahaan, serta perlengkapan dan rumah tangga</option>
-            </select>
-        </div>
-
-        <!-- Dropdown Turunan: Bidang Produksi Statistik -->
-        <div class="form-group hidden" id="group-produksi">
-            <label for="sub-produksi">Pilih Rincian Unit / Kegiatan (Bidang Produksi Statistik)</label>
-            <select id="sub-produksi" onchange="checkFinalSelection()">
-                <option value="" disabled selected>-- Pilih Rincian Unit Kerja --</option>
-                <option value="Penyiapan tugas teknis bidang produksi statistik">Penyiapan tugas teknis bidang produksi statistik</option>
-                <option value="Pelaksanaan tugas teknis bidang produksi statistik">Pelaksanaan tugas teknis bidang produksi statistik</option>
-                <option value="Koordinasi tugas teknis bidang produksi statistik">Koordinasi tugas teknis bidang produksi statistik</option>
-                <option value="Pembinaan tugas teknis bidang produksi statistik">Pembinaan tugas teknis bidang produksi statistik</option>
-                <option value="Pengendalian tugas teknis bidang produksi statistik">Pengendalian tugas teknis bidang produksi statistik</option>
-            </select>
-        </div>
-
-        <!-- Dropdown Utama Level 2: Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik -->
-        <div class="form-group hidden" id="group-pde-main">
-            <label for="sub-pde-main">Pilih Kategori Bidang</label>
-            <select id="sub-pde-main" onchange="handlePdeMainChange()">
-                <option value="" disabled selected>-- Pilih Kategori --</option>
-                <option value="pengolahan">Pengolahan</option>
-                <option value="diseminasi">Diseminasi</option>
-                <option value="evaluasi">Evaluasi</option>
-            </select>
-        </div>
-
-        <!-- Dropdown Turunan Level 3: Pengolahan -->
-        <div class="form-group hidden" id="group-pde-pengolahan">
-            <label for="sub-pde-pengolahan">Pilih Rincian Kegiatan (Pengolahan)</label>
-            <select id="sub-pde-pengolahan" onchange="checkFinalSelection()">
-                <option value="" disabled selected>-- Pilih Kegiatan Pengolahan --</option>
-                <option value="Pelaksanaan Pengolahan">Pelaksanaan Pengolahan</option>
-                <option value="Pembinaan Pengolahan">Pembinaan Pengolahan</option>
-                <option value="Koordinasi Pengolahan">Koordinasi Pengolahan</option>
-                <option value="Pemantauan Pengolahan">Pemantauan Pengolahan</option>
-                <option value="Analisis Pengolahan">Analisis Pengolahan</option>
-                <option value="Evaluasi Pengolahan">Evaluasi Pengolahan</option>
-                <option value="Pelaporan Pengolahan">Pelaporan Pengolahan</option>
-            </select>
-        </div>
-
-        <!-- Dropdown Turunan Level 3: Diseminasi -->
-        <div class="form-group hidden" id="group-pde-diseminasi">
-            <label for="sub-pde-diseminasi">Pilih Rincian Kegiatan (Diseminasi)</label>
-            <select id="sub-pde-diseminasi" onchange="checkFinalSelection()">
-                <option value="" disabled selected>-- Pilih Kegiatan Diseminasi --</option>
-                <option value="Pelaksanaan Diseminasi">Pelaksanaan Diseminasi</option>
-                <option value="Pembinaan Diseminasi">Pembinaan Diseminasi</option>
-                <option value="Koordinasi Diseminasi">Koordinasi Diseminasi</option>
-                <option value="Pemantauan Diseminasi">Pemantauan Diseminasi</option>
-                <option value="Analisis Diseminasi">Analisis Diseminasi</option>
-                <option value="Evaluasi Diseminasi">Evaluasi Diseminasi</option>
-                <option value="Pelaporan Diseminasi">Pelaporan Diseminasi</option>
-            </select>
-        </div>
-
-        <!-- Dropdown Turunan Level 3: Evaluasi -->
-        <div class="form-group hidden" id="group-pde-evaluasi">
-            <label for="sub-pde-evaluasi">Pilih Rincian Kegiatan (Evaluasi)</label>
-            <select id="sub-pde-evaluasi" onchange="checkFinalSelection()">
-                <option value="" disabled selected>-- Pilih Kegiatan Evaluasi --</option>
-                <option value="Pelaksanaan evaluasi penyelenggaraan dan penjaminan kualitas">Pelaksanaan evaluasi penyelenggaraan dan penjaminan kualitas</option>
-                <option value="Pemantauan evaluasi penyelenggaraan dan penjaminan kualitas">Pemantauan evaluasi penyelenggaraan dan penjaminan kualitas</option>
-                <option value="Analisis evaluasi penyelenggaraan dan penjaminan kualitas">Analisis evaluasi penyelenggaraan dan penjaminan kualitas</option>
-                <option value="Evaluasi evaluasi penyelenggaraan dan penjaminan kualitas">Evaluasi evaluasi penyelenggaraan dan penjaminan kualitas</option>
-                <option value="Pelaporan evaluasi penyelenggaraan dan penjaminan kualitas">Pelaporan evaluasi penyelenggaraan dan penjaminan kualitas</option>
-            </select>
-        </div>
-
-        <!-- Kotak Informasi Pilihan & Tombol Lanjut -->
-        <div id="result-container" class="result-box hidden">
-            <strong>Pilihan Anda:</strong> <span id="selected-summary">-</span>
-            <button id="btn-goto-url" class="btn-submit hidden" onclick="navigateToTargetUrl()">Lanjut ke Halaman Tujuan</button>
-        </div>
     </div>
 
     <script>
@@ -287,6 +346,15 @@
         } catch (err) {
             console.error(err);
             window.location.href = "index.html";
+        }
+
+        // Fungsi Redirect Otomatis untuk Card PEDULI
+        function handlePeduliRedirect() {
+            const selectElement = document.getElementById("peduli-select");
+            const targetUrl = selectElement.value;
+            if (targetUrl) {
+                window.location.href = targetUrl;
+            }
         }
 
         function handleMainCategoryChange() {
