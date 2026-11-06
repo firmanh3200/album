@@ -23,7 +23,7 @@
             padding-bottom: 40px;
         }
 
-        /* Sticky Header (Tanpa Iframe, hanya Info User & Tombol Keluar) */
+        /* Sticky Header */
         .sticky-header {
             position: sticky;
             top: 0;
@@ -65,9 +65,8 @@
             background-color: #feb2b2;
         }
 
-        /* Container Utama dengan Tata Letak Fleksibel (Horizontal / Vertikal otomatis) */
+        /* Container Utama untuk Card Portal (PEDULI, PRESISI, PREMIUM) */
         .main-container {
-            flex: 1;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
@@ -79,7 +78,7 @@
             gap: 25px;
         }
 
-        /* Card Responsive */
+        /* Card Responsive Standar */
         .dashboard-card {
             background: #ffffff;
             flex: 1;
@@ -90,6 +89,32 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             animation: fadeIn 0.4s ease-in-out;
         }
+
+        /* Section Khusus Iframe di Bawah (Full Width 100% tanpa margin card samping) */
+        .iframe-section {
+            width: 100%;
+            max-width: 1210px;
+            margin: 10px 20px 0 20px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .iframe-container {
+            width: 100%;
+            height: 600px; /* Tinggi dapat disesuaikan kebutuhan */
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -171,15 +196,6 @@
         .btn-submit:hover {
             background-color: #2b6cb0;
         }
-
-        /* Styling khusus untuk Card Iframe */
-        .iframe-card iframe {
-            width: 100%;
-            height: 220px;
-            border: none;
-            border-radius: 8px;
-            background: transparent;
-        }
     </style>
 </head>
 <body>
@@ -194,13 +210,8 @@
         <button class="btn-logout" onclick="handleLogout()">Keluar</button>
     </header>
 
-    <!-- Konten Utama dengan Layout Responsive Flex (Horizontal & Vertikal) -->
+    <!-- Konten Utama Kartu Portal (PEDULI, PRESISI, PREMIUM) -->
     <div class="main-container">
-
-        <!-- Card 0: Widget Iframe (Pindahan dari Header) -->
-        <div class="dashboard-card iframe-card">
-            <iframe src="https://firmanh3200.github.io/linglung"></iframe>
-        </div>
 
         <!-- Card 1: PEDULI Portal Edukasi dan Literasi -->
         <div class="dashboard-card">
@@ -237,7 +248,7 @@
             </div>
         </div>
 
-        <!-- Card 2: PRESISI Portal Aplikasi Harian (Sort Ascending) -->
+        <!-- Card 2: PRESISI Portal Aplikasi Harian -->
         <div class="dashboard-card">
             <h2>P R E S I S I</h2>
             <div class="section-title">Portal Aplikasi Harian</div>
@@ -373,6 +384,16 @@
         </div>
 
     </div>
+
+    <!-- Section Iframe Full-Width di Bagian Bawah -->
+    <section class="iframe-section">
+        <h2>W I D G E T</h2>
+        <div class="section-title">Informasi Terkini</div>
+        <p class="subtitle">Akses konten interaktif harian.</p>
+        <div class="iframe-container">
+            <iframe src="https://firmanh3200.github.io/linglung" title="Widget Linglung"></iframe>
+        </div>
+    </section>
 
     <script>
         const SUPABASE_URL = "https://vgrbmudehaqlhrneqyxm.supabase.co";
