@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistem Informasi Organisasi</title>
+
+    <!-- SDK Supabase versi UMD -->
+    <script src="supabase.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .dashboard-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 580px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        .user-info h3 {
+            margin: 0 0 5px 0;
+            color: #2d3748;
+            font-size: 18px;
+        }
+        .user-info p {
+            margin: 0;
+            color: #718096;
+            font-size: 13px;
+        }
+        .btn-logout {
+            background-color: #fed7d7;
+            color: #c53030;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+        .btn-logout:hover {
+            background-color: #feb2b2;
+        }
+        h2 {
+            color: #1a202c;
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #4a5568;
+        }
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #2d3748;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        select:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+        }
+        .hidden {
+            display: none !important;
+        }
+        .result-box {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            border-radius: 4px;
+            color: #2b6cb0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-card">
+        <!-- Informasi User & Tombol Keluar -->
+        <div class="user-header">
+            <div class="user-info">
+                <h3 id="user-name">Memuat...</h3>
+                <p id="user-email">-</p>
+            </div>
+            <button class="btn-logout" onclick="handleLogout()">Keluar</button>
+        </div>
+
+        <h2>Portal Layanan Organisasi</h2>
+        <p class="subtitle">Silakan pilih bidang dan sub-bagian terkait sesuai struktur kerja.</p>
+
+        <!-- Pilihan Utama (Dropdown 1) -->
+        <div class="form-group">
+            <label for="main-category">Pilih Bagian / Bidang Utama</label>
+            <select id="main-category" onchange="handleMainCategoryChange()">
+                <option value="" disabled selected>-- Pilih Bagian / Bidang --</option>
+                <option value="umum">Bagian Umum</option>
+                <option value="produksi">Bidang Produksi Statistik</option>
+                <option value="pengolahan">Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik</option>
+            </select>
+        </div>
+
+        <!-- Dropdown Turunan: Bagian Umum -->
+        <div class="form-group hidden" id="group-umum">
+            <label for="sub-umum">Pilih Rincian Unit / Kegiatan (Bagian Umum)</label>
+            <select id="sub-umum" onchange="showSelectionResult()">
+                <option value="" disabled selected>-- Pilih Rincian Unit Kerja --</option>
+                <option value="Penyusunan rencana program, kegiatan, dan anggaran">Penyusunan rencana program, kegiatan, dan anggaran</option>
+                <option value="Pelaksanaan urusan keuangan dan barang milik negara">Pelaksanaan urusan keuangan dan barang milik negara</option>
+                <option value="Pengelolaan urusan administrasi sumber daya manusia">Pengelolaan urusan administrasi sumber daya manusia</option>
+                <option value="Pelaksanaan urusan hubungan masyarakat, administrasi kerja sama, hukum, kearsipan, dan persandian">Pelaksanaan urusan hubungan masyarakat, administrasi kerja sama, hukum, kearsipan, dan persandian</option>
+                <option value="Penyiapan penataan organisasi dan tata laksana, administrasi dan fasilitasi reformasi birokrasi">Penyiapan penataan organisasi dan tata laksana, administrasi dan fasilitasi reformasi birokrasi</option>
+                <option value="Pelaksanaan manajemen risiko, pemantauan, analisis, evaluasi, dan penyusunan laporan">Pelaksanaan manajemen risiko, pemantauan, analisis, evaluasi, dan penyusunan laporan</option>
+                <option value="Pelaksanaan urusan ketatausahaan, serta perlengkapan dan rumah tangga">Pelaksanaan urusan ketatausahaan, serta perlengkapan dan rumah tangga</option>
+            </select>
+        </div>
+
+        <!-- Dropdown Turunan: Bidang Produksi Statistik -->
+        <div class="form-group hidden" id="group-produksi">
+            <label for="sub-produksi">Pilih Rincian Unit / Kegiatan (Bidang Produksi Statistik)</label>
+            <select id="sub-produksi" onchange="showSelectionResult()">
+                <option value="" disabled selected>-- Pilih Rincian Unit Kerja --</option>
+                <option value="Penyiapan tugas teknis bidang produksi statistik">Penyiapan tugas teknis bidang produksi statistik</option>
+                <option value="Pelaksanaan tugas teknis bidang produksi statistik">Pelaksanaan tugas teknis bidang produksi statistik</option>
+                <option value="Koordinasi tugas teknis bidang produksi statistik">Koordinasi tugas teknis bidang produksi statistik</option>
+                <option value="Pembinaan tugas teknis bidang produksi statistik">Pembinaan tugas teknis bidang produksi statistik</option>
+                <option value="Pengendalian tugas teknis bidang produksi statistik">Pengendalian tugas teknis bidang produksi statistik</option>
+            </select>
+        </div>
+
+        <!-- Dropdown Turunan: Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik -->
+        <div class="form-group hidden" id="group-pengolahan">
+            <label for="sub-pengolahan">Pilih Rincian Unit / Kegiatan (Bidang Pengolahan, Diseminasi, & Evaluasi)</label>
+            <select id="sub-pengolahan" onchange="showSelectionResult()">
+                <option value="" disabled selected>-- Pilih Rincian Unit Kerja --</option>
+                <option value="Pelaksanaan tugas teknis bidang pengolahan dan diseminasi statistik">Pelaksanaan tugas teknis bidang pengolahan dan diseminasi statistik</option>
+                <option value="Pembinaan tugas teknis bidang pengolahan dan diseminasi statistik">Pembinaan tugas teknis bidang pengolahan dan diseminasi statistik</option>
+                <option value="Koordinasi tugas teknis bidang pengolahan dan diseminasi statistik">Koordinasi tugas teknis bidang pengolahan dan diseminasi statistik</option>
+                <option value="Pelaksanaan tugas teknis bidang evaluasi penyelenggaraan dan penjaminan kualitas statistik">Pelaksanaan tugas teknis bidang evaluasi penyelenggaraan dan penjaminan kualitas statistik</option>
+                <option value="Pemantauan bidang pengolahan, diseminasi, dan evaluasi statistik">Pemantauan bidang pengolahan, diseminasi, dan evaluasi statistik</option>
+                <option value="Analisis bidang pengolahan, diseminasi, dan evaluasi statistik">Analisis bidang pengolahan, diseminasi, dan evaluasi statistik</option>
+                <option value="Evaluasi bidang pengolahan, diseminasi, dan evaluasi statistik">Evaluasi bidang pengolahan, diseminasi, dan evaluasi statistik</option>
+                <option value="Pelaporan bidang pengolahan, diseminasi, dan evaluasi statistik">Pelaporan bidang pengolahan, diseminasi, dan evaluasi statistik</option>
+            </select>
+        </div>
+
+        <!-- Kotak Informasi Pilihan -->
+        <div id="result-container" class="result-box hidden">
+            <strong>Pilihan Anda:</strong> <span id="selected-summary">-</span>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://vgrbmudehaqlhrneqyxm.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_2NptgOcQUYnDVl92DYB5KQ_7O_P29zh";
+
+        let sb;
+
+        try {
+            const { createClient } = window.supabase;
+            sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            // Validasi Sesi: Pastikan user benar-benar login, jika tidak tendang kembali ke index.html
+            sb.auth.getSession().then(({ data: { session } }) => {
+                if (!session) {
+                    window.location.href = "index.html";
+                } else {
+                    const user = session.user;
+                    const name = user.user_metadata?.full_name || "Pengguna";
+                    const email = user.email;
+
+                    document.getElementById("user-name").innerText = name;
+                    document.getElementById("user-email").innerText = email;
+                }
+            });
+
+        } catch (err) {
+            console.error(err);
+            window.location.href = "index.html";
+        }
+
+        function handleMainCategoryChange() {
+            const mainVal = document.getElementById("main-category").value;
+
+            // Sembunyikan semua sub-dropdown terlebih dahulu
+            document.getElementById("group-umum").classList.add("hidden");
+            document.getElementById("group-produksi").classList.add("hidden");
+            document.getElementById("group-pengolahan").classList.add("hidden");
+
+            // Reset nilai pilihan sub-dropdown
+            document.getElementById("sub-umum").selectedIndex = 0;
+            document.getElementById("sub-produksi").selectedIndex = 0;
+            document.getElementById("sub-pengolahan").selectedIndex = 0;
+
+            // Sembunyikan kotak hasil
+            document.getElementById("result-container").classList.add("hidden");
+
+            // Tampilkan sub-dropdown yang sesuai dengan pilihan utama
+            if (mainVal === "umum") {
+                document.getElementById("group-umum").classList.remove("hidden");
+            } else if (mainVal === "produksi") {
+                document.getElementById("group-produksi").classList.remove("hidden");
+            } else if (mainVal === "pengolahan") {
+                document.getElementById("group-pengolahan").classList.remove("hidden");
+            }
+        }
+
+        function showSelectionResult() {
+            const mainVal = document.getElementById("main-category").value;
+            let subText = "";
+            let mainText = "";
+
+            if (mainVal === "umum") {
+                mainText = "Bagian Umum";
+                subText = document.getElementById("sub-umum").value;
+            } else if (mainVal === "produksi") {
+                mainText = "Bidang Produksi Statistik";
+                subText = document.getElementById("sub-produksi").value;
+            } else if (mainVal === "pengolahan") {
+                mainText = "Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik";
+                subText = document.getElementById("sub-pengolahan").value;
+            }
+
+            if (subText) {
+                document.getElementById("selected-summary").innerText = `${mainText} ➔ ${subText}`;
+                document.getElementById("result-container").classList.remove("hidden");
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                await sb.auth.signOut();
+                window.location.href = "index.html";
+            } catch (err) {
+                console.error("Gagal logout:", err);
+            }
+        }
+    </script>
+</body>
+</html>
