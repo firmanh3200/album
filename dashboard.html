@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Premium</title>
+    <title>Dashboard - Pelita</title>
 
     <!-- SDK Supabase versi UMD -->
     <script src="supabase.js"></script>
@@ -23,7 +23,7 @@
             padding-bottom: 40px;
         }
 
-        /* Sticky Header Responsif dengan Iframe di Tengah */
+        /* Sticky Header (Tanpa Iframe, hanya Info User & Tombol Keluar) */
         .sticky-header {
             position: sticky;
             top: 0;
@@ -49,21 +49,6 @@
             margin: 0;
             color: #718096;
             font-size: 12px;
-        }
-        .header-widget {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            min-width: 250px;
-            max-width: 450px;
-            height: 42px;
-        }
-        .header-widget iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 6px;
-            background: transparent;
         }
         .btn-logout {
             background-color: #fed7d7;
@@ -186,20 +171,24 @@
         .btn-submit:hover {
             background-color: #2b6cb0;
         }
+
+        /* Styling khusus untuk Card Iframe */
+        .iframe-card iframe {
+            width: 100%;
+            height: 220px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Sticky Header Informasi Pengguna & Iframe di Tengah -->
+    <!-- Sticky Header Informasi Pengguna -->
     <header class="sticky-header">
         <div class="user-info">
             <h3 id="user-name">Memuat...</h3>
             <p id="user-email">-</p>
-        </div>
-        
-        <!-- Iframe di tengah header -->
-        <div class="header-widget">
-            <iframe src="https://firmanh3200.github.io/linglung" title="Widget Header"></iframe>
         </div>
 
         <button class="btn-logout" onclick="handleLogout()">Keluar</button>
@@ -207,6 +196,11 @@
 
     <!-- Konten Utama dengan Layout Responsive Flex (Horizontal & Vertikal) -->
     <div class="main-container">
+
+        <!-- Card 0: Widget Iframe (Pindahan dari Header) -->
+        <div class="dashboard-card iframe-card">
+            <iframe src="https://firmanh3200.github.io/linglung"></iframe>
+        </div>
 
         <!-- Card 1: PEDULI Portal Edukasi dan Literasi -->
         <div class="dashboard-card">
