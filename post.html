@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0A2E5C">
+<meta name="description" content="Pojok Statistik — layanan kolaboratif BPS × Perguruan Tinggi. Tata laksana penyelenggaraan, kegiatan & indikator statistik dasar, serta akses dan layanan statistik BPS.">
+<title>Pojok Statistik BPS — Media Kolaborasi BPS × Perguruan Tinggi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F2F6FB; --card:#FFFFFF; --ink:#12263F; --body:#42536D; --muted:#5F7290; --line:#E3EAF3;
+    --navy-900:#071F3E; --navy-800:#0A2E5C; --navy-700:#0E3D7B;
+    --amber:#FFC24B;
+    --radius:16px;
+    --shadow:0 6px 24px rgba(10,46,92,.07);
+    --shadow-lg:0 14px 32px rgba(10,46,92,.13);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Plus Jakarta Sans','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.65;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  img{max-width:100%}
+  [hidden]{display:none!important}
+  .container{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* ===== Scroll progress ===== */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:120;
+    background:linear-gradient(90deg,#1467C0,#0E9F8A,#6E56CF);border-radius:0 3px 3px 0}
+
+  /* ===== Hero ===== */
+  .hero{position:relative;color:#fff;overflow:hidden;padding:60px 0 92px;
+    background:
+      radial-gradient(1100px 480px at 88% -12%, rgba(46,134,224,.38), transparent 60%),
+      radial-gradient(900px 420px at -8% 112%, rgba(255,194,75,.16), transparent 55%),
+      radial-gradient(700px 300px at 45% 120%, rgba(110,86,207,.22), transparent 60%),
+      linear-gradient(135deg,#071F3E 0%, #0A2E5C 55%, #0E3D7B 100%);}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:#BFD7F7;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
+    padding:7px 15px;border-radius:999px;margin-bottom:18px}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.3rem);font-weight:800;letter-spacing:-.02em;line-height:1.12}
+  .grad{background:linear-gradient(92deg,#FFC24B 10%,#FF9E58 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-sub{margin-top:14px;max-width:680px;color:#C7D8EF;font-size:clamp(.95rem,1.6vw,1.06rem)}
+  .hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .h-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.2);
+    color:#EAF2FF;padding:7px 15px;border-radius:999px;font-size:13px;font-weight:600}
+  .hero-stats{display:flex;flex-wrap:wrap;gap:26px;margin-top:30px}
+  .hs-item{padding-right:26px;border-right:1px solid rgba(255,255,255,.16)}
+  .hs-item:last-child{border-right:none;padding-right:0}
+  .hs-num{font-size:28px;font-weight:800;color:var(--amber);line-height:1.1}
+  .hs-lbl{font-size:12.5px;color:#B9CBE4;font-weight:600}
+  .hero-wave{position:absolute;bottom:-1px;left:0;width:100%;height:64px;display:block}
+
+  /* ===== Tab bar ===== */
+  .tabbar{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.9);
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);transition:box-shadow .3s}
+  .tabbar.scrolled{box-shadow:0 8px 24px rgba(10,46,92,.09)}
+  .tabs-wrap{position:relative;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+  .tabs-wrap::-webkit-scrollbar{display:none}
+  .tab{--acc:#1467C0;--acc-soft:rgba(20,103,192,.12);--acc-soft2:rgba(20,103,192,.4);
+    flex:1 0 0;min-width:190px;display:flex;align-items:center;gap:12px;text-align:left;
+    padding:14px 16px 16px;background:none;border:none;cursor:pointer;color:var(--muted);font-family:inherit}
+  .tab[data-tab="2"]{--acc:#0E9F8A;--acc-soft:rgba(14,159,138,.14);--acc-soft2:rgba(14,159,138,.4)}
+  .tab[data-tab="3"]{--acc:#6E56CF;--acc-soft:rgba(110,86,207,.13);--acc-soft2:rgba(110,86,207,.4)}
+  .tab-ico{flex:0 0 auto;width:44px;height:44px;display:grid;place-items:center;font-size:21px;
+    background:var(--bg);border-radius:13px;transition:transform .25s,background .25s,box-shadow .25s}
+  .tab:hover .tab-ico{transform:translateY(-2px)}
+  .tab-txt b{display:block;font-size:14.5px;font-weight:800;color:#33455F;transition:color .25s}
+  .tab-txt small{display:block;font-size:11.5px;color:var(--muted);font-weight:500;line-height:1.4;margin-top:1px}
+  .tab.active .tab-txt b{color:var(--acc)}
+  .tab.active .tab-ico{background:var(--acc);box-shadow:0 8px 18px -6px var(--acc-soft2)}
+  .tab:focus-visible{outline:2px solid var(--acc);outline-offset:-6px;border-radius:12px}
+  .tab-ind{position:absolute;bottom:0;height:3px;width:0;background:#1467C0;border-radius:3px 3px 0 0;
+    transition:left .35s cubic-bezier(.4,0,.2,1),width .35s cubic-bezier(.4,0,.2,1),background .35s}
+
+  /* ===== Panels & sections ===== */
+  main{padding-bottom:70px}
+  .tabpanel{padding-top:4px}
+  .tabpanel.t1{--acc:#1467C0;--acc-soft:rgba(20,103,192,.1)}
+  .tabpanel.t2{--acc:#0E9F8A;--acc-soft:rgba(14,159,138,.12)}
+  .tabpanel.t3{--acc:#6E56CF;--acc-soft:rgba(110,86,207,.12)}
+
+  .panel-intro{display:flex;gap:14px;align-items:flex-start;background:var(--card);
+    border:1px dashed var(--acc);border-radius:14px;padding:16px 20px;margin-top:26px;
+    color:var(--body);font-size:14.5px}
+  .panel-intro b{color:var(--ink)}
+  .pi-ico{flex:0 0 auto;font-size:20px;line-height:1.4}
+
+  .sec{margin-top:48px}
+  .sec-head{display:flex;gap:14px;align-items:center;margin-bottom:8px}
+  .sec-num{flex:0 0 auto;font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--acc);
+    background:var(--acc-soft);padding:6px 12px;border-radius:999px}
+  .sec-title{font-size:clamp(1.22rem,2.4vw,1.55rem);font-weight:800;letter-spacing:-.01em}
+  .sec-desc{color:var(--muted);font-size:14.5px;margin-bottom:20px}
+
+  .sub-label{margin:28px 0 14px;font-size:15px;font-weight:800;color:#22344F}
+
+  /* ===== Grids ===== */
+  .grid{display:grid;gap:16px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g-auto{grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:14px}
+  .g-acts{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+  .span2{grid-column:1/-1}
+  .inner-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:14px}
+
+  /* ===== Cards ===== */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+  .card h3{font-size:16.5px;font-weight:800;margin-bottom:8px;line-height:1.35}
+  .card p{font-size:14.5px;color:var(--body)}
+  .card p + p{margin-top:8px}
+  .ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;
+    background:var(--acc-soft);margin-bottom:14px}
+  .svc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .svc-top h3{margin-bottom:0}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;white-space:nowrap;
+    color:var(--acc);background:var(--acc-soft);padding:5px 11px;border-radius:8px;letter-spacing:.02em}
+  .mini-label{margin-top:16px;font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .chip{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--line);
+    color:#33455F;font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:999px;line-height:1.45}
+  .chip.hl{background:var(--acc-soft);border-color:var(--acc);color:var(--acc)}
+
+  .callout{position:relative;background:linear-gradient(120deg,var(--acc-soft),rgba(255,255,255,.75));
+    border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:var(--radius);
+    padding:22px 26px;box-shadow:var(--shadow)}
+  .callout-tag{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--acc);background:#fff;border:1px solid var(--acc-soft);padding:4px 12px;border-radius:999px;margin-bottom:10px}
+  .callout p{font-size:15.5px;color:var(--ink)}
+
+  /* Komponen kecil */
+  .comp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 14px;text-align:center;
+    box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+  .comp:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+  .comp-ico{font-size:26px;display:block;margin-bottom:8px}
+  .comp-name{display:block;font-size:13.5px;font-weight:800;color:var(--ink)}
+  .comp-desc{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+
+  /* Checklist */
+  .check{list-style:none;margin-top:10px}
+  .check li{position:relative;padding-left:27px;margin:8px 0;font-size:14px;color:var(--body)}
+  .check li::before{content:'✓';position:absolute;left:0;top:2px;width:18px;height:18px;border-radius:50%;
+    background:#E5F7EC;color:#128A4B;font-size:11px;font-weight:800;display:grid;place-items:center}
+
+  /* Dot list */
+  .dots{list-style:none;margin-top:10px}
+  .dots li{position:relative;padding-left:18px;margin:7px 0;font-size:14px;color:var(--body)}
+  .dots li::before{content:'•';position:absolute;left:2px;color:var(--acc);font-weight:800}
+
+  /* Kegiatan bernomor */
+  .act{display:flex;gap:15px;align-items:flex-start}
+  .numbox{flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:var(--acc-soft);color:var(--acc);
+    display:grid;place-items:center;font-weight:800;font-size:18px}
+  .act h3{font-size:15.5px}
+  .act p{margin-top:2px}
+
+  /* Sensus cycle */
+  .cyc{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--line);
+    border-radius:12px;padding:10px 14px;margin-bottom:12px}
+  .big-year{flex:0 0 auto;min-width:42px;height:42px;padding:0 10px;border-radius:11px;background:var(--acc);color:#fff;
+    display:grid;place-items:center;font-weight:800;font-size:22px}
+  .cyc-txt{font-size:13.5px;color:var(--body);line-height:1.4}
+  .cyc-txt small{color:var(--muted)}
+
+  /* Skala Gini */
+  .scale-bar{height:10px;border-radius:99px;margin:14px 0 6px;
+    background:linear-gradient(90deg,#22B573,#F5C24B,#E8506B)}
+  .scale-lbl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);font-weight:700}
+
+  /* Mini sub-card (PST penjualan) */
+  .mini{background:#F7FAFD;border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+  .mini h4{font-size:14px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .mini p{font-size:13.5px}
+  .mini-letter{display:inline-grid;place-items:center;min-width:24px;height:24px;border-radius:8px;
+    background:var(--acc);color:#fff;font-size:12px;font-weight:800}
+
+  /* Stat besar (AllStats) */
+  .bignum{font-size:42px;font-weight:800;color:var(--acc);line-height:1;letter-spacing:-.02em}
+  .bignum-lbl{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:4px}
+
+  /* Tombol link */
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--acc);color:#fff;font-weight:700;
+    font-size:13px;padding:9px 16px;border-radius:10px;text-decoration:none;transition:transform .2s,filter .2s;
+    box-shadow:0 6px 14px -4px var(--acc-soft2,rgba(10,46,92,.3))}
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.07)}
+  .btn.ghost{background:#fff;color:var(--acc);border:1.5px solid var(--acc)}
+
+  /* ===== Footer ===== */
+  footer{background:var(--navy-900);color:#C9D6EA;padding:44px 0 50px}
+  .f-title{color:#fff;font-weight:800;font-size:17px}
+  .f-sub{font-size:13.5px;max-width:760px;margin-top:8px;color:#9FB3D2}
+  .f-links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:18px}
+  .f-links a{color:#9FC2F5;font-size:13.5px;font-weight:700;text-decoration:none;border-bottom:1px dashed rgba(159,194,245,.5);padding-bottom:2px}
+  .f-links a:hover{color:#fff;border-color:#fff}
+
+  /* ===== Back to top ===== */
+  #toTop{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
+    background:var(--navy-800);color:#fff;font-size:18px;box-shadow:0 10px 24px rgba(10,46,92,.35);
+    opacity:0;pointer-events:none;transform:translateY(12px);transition:.3s;z-index:110}
+  #toTop.show{opacity:1;pointer-events:auto;transform:none}
+  #toTop:hover{background:var(--navy-700)}
+
+  /* ===== Animations ===== */
+  [data-anim]{opacity:0;transform:translateY(16px)}
+  [data-anim].in{opacity:1;transform:none;
+    transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1);
+    transition-delay:calc(var(--i,0)*60ms)}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    [data-anim]{opacity:1!important;transform:none!important;transition:none!important}
+    .tab-ind{transition:none}
+  }
+  @media print{
+    [data-anim]{opacity:1!important;transform:none!important}
+    .tabbar,#toTop,.progress{display:none!important}
+    body{background:#fff}
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width:920px){
+    .g3{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:680px){
+    .container{padding:0 16px}
+    .g2,.g3{grid-template-columns:1fr}
+    .tab{min-width:0;flex:1 0 auto;padding:12px 12px 14px;gap:9px}
+    .tab-ico{width:38px;height:38px;font-size:18px;border-radius:11px}
+    .tab-txt b{font-size:13px}
+    .tab-txt small{display:none}
+    .hero{padding:44px 0 82px}
+    .hs-item{padding-right:18px}
+    .callout{padding:18px 18px}
+    .card{padding:18px}
+    .sec{margin-top:40px}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="container">
+    <span class="hero-eyebrow">✦ Kolaborasi BPS × Perguruan Tinggi</span>
+    <h1>📊 Pojok <span class="grad">Statistik</span></h1>
+    <p class="hero-sub">Media layanan sekaligus promosi statistik di lingkungan kampus. Jelajahi tiga tab materi:
+      tata laksana penyelenggaraan, kegiatan &amp; indikator statistik dasar, serta akses dan layanan statistik BPS.</p>
+    <div class="hero-chips">
+      <span class="h-chip">🤝 Kolaborasi</span>
+      <span class="h-chip">⚡ Sinergi</span>
+      <span class="h-chip">🎯 Kebermanfaatan</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-item"><div class="hs-num">3</div><div class="hs-lbl">Prinsip Utama</div></div>
+      <div class="hs-item"><div class="hs-num">2</div><div class="hs-lbl">Bentuk Layanan — PSO &amp; PSV</div></div>
+      <div class="hs-item"><div class="hs-num">5</div><div class="hs-lbl">Ragam Kegiatan Utama</div></div>
+    </div>
+  </div>
+  <svg class="hero-wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,42 C240,82 480,2 720,22 C960,42 1200,82 1440,32 L1440,80 L0,80 Z" fill="#F2F6FB"></path>
+  </svg>
+</header>
+
+<!-- ============ TAB NAVIGATION ============ -->
+<nav class="tabbar" id="tabbar" aria-label="Navigasi konten Pojok Statistik">
+  <div class="container">
+    <div class="tabs-wrap" role="tablist" aria-label="Tiga tab materi Pojok Statistik">
+      <button class="tab active" id="tab-1" role="tab" aria-selected="true" aria-controls="panel-1" data-tab="1">
+        <span class="tab-ico" aria-hidden="true">📋</span>
+        <span class="tab-txt"><b>Tata Laksana</b><small>Penyelenggaraan Pojok Statistik</small></span>
+      </button>
+      <button class="tab" id="tab-2" role="tab" aria-selected="false" aria-controls="panel-2" data-tab="2" tabindex="-1">
+        <span class="tab-ico" aria-hidden="true">📈</span>
+        <span class="tab-txt"><b>Statistik Dasar</b><small>Kegiatan &amp; Indikator</small></span>
+      </button>
+      <button class="tab" id="tab-3" role="tab" aria-selected="false" aria-controls="panel-3" data-tab="3" tabindex="-1">
+        <span class="tab-ico" aria-hidden="true">🌐</span>
+        <span class="tab-txt"><b>Akses &amp; Layanan</b><small>Produk, PST &amp; Kanal Digital</small></span>
+      </button>
+      <span class="tab-ind" id="tabInd" aria-hidden="true"></span>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- ==================================================================
+       TAB 1 — TATA LAKSANA PENYELENGGARAAN POJOK STATISTIK
+  =================================================================== -->
+  <section class="tabpanel t1" id="panel-1" role="tabpanel" aria-labelledby="tab-1">
+
+    <div class="panel-intro" data-anim>
+      <span class="pi-ico">🏗️</span>
+      <p><b>Tata Laksana Penyelenggaraan Pojok Statistik</b> — mengatur konsep &amp; tujuan, jenis dan bentuk layanan,
+      komponen penyelenggaraan beserta sumber daya manusianya, hingga ragam kegiatan utama yang diselenggarakan di kampus.</p>
+    </div>
+
+    <!-- 01 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">01</span>
+        <h2 class="sec-title">Konsep, Definisi &amp; Tujuan</h2>
+      </div>
+      <p class="sec-desc" data-anim>Apa itu Pojok Statistik dan mengapa kehadirannya penting di lingkungan kampus.</p>
+
+      <div class="callout" data-anim>
+        <span class="callout-tag">💡 Konsep Utama</span>
+        <p>Pojok Statistik merupakan bentuk <b>layanan kolaboratif antara Badan Pusat Statistik (BPS) dan Perguruan Tinggi</b>
+        yang berfungsi sebagai <b>media layanan</b> sekaligus <b>promosi statistik</b> di lingkungan kampus.</p>
+      </div>
+
+      <h3 class="sub-label" data-anim>🧩 Tiga Prinsip Dasar</h3>
+      <div class="grid g3">
+        <div class="card" data-anim>
+          <div class="ico">🤝</div>
+          <h3>Kolaborasi</h3>
+          <p>Berbagi peran dan inisiatif bersama antara BPS dan Perguruan Tinggi.</p>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">⚡</div>
+          <h3>Sinergi</h3>
+          <p>Penyelenggaraan kegiatan bersama yang saling diselaraskan.</p>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">🎯</div>
+          <h3>Kebermanfaatan</h3>
+          <p>Manfaat nyata bagi BPS, Perguruan Tinggi, akademisi, mahasiswa, dan masyarakat.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-label" data-anim>🎓 Tujuan Strategis</h3>
+      <div class="grid g3">
+        <div class="card" data-anim>
+          <div class="ico">📚</div>
+          <h3>Literasi &amp; Pemanfaatan Data</h3>
+          <p>Meningkatkan literasi dan pemanfaatan data BPS di lingkungan akademisi.</p>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">🏛️</div>
+          <h3>Memperkuat SSN</h3>
+          <p>Memperkuat Sistem Statistik Nasional (SSN) sebagai fondasi data kebangsaan.</p>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">🚀</div>
+          <h3>Ruang Aktualisasi Mahasiswa</h3>
+          <p>Menyediakan ruang aktualisasi diri mahasiswa yang selaras dengan program
+          <b>Merdeka Belajar Kampus Merdeka (MBKM)</b>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">Jenis &amp; Bentuk Layanan</h2>
+      </div>
+      <p class="sec-desc" data-anim>Pojok Statistik hadir dalam dua bentuk layanan yang saling melengkapi.</p>
+
+      <div class="grid g2">
+        <div class="card" data-anim>
+          <div class="ico">🏢</div>
+          <div class="svc-top"><h3>Pojok Statistik Offline (PSO)</h3><span class="badge">🏢 Fasilitas Fisik</span></div>
+          <p>Fasilitas fisik di area publik Perguruan Tinggi yang dirancang dengan konsep <b>smart and casual</b> —
+          menghadirkan suasana santai namun tetap edukatif.</p>
+          <p class="mini-label">Fokus layanan interaktif langsung</p>
+          <div class="chips">
+            <span class="chip">💬 Konsultasi statistik</span>
+            <span class="chip">📊 Asistensi pengolahan data</span>
+            <span class="chip">📝 Bimbingan skripsi / tugas akhir</span>
+          </div>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">💻</div>
+          <div class="svc-top"><h3>Pojok Statistik Virtual (PSV)</h3><span class="badge">🌐 Media Daring</span></div>
+          <p>Media akses daring yang dikelola bersama oleh <b>BPS Provinsi dan Perguruan Tinggi</b>,
+          menyajikan konten dan layanan statistik secara digital.</p>
+          <p class="mini-label">Yang disajikan</p>
+          <div class="chips">
+            <span class="chip">🧠 Ruang literasi digital</span>
+            <span class="chip">🎥 Edukasi virtual</span>
+            <span class="chip">🖼️ Konten infografis / videografis</span>
+            <span class="chip">🔗 Konsultasi terintegrasi PST Online</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">03</span>
+        <h2 class="sec-title">Komponen &amp; Sumber Daya Manusia (SDM)</h2>
+      </div>
+      <p class="sec-desc" data-anim>Penyelenggaraan Pojok Statistik didukung oleh lima komponen utama dan peran SDM yang jelas.</p>
+
+      <div class="g-auto" style="display:grid">
+        <div class="comp" data-anim><span class="comp-ico">📜</span><span class="comp-name">Dokumen Pembentukan</span><span class="comp-desc">MoU &amp; PKS</span></div>
+        <div class="comp" data-anim><span class="comp-ico">🏠</span><span class="comp-name">Ruang Khusus</span><span class="comp-desc">Area fasilitas di kampus</span></div>
+        <div class="comp" data-anim><span class="comp-ico">🖥️</span><span class="comp-name">Sarana Prasarana</span><span class="comp-desc">Komputer &amp; internet</span></div>
+        <div class="comp" data-anim><span class="comp-ico">🗂️</span><span class="comp-name">Sistem Informasi Registrasi</span><span class="comp-desc">Pendataan &amp; registrasi</span></div>
+        <div class="comp" data-anim><span class="comp-ico">👥</span><span class="comp-name">SDM</span><span class="comp-desc">Petugas &amp; Agen Statistik</span></div>
+      </div>
+
+      <h3 class="sub-label" data-anim>👤 Peran Pelaksana</h3>
+      <div class="grid g2">
+        <div class="card" data-anim>
+          <div class="ico">🧑‍💼</div>
+          <div class="svc-top"><h3>Petugas BPS</h3><span class="badge">Statistisi / Pranata Komputer</span></div>
+          <p>Pegawai fungsional statistisi atau pranata komputer BPS yang bertugas mengelola operasional
+          Pojok Statistik sekaligus melakukan <b>pembinaan dan pelatihan teknis</b> bagi Agen Statistik.</p>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">🎓</div>
+          <div class="svc-top"><h3>Agen Statistik (Mahasiswa)</h3><span class="badge">SK / Surat Tugas</span></div>
+          <p>Mahasiswa yang ditunjuk oleh Perguruan Tinggi melalui <b>SK / Surat Tugas</b>, dengan kriteria:</p>
+          <ul class="check">
+            <li>Mahasiswa aktif, minimal semester 4</li>
+            <li>IPK minimal 3,00</li>
+            <li>Menguasai aplikasi berbasis internet / Android</li>
+            <li>Bebas kriminal &amp; narkoba</li>
+            <li>Komunikatif, rapi, dan berkomitmen bekerja dalam tim</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="sub-label" data-anim>🧭 Struktur Peran</h3>
+      <div class="grid g3">
+        <div class="card" data-anim>
+          <div class="ico">🧑‍💻</div>
+          <h3>Operator</h3>
+          <ul class="dots">
+            <li>Melaksanakan pelayanan konsultasi</li>
+            <li>Pembaruan konten promosi</li>
+            <li>Pengelolaan media sosial</li>
+          </ul>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">🧑‍✈️</div>
+          <h3>Pengawas (Supervisor)</h3>
+          <p>Pegawai BPS yang:</p>
+          <ul class="dots">
+            <li>Mengawasi kinerja operator</li>
+            <li>Menyusun jadwal piket</li>
+            <li>Membantu laporan bulanan &amp; tahunan</li>
+          </ul>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">🗺️</div>
+          <h3>Koordinator</h3>
+          <p>Dosen dan pegawai BPS yang:</p>
+          <ul class="dots">
+            <li>Merumuskan program kerja</li>
+            <li>Melakukan monitoring</li>
+            <li>Mengevaluasi pelaksanaan program</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">04</span>
+        <h2 class="sec-title">Ragam Kegiatan Utama</h2>
+      </div>
+      <p class="sec-desc" data-anim>Lima kegiatan utama yang diselenggarakan melalui Pojok Statistik.</p>
+
+      <div class="grid g-acts">
+        <div class="card act" data-anim>
+          <div class="numbox">1</div>
+          <div>
+            <h3>📣 Promosi Statistik</h3>
+            <p>Pembaruan konten infografis / videografis serta promosi aktif di media sosial kampus maupun BPS.</p>
+          </div>
+        </div>
+        <div class="card act" data-anim>
+          <div class="numbox">2</div>
+          <div>
+            <h3>💬 Konsultasi Statistik</h3>
+            <p>Layanan diskusi interaktif terkait produk data BPS.</p>
+            <div class="chips">
+              <span class="chip">Tabel</span><span class="chip">Data Mikro</span><span class="chip">Peta Digital</span>
+              <span class="chip">Publikasi</span><span class="chip">BRS</span>
+            </div>
+          </div>
+        </div>
+        <div class="card act" data-anim>
+          <div class="numbox">3</div>
+          <div>
+            <h3>🎓 Edukasi Statistik</h3>
+            <p>Penyelenggaraan workshop, seminar, atau <b>BPS Goes To Campus</b> secara berkala dengan materi tematik.</p>
+            <div class="chips"><span class="chip hl">🗓️ Minimal 1× setiap bulan</span></div>
+          </div>
+        </div>
+        <div class="card act" data-anim>
+          <div class="numbox">4</div>
+          <div>
+            <h3>📖 Ruang Literasi</h3>
+            <p>Akses bebas membaca publikasi fisik serta mengunduh publikasi digital nasional maupun daerah.</p>
+          </div>
+        </div>
+        <div class="card act" data-anim>
+          <div class="numbox">5</div>
+          <div>
+            <h3>🚀 Kegiatan Pendukung MBKM</h3>
+            <p>Join research, penulisan karya ilmiah internasional, asistensi pengolahan data, dan bimbingan skripsi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- ==================================================================
+       TAB 2 — KEGIATAN DAN INDIKATOR STATISTIK DASAR
+  =================================================================== -->
+  <section class="tabpanel t2" id="panel-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+
+    <div class="panel-intro" data-anim>
+      <span class="pi-ico">📈</span>
+      <p><b>Kegiatan dan Indikator Statistik Dasar</b> — landasan hukum statistik, tiga sensus besar, survei nasional
+      dan pendataan kewilayahan, hingga ragam indikator strategis utama yang dihasilkan BPS.</p>
+    </div>
+
+    <!-- 01 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">01</span>
+        <h2 class="sec-title">Landasan Statistik Dasar</h2>
+      </div>
+      <p class="sec-desc" data-anim>Dasar hukum dan penggolongan kegiatan statistik di Indonesia.</p>
+
+      <div class="callout" data-anim>
+        <span class="callout-tag">⚖️ UU No. 16 Tahun 1997 tentang Statistik</span>
+        <p>Berdasarkan undang-undang ini, kegiatan statistik dibagi menjadi tiga jenis. <b>Statistik dasar</b>
+        diselenggarakan secara khusus oleh BPS untuk memenuhi kebutuhan data nasional secara luas.</p>
+        <div class="chips">
+          <span class="chip hl">⭐ Statistik Dasar — BPS</span>
+          <span class="chip">Statistik Sektoral</span>
+          <span class="chip">Statistik Khusus</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">Sensus — Pendataan Lengkap</h2>
+      </div>
+      <p class="sec-desc" data-anim>Tiga sensus besar yang diselenggarakan setiap 10 tahun dengan pola tahun berakhiran tertentu.</p>
+
+      <div class="grid g3">
+        <div class="card" data-anim>
+          <div class="ico">👥</div>
+          <div class="svc-top"><h3>Sensus Penduduk (SP)</h3></div>
+          <div class="cyc"><span class="big-year">0</span><span class="cyc-txt">Setiap <b>10 tahun</b><br><small>tahun berakhiran “0”</small></span></div>
+          <p><b>SP2020</b> mengusung inovasi metode kombinasi memanfaatkan data adminduk Ditjen Dukcapil serta moda
+          pengumpulan data modern.</p>
+          <div class="chips">
+            <span class="chip">Metode Kombinasi</span><span class="chip">Adminduk Dukcapil</span>
+            <span class="chip">CAPI</span><span class="chip">CAWI</span>
+          </div>
+          <p class="mini-label">Indikator yang dihasilkan</p>
+          <div class="chips">
+            <span class="chip">Piramida Penduduk*</span><span class="chip">LPP</span><span class="chip">Kepadatan Penduduk</span>
+            <span class="chip">Sex Ratio</span><span class="chip">Rasio Ketergantungan</span><span class="chip">CBR</span>
+            <span class="chip">ASFR</span><span class="chip">TFR</span><span class="chip">AKB</span>
+            <span class="chip">AHH</span><span class="chip">APS</span>
+          </div>
+          <p style="margin-top:10px;font-size:12.5px;color:var(--muted)">*Bentuk piramida: ekspansif, konstruktif, atau stasioner. AHH = Angka Harapan Hidup, APS = Angka Partisipasi Sekolah.</p>
+        </div>
+
+        <div class="card" data-anim>
+          <div class="ico">🌾</div>
+          <div class="svc-top"><h3>Sensus Pertanian (ST)</h3></div>
+          <div class="cyc"><span class="big-year">3</span><span class="cyc-txt">Setiap <b>10 tahun</b><br><small>tahun berakhiran “3”</small></span></div>
+          <p>Pendataan lengkap pada <b>rumah tangga dan perusahaan pertanian</b> yang mencakup delapan subsektor:</p>
+          <div class="chips">
+            <span class="chip">1 · Tanaman Pangan</span><span class="chip">2 · Hortikultura</span>
+            <span class="chip">3 · Perkebunan</span><span class="chip">4 · Peternakan</span>
+            <span class="chip">5 · Perikanan Budidaya</span><span class="chip">6 · Kehutanan</span>
+            <span class="chip">7 · Satwa Liar</span><span class="chip">8 · Jasa Pertanian</span>
+          </div>
+        </div>
+
+        <div class="card" data-anim>
+          <div class="ico">🏭</div>
+          <div class="svc-top"><h3>Sensus Ekonomi (SE)</h3></div>
+          <div class="cyc"><span class="big-year">6</span><span class="cyc-txt">Setiap <b>10 tahun</b><br><small>tahun berakhiran “6”</small></span></div>
+          <p>Pendataan lengkap seluruh <b>unit usaha non-pertanian</b> di Indonesia.</p>
+          <p class="mini-label">Indikator yang dihasilkan</p>
+          <div class="chips">
+            <span class="chip">Jumlah Usaha</span><span class="chip">Omzet</span>
+            <span class="chip">Nilai Produksi</span><span class="chip">Distribusi Usaha</span>
+            <span class="chip">Jumlah Tenaga Kerja</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">03</span>
+        <h2 class="sec-title">Survei Nasional &amp; Pendataan Kewilayahan</h2>
+      </div>
+      <p class="sec-desc" data-anim>Kegiatan rutin BPS yang menghasilkan indikator strategis kesejahteraan, ketenagakerjaan, dan wilayah.</p>
+
+      <div class="grid g2">
+        <div class="card" data-anim>
+          <div class="ico">🏠</div>
+          <div class="svc-top"><h3>Survei Sosial Ekonomi Nasional (Susenas)</h3><span class="badge">🗓️ Semesteran · Maret &amp; September</span></div>
+          <p>Mengumpulkan data kesejahteraan rumah tangga:</p>
+          <div class="chips">
+            <span class="chip">Pendidikan</span><span class="chip">Kesehatan</span>
+            <span class="chip">Perumahan</span><span class="chip">Pengeluaran / Konsumsi</span>
+          </div>
+          <p class="mini-label">Indikator strategis</p>
+          <div class="chips">
+            <span class="chip">Garis Kemiskinan</span>
+            <span class="chip">Indeks Kedalaman Kemiskinan (P<sub>1</sub>)</span>
+            <span class="chip">Indeks Keparahan Kemiskinan (P<sub>2</sub>)</span>
+            <span class="chip">Persentase Penduduk Miskin</span>
+            <span class="chip">Gini Ratio</span>
+          </div>
+        </div>
+
+        <div class="card" data-anim>
+          <div class="ico">👷</div>
+          <div class="svc-top"><h3>Survei Angkatan Kerja Nasional (Sakernas)</h3><span class="badge">🗓️ Semesteran · Februari &amp; Agustus</span></div>
+          <p>Survei untuk mengukur kondisi <b>ketenagakerjaan</b> nasional.</p>
+          <p class="mini-label">Indikator strategis</p>
+          <div class="chips">
+            <span class="chip">TPAK — Tingkat Partisipasi Angkatan Kerja</span>
+            <span class="chip">TPT — Tingkat Pengangguran Terbuka</span>
+            <span class="chip">Pekerja Formal / Informal</span>
+            <span class="chip">Pekerja Paruh Waktu</span>
+            <span class="chip">Half-Unemployed</span>
+            <span class="chip">Youth NEET</span>
+          </div>
+        </div>
+
+        <div class="card" data-anim>
+          <div class="ico">🛖</div>
+          <div class="svc-top"><h3>Potensi Desa (Podes)</h3><span class="badge">🗓️ 3× dalam 10 tahun + updating tahunan sejak 2019</span></div>
+          <p>Pendataan kewilayahan yang dilaksanakan <b>2 tahun sebelum sensus</b>, disertai updating tahunan.</p>
+          <p class="mini-label">Indikator strategis</p>
+          <div class="chips">
+            <span class="chip">IKG — Indeks Kesulitan Geografis (variabel pengalokasian Dana Desa)</span>
+            <span class="chip">Klasifikasi Desa Tertinggal</span>
+            <span class="chip">Klasifikasi Desa Mandiri</span>
+          </div>
+        </div>
+
+        <div class="card" data-anim>
+          <div class="ico">🚢</div>
+          <div class="svc-top"><h3>Statistik Ekspor-Impor</h3><span class="badge">🗓️ Bulanan</span></div>
+          <p>Kompilasi data administrasi dokumen <b>PEB (Bea Cukai)</b> dan <b>PIB</b> bulanan.</p>
+          <p class="mini-label">Indikator strategis</p>
+          <div class="chips">
+            <span class="chip">Nilai / Volume Ekspor-Impor</span>
+            <span class="chip">Neraca Perdagangan (FOB vs CIF)</span>
+            <span class="chip">Indeks Unit Value</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">04</span>
+        <h2 class="sec-title">Ragam Indikator Strategis Utama BPS</h2>
+      </div>
+      <p class="sec-desc" data-anim>Indikator kunci yang menjadi rujukan kebijakan dan kajian ekonomi–sosial nasional.</p>
+
+      <div class="grid g-acts">
+        <div class="card" data-anim>
+          <div class="ico">💹</div>
+          <div class="svc-top"><h3>IHK &amp; Inflasi</h3><span class="badge">Bulanan</span></div>
+          <p>Indeks Harga Konsumen mengukur perubahan harga rata-rata komoditas konsumsi rumah tangga
+          (berdasarkan <b>SBH 90 kota</b>) sebagai indikator inflasi / deflasi bulanan.</p>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">📊</div>
+          <div class="svc-top"><h3>PDB / PDRB</h3></div>
+          <p>Produk Domestik Bruto — nilai keseluruhan barang dan jasa yang diproduksi suatu wilayah,
+          untuk mengukur <b>pertumbuhan ekonomi riil dan nominal</b>.</p>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">⚖️</div>
+          <div class="svc-top"><h3>Gini Ratio</h3><span class="badge">Rentang 0–1</span></div>
+          <p>Ukuran ketimpangan pengeluaran penduduk:</p>
+          <div class="scale-bar" aria-hidden="true"></div>
+          <div class="scale-lbl"><span>0 · Pemerataan sempurna</span><span>1 · Ketimpangan sempurna</span></div>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">🧑‍🎓</div>
+          <div class="svc-top"><h3>IPM</h3><span class="badge">3 Dimensi Dasar</span></div>
+          <p>Indeks Pembangunan Manusia — indikator komposit kualitas hidup manusia yang mengukur:</p>
+          <div class="chips">
+            <span class="chip">🫀 Kesehatan (umur panjang)</span>
+            <span class="chip">📚 Pengetahuan (pendidikan)</span>
+            <span class="chip">🏠 Standar hidup layak</span>
+          </div>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">🌾</div>
+          <div class="svc-top"><h3>Nilai Tukar Petani (NTP)</h3><span class="badge hl">NTP &gt; 100 → Surplus</span></div>
+          <p>Mengukur daya tukar produk pertanian yang dihasilkan terhadap barang/jasa konsumsi dan biaya produksi.
+          Nilai <b>NTP lebih dari 100</b> menandakan petani mengalami <b>surplus</b>.</p>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- ==================================================================
+       TAB 3 — AKSES DAN LAYANAN STATISTIK BPS
+  =================================================================== -->
+  <section class="tabpanel t3" id="panel-3" role="tabpanel" aria-labelledby="tab-3" hidden>
+
+    <div class="panel-intro" data-anim>
+      <span class="pi-ico">🌐</span>
+      <p><b>Akses dan Layanan Statistik BPS</b> — jenis produk statistik, empat layanan utama di Pelayanan Statistik
+      Terpadu (PST), serta saluran media akses digital resmi BPS.</p>
+    </div>
+
+    <!-- 01 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">01</span>
+        <h2 class="sec-title">Jenis Produk Statistik BPS</h2>
+      </div>
+      <p class="sec-desc" data-anim>Empat kelompok produk statistik resmi yang dihasilkan BPS.</p>
+
+      <div class="grid g2">
+        <div class="card" data-anim>
+          <div class="ico">📚</div>
+          <div class="svc-top"><h3>Publikasi &amp; Berita Resmi Statistik (BRS)</h3><span class="badge">Advance Release Calendar</span></div>
+          <p>Publikasi memuat data makro tabular dalam bentuk buku digital / cetak. <b>BRS</b> memuat pengumuman cepat
+          hasil kegiatan statistik disertai analisis ilmiah, dan rilis sesuai <b>Advance Release Calendar (ARC)</b>.</p>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">📋</div>
+          <div class="svc-top"><h3>Tabel Statistik</h3></div>
+          <p>Output pengolahan tabular resmi yang tersedia pada situs BPS.</p>
+          <p class="mini-label">Dua jenis tabel</p>
+          <div class="chips"><span class="chip">Tabel Statis</span><span class="chip">Tabel Dinamis</span></div>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">🔐</div>
+          <div class="svc-top"><h3>Data Mikro</h3><span class="badge">Non-Komersial · PNBP · SPPD</span></div>
+          <p>Data mentah karakteristik unit populasi yang telah melalui proses <b>anonimisasi</b> untuk menjaga
+          kerahasiaan responden. Dapat diakses secara non-komersial melalui mekanisme <b>PNBP</b> dengan menandatangani
+          <b>Surat Perjanjian Penggunaan Data (SPPD)</b>.</p>
+        </div>
+        <div class="card" data-anim>
+          <div class="ico">🗺️</div>
+          <div class="svc-top"><h3>Peta Digital Wilayah Kerja Statistik</h3><span class="badge">Format .shp</span></div>
+          <p>Peta kerja berformat <b>shapefile (.shp)</b> dari tingkat provinsi hingga desa/kelurahan.</p>
+          <div class="chips"><span class="chip">Provinsi</span><span class="chip">Kabupaten / Kota</span><span class="chip">Kecamatan</span><span class="chip">Desa / Kelurahan</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">Layanan Utama di Pelayanan Statistik Terpadu (PST)</h2>
+      </div>
+      <p class="sec-desc" data-anim>PST mengintegrasikan empat jenis layanan utama BPS dalam satu pintu.</p>
+
+      <div class="grid g2">
+        <div class="card act" data-anim>
+          <div class="numbox">1</div>
+          <div>
+            <h3>📖 Layanan Perpustakaan</h3>
+            <p>Akses membaca publikasi cetak dan elektronik.</p>
+          </div>
+        </div>
+        <div class="card act" data-anim>
+          <div class="numbox">2</div>
+          <div>
+            <h3>💬 Layanan Konsultasi Statistik</h3>
+            <p>Diskusi interaktif mengenai data statistik, metadata statistik (<b>FS3</b> untuk survei sektoral),
+            serta klasifikasi statistik.</p>
+            <div class="chips"><span class="chip">KBLI</span><span class="chip">KBJI</span><span class="chip">KBKI</span><span class="chip">Metadata FS3</span></div>
+          </div>
+        </div>
+        <div class="card span2 act" data-anim>
+          <div class="numbox">3</div>
+          <div style="flex:1">
+            <h3>🛒 Layanan Penjualan</h3>
+            <div class="inner-grid">
+              <div class="mini">
+                <h4><span class="mini-letter">A</span> Penjualan Publikasi</h4>
+                <p>Unduh publikasi elektronik berkadar <b>watermark</b> gratis via website, atau versi
+                <b>high-resolution tanpa watermark</b> melalui tarif PNBP.</p>
+              </div>
+              <div class="mini">
+                <h4><span class="mini-letter">B</span> Penjualan Data Mikro</h4>
+                <p>Pembelian data riset non-komersial berlandaskan aturan <b>PNBP</b> dan kesepakatan <b>SPPD</b>.</p>
+              </div>
+              <div class="mini">
+                <h4><span class="mini-letter">C</span> Penjualan Peta Digital Wilayah</h4>
+                <p>Pembelian berkas shapefile wilayah kerja BPS sesuai tarif PNBP.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card act span2" data-anim>
+          <div class="numbox">4</div>
+          <div>
+            <h3>✅ Layanan Rekomendasi Kegiatan Statistik</h3>
+            <p>Pemberian rekomendasi BPS terhadap <b>rancangan survei sektoral</b> yang diajukan oleh instansi pemerintah.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="sec">
+      <div class="sec-head" data-anim>
+        <span class="sec-num">03</span>
+        <h2 class="sec-title">Saluran Media Akses Digital BPS</h2>
+      </div>
+      <p class="sec-desc" data-anim>Kanal resmi untuk mengakses data, publikasi, dan layanan statistik BPS.</p>
+
+      <div class="grid g2">
+        <div class="card span2" data-anim>
+          <div class="ico">🌍</div>
+          <div class="svc-top"><h3>Website BPS</h3><span class="badge">Portal Utama</span></div>
+          <p>Portal utama yang menyajikan <b>BPS App</b> dengan berbagai layanan berikut:</p>
+          <div class="chips">
+            <span class="chip">PST Online</span><span class="chip">WebAPI</span><span class="chip">SDGs</span>
+            <span class="chip">Tabel Dinamis</span><span class="chip">Ekspor-Impor</span><span class="chip">Metadata</span>
+            <span class="chip">GIS</span><span class="chip">KBLI-KBKI</span><span class="chip">Sensus</span>
+          </div>
+          <p style="margin-top:12px">Memuat aturan sitasi penggunaan konten dengan kewajiban mencantumkan
+          <b>sumber resmi</b>.</p>
+          <div class="chips"><a class="btn" href="https://www.bps.go.id" target="_blank" rel="noopener">🔗 Kunjungi www.bps.go.id</a></div>
+        </div>
+
+        <div class="card" data-anim>
+          <div class="ico">📱</div>
+          <div class="svc-top"><h3>Aplikasi Mobile AllStats BPS</h3><span class="badge">Android &amp; iOS</span></div>
+          <p>Mempermudah akses data dari seluruh domain website BPS secara ringkas dalam satu genggaman.
+          Dilengkapi fitur <b>pencarian</b>, <b>bookmark</b>, dan integrasi layanan <b>Silastik</b>.</p>
+          <div style="margin-top:14px"><span class="bignum">549</span><div class="bignum-lbl">domain website BPS — Pusat, Provinsi, dan Kabupaten/Kota</div></div>
+        </div>
+
+        <div class="card" data-anim>
+          <div class="ico">🔌</div>
+          <div class="svc-top"><h3>Web API</h3><span class="badge">Untuk Developer</span></div>
+          <p>Layanan interoperabilitas data bagi developer berbasis format <b>JSON</b>. Akses terbuka secara <b>gratis
+          untuk tujuan non-komersial</b> setelah melakukan registrasi akun developer dan pendaftaran aplikasi untuk
+          mendapatkan <b>Token / App ID</b> unik.</p>
+          <div class="chips">
+            <span class="chip">Format JSON</span><span class="chip">Registrasi Developer</span><span class="chip">Token / App ID unik</span>
+          </div>
+          <div class="chips"><a class="btn ghost" href="https://webapi.bps.go.id" target="_blank" rel="noopener">🔗 webapi.bps.go.id</a></div>
+        </div>
+
+        <div class="card" data-anim>
+          <div class="ico">🏢</div>
+          <div class="svc-top"><h3>Metode Akses PST</h3></div>
+          <ul class="dots">
+            <li><b>PST Offline</b> — datang langsung ke unit PST di kantor BPS Pusat, BPS Provinsi, atau BPS Kabupaten/Kota.</li>
+            <li><b>PST Online</b> — layanan daring melalui laman pst.bps.go.id yang dapat diakses dari seluruh lokasi.</li>
+          </ul>
+          <div class="chips"><a class="btn" href="https://pst.bps.go.id" target="_blank" rel="noopener">🔗 Kunjungi pst.bps.go.id</a></div>
+        </div>
+
+        <div class="card" data-anim>
+          <div class="ico">📮</div>
+          <div class="svc-top"><h3>Media Akses Lainnya</h3></div>
+          <p>Selain kanal di atas, layanan statistik BPS juga dapat diakses melalui:</p>
+          <div class="chips">
+            <span class="chip">🎓 Pojok Statistik kampus</span>
+            <span class="chip">💬 WhatsApp Chat</span>
+            <span class="chip">📧 Email Resmi</span>
+            <span class="chip">☎️ Layanan Telepon</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <p class="f-title">📊 Pojok Statistik — BPS × Perguruan Tinggi</p>
+    <p class="f-sub">Rangkuman materi satu halaman: Tab 1 · Tata Laksana Penyelenggaraan Pojok Statistik —
+    Tab 2 · Kegiatan dan Indikator Statistik Dasar — Tab 3 · Akses dan Layanan Statistik BPS.</p>
+    <div class="f-links">
+      <a href="https://www.bps.go.id" target="_blank" rel="noopener">www.bps.go.id</a>
+      <a href="https://pst.bps.go.id" target="_blank" rel="noopener">pst.bps.go.id</a>
+      <a href="https://webapi.bps.go.id" target="_blank" rel="noopener">webapi.bps.go.id</a>
+    </div>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="Kembali ke atas">↑</button>
+
+<script>
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.tabpanel'));
+  var ind = document.getElementById('tabInd');
+  var tabbar = document.getElementById('tabbar');
+  var progress = document.getElementById('progress');
+  var toTop = document.getElementById('toTop');
+
+  /* Stagger index per section */
+  panels.forEach(function(p){
+    p.querySelectorAll('.sec').forEach(function(sec){
+      sec.querySelectorAll('[data-anim]').forEach(function(el,i){
+        el.style.setProperty('--i', Math.min(i,8));
+      });
+    });
+  });
+
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{rootMargin:'0px 0px 15% 0px',threshold:.01}) : null;
+
+  var revealTimer = null;
+  function reveal(panel){
+    panel.querySelectorAll('[data-anim]').forEach(function(el){
+      el.classList.remove('in');
+      if(io){ io.observe(el); } else { el.classList.add('in'); }
+    });
+    /* Fallback: pastikan seluruh konten tampil (robust untuk print & tangkapan layar) */
+    if(revealTimer) clearTimeout(revealTimer);
+    revealTimer = setTimeout(function(){
+      panel.querySelectorAll('[data-anim]:not(.in)').forEach(function(el){
+        el.classList.add('in');
+        if(io) io.unobserve(el);
+      });
+    }, 1400);
+  }
+
+  function moveInd(btn){
+    if(!btn) return;
+    ind.style.width = (btn.offsetWidth - 28) + 'px';
+    ind.style.left = (btn.offsetLeft + 14) + 'px';
+    var c = getComputedStyle(btn).getPropertyValue('--acc').trim();
+    if(c) ind.style.background = c;
+  }
+
+  function activate(n, opts){
+    opts = opts || {};
+    tabs.forEach(function(t){
+      var on = t.getAttribute('data-tab') === String(n);
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      if(on){
+        moveInd(t);
+        if(opts.focus) t.focus({preventScroll:true});
+        try{ t.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'}); }catch(err){}
+      }
+    });
+    panels.forEach(function(p){
+      if(p.id === 'panel-' + n){ p.hidden = false; reveal(p); }
+      else { p.hidden = true; }
+    });
+    if(opts.push !== false){
+      try{ history.replaceState(null, '', '#tab-' + n); }catch(err){}
+    }
+  }
+
+  tabs.forEach(function(t){
+    var n = parseInt(t.getAttribute('data-tab'), 10);
+    t.addEventListener('click', function(){ activate(n); });
+    t.addEventListener('keydown', function(e){
+      var to = null;
+      if(e.key === 'ArrowRight') to = (n === 3) ? 1 : n + 1;
+      else if(e.key === 'ArrowLeft') to = (n === 1) ? 3 : n - 1;
+      else if(e.key === 'Home') to = 1;
+      else if(e.key === 'End') to = 3;
+      if(to){ e.preventDefault(); activate(to, {focus:true}); }
+    });
+  });
+
+  /* Initial tab from URL hash */
+  var m = location.hash.match(/^#tab-([123])$/);
+  activate(m ? parseInt(m[1],10) : 1, {push:false});
+
+  window.addEventListener('load', function(){ moveInd(document.querySelector('.tab.active')); });
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){ moveInd(document.querySelector('.tab.active')); });
+  }
+  var rz;
+  window.addEventListener('resize', function(){
+    clearTimeout(rz);
+    rz = setTimeout(function(){ moveInd(document.querySelector('.tab.active')); }, 120);
+  });
+
+  /* Scroll effects */
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    progress.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%';
+    tabbar.classList.toggle('scrolled', h.scrollTop > 8);
+    toTop.classList.toggle('show', h.scrollTop > 600);
+  }, {passive:true});
+
+  toTop.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+})();
+</script>
+</body>
+</html>
