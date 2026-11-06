@@ -65,6 +65,26 @@
             background-color: #feb2b2;
         }
 
+        /* Dropdown "Lembar Kerja Evaluasi" di tengah header */
+        .sticky-header .user-info {
+            flex: 1 1 0;
+            min-width: 180px;
+        }
+        .header-dropdown {
+            flex: 0 1 340px;
+            min-width: 220px;
+            max-width: 100%;
+        }
+        .header-dropdown select {
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        }
+        .header-actions {
+            flex: 1 1 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
         /* Container Utama untuk Card Portal (PEDULI, PRESISI, PREMIUM) */
         .main-container {
             display: flex;
@@ -207,7 +227,31 @@
             <p id="user-email">-</p>
         </div>
 
-        <button class="btn-logout" onclick="handleLogout()">Keluar</button>
+        <!-- Dropdown "Lembar Kerja Evaluasi" (tengah header) - tautan terbuka di tab baru -->
+        <div class="header-dropdown">
+            <select id="lke-select" onchange="handleLkeRedirect(this)" aria-label="Lembar Kerja Evaluasi">
+                <option value="" disabled selected>Lembar Kerja Evaluasi</option>
+                <!-- Opsi diurutkan ascending (A-Z) agar mudah dicari -->
+                <option value="lke-anggaran.html">Anggaran</option>
+                <option value="lke-bpkp.html">BPKP</option>
+                <option value="lke-epss.html">EPSS</option>
+                <option value="lke-akip.html">Internal AKIP</option>
+                <option value="lke-iso.html">ISO</option>
+                <option value="lke-mr.html">Manajemen Risiko</option>
+                <option value="lke-pekppp.html">PEKPPP Mandiri</option>
+                <option value="lke-kontinu-wbbm.html">Pemeliharaan WBBM</option>
+                <option value="lke-sakip.html">SAKIP</option>
+                <option value="lke-spip.html">SPIP</option>
+                <option value="sp-pst-2026.html">Standar Pelayanan</option>
+                <option value="lke-tik.html">Tata Kelola TIK</option>
+                <option value="lke-wbbm.html">WBK menuju WBBM</option>
+                <option value="lke-wbk.html">ZI menuju WBK</option>
+            </select>
+        </div>
+
+        <div class="header-actions">
+            <button class="btn-logout" onclick="handleLogout()">Keluar</button>
+        </div>
     </header>
 
     <!-- Konten Utama Kartu Portal (PEDULI, PRESISI, PREMIUM) -->
@@ -430,6 +474,16 @@
             const targetUrl = selectElement.value;
             if (targetUrl) {
                 window.open(targetUrl, '_blank');
+            }
+        }
+
+        // Dropdown "Lembar Kerja Evaluasi" di header:
+        // buka tautan di tab baru, lalu kembalikan dropdown ke tulisan default
+        function handleLkeRedirect(selectElement) {
+            const targetUrl = selectElement.value;
+            if (targetUrl) {
+                window.open(targetUrl, '_blank');
+                selectElement.selectedIndex = 0;
             }
         }
 
