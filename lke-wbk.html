@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lembar Kerja Evaluasi (LKE) Zona Integritas Menuju WBK - Permen PANRB Terbaru</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; color: black; }
+            .print-shadow { box-shadow: none !important; border: 1px solid #cbd5e1; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER UTAMA -->
+    <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 p-2.5 rounded-xl shadow-md text-white">
+                    <i class="fa-solid fa-shield-halved text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight">LKE ZONA INTEGRITAS MENUJU WBK</h1>
+                    <p class="text-xs sm:text-sm text-blue-200">Berdasarkan Permen PANRB No. 90 Tahun 2021 & Permen PANRB No. 5 Tahun 2024</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 no-print">
+                <button onclick="resetData()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Reset Data
+                </button>
+                <button onclick="window.print()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition shadow-md flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i> Cetak / PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA -->
+    <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-grow w-full space-y-8">
+
+        <!-- DASHBOARD RINGKASAN & SKOR -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Progres Eviden</span>
+                    <h2 id="total-progress-text" class="text-3xl font-extrabold text-slate-900 mt-2">0%</h2>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-2.5 mt-4 overflow-hidden">
+                    <div id="total-progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Estimasi Nilai Mandiri</span>
+                    <h2 id="total-score" class="text-3xl font-extrabold text-indigo-600 mt-2">0.00 <span class="text-sm font-medium text-slate-400">/ 100</span></h2>
+                </div>
+                <p class="text-xs text-slate-500 mt-4"><i class="fa-solid fa-circle-info text-blue-500"></i> Akumulasi bobot komponen pengungkit</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Status Kelayakan WBK</span>
+                    <h2 id="wbk-status" class="text-lg font-bold text-amber-600 mt-2 flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Belum Memenuhi
+                    </h2>
+                </div>
+                <p class="text-xs text-slate-500 mt-4">Syarat minimal nilai komponen pengungkit & hasil terpenuhi.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between no-print">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Identitas Unit Kerja</span>
+                    <input type="text" id="unit-kerja-name" placeholder="Nama Instansi / Satker..." class="w-full mt-2 px-3 py-1.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button onclick="saveData()" class="mt-4 w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition shadow-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-floppy-disk"></i> Simpan Progress Lokal
+                </button>
+            </div>
+        </section>
+
+        <!-- NAVIGASI TAB 6 AREA PERUBAHAN -->
+        <div class="flex overflow-x-auto pb-2 gap-2 no-print border-b border-slate-200">
+            <button onclick="switchTab('area1')" id="btn-area1" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm whitespace-nowrap transition bg-blue-600 text-white shadow-sm">
+                1. Manajemen Perubahan
+            </button>
+            <button onclick="switchTab('area2')" id="btn-area2" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm whitespace-nowrap transition bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                2. Penataan Tatalaksana
+            </button>
+            <button onclick="switchTab('area3')" id="btn-area3" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm whitespace-nowrap transition bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                3. Penataan SDM
+            </button>
+            <button onclick="switchTab('area4')" id="btn-area4" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm whitespace-nowrap transition bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                4. Penguatan Akuntabilitas
+            </button>
+            <button onclick="switchTab('area5')" id="btn-area5" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm whitespace-nowrap transition bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                5. Penguatan Pengawasan
+            </button>
+            <button onclick="switchTab('area6')" id="btn-area6" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm whitespace-nowrap transition bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                6. Peningkatan Pelayanan Publik
+            </button>
+        </div>
+
+        <!-- CONTAINER KONTEN LEMBAR KERJA -->
+        <div id="lke-container" class="space-y-6">
+            <!-- Konten Area akan dimuat dinamis lewat JavaScript interaktif -->
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500 no-print">
+        <p>Lembar Kerja Evaluasi Elektronik Zona Integritas &bull; Dikembangkan untuk Mendukung Reformasi Birokrasi Indonesia</p>
+    </footer>
+
+    <!-- SCRIPT INTERAKTIF & DATA LKE -->
+    <script>
+        // Data Struktur LKE berdasarkan Permen PANRB terkait ZI Menuju WBK (Komponen Pengungkit)
+        const lkeData = {
+            area1: {
+                title: "Area 1: Manajemen Perubahan",
+                weight: 5,
+                desc: "Mengubah secara sistematis dan konsisten mekanisme kerja, pola pikir (mindset), serta budaya kerja (culture set) individu pada unit kerja.",
+                subitems: [
+                    { id: "a1_1", sub: "Tim Pembangunan Zona Integritas", desc: "Apakah unit kerja telah membentuk tim untuk pembangunan Zona Integritas yang melibatkan seluruh unsur/bagian?", weight: 1.0, options: ["Belum Ada", "Sebagian Terlibat", "Terbentuk & SK Lengkap"] },
+                    { id: "a1_2", sub: "Rencana Pembangunan Zona Integritas", desc: "Apakah terdapat dokumen rencana kerja pembangunan ZI menuju WBK yang memuat target prioritas?", weight: 1.5, options: ["Tidak Ada", "Ada Dokumen Belum Jelas", "Ada, Lengkap Target Prioritas"] },
+                    { id: "a1_3", sub: "Pemantauan dan Evaluasi Pembangunan ZI", desc: "Apakah pimpinan memantau dan mengevaluasi pelaksanaan pembangunan ZI secara berkala?", weight: 1.5, options: ["Tidak Ada Monev", "Monev Tidak Berkala", "Monev Rutin & Ditindaklanjuti"] },
+                    { id: "a1_4", sub: "Perubahan Pola Pikir dan Budaya Kerja", desc: "Apakah telah ditetapkan role model/agen perubahan dan terbangun budaya kerja anti korupsi?", weight: 1.0, options: ["Belum Ada", "Ada Agen Perubahan Nominatif", "Aktif Berperan & Ada Inovasi Budaya"] }
+                ]
+            },
+            area2: {
+                title: "Area 2: Penataan Tatalaksana",
+                weight: 10,
+                desc: "Meningkatkan efisiensi dan efektivitas sistem, proses kerja, serta pengelolaan tatalaksana di lingkungan unit kerja.",
+                subitems: [
+                    { id: "a2_1", sub: "Prosedur Operasional Tetap (SOP)", desc: "Apakah SOP mengacu pada peta proses bisnis instansi dan diterapkan dengan baik?", weight: 4.0, options: ["SOP Belum Sesuai Peta Bisnis", "Sebagian Diterapkan", "SOP Komprehensif & Diterapkan 100%"] },
+                    { id: "a2_2", sub: "E-Government", desc: "Apakah sistem manajemen pemerintahan berbasis elektronik (SPBE) telah diimplementasikan dalam operasional utama?", weight: 3.0, options: ["Belum Berbasis Elektronik", "Sebagian Terintegrasi", "Penuh Digunakan & Dievaluasi Berkala"] },
+                    { id: "a2_3", sub: "Keterbukaan Informasi Publik", desc: "Apakah unit kerja telah memberikan kemudahan akses informasi publik secara transparan?", weight: 3.0, options: ["Informasi Tertutup", "Kurang Aktif Diperbarui", "Sangat Transparan & Responsif"] }
+                ]
+            },
+            area3: {
+                title: "Area 3: Penataan Sistem Manajemen SDM",
+                weight: 15,
+                desc: "Meningkatkan profesionalisme aparatur sipil negara (ASN) pada unit kerja yang didukung oleh sistem rekrutmen dan promosi yang transparan.",
+                subitems: [
+                    { id: "a3_1", sub: "Perencanaan Kebutuhan Pegawai", desc: "Apakah perencanaan kebutuhan pegawai sudah disusun mengacu pada analisis beban kerja (ABK)?", weight: 3.0, options: ["Tidak Berdasarkan ABK", "Sebagian Sesuai", "Sesuai Peta Jabatan & ABK"] },
+                    { id: "a3_2", sub: "Pola Mutasi Internal", desc: "Apakah mutasi/rotasi pegawai di internal unit kerja dilakukan berdasarkan standar/prosedur yang jelas?", weight: 3.0, options: ["Subyektif / Tidak Transparan", "Prosedur Kurang Konsisten", "Transparan, Terbuka & Berbasis Kinerja"] },
+                    { id: "a3_3", sub: "Pengembangan Pegawai Berbasis Kompetensi", desc: "Apakah unit kerja melakukan upaya pelatihan/pengembangan kompetensi pegawai secara merata?", weight: 4.0, options: ["Tidak Ada Program", "Pelatihan Formal Saja", "Komprehensif (Coaching, Mentoring, Diklat)"] },
+                    { id: "a3_4", sub: "Penegakan Aturan Disiplin, Kode Etik & Perilaku", desc: "Apakah aturan disiplin, kode etik, dan kode perilaku telah diimplementasikan secara konsisten?", weight: 5.0, options: ["Dilanggar / Tidak Ada Pengawasan", "Diterapkan Sebagian", "Konsisten, Sanksi & Reward Jelas"] }
+                ]
+            },
+            area4: {
+                title: "Area 4: Penguatan Akuntabilitas Kinerja",
+                weight: 10,
+                desc: "Meningkatkan kapasitas dan akuntabilitas kinerja instansi pemerintah serta mewujudkan pemerintahan yang bersih dari KKN.",
+                subitems: [
+                    { id: "a4_1", sub: "Keterlibatan Pimpinan", desc: "Apakah pimpinan terlibat secara langsung dalam penyusunan perencanaan kinerja & IKU?", weight: 5.0, options: ["Pimpinan Pasif", "Terlibat Sebagian", "Pimpinan Aktif Memimpin & Cascading Sempurna"] },
+                    { id: "a4_2", sub: "Pengelolaan Akuntabilitas Kinerja", desc: "Apakah dokumen perencanaan, pelaporan kinerja (LAKIP), dan evaluasi berkala telah disusun tepat waktu?", weight: 5.0, options: ["Terlambat / Tidak Valid", "Disusun Tanpa Evaluasi Berkala", "Tepat Waktu, Berkualitas & Ditindaklanjuti"] }
+                ]
+            },
+            area5: {
+                title: "Area 5: Penguatan Pengawasan",
+                weight: 15,
+                desc: "Meningkatkan penyelenggaraan pemerintahan yang bersih dan bebas KKN melalui program pengendalian gratifikasi, SPIP, pengaduan masyarakat, dll.",
+                subitems: [
+                    { id: "a5_1", sub: "Pengendalian Gratifikasi", desc: "Apakah telah diimplementasikan program pengendalian gratifikasi serta sosialisasi anti korupsi?", weight: 3.0, options: ["Tidak Ada Kegiatan", "Sosialisasi Pasif", "Aktif, Ada Unit Pengendali & Public Campaign"] },
+                    { id: "a5_2", sub: "Penerapan SPIP (Sistem Pengendalian Intern Pemerintah)", desc: "Apakah penilaian risiko atas pelaksanaan kegiatan utama telah dilakukan secara berkala?", weight: 4.0, options: ["Tidak Ada Penilaian Risiko", "Dilakukan Formalitas", "Analisis Risiko Lengkap & Mitigasi Efektif"] },
+                    { id: "a5_3", sub: "Pengaduan Masyarakat (WBS & LAPOR!)", desc: "Apakah penanganan pengaduan masyarakat ditindaklanjuti dan dimonitor secara transparan?", weight: 4.0, options: ["Diabaikan / Tidak Ditindaklanjuti", "Tindak Lanjut Lambat", "Responsif, Terintegrasi & Ditindaklanjuti Cepat"] },
+                    { id: "a5_4", sub: "Whistleblowing System (WBS)", desc: "Apakah implementasi WBS berjalan dan memberikan perlindungan bagi pelapor?", weight: 2.0, options: ["Tidak Ada Mekanisme", "Ada tapi Belum Berjalan", "Berjalan Efektif & Ada Proteksi Pelapor"] },
+                    { id: "a5_5", sub: "Penanganan Benturan Kepentingan", desc: "Apakah unit kerja telah mengidentifikasi dan mensosialisasikan penanganan benturan kepentingan?", weight: 2.0, options: ["Tidak Ada Identifikasi", "Identifikasi Sebagian", "Identifikasi Lengkap, Sosialisasi & Mitigasi"] }
+                ]
+            },
+            area6: {
+                title: "Area 6: Peningkatan Kualitas Pelayanan Publik",
+                weight: 45,
+                desc: "Meningkatkan kualitas dan inovasi pelayanan publik yang berorientasi pada kepuasan masyarakat penerima layanan.",
+                subitems: [
+                    { id: "a6_1", sub: "Standar Pelayanan", desc: "Apakah standar pelayanan telah maklumatkan, dipublikasikan, dan disesuaikan dengan kebutuhan pengguna layanan?", weight: 10.0, options: ["Tidak Ada Standar Pelayanan", "Ada tapi Tidak Dipublikasikan", "Maklumat Jelas, Ditetapkan & Dipublikasikan Luas"] },
+                    { id: "a6_2", sub: "Budaya Pelayanan Prima (3S)", desc: "Apakah pelayanan menerapkan budaya prima (Senyum, Sapa, Salam) serta fasilitas ramah kelompok rentan/disabilitas?", weight: 10.0, options: ["Pelayanan Standar / Kaku", "Fasilitas Disabilitas Kurang", "Prima, Ramah Disabilitas & Fasilitas Nyaman"] },
+                    { id: "a6_3", sub: "Penilaian Kepuasan Masyarakat terhadap Pelayanan", desc: "Apakah survei kepuasan masyarakat (SKM) dilakukan secara berkala dan hasilnya dipublikasikan?", weight: 10.0, options: ["Tidak Pernah Survei", "Survei Tidak Berkala / Internal Saja", "Berkala, Transparan Dipublikasikan & Ditindaklanjuti"] },
+                    { id: "a6_4", sub: "Pemanfaatan Teknologi Informasi Pelayanan", desc: "Apakah sistem pelayanan terdigitalisasi untuk mempermudah akses masyarakat?", weight: 10.0, options: ["Manual Konvensional", "Digital Terbatas", "Terintegrasi, Cepat & Mudah Diakses"] },
+                    { id: "a6_5", sub: "Inovasi Pelayanan Publik", desc: "Apakah terdapat inovasi pelayanan yang berdampak langsung menyelesaikan masalah pengguna layanan?", weight: 5.0, options: ["Tidak Ada Inovasi", "Inovasi Administratif Biasa", "Inovasi Berdampak Luas / Replikasi Nasional"] }
+                ]
+            }
+        };
+
+        let currentActiveTab = 'area1';
+        let userResponses = {}; // Menyimpan indeks jawaban pilihan (0, 1, 2) dan link eviden
+
+        // Inisialisasi awal
+        function initApp() {
+            loadSavedData();
+            renderTabContent(currentActiveTab);
+            updateDashboard();
+        }
+
+        function switchTab(tabId) {
+            currentActiveTab = tabId;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-white', 'text-slate-600', 'hover:bg-slate-100', 'border', 'border-slate-200');
+            });
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.classList.remove('bg-white', 'text-slate-600', 'hover:bg-slate-100', 'border', 'border-slate-200');
+            activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+
+            renderTabContent(tabId);
+        }
+
+        function renderTabContent(tabId) {
+            const container = document.getElementById('lke-container');
+            const area = lkeData[tabId];
+
+            let html = `
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 print-shadow">
+                    <div class="border-b border-slate-100 pb-4 mb-6">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                            <h3 class="text-xl font-bold text-slate-900">${area.title}</h3>
+                            <span class="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full border border-indigo-100">
+                                Bobot Area: ${area.weight}%
+                            </span>
+                        </div>
+                        <p class="text-sm text-slate-500 mt-1">${area.desc}</p>
+                    </div>
+
+                    <div class="space-y-6">
+            `;
+
+            area.subitems.forEach((item, index) => {
+                const currentAns = userResponses[item.id] ? userResponses[item.id].ans : 0;
+                const currentLink = userResponses[item.id] ? userResponses[item.id].link : '';
+                
+                // Hitung proporsi nilai berdasarkan pilihan opsi (0 = 0%, 1 = 50%, 2 = 100%)
+                let multiplier = 0;
+                if (currentAns === 1) multiplier = 0.5;
+                if (currentAns === 2) multiplier = 1.0;
+                const subScore = (item.weight * multiplier).toFixed(2);
+
+                html += `
+                    <div class="p-5 bg-slate-50 rounded-xl border border-slate-200/80 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                            <h4 class="font-semibold text-slate-800 text-sm sm:text-base">
+                                <span class="text-blue-600 font-bold mr-1.5">${index + 1}.</span> ${item.sub}
+                            </h4>
+                            <span class="text-xs font-medium px-2.5 py-1 bg-slate-200 text-slate-700 rounded-md">
+                                Bobot Sub: ${item.weight} | Diperoleh: <strong class="text-blue-700">${subScore}</strong>
+                            </span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600">${item.desc}</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                `;
+
+                item.options.forEach((optText, optIdx) => {
+                    const isSelected = currentAns === optIdx;
+                    const btnClass = isSelected 
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm' 
+                        : 'bg-white text-slate-700 hover:bg-slate-100 border-slate-300';
+                    
+                    html += `
+                        <button type="button" onclick="setAnswer('${item.id}', ${optIdx})" class="text-left p-3 text-xs rounded-lg border transition flex flex-col justify-between gap-1 ${btnClass}">
+                            <span class="font-bold opacity-75">Opsi ${optIdx + 1}</span>
+                            <span>${optText}</span>
+                        </button>
+                    `;
+                });
+
+                html += `
+                        </div>
+
+                        <div class="pt-2 flex flex-col sm:flex-row items-center gap-2">
+                            <div class="w-full flex items-center bg-white border border-slate-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500">
+                                <span class="px-3 bg-slate-100 text-slate-500 text-xs font-semibold py-2 border-r border-slate-300 whitespace-nowrap">
+                                    <i class="fa-solid fa-link mr-1"></i> Link Eviden
+                                </span>
+                                <input type="text" id="link_${item.id}" value="${currentLink}" oninput="setLink('${item.id}', this.value)" placeholder="Tempel tautan Google Drive / Dokumen pendukung di sini..." class="w-full px-3 py-2 text-xs focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function setAnswer(itemId, ansIdx) {
+            if (!userResponses[itemId]) {
+                userResponses[itemId] = { ans: 0, link: '' };
+            }
+            userResponses[itemId].ans = ansIdx;
+            renderTabContent(currentActiveTab);
+            updateDashboard();
+        }
+
+        function setLink(itemId, linkVal) {
+            if (!userResponses[itemId]) {
+                userResponses[itemId] = { ans: 0, link: '' };
+            }
+            userResponses[itemId].link = linkVal;
+        }
+
+        function calculateScores() {
+            let totalScore = 0;
+            let answeredCount = 0;
+            let totalSubitems = 0;
+
+            for (let areaKey in lkeData) {
+                lkeData[areaKey].subitems.forEach(item => {
+                    totalSubitems++;
+                    if (userResponses[item.id] !== undefined) {
+                        if (userResponses[item.id].ans > 0 || userResponses[item.id].link.trim() !== '') {
+                            answeredCount++;
+                        }
+                        let mult = 0;
+                        if (userResponses[item.id].ans === 1) mult = 0.5;
+                        if (userResponses[item.id].ans === 2) mult = 1.0;
+                        totalScore += item.weight * mult;
+                    }
+                });
+            }
+
+            let progressPercent = totalSubitems > 0 ? Math.round((answeredCount / totalSubitems) * 100) : 0;
+            return { totalScore, progressPercent };
+        }
+
+        function updateDashboard() {
+            const { totalScore, progressPercent } = calculateScores();
+
+            document.getElementById('total-score').innerHTML = `${totalScore.toFixed(2)} <span class="text-sm font-medium text-slate-400">/ 100</span>`;
+            document.getElementById('total-progress-text').innerText = `${progressPercent}%`;
+            document.getElementById('total-progress-bar').style.width = `${progressPercent}%`;
+
+            const wbkStatusEl = document.getElementById('wbk-status');
+            if (totalScore >= 75 && progressPercent >= 80) {
+                wbkStatusEl.className = "text-lg font-bold text-emerald-600 mt-2 flex items-center gap-2";
+                wbkStatusEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> Layak Diusulkan WBK`;
+            } else if (totalScore >= 60) {
+                wbkStatusEl.className = "text-lg font-bold text-blue-600 mt-2 flex items-center gap-2";
+                wbkStatusEl.innerHTML = `<i class="fa-solid fa-spinner"></i> Tahap Peningkatan`;
+            } else {
+                wbkStatusEl.className = "text-lg font-bold text-amber-600 mt-2 flex items-center gap-2";
+                wbkStatusEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Belum Memenuhi`;
+            }
+        }
+
+        function saveData() {
+            const unitName = document.getElementById('unit-kerja-name').value;
+            const dataToSave = {
+                unitName: unitName,
+                responses: userResponses
+            };
+            localStorage.setItem('lke_wbk_data', JSON.stringify(dataToSave));
+            alert('Progress lembar kerja berhasil disimpan di browser lokal!');
+        }
+
+        function loadSavedData() {
+            const saved = localStorage.getItem('lke_wbk_data');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.unitName) {
+                        document.getElementById('unit-kerja-name').value = parsed.unitName;
+                    }
+                    if (parsed.responses) {
+                        userResponses = parsed.responses;
+                    }
+                } catch (e) {
+                    console.error("Gagal memuat data tersimpan", e);
+                }
+            }
+        }
+
+        function resetData() {
+            if (confirm('Apakah Anda yakin ingin mereset seluruh pengisian lembar kerja?')) {
+                localStorage.removeItem('lke_wbk_data');
+                userResponses = {};
+                document.getElementById('unit-kerja-name').value = '';
+                renderTabContent(currentActiveTab);
+                updateDashboard();
+            }
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>

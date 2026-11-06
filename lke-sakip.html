@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lembar Kerja Evaluasi (LKE) SAKIP Digital</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media print {
+            body { background: white !important; color: black !important; }
+            .no-print { display: none !important; }
+            .print-shadow { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+            input, textarea { border: none !important; background: transparent !important; resize: none; padding: 0 !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Top Navigation / Header -->
+    <header class="bg-slate-900 text-white shadow-md sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white">
+                    <i class="fa-solid fa-file-shield text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold tracking-tight">LKE SAKIP DIGITAL</h1>
+                    <p class="text-xs text-slate-400">PermenPANRB No. 88 Tahun 2021 & Standar Pemutakhiran</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center space-x-1.5 transition border border-slate-700">
+                    <i class="fa-solid fa-print"></i>
+                    <span class="hidden sm:inline">Cetak / PDF</span>
+                </button>
+                <button onclick="exportData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-medium flex items-center space-x-1.5 transition shadow-sm">
+                    <i class="fa-solid fa-download"></i>
+                    <span class="hidden sm:inline">Ekspor JSON</span>
+                </button>
+                <button onclick="resetForm()" class="bg-rose-900/40 hover:bg-rose-900/70 text-rose-300 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center space-x-1.5 transition border border-rose-800/50">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- Intro / Identity Section -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8 print-shadow">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+                <div>
+                    <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 mb-2">
+                        <i class="fa-solid fa-circle-info"></i> Lembar Kerja Evaluasi Akuntabilitas Kinerja
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Evaluasi Internal SAKIP Instansi Pemerintah</h2>
+                    <p class="text-sm text-slate-500 mt-1">Lengkapi instrumen penilaian di bawah ini sesuai dengan bukti dukung (kertas kerja) yang valid.</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/80 min-w-[280px]">
+                    <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-1">Status Penilaian Saat Ini</div>
+                    <div class="flex items-baseline justify-between">
+                        <span id="badge-predikat" class="px-2.5 py-0.5 rounded text-sm font-bold bg-slate-200 text-slate-700">Belum Dinilai</span>
+                        <span class="text-2xl font-black text-indigo-600"><span id="total-score-display">0.00</span> <span class="text-xs font-normal text-slate-500">/ 100</span></span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-2 mt-3 overflow-hidden">
+                        <div id="progress-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Instansi -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Instansi / Perangkat Daerah</label>
+                    <input type="text" id="instansi-nama" placeholder="Contoh: Pemerintah Kabupaten X" class="w-full text-sm rounded-lg border border-slate-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Tahun Evaluasi</label>
+                    <select id="instansi-tahun" class="w-full text-sm rounded-lg border border-slate-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Tim Evaluator / Assesor</label>
+                    <input type="text" id="instansi-evaluator" placeholder="Contoh: Inspektorat Daerah" class="w-full text-sm rounded-lg border border-slate-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+            </div>
+        </section>
+
+        <!-- Components Navigation Tabs (Quick Jump) -->
+        <div class="flex overflow-x-auto pb-2 mb-6 gap-2 no-print scrollbar-none">
+            <a href="#comp-1" class="px-4 py-2 bg-white hover:bg-indigo-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">1. Perencanaan (30%)</a>
+            <a href="#comp-2" class="px-4 py-2 bg-white hover:bg-indigo-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">2. Pengukuran (25%)</a>
+            <a href="#comp-3" class="px-4 py-2 bg-white hover:bg-indigo-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">3. Pelaporan (15%)</a>
+            <a href="#comp-4" class="px-4 py-2 bg-white hover:bg-indigo-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">4. Evaluasi Internal (10%)</a>
+            <a href="#comp-5" class="px-4 py-2 bg-white hover:bg-indigo-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">5. Capaian Kinerja (20%)</a>
+        </div>
+
+        <!-- Evaluation Components Container -->
+        <div id="evaluation-form" class="space-y-8">
+            
+            <!-- KOMPONEN 1: Perencanaan Kinerja (Bobot 30%) -->
+            <div id="comp-1" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden print-shadow">
+                <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-indigo-600/50 text-indigo-200 px-2.5 py-1 rounded-md text-xs font-bold">Komponen 1</div>
+                        <h3 class="font-bold text-base sm:text-lg">Perencanaan Kinerja</h3>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400">Bobot: 30% | Nilai: <span id="score-comp-1" class="text-indigo-400 font-bold">0.00</span></span>
+                    </div>
+                </div>
+                <div class="p-6 space-y-6">
+                    <p class="text-sm text-slate-600">Menilai kualitas dokumen perencanaan strategis (Renstra), cascading kinerja, Indikator Kinerja Utama (IKU), hingga Rencana Kinerja Tahunan (RKT) dan Perjanjian Kinerja (PK).</p>
+                    
+                    <div class="space-y-4">
+                        <!-- Sub item 1.1 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex-1">
+                                    <div class="text-xs font-bold text-indigo-600 mb-1">Sub-Kriteria 1.1</div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Kualitas Dokumen Rencana Strategis (Renstra) & Cascading Kinerja</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Pohon kinerja atau cascading logis dari level strategis hingga operasional, memastikan selarasnya sasaran perangkat daerah.</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="text-right">
+                                        <label class="block text-[10px] text-slate-500 font-medium">Nilai Diperoleh (0 - 100)</label>
+                                        <input type="number" min="0" max="100" value="0" data-weight="0.15" data-comp="1" oninput="calculateScores()" class="score-input w-24 text-center text-sm font-bold rounded-lg border border-slate-300 py-1.5 focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-slate-200/60">
+                                <input type="text" placeholder="Catatan Evaluator & Referensi Bukti Dukung (Kertas Kerja)..." class="w-full text-xs bg-white rounded border border-slate-200 px-3 py-1.5 text-slate-700">
+                            </div>
+                        </div>
+
+                        <!-- Sub item 1.2 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex-1">
+                                    <div class="text-xs font-bold text-indigo-600 mb-1">Sub-Kriteria 1.2</div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Kualitas Penetapan IKU & Perjanjian Kinerja (PK)</h4>
+                                    <p class="text-xs text-slate-500 mt-1">IKU memenuhi kriteria SMART (Specific, Measurable, Achievable, Relevant, Time-bound) dan PK disusun secara berjenjang.</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="text-right">
+                                        <label class="block text-[10px] text-slate-500 font-medium">Nilai Diperoleh (0 - 100)</label>
+                                        <input type="number" min="0" max="100" value="0" data-weight="0.15" data-comp="1" oninput="calculateScores()" class="score-input w-24 text-center text-sm font-bold rounded-lg border border-slate-300 py-1.5 focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-slate-200/60">
+                                <input type="text" placeholder="Catatan Evaluator & Referensi Bukti Dukung (Kertas Kerja)..." class="w-full text-xs bg-white rounded border border-slate-200 px-3 py-1.5 text-slate-700">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOMPONEN 2: Pengukuran Kinerja (Bobot 25%) -->
+            <div id="comp-2" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden print-shadow">
+                <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-indigo-600/50 text-indigo-200 px-2.5 py-1 rounded-md text-xs font-bold">Komponen 2</div>
+                        <h3 class="font-bold text-base sm:text-lg">Pengukuran Kinerja</h3>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400">Bobot: 25% | Nilai: <span id="score-comp-2" class="text-indigo-400 font-bold">0.00</span></span>
+                    </div>
+                </div>
+                <div class="p-6 space-y-6">
+                    <p class="text-sm text-slate-600">Menilai konsistensi pelaksanaan pengukuran kinerja berkala, pengumpulan data kinerja, serta pemanfaatan teknologi informasi/sistem informasi kinerja.</p>
+                    
+                    <div class="space-y-4">
+                        <!-- Sub item 2.1 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex-1">
+                                    <div class="text-xs font-bold text-indigo-600 mb-1">Sub-Kriteria 2.1</div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Implementasi Pengukuran Kinerja Berkala</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Pengukuran kinerja dilakukan secara berkala (bulanan/triwulanan) serta mekanisme reviu internal terhadap data capaian.</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="text-right">
+                                        <label class="block text-[10px] text-slate-500 font-medium">Nilai Diperoleh (0 - 100)</label>
+                                        <input type="number" min="0" max="100" value="0" data-weight="0.125" data-comp="2" oninput="calculateScores()" class="score-input w-24 text-center text-sm font-bold rounded-lg border border-slate-300 py-1.5 focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-slate-200/60">
+                                <input type="text" placeholder="Catatan Evaluator & Referensi Bukti Dukung (Kertas Kerja)..." class="w-full text-xs bg-white rounded border border-slate-200 px-3 py-1.5 text-slate-700">
+                            </div>
+                        </div>
+
+                        <!-- Sub item 2.2 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex-1">
+                                    <div class="text-xs font-bold text-indigo-600 mb-1">Sub-Kriteria 2.2</div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Keandalan Sistem & Mekanisme Pengumpulan Data Kinerja</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Ketersediaan kamus indikator kinerja, validitas sumber data, serta penggunaan aplikasi e-Kinerja/Dashboard terintegrasi.</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="text-right">
+                                        <label class="block text-[10px] text-slate-500 font-medium">Nilai Diperoleh (0 - 100)</label>
+                                        <input type="number" min="0" max="100" value="0" data-weight="0.125" data-comp="2" oninput="calculateScores()" class="score-input w-24 text-center text-sm font-bold rounded-lg border border-slate-300 py-1.5 focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-slate-200/60">
+                                <input type="text" placeholder="Catatan Evaluator & Referensi Bukti Dukung (Kertas Kerja)..." class="w-full text-xs bg-white rounded border border-slate-200 px-3 py-1.5 text-slate-700">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOMPONEN 3: Pelaporan Kinerja (Bobot 15%) -->
+            <div id="comp-3" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden print-shadow">
+                <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-indigo-600/50 text-indigo-200 px-2.5 py-1 rounded-md text-xs font-bold">Komponen 3</div>
+                        <h3 class="font-bold text-base sm:text-lg">Pelaporan Kinerja</h3>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400">Bobot: 15% | Nilai: <span id="score-comp-3" class="text-indigo-400 font-bold">0.00</span></span>
+                    </div>
+                </div>
+                <div class="p-6 space-y-6">
+                    <p class="text-sm text-slate-600">Menilai ketepatan waktu penyampaian Laporan Kinerja Instansi Pemerintah (LKjIP), kualitas analisis capaian, serta transparansi pelaporan.</p>
+                    
+                    <div class="space-y-4">
+                        <!-- Sub item 3.1 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex-1">
+                                    <div class="text-xs font-bold text-indigo-600 mb-1">Sub-Kriteria 3.1</div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Ketepatan Waktu & Penyajian LKjIP</h4>
+                                    <p class="text-xs text-slate-500 mt-1">LKjIP disampaikan tepat waktu sesuai ketentuan serta disajikan secara lengkap memuat analisis pencapaian sasaran.</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="text-right">
+                                        <label class="block text-[10px] text-slate-500 font-medium">Nilai Diperoleh (0 - 100)</label>
+                                        <input type="number" min="0" max="100" value="0" data-weight="0.15" data-comp="3" oninput="calculateScores()" class="score-input w-24 text-center text-sm font-bold rounded-lg border border-slate-300 py-1.5 focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-slate-200/60">
+                                <input type="text" placeholder="Catatan Evaluator & Referensi Bukti Dukung (Kertas Kerja)..." class="w-full text-xs bg-white rounded border border-slate-200 px-3 py-1.5 text-slate-700">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOMPONEN 4: Evaluasi Akuntabilitas Kinerja Internal (Bobot 10%) -->
+            <div id="comp-4" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden print-shadow">
+                <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-indigo-600/50 text-indigo-200 px-2.5 py-1 rounded-md text-xs font-bold">Komponen 4</div>
+                        <h3 class="font-bold text-base sm:text-lg">Evaluasi Akuntabilitas Kinerja Internal</h3>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400">Bobot: 10% | Nilai: <span id="score-comp-4" class="text-indigo-400 font-bold">0.00</span></span>
+                    </div>
+                </div>
+                <div class="p-6 space-y-6">
+                    <p class="text-sm text-slate-600">Menilai pelaksanaan evaluasi internal oleh Aparat Pengawas Intern Pemerintah (APIP) atau tim penilai internal terhadap unit kerja di bawahnya.</p>
+                    
+                    <div class="space-y-4">
+                        <!-- Sub item 4.1 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex-1">
+                                    <div class="text-xs font-bold text-indigo-600 mb-1">Sub-Kriteria 4.1</div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Kualitas Pelaksanaan Evaluasi & Tindak Lanjut Rekomendasi</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Inspektorat/APIP melaksanakan evaluasi SAKIP internal secara objektif serta pemantauan tindak lanjut hasil rekomendasi.</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="text-right">
+                                        <label class="block text-[10px] text-slate-500 font-medium">Nilai Diperoleh (0 - 100)</label>
+                                        <input type="number" min="0" max="100" value="0" data-weight="0.10" data-comp="4" oninput="calculateScores()" class="score-input w-24 text-center text-sm font-bold rounded-lg border border-slate-300 py-1.5 focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-slate-200/60">
+                                <input type="text" placeholder="Catatan Evaluator & Referensi Bukti Dukung (Kertas Kerja)..." class="w-full text-xs bg-white rounded border border-slate-200 px-3 py-1.5 text-slate-700">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOMPONEN 5: Capaian Kinerja / Akuntabilitas Hasil (Bobot 20%) -->
+            <div id="comp-5" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden print-shadow">
+                <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-indigo-600/50 text-indigo-200 px-2.5 py-1 rounded-md text-xs font-bold">Komponen 5</div>
+                        <h3 class="font-bold text-base sm:text-lg">Capaian Kinerja / Akuntabilitas Hasil</h3>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400">Bobot: 20% | Nilai: <span id="score-comp-5" class="text-indigo-400 font-bold">0.00</span></span>
+                    </div>
+                </div>
+                <div class="p-6 space-y-6">
+                    <p class="text-sm text-slate-600">Menilai sejauh mana keberhasilan instansi dalam mencapai target kinerja utama, outcome program strategis, serta efisiensi anggaran.</p>
+                    
+                    <div class="space-y-4">
+                        <!-- Sub item 5.1 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex-1">
+                                    <div class="text-xs font-bold text-indigo-600 mb-1">Sub-Kriteria 5.1</div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Realisasi Pencapaian Sasaran Strategis & Outcome</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Persentase keberhasilan pencapaian IKU dan sasaran strategis daerah dibandingkan target yang ditetapkan dalam perjanjian kinerja.</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="text-right">
+                                        <label class="block text-[10px] text-slate-500 font-medium">Nilai Diperoleh (0 - 100)</label>
+                                        <input type="number" min="0" max="100" value="0" data-weight="0.20" data-comp="5" oninput="calculateScores()" class="score-input w-24 text-center text-sm font-bold rounded-lg border border-slate-300 py-1.5 focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-slate-200/60">
+                                <input type="text" placeholder="Catatan Evaluator & Referensi Bukti Dukung (Kertas Kerja)..." class="w-full text-xs bg-white rounded border border-slate-200 px-3 py-1.5 text-slate-700">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Rekapitulasi & Kesimpulan Section -->
+        <section class="mt-8 bg-indigo-900 text-white rounded-2xl shadow-xl p-6 sm:p-8 print-shadow">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+                <div>
+                    <h3 class="text-lg font-bold">Kesimpulan & Kategori Nilai SAKIP</h3>
+                    <p class="text-xs text-indigo-200 mt-1">Berdasarkan akumulasi bobot kelima komponen evaluasi kinerja instansi pemerintah.</p>
+                </div>
+                <div class="flex items-center gap-6 bg-indigo-950/60 p-4 rounded-xl border border-indigo-700/50 w-full lg:w-auto justify-around">
+                    <div class="text-center px-4">
+                        <div class="text-xs text-indigo-300 mb-1">Total Nilai Akhir</div>
+                        <div class="text-3xl font-black text-white"><span id="final-score-val">0.00</span></div>
+                    </div>
+                    <div class="h-10 w-px bg-indigo-800"></div>
+                    <div class="text-center px-4">
+                        <div class="text-xs text-indigo-300 mb-1">Predikat / Kategori</div>
+                        <div id="final-predikat-val" class="text-lg font-bold px-3 py-0.5 rounded bg-indigo-600 text-white shadow">Belum Dinilai</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-6 border-t border-indigo-800/80 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-indigo-200">
+                <div><strong>AA (Sangat Memuaskan):</strong> 90 - 100</div>
+                <div><strong>A (Memuaskan):</strong> 80 - <90</div>
+                <div><strong>BB (Sangat Baik):</strong> 70 - <80</div>
+                <div><strong>B (Baik):</strong> 60 - <70</div>
+                <div><strong>CC (Cukup):</strong> 50 - <60</div>
+                <div><strong>C (Kurang):</strong> 30 - <50</div>
+                <div><strong>D (Sangat Kurang):</strong> <30</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500 no-print">
+        <p>Aplikasi Lembar Kerja Evaluasi SAKIP Digital &copy; 2026 &bull; Mengacu pada PermenPANRB No. 88 Tahun 2021</p>
+    </footer>
+
+    <!-- Interactive Calculation Script -->
+    <script>
+        function calculateScores() {
+            const inputs = document.querySelectorAll('.score-input');
+            
+            let compScores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+            let compTotals = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+            
+            inputs.forEach(input => {
+                let comp = input.getAttribute('data-comp');
+                let weight = parseFloat(input.getAttribute('data-weight'));
+                let val = parseFloat(input.value) || 0;
+                
+                // Limit range 0 - 100
+                if(val > 100) val = 100;
+                if(val < 0) val = 0;
+                
+                compScores[comp] += val * weight;
+            });
+
+            // Update individual component displays
+            for(let i=1; i<=5; i++) {
+                document.getElementById(`score-comp-${i}`).innerText = compScores[i].toFixed(2);
+            }
+
+            // Calculate final total score (Sum of all component weights)
+            // Component weights in formula: C1 (0.30), C2 (0.25), C3 (0.15), C4 (0.10), C5 (0.20)
+            // Since sub-weights sum up to component weights:
+            // C1 subweights are 0.15 + 0.15 = 0.30 component weight multiplier -> actually direct score sum is already scaled if weights equal comp weight.
+            // Let's ensure exact calculation:
+            // Input weights here are proportions within components, let's normalize or map correctly:
+            // C1: sub1 (weight 0.15 relative to total 0.30? Let's check: 
+            // Standard SAKIP: Perencanaan (30%), Pengukuran (25%), Pelaporan (15%), Evaluasi Internal (10%), Capaian Kinerja (20%).
+            // Let's calculate precise weighted score:
+            
+            let totalFinalScore = 
+                (compScores[1]) + 
+                (compScores[2]) + 
+                (compScores[3]) + 
+                (compScores[4]) + 
+                (compScores[5]);
+
+            document.getElementById('total-score-display').innerText = totalFinalScore.toFixed(2);
+            document.getElementById('final-score-val').innerText = totalFinalScore.toFixed(2);
+            document.getElementById('progress-bar').style.width = totalFinalScore + '%';
+
+            // Determine Predikat
+            let predikatText = "Belum Dinilai";
+            let predikatClass = "bg-slate-200 text-slate-700";
+
+            if (totalFinalScore > 0 || document.querySelector('.score-input').value !== "") {
+                if (totalFinalScore >= 90) { predikatText = "AA (Sangat Memuaskan)"; predikatClass = "bg-emerald-600 text-white"; }
+                else if (totalFinalScore >= 80) { predikatText = "A (Memuaskan)"; predikatClass = "bg-teal-600 text-white"; }
+                else if (totalFinalScore >= 70) { predikatText = "BB (Sangat Baik)"; predikatClass = "bg-blue-600 text-white"; }
+                else if (totalFinalScore >= 60) { predikatText = "B (Baik)"; predikatClass = "bg-indigo-600 text-white"; }
+                else if (totalFinalScore >= 50) { predikatText = "CC (Cukup)"; predikatClass = "bg-amber-500 text-white"; }
+                else if (totalFinalScore >= 30) { predikatText = "C (Kurang)"; predikatClass = "bg-orange-600 text-white"; }
+                else { predikatText = "D (Sangat Kurang)"; predikatClass = "bg-rose-600 text-white"; }
+            }
+
+            const badgeElem = document.getElementById('badge-predikat');
+            badgeElem.innerText = predikatText;
+            badgeElem.className = `px-2.5 py-0.5 rounded text-xs font-bold ${predikatClass}`;
+
+            const finalPredElem = document.getElementById('final-predikat-val');
+            finalPredElem.innerText = predikatText;
+            finalPredElem.className = `text-base sm:text-lg font-bold px-3 py-1 rounded shadow ${predikatClass}`;
+        }
+
+        function resetForm() {
+            if(confirm("Apakah Anda yakin ingin mereset seluruh nilai pada lembar kerja?")) {
+                document.querySelectorAll('.score-input').forEach(input => input.value = 0);
+                document.getElementById('instansi-nama').value = "";
+                document.getElementById('instansi-evaluator').value = "";
+                calculateScores();
+            }
+        }
+
+        function exportData() {
+            const data = {
+                instansi: document.getElementById('instansi-nama').value,
+                tahun: document.getElementById('instansi-tahun').value,
+                evaluator: document.getElementById('instansi-evaluator').value,
+                totalScore: document.getElementById('final-score-val').innerText,
+                predikat: document.getElementById('final-predikat-val').innerText,
+                timestamp: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `LKE_SAKIP_${data.instansi || 'Instansi'}_${data.tahun}.json`;
+            a.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lembar Kerja Evaluasi Keterbukaan Informasi Publik (Monev KIP)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#0284c7',
+                        accent: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .print-shadow { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Header / Navbar Modern -->
+    <header class="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white shadow-lg sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 p-2.5 rounded-xl shadow-inner text-amber-400 text-2xl">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">EVALUASI KIP MANDIRI</h1>
+                    <p class="text-xs text-blue-200">Berdasarkan UU No. 14 Tahun 2008 & PerKI No. 1 Tahun 2022</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="resetForm()" class="px-4 py-2 text-xs font-semibold bg-slate-700/60 hover:bg-slate-700 text-slate-200 rounded-lg transition border border-slate-600 flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Reset Form
+                </button>
+                <button onclick="window.print()" class="px-4 py-2 text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-lg transition shadow-md flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i> Cetak / PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
+
+        <!-- Card Informasi Badan Publik -->
+        <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-shadow">
+            <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2 border-b pb-3">
+                <i class="fa-solid fa-building-columns text-blue-800"></i> Identitas Badan Publik & Evaluator
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Nama Badan Publik</label>
+                    <input type="text" id="bp-nama" placeholder="Contoh: Badan Publik / SKPD / Instansi" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tim Penilai / Evaluator</label>
+                    <input type="text" id="bp-evaluator" placeholder="Nama / Tim Monev Internal" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tahun Penilaian</label>
+                    <input type="text" id="bp-tahun" value="2026" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Statistik / Skor Real-Time -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Skor Akhir</p>
+                    <h3 id="score-total" class="text-3xl font-extrabold text-blue-900 mt-1">0.00</h3>
+                </div>
+                <div class="w-12 h-12 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Klasifikasi Kualifikasi</p>
+                    <h3 id="score-kualifikasi" class="text-lg font-bold text-slate-700 mt-1">-</h3>
+                </div>
+                <div id="badge-icon" class="w-12 h-12 bg-slate-100 text-slate-500 rounded-xl flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Item Terpenuhi</p>
+                    <h3 id="score-completed" class="text-2xl font-bold text-emerald-600 mt-1">0 / 12</h3>
+                </div>
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Progres Evaluasi</p>
+                    <h3 id="score-progress" class="text-2xl font-bold text-indigo-600 mt-1">0%</h3>
+                </div>
+                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-spinner"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lembar Instrumen Penilaian -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden print-shadow">
+            <div class="p-6 border-b border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-base font-bold text-slate-900">Instrumen Kuesioner & Verifikasi Dokumen (SAQ)</h2>
+                    <p class="text-xs text-slate-500">Beri tanda pilihan pada kondisi penerapan keterbukaan informasi publik di instansi Anda.</p>
+                </div>
+                <!-- Filter Kategori -->
+                <div class="flex flex-wrap gap-2 no-print" id="filter-container">
+                    <button onclick="filterCategory('all')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-900 text-white transition filter-btn active" data-filter="all">Semua</button>
+                    <button onclick="filterCategory('berkala')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition filter-btn" data-filter="berkala">Berkala</button>
+                    <button onclick="filterCategory('serta-merta')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition filter-btn" data-filter="serta-merta">Serta-Merta</button>
+                    <button onclick="filterCategory('setiap-saat')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition filter-btn" data-filter="setiap-saat">Setiap Saat</button>
+                    <button onclick="filterCategory('kelembagaan')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition filter-btn" data-filter="kelembagaan">Kelembagaan & SOP</button>
+                </div>
+            </div>
+
+            <!-- Tabel Evaluasi -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
+                            <th class="py-3 px-4 w-12 text-center">No</th>
+                            <th class="py-3 px-4">Aspek & Indikator Penilaian (Berdasarkan UU 14/2008 & PerKI 1/2022)</th>
+                            <th class="py-3 px-4 w-32 text-center">Kategori</th>
+                            <th class="py-3 px-4 w-48 text-center">Status Pemenuhan</th>
+                            <th class="py-3 px-4 w-64">Tautan Bukti Dukung (URL) / Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eval-table-body" class="divide-y divide-slate-200 text-sm">
+                        <!-- Data Baris Dimuat Dinamis via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Bagian Catatan & Kesimpulan Rekomendasi -->
+        <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-shadow grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h3 class="text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-notes-medical text-blue-800"></i> Catatan & Permasalahan Lapangan
+                </h3>
+                <textarea id="catatan-evaluasi" rows="4" placeholder="Tuliskan kendala, hambatan, atau catatan khusus terkait pelaksanaan layanan informasi publik..." class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none"></textarea>
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-lightbulb text-amber-500"></i> Rencana Tindak Lanjut (Action Plan)
+                </h3>
+                <textarea id="tindak-lanjut" rows="4" placeholder="Tuliskan rekomendasi perbaikan, pemutakhiran data web PPID, atau penyusunan SOP lanjutan..." class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none"></textarea>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 mt-12 border-t border-slate-800 no-print">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p>Lembar Kerja Mandiri Monitoring & Evaluasi Keterbukaan Informasi Publik (Monev KIP)</p>
+            <p class="text-slate-500">Standar Kepatuhan Badan Publik sesuai UU No. 14 Tahun 2008 & PerKI No. 1 Tahun 2022.</p>
+        </div>
+    </footer>
+
+    <!-- Skrip Interaktif & Kalkulasi Skor -->
+    <script>
+        const evalData = [
+            {
+                id: 1,
+                category: 'berkala',
+                title: 'Pengumuman Profil Badan Publik & LHKPN',
+                desc: 'Menyediakan profil singkat, struktur organisasi, tugas fungsi, serta pengumuman LHKPN pimpinan/pejabat wajib Lapor melalui website resmi.'
+            },
+            {
+                id: 2,
+                category: 'berkala',
+                title: 'Ringkasan Laporan Layanan Informasi Publik',
+                desc: 'Menyediakan statistik jumlah permohonan informasi, waktu pemenuhan, permohonan yang dikabulkan/ditolak, dan alasan penolakan.'
+            },
+            {
+                id: 3,
+                category: 'berkala',
+                title: 'Daftar Informasi Publik (DIP) & Mutakhiran',
+                desc: 'Memiliki dan mengumumkan Daftar Informasi Publik (DIP) yang dapat diakses dengan mudah secara online serta dimutakhirkan secara berkala.'
+            },
+            {
+                id: 4,
+                category: 'berkala',
+                title: 'Laporan Keuangan & Kinerja (LAKIP / BPK)',
+                desc: 'Menyediakan Laporan Kinerja Instansi Pemerintah (LAKIP) dan Ringkasan Laporan Keuangan yang telah diaudit instansi berwenang.'
+            },
+            {
+                id: 5,
+                category: 'serta-merta',
+                title: 'Informasi Potensi Bencana & Darurat',
+                desc: 'Menyediakan mekanisme dan pengumuman cepat terkait informasi yang dapat mengancam hajat hidup orang banyak dan ketertiban umum.'
+            },
+            {
+                id: 6,
+                category: 'serta-merta',
+                title: 'Pengumuman Kebijakan Darurat / Pandemi',
+                desc: 'Ketersediaan sarana informasi cepat tanggap darurat yang terhubung langsung dengan kanal komunikasi resmi badan publik.'
+            },
+            {
+                id: 7,
+                category: 'setiap-saat',
+                title: 'Peraturan, Keputusan, & Kebijakan Pimpinan',
+                desc: 'Menyediakan database peraturan, keputusan, atau kebijakan setingkat pimpinan badan publik yang transparan dan mudah diunduh.'
+            },
+            {
+                id: 8,
+                category: 'setiap-saat',
+                title: 'Perjanjian Kerja Sama / Pengadaan Barang & Jasa',
+                desc: 'Informasi mengenai dokumen pengadaan barang dan jasa (PBJ) serta perjanjian kerja sama dengan pihak ketiga sesuai aturan perundangan.'
+            },
+            {
+                id: 9,
+                category: 'setiap-saat',
+                title: 'Daftar Informasi yang Dikecualikan',
+                desc: 'Memiliki penetapan resmi uji konsekuensi atas daftar informasi yang dikecualikan berdasarkan Pasal 17 UU No. 14 Tahun 2008.'
+            },
+            {
+                id: 10,
+                category: 'kelembagaan',
+                title: 'Kelembagaan PPID & SK Pengurus',
+                desc: 'SK Penunjukan Pejabat Pengelola Informasi dan Dokumentasi (PPID) beserta struktur layanan informasi yang jelas dan aktif.'
+            },
+            {
+                id: 11,
+                category: 'kelembagaan',
+                title: 'Standar Operasional Prosedur (SOP Layanan)',
+                desc: 'Memiliki SOP lengkap meliputi permohonan informasi, keberatan, uji konsekuensi, penanganan sengketa, dan pendokumentasian.'
+            },
+            {
+                id: 12,
+                category: 'kelembagaan',
+                title: 'Sarana & Prasarana Pelayanan Informasi',
+                desc: 'Ketersediaan meja layanan informasi fisik (desk), fasilitas akses bagi penyandang disabilitas, serta kanal pelayanan online.'
+            }
+        ];
+
+        let userResponses = {};
+
+        function renderTable(filter = 'all') {
+            const tbody = document.getElementById('eval-table-body');
+            tbody.innerHTML = '';
+
+            const filteredData = filter === 'all' ? evalData : evalData.filter(item => item.category === filter);
+
+            filteredData.forEach((item, index) => {
+                const currentVal = userResponses[item.id] !== undefined ? userResponses[item.id] : 0;
+                const currentLink = userResponses['link_' + item.id] || '';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/80 transition border-b border-slate-100';
+                tr.innerHTML = `
+                    <td class="py-4 px-4 text-center font-semibold text-slate-500 text-xs">${item.id}</td>
+                    <td class="py-4 px-4">
+                        <div class="font-bold text-slate-900 text-sm">${item.title}</div>
+                        <div class="text-xs text-slate-500 mt-0.5 leading-relaxed">${item.desc}</div>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                        <span class="inline-block px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide rounded-full 
+                            ${item.category === 'berkala' ? 'bg-blue-50 text-blue-700' : 
+                              item.category === 'serta-merta' ? 'bg-amber-50 text-amber-700' : 
+                              item.category === 'setiap-saat' ? 'bg-emerald-50 text-emerald-700' : 'bg-purple-50 text-purple-700'}">
+                            ${item.category.replace('-', ' ')}
+                        </span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                        <select onchange="updateScore(${item.id}, this.value)" class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-blue-600 focus:outline-none font-semibold">
+                            <option value="0" ${currentVal == 0 ? 'selected' : ''}>❌ Belum (0)</option>
+                            <option value="0.5" ${currentVal == 0.5 ? 'selected' : ''}>⚠️ Kurang/Sebagian (0.5)</option>
+                            <option value="1" ${currentVal == 1 ? 'selected' : ''}>✅ Terpenuhi (1.0)</option>
+                        </select>
+                    </td>
+                    <td class="py-4 px-4">
+                        <input type="text" value="${currentLink}" placeholder="https://... atau catatan singkat" oninput="updateLink(${item.id}, this.value)" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateScore(id, val) {
+            userResponses[id] = parseFloat(val);
+            calculateSummary();
+        }
+
+        function updateLink(id, val) {
+            userResponses['link_' + id] = val;
+        }
+
+        function calculateSummary() {
+            let totalScore = 0;
+            let completedCount = 0;
+            let answeredCount = 0;
+
+            evalData.forEach(item => {
+                const val = userResponses[item.id] !== undefined ? userResponses[item.id] : 0;
+                totalScore += val;
+                if (val === 1) completedCount++;
+                if (userResponses[item.id] !== undefined) answeredCount++;
+            });
+
+            // Maksimal skor ideal adalah 12 (karena ada 12 indikator, nilai maks per indikator 1. Skala akhir dijadikan 100)
+            const finalPercentage = (totalScore / evalData.length) * 100;
+
+            document.getElementById('score-total').innerText = finalPercentage.toFixed(1);
+            document.getElementById('score-completed').innerText = `${completedCount} / ${evalData.length}`;
+            
+            const progressPercent = Math.round((Object.keys(userResponses).filter(k => !k.startsWith('link_')).length / evalData.length) * 100);
+            document.getElementById('score-progress').innerText = `${Math.min(progressPercent, 100)}%`;
+
+            // Kualifikasi Badan Publik berdasarkan standar umum Monev KIP
+            let kualifikasi = "Belum Dinilai";
+            let badgeColor = "bg-slate-100 text-slate-500";
+            let iconClass = "fa-solid fa-award";
+
+            if (finalPercentage >= 90) {
+                kualifikasi = "Informatif";
+                badgeColor = "bg-emerald-100 text-emerald-800";
+                iconClass = "fa-solid fa-circle-check text-emerald-600";
+            } else if (finalPercentage >= 80) {
+                kualifikasi = "Menuju Informatif";
+                badgeColor = "bg-blue-100 text-blue-800";
+                iconClass = "fa-solid fa-star text-blue-600";
+            } else if (finalPercentage >= 60) {
+                kualifikasi = "Cukup Informatif";
+                badgeColor = "bg-amber-100 text-amber-800";
+                iconClass = "fa-solid fa-triangle-exclamation text-amber-600";
+            } else if (finalPercentage >= 40) {
+                kualifikasi = "Kurang Informatif";
+                badgeColor = "bg-orange-100 text-orange-800";
+                iconClass = "fa-solid fa-circle-exclamation text-orange-600";
+            } else if (finalPercentage > 0) {
+                kualifikasi = "Tidak Informatif";
+                badgeColor = "bg-rose-100 text-rose-800";
+                iconClass = "fa-solid fa-circle-xmark text-rose-600";
+            }
+
+            const qualElem = document.getElementById('score-kualifikasi');
+            qualElem.innerText = kualifikasi;
+            
+            const badgeIconContainer = document.getElementById('badge-icon');
+            badgeIconContainer.className = `w-12 h-12 rounded-xl flex items-center justify-center text-xl ${badgeColor}`;
+            badgeIconContainer.innerHTML = `<i class="${iconClass}"></i>`;
+        }
+
+        function filterCategory(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if(btn.getAttribute('data-filter') === category) {
+                    btn.className = "px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-900 text-white transition filter-btn active";
+                } else {
+                    btn.className = "px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition filter-btn";
+                }
+            });
+            renderTable(category);
+        }
+
+        function resetForm() {
+            if(confirm("Apakah Anda yakin ingin mereset seluruh lembar kerja evaluasi ini?")) {
+                userResponses = {};
+                document.getElementById('bp-nama').value = '';
+                document.getElementById('bp-evaluator').value = '';
+                document.getElementById('catatan-evaluasi').value = '';
+                document.getElementById('tindak-lanjut').value = '';
+                renderTable('all');
+                calculateSummary();
+            }
+        }
+
+        // Inisialisasi awal saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable('all');
+            calculateSummary();
+        });
+    </script>
+</body>
+</html>

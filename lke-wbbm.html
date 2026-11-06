@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lembar Kerja Evaluasi (LKE) Zona Integritas: WBK Menuju WBBM</title>
+    <!-- Tailwind CSS CDN untuk Desain Modern & Responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; color: black; }
+            .print-shadow { box-shadow: none !important; border: 1px solid #cbd5e1; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="bg-gradient-to-r from-brand-900 via-brand-800 to-brand-700 text-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/10 p-2.5 rounded-xl backdrop-blur-md border border-white/20">
+                    <i class="fa-solid fa-shield-halved text-2xl text-blue-300"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">LKE EVALUASI WBK MENUJU WBBM</h1>
+                    <p class="text-xs text-blue-200">Berdasarkan Peraturan Menteri PANRB & Standar Evaluasi ZI Terbaru</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 no-print">
+                <button onclick="resetForm()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-xs font-semibold rounded-lg transition border border-white/20 flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Reset Penilaian
+                </button>
+                <button onclick="window.print()" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-xs font-semibold rounded-lg transition shadow-md flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i> Cetak / PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
+
+        <!-- Informasi Instansi & Ringkasan Skor -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Card Profil Instansi -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-1 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-700 bg-brand-50 px-2.5 py-1 rounded-md">Identitas Unit Kerja</span>
+                        <span class="text-xs text-slate-500 font-medium"><i class="fa-regular fa-calendar"></i> Tahun 2026</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Nama Instansi / Satuan Kerja</label>
+                            <input type="text" id="namaInstansi" value="Kementerian / Lembaga / Unit Kerja Contoh" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Predikat Awal (Eksisting)</label>
+                            <input type="text" value="Wilayah Bebas dari Korupsi (WBK)" readonly class="w-full px-3 py-2 text-sm bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg font-semibold cursor-not-allowed">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+                    <span>Status: <strong class="text-blue-600">Evaluasi Menuju WBBM</strong></span>
+                    <span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-medium">Aktif</span>
+                </div>
+            </div>
+
+            <!-- Card Dashboard Skor Real-time -->
+            <div class="bg-gradient-to-br from-brand-900 to-brand-800 text-white p-6 rounded-2xl shadow-lg lg:col-span-2 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 text-white/5 text-9xl pointer-events-none">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-sm font-semibold tracking-wide text-blue-200 uppercase">Kalkulator Hasil Evaluasi Mandiri (LKE)</h2>
+                        <span id="badgeStatus" class="px-3 py-1 bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold rounded-full">Menunggu Penilaian</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-4">
+                        <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                            <span class="text-xs text-blue-200 block">Total Bobot</span>
+                            <span class="text-2xl font-bold" id="totalBobot">100</span>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                            <span class="text-xs text-blue-200 block">Nilai Diperoleh</span>
+                            <span class="text-2xl font-bold text-blue-300" id="totalNilai">0.00</span>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                            <span class="text-xs text-blue-200 block">Persentase Capaian</span>
+                            <span class="text-2xl font-bold text-emerald-300" id="persentaseCapaian">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="w-full bg-black/20 rounded-full h-2.5 overflow-hidden">
+                        <div id="progressBar" class="bg-gradient-to-r from-blue-400 to-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <p class="text-xs text-blue-200 mt-2 flex items-center justify-between">
+                        <span>* Standar Minimum Menuju WBBM: Nilai ≥ 85 dengan komponen pengungkit prima.</span>
+                        <span id="rekomendasiStatus" class="font-bold text-white">Belum Memenuhi Syarat</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Filter Komponen Pengungkit & Hasil -->
+        <div class="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+            <div class="flex items-center space-x-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0">
+                <button onclick="filterKomponen('all')" class="filter-btn px-4 py-2 text-xs font-semibold rounded-xl bg-brand-600 text-white transition shadow-sm whitespace-nowrap">Semua Komponen</button>
+                <button onclick="filterKomponen('manajemen')" class="filter-btn px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap">1. Manajemen Perubahan</button>
+                <button onclick="filterKomponen('tatalaksana')" class="filter-btn px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap">2. Penataan Tatalaksana</button>
+                <button onclick="filterKomponen('sdm')" class="filter-btn px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap">3. Manajemen SDM</button>
+                <button onclick="filterKomponen('akuntabilitas')" class="filter-btn px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap">4. Penguatan Akuntabilitas</button>
+                <button onclick="filterKomponen('pengawasan')" class="filter-btn px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap">5. Penguatan Pengawasan</button>
+                <button onclick="filterKomponen('pelayanan')" class="filter-btn px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap">6. Peningkatan Pelayanan Publik</button>
+            </div>
+        </div>
+
+        <!-- Form / Tabel LKE Evaluasi -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden print-shadow">
+            <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-slate-800 text-base">Lembar Kerja Evaluasi Komponen Pengungkit Menuju WBBM</h3>
+                    <p class="text-xs text-slate-500">Berikan penilaian mandiri (0 - 4 atau persentase pemenuhan) serta tautan eviden dukung.</p>
+                </div>
+                <span class="text-xs font-semibold bg-blue-50 text-blue-700 px-3 py-1 rounded-lg border border-blue-100 hidden sm:inline-block">Rubrik Terbaru</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100/70 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
+                            <th class="py-3 px-4 font-semibold w-12 text-center">No</th>
+                            <th class="py-3 px-4 font-semibold w-1/3">Komponen / Sub-Komponen & Kriteria Penilaian</th>
+                            <th class="py-3 px-4 font-semibold w-24 text-center">Bobot</th>
+                            <th class="py-3 px-4 font-semibold w-40 text-center">Penilaian Mandiri (0-100%)</th>
+                            <th class="py-3 px-4 font-semibold w-32 text-center">Skor Diperoleh</th>
+                            <th class="py-3 px-4 font-semibold">Eviden Dokumen / Catatan Khusus WBBM</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-sm" id="lkeTableBody">
+                        
+                        <!-- KATEGORI 1: MANAJEMEN PERUBAHAN -->
+                        <tr class="bg-blue-50/50 font-bold text-brand-900 category-row" data-category="manajemen">
+                            <td colspan="6" class="py-3 px-4 text-xs uppercase tracking-wider"><i class="fa-solid fa-folder-open mr-2"></i> I. Manajemen Perubahan (Bobot: 5.00) - Fokus Keberlanjutan & Budaya Kerja</td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="manajemen" data-bobot="2.5" data-id="1">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">1.1</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Penyusunan Tim Kerja</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Unit kerja telah menetapkan tim kerja pembangunan ZI yang melibatkan seluruh unsur, memiliki rencana kerja yang jelas, dan target prioritas yang berdampak.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">2.5</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75">75% (Baik)</option>
+                                    <option value="1" selected>100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">2.50</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Nama SK Tim Kerja" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="manajemen" data-bobot="2.5" data-id="2">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">1.2</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Pemantauan & Evaluasi Pembangunan ZI</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Pimpinan memantau secara berkala pelaksanaan program, terdapat tindak lanjut atas hambatan, serta internalisasi budaya kerja.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">2.5</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75" selected>75% (Baik)</option>
+                                    <option value="1">100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">1.88</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Notulen & Laporan Monev" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+
+                        <!-- KATEGORI 2: PENATAAN TATALAKSANA -->
+                        <tr class="bg-blue-50/50 font-bold text-brand-900 category-row" data-category="tatalaksana">
+                            <td colspan="6" class="py-3 px-4 text-xs uppercase tracking-wider"><i class="fa-solid fa-folder-open mr-2"></i> II. Penataan Tatalaksana (Bobot: 10.00) - Prosedur & Sistem Digital</td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="tatalaksana" data-bobot="5.0" data-id="3">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">2.1</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Prosedur Operasional Tetap (SOP) Utama</p>
+                                <p class="text-xs text-slate-500 mt-0.5">SOP mengacu pada peta proses bisnis, diterapkan secara efektif, dan dievaluasi berkala sesuai dinamika regulasi.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">5.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75">75% (Baik)</option>
+                                    <option value="1" selected>100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">5.00</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Dokumen SOP & Evaluasi" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="tatalaksana" data-bobot="5.0" data-id="4">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">2.2</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Pemanfaatan Teknologi Informasi (E-Office / Digitalisasi)</p>
+                                <p class="text-xs text-slate-500 mt-0.5>Sistem pemerintahan berbasis elektronik (SPBE) terintegrasi digunakan secara optimal dalam proses pelayanan dan manajemen.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">5.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75" selected>75% (Baik)</option>
+                                    <option value="1">100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">3.75</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Tautan Aplikasi SPBE" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+
+                        <!-- KATEGORI 3: MANAJEMEN SDM -->
+                        <tr class="bg-blue-50/50 font-bold text-brand-900 category-row" data-category="sdm">
+                            <td colspan="6" class="py-3 px-4 text-xs uppercase tracking-wider"><i class="fa-solid fa-folder-open mr-2"></i> III. Penataan Sistem Manajemen SDM (Bobot: 15.00) - Profesionalisme & Kinerja</td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="sdm" data-bobot="5.0" data-id="5">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">3.1</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Perencanaan Kebutuhan Pegawai sesuai ABK</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Penempatan pegawai rekrutmen dan penataan mutasi internal dilakukan secara obyektif berbasis peta jabatan dan Analisis Beban Kerja.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">5.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75">75% (Baik)</option>
+                                    <option value="1" selected>100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">5.00</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Dokumen ABK & Peta Jabatan" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="sdm" data-bobot="5.0" data-id="6">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">3.2</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Pengembangan Pegawai Berbasis Kompetensi</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Terdapat peta kesenjangan kompetensi, penyelenggaraan diklat/pelatihan yang terarah, serta evaluasi dampak pelatihan terhadap kinerja.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">5.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75" selected>75% (Baik)</option>
+                                    <option value="1">100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">3.75</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Laporan Pelatihan & Sertifikat" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="sdm" data-bobot="5.0" data-id="7">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">3.3</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Penegakan Aturan Disiplin, Kode Etik & Nilai Dasar</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Penerapan aturan disiplin, kode etik, pemberian reward/punishment yang adil, serta integritas pegawai terjaga dengan baik.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">5.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75">75% (Baik)</option>
+                                    <option value="1" selected>100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">5.00</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / SK Reward & Penegakan Disiplin" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+
+                        <!-- KATEGORI 4: AKUNTABILITAS -->
+                        <tr class="bg-blue-50/50 font-bold text-brand-900 category-row" data-category="akuntabilitas">
+                            <td colspan="6" class="py-3 px-4 text-xs uppercase tracking-wider"><i class="fa-solid fa-folder-open mr-2"></i> IV. Penguatan Akuntabilitas (Bobot: 10.00) - Kinerja & Anggaran</td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="akuntabilitas" data-bobot="5.0" data-id="8">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">4.1</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Keterlibatan Pimpinan dalam Perencanaan Kinerja</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Pimpinan terlibat langsung dalam penyusunan pohon kinerja, penetapan IKU, hingga pemantauan capaian kinerja berkala.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">5.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75">75% (Baik)</option>
+                                    <option value="1" selected>100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">5.00</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Dokumen Perjanjian Kinerja & IKU" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="akuntabilitas" data-bobot="5.0" data-id="9">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">4.2</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Pengelolaan Akuntabilitas Kinerja & Keuangan</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Pelaporan akuntabilitas tepat waktu, efisiensi penggunaan anggaran, serta pencapaian target SAKIP bernilai minimal A/BB.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">5.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75" selected>75% (Baik)</option>
+                                    <option value="1">100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">3.75</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Laporan LAKIP & Evaluasi SAKIP" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+
+                        <!-- KATEGORI 5: PENGAWASAN -->
+                        <tr class="bg-blue-50/50 font-bold text-brand-900 category-row" data-category="pengawasan">
+                            <td colspan="6" class="py-3 px-4 text-xs uppercase tracking-wider"><i class="fa-solid fa-folder-open mr-2"></i> V. Penguatan Pengawasan (Bobot: 15.00) - Pengendalian Gratifikasi & Pengaduan</td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="pengawasan" data-bobot="5.0" data-id="10">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">5.1</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Pengendalian Gratifikasi & Benturan Kepentingan</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Implementasi penanganan benturan kepentingan, sosialisasi anti gratifikasi, serta kepatuhan pelaporan LHKPN/LHKASN 100%.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">5.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75">75% (Baik)</option>
+                                    <option value="1" selected>100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">5.00</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Bukti LHKPN & Pengendalian Gratifikasi" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="pengawasan" data-bobot="5.0" data-id="11">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">5.2</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Sistem Pengaduan Masyarakat (WBS & Whistleblowing)</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Pengaduan masyarakat dikelola transparan, ditindaklanjuti secara tuntas, serta efektivitas sistem pelaporan pelanggaran.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">5.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75" selected>75% (Baik)</option>
+                                    <option value="1">100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">3.75</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Register Pengaduan & Tindak Lanjut" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="pengawasan" data-bobot="5.0" data-id="12">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">5.3</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Penanganan Benturan Kepentingan & SPIP</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Penerapan Sistem Pengendalian Intern Pemerintah (SPIP) yang matang dan mitigasi risiko secara proaktif pada sektor strategis.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">5.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75">75% (Baik)</option>
+                                    <option value="1" selected>100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">5.00</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Dokumen Penilaian Risiko SPIP" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+
+                        <!-- KATEGORI 6: PELAYANAN PUBLIK -->
+                        <tr class="bg-blue-50/50 font-bold text-brand-900 category-row" data-category="pelayanan">
+                            <td colspan="6" class="py-3 px-4 text-xs uppercase tracking-wider"><i class="fa-solid fa-folder-open mr-2"></i> VI. Peningkatan Kualitas Pelayanan Publik (Bobot: 50.00) - Inovasi & Kepuasan</td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="pelayanan" data-bobot="15.0" data-id="13">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">6.1</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Standar Pelayanan & Maklumat Pelayanan</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Standar pelayanan dimaklumatkan, disosialisasi secara luas, memiliki SOP layanan yang jelas, serta reviu/evaluasi berkala.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">15.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75">75% (Baik)</option>
+                                    <option value="1" selected>100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">15.00</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / SK Standar Pelayanan & Maklumat" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="pelayanan" data-bobot="15.0" data-id="14">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">6.2</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Budaya Pelayanan Prima (Service Excellence)</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Pelatihan service excellence bagi petugas front office, sarana prasarana ramah kelompok rentan, serta pengadaan penghargaan pelayanan.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">15.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75" selected>75% (Baik)</option>
+                                    <option value="1">100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">11.25</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Dokumentasi Fasilitas Ramah Disabilitas" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="pelayanan" data-bobot="10.0" data-id="15">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">6.3</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Penilaian Kepuasan Masyarakat terhadap Pelayanan</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Survei Kepuasan Masyarakat (SKM) dilakukan secara berkala, transparan dipublikasikan, dan ditindaklanjuti perbaikan layanannya.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">10.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75">75% (Baik)</option>
+                                    <option value="1" selected>100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">10.00</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Laporan SKM Triwulanan/Semesteran" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+                        <tr class="item-row hover:bg-slate-50/80 transition" data-category="pelayanan" data-bobot="10.0" data-id="16">
+                            <td class="py-3 px-4 text-center text-slate-500 text-xs font-medium">6.4</td>
+                            <td class="py-3 px-4">
+                                <p class="font-semibold text-slate-800 text-xs">Inovasi Pelayanan Publik yang Berkelanjutan & Berdampak</p>
+                                <p class="text-xs text-slate-500 mt-0.5>Terdapat inovasi terbarukan yang konsisten menyelesaikan masalah pelayanan publik, direplikasi, dan memberikan dampak luas.</p>
+                            </td>
+                            <td class="py-3 px-4 text-center font-semibold text-slate-600 text-xs">10.0</td>
+                            <td class="py-3 px-4 text-center">
+                                <select onchange="calculateScore()" class="score-input w-full text-xs p-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                                    <option value="0">0% (Belum)</option>
+                                    <option value="0.25">25% (Kurang)</option>
+                                    <option value="0.5">50% (Cukup)</option>
+                                    <option value="0.75" selected>75% (Baik)</option>
+                                    <option value="1">100% (Optimal)</option>
+                                </select>
+                            </td>
+                            <td class="py-3 px-4 text-center font-bold text-brand-700 text-xs score-display">7.50</td>
+                            <td class="py-3 px-4">
+                                <input type="text" placeholder="Link Drive / Profil Inovasi & Dampak" class="w-full text-xs px-3 py-1.5 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:outline-none">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Bagian Catatan & Tanda Tangan Evaluator -->
+            <div class="p-6 bg-slate-50 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Catatan Rekomendasi Tim Penilai Internal (TPI)</label>
+                    <textarea rows="3" placeholder="Tuliskan catatan perbaikan atau rekomendasi penguatan eviden menuju WBBM..." class="w-full text-xs p-3 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none"></textarea>
+                </div>
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Pimpinan Tim Evaluator / Ketua ZI</label>
+                        <input type="text" placeholder="Nama Lengkap & NIP Ketua Tim" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none mb-2">
+                    </div>
+                    <div class="text-right text-xs text-slate-500 font-medium">
+                        Bandung, <span id="currentDate">2026</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 mt-12 border-t border-slate-800 text-center text-xs">
+        <p>Lembar Kerja Evaluasi Elektronik Zona Integritas (LKE-PMPZI) • Kompatibel dengan Ketentuan MenPANRB Terbaru</p>
+    </footer>
+
+    <!-- JavaScript Interaktif -->
+    <script>
+        // Set Tanggal Otomatis
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('id-ID', options);
+
+        // Fungsi Kalkulasi Skor Real-time
+        function calculateScore() {
+            let rows = document.querySelectorAll('.item-row');
+            let totalScore = 0;
+            let totalWeight = 100; // Total Bobot tetap 100
+
+            rows.forEach(row => {
+                let bobot = parseFloat(row.getAttribute('data-bobot'));
+                let select = row.querySelector('.score-input');
+                let multiplier = parseFloat(select.value);
+                
+                let rowScore = bobot * multiplier;
+                totalScore += rowScore;
+
+                // Tampilkan skor per baris
+                row.querySelector('.score-display').innerText = rowScore.toFixed(2);
+            });
+
+            // Update UI Ringkasan
+            document.getElementById('totalNilai').innerText = totalScore.toFixed(2);
+            let percentage = totalScore.toFixed(1);
+            document.getElementById('persentaseCapaian').innerText = percentage + '%';
+            document.getElementById('progressBar').style.width = percentage + '%';
+
+            // Evaluasi Status Kelayakan WBBM
+            let badge = document.getElementById('badgeStatus');
+            let rekomendasi = document.getElementById('rekomendasiStatus');
+
+            if (totalScore >= 85) {
+                badge.className = "px-3 py-1 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold rounded-full";
+                badge.innerText = "Memenuhi Standar WBBM";
+                rekomendasi.className = "font-bold text-emerald-300";
+                rekomendasi.innerText = "Sangat Layak Diusulkan ke TPN";
+            } else if (totalScore >= 75) {
+                badge.className = "px-3 py-1 bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-bold rounded-full";
+                badge.innerText = "Memenuhi Standar WBK";
+                rekomendasi.className = "font-bold text-blue-300";
+                rekomendasi.innerText = "Perlu Penguatan Komponen Pengungkit";
+            } else {
+                badge.className = "px-3 py-1 bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold rounded-full";
+                badge.innerText = "Belum Memenuhi Syarat";
+                rekomendasi.className = "font-bold text-amber-300";
+                rekomendasi.innerText = "Butuh Perbaikan Komprehensif";
+            }
+        }
+
+        // Fungsi Filter Komponen Berdasarkan Tombol Kategori
+        function filterKomponen(category) {
+            let rows = document.querySelectorAll('.item-row');
+            let categoryRows = document.querySelectorAll('.category-row');
+            let buttons = document.querySelectorAll('.filter-btn');
+
+            // Style tombol aktif
+            buttons.forEach(btn => {
+                btn.className = "filter-btn px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap";
+            });
+            event.currentTarget.className = "filter-btn px-4 py-2 text-xs font-semibold rounded-xl bg-brand-600 text-white transition shadow-sm whitespace-nowrap";
+
+            // Filter visibilitas baris tabel
+            rows.forEach(row => {
+                if (category === 'all' || row.getAttribute('data-category') === category) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            categoryRows.forEach(catRow => {
+                if (category === 'all' || catRow.getAttribute('data-category') === category) {
+                    catRow.style.display = '';
+                } else {
+                    catRow.style.display = 'none';
+                }
+            });
+        }
+
+        // Fungsi Reset Form
+        function resetForm() {
+            if(confirm("Apakah Anda yakin ingin mereset seluruh penilaian mandiri?")) {
+                let selects = document.querySelectorAll('.score-input');
+                selects.forEach(sel => sel.value = "1");
+                calculateScore();
+            }
+        }
+
+        // Jalankan kalkulasi saat halaman pertama kali dimuat
+        window.onload = calculateScore;
+    </script>
+</body>
+</html>
