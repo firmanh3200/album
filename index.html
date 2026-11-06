@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALBUM</title>
+    <!-- Memuat Supabase JS SDK dari CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 320px;
+        }
+        h2 { color: #333; margin-top: 0; text-align: center; }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label { display: block; margin-bottom: 5px; font-size: 13px; color: #555; }
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        button:hover { background-color: #3367d6; }
+        .btn-secondary {
+            background-color: #34a853;
+            margin-top: 10px;
+        }
+        .btn-secondary:hover { background-color: #2e8b46; }
+        .btn-logout {
+            background-color: #ea4335;
+            margin-top: 15px;
+        }
+        .btn-logout:hover { background-color: #d33426; }
+        .hidden { display: none !important; }
+        .toggle-text {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 15px;
+            color: #666;
+            cursor: pointer;
+            color: #4285F4;
+        }
+        #error-msg {
+            color: #ea4335;
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        #success-msg {
+            color: #34a853;
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Div Pesan Error/Sukses -->
+        <div id="error-msg"></div>
+        <div id="success-msg"></div>
+
+        <!-- Form Login -->
+        <div id="login-section">
+            <h2>Masuk Akun</h2>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="login-email" placeholder="nama@email.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="login-password" placeholder="••••••••">
+            </div>
+            <button onclick="handleLogin()">Masuk</button>
+            <div class="toggle-text" onclick="switchMode('register')">Belum punya akun? Daftar di sini</div>
+        </div>
+
+        <!-- Form Register (Pendaftaran) -->
+        <div id="register-section" class="hidden">
+            <h2>Daftar Akun Baru</h2>
+            <div class="form-group">
+                <label>Nama Lengkap</label>
+                <input type="text" id="reg-name" placeholder="Nama Anda">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="reg-email" placeholder="nama@email.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="reg-password" placeholder="••••••••">
+            </div>
+            <button class="btn-secondary" onclick="handleRegister()">Daftar</button>
+            <div class="toggle-text" onclick="switchMode('login')">Sudah punya akun? Masuk di sini</div>
+        </div>
+
+        <!-- Halaman Dashboard Setelah Berhasil Masuk -->
+        <div id="dashboard-section" class="hidden">
+            <h2>Selamat Datang!</h2>
+            <p>Email Anda: <span id="user-email-display"></span></p>
+            <p style="font-size: 12px; color: #27ae60;">Status: Berhasil login & log tercatat di database.</p>
+            <button class="btn-logout" onclick="handleLogout()">Keluar</button>
+        </div>
+    </div>
+
+    <script>
+        // Masukkan Supabase URL dan Anon Key Anda di sini
+        const SUPABASE_URL = "https://vgrbmudehaqlhrneqyxm.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_2NptgOcQUYnDVl92DYB5KQ_7O_P29zh";
+
+        // Inisialisasi klien Supabase
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Fungsi mengganti tampilan antara Login dan Register
+        function switchMode(mode) {
+            document.getElementById("error-msg").innerText = "";
+            document.getElementById("success-msg").innerText = "";
+            if (mode === 'register') {
+                document.getElementById("login-section").classList.add("hidden");
+                document.getElementById("register-section").classList.remove("hidden");
+            } else {
+                document.getElementById("register-section").classList.add("hidden");
+                document.getElementById("login-section").classList.remove("hidden");
+            }
+        }
+
+        // Fungsi Pendaftaran Akun Baru
+        async function handleRegister() {
+            const name = document.getElementById("reg-name").value;
+            const email = document.getElementById("reg-email").value;
+            const password = document.getElementById("reg-password").value;
+
+            if (!name || !email || !password) {
+                document.getElementById("error-msg").innerText = "Semua kolom harus diisi!";
+                return;
+            }
+
+            // 1. Daftarkan user ke sistem Auth Supabase
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: { full_name: name }
+                }
+            });
+
+            if (error) {
+                document.getElementById("error-msg").innerText = error.message;
+            } else {
+                document.getElementById("success-msg").innerText = "Pendaftaran berhasil! Silakan langsung Masuk.";
+                switchMode('login');
+            }
+        }
+
+        // Fungsi Login & Mencatat Log ke Tabel Database
+        async function handleLogin() {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            if (!email || !password) {
+                document.getElementById("error-msg").innerText = "Email dan password wajib diisi!";
+                return;
+            }
+
+            // 1. Autentikasi user
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                document.getElementById("error-msg").innerText = "Login gagal: " + error.message;
+            } else {
+                const user = data.user;
+                const userName = user.user_metadata.full_name || "Pengguna";
+
+                // 2. Simpan log login otomatis ke tabel `user_logs`
+                await recordLoginLog(userName, email);
+
+                // Tampilkan dashboard
+                document.getElementById("user-email-display").innerText = email;
+                document.getElementById("login-section").classList.add("hidden");
+                document.getElementById("dashboard-section").classList.remove("hidden");
+            }
+        }
+
+        // Fungsi untuk memasukkan data log ke tabel database Supabase
+        async function recordLoginLog(name, email) {
+            const { error } = await supabase
+                .from('user_logs')
+                .insert([{ name: name, email: email }]);
+
+            if (error) {
+                console.error("Gagal mencatat log ke database:", error.message);
+            }
+        }
+
+        // Fungsi Logout
+        async function handleLogout() {
+            await supabase.auth.signOut();
+            location.reload();
+        }
+    </script>
+</body>
+</html>
