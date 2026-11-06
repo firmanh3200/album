@@ -119,6 +119,22 @@
             font-size: 13px;
             line-height: 1.5;
         }
+        .btn-submit {
+            width: 100%;
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #2b6cb0;
+        }
     </style>
 </head>
 <body>
@@ -133,6 +149,7 @@
             <button class="btn-logout" onclick="handleLogout()">Keluar</button>
         </div>
 
+        <h1>P R E M I U M</h1>
         <h2>Portal Layanan Organisasi</h2>
         <p class="subtitle">Silakan pilih bidang dan sub-bagian terkait sesuai struktur kerja.</p>
 
@@ -143,14 +160,14 @@
                 <option value="" disabled selected>-- Pilih Bagian / Bidang --</option>
                 <option value="umum">Bagian Umum</option>
                 <option value="produksi">Bidang Produksi Statistik</option>
-                <option value="pengolahan">Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik</option>
+                <option value="pengolahan-diseminasi-evaluasi">Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik</option>
             </select>
         </div>
 
         <!-- Dropdown Turunan: Bagian Umum -->
         <div class="form-group hidden" id="group-umum">
             <label for="sub-umum">Pilih Rincian Unit / Kegiatan (Bagian Umum)</label>
-            <select id="sub-umum" onchange="showSelectionResult()">
+            <select id="sub-umum" onchange="checkFinalSelection()">
                 <option value="" disabled selected>-- Pilih Rincian Unit Kerja --</option>
                 <option value="Penyusunan rencana program, kegiatan, dan anggaran">Penyusunan rencana program, kegiatan, dan anggaran</option>
                 <option value="Pelaksanaan urusan keuangan dan barang milik negara">Pelaksanaan urusan keuangan dan barang milik negara</option>
@@ -165,7 +182,7 @@
         <!-- Dropdown Turunan: Bidang Produksi Statistik -->
         <div class="form-group hidden" id="group-produksi">
             <label for="sub-produksi">Pilih Rincian Unit / Kegiatan (Bidang Produksi Statistik)</label>
-            <select id="sub-produksi" onchange="showSelectionResult()">
+            <select id="sub-produksi" onchange="checkFinalSelection()">
                 <option value="" disabled selected>-- Pilih Rincian Unit Kerja --</option>
                 <option value="Penyiapan tugas teknis bidang produksi statistik">Penyiapan tugas teknis bidang produksi statistik</option>
                 <option value="Pelaksanaan tugas teknis bidang produksi statistik">Pelaksanaan tugas teknis bidang produksi statistik</option>
@@ -175,25 +192,64 @@
             </select>
         </div>
 
-        <!-- Dropdown Turunan: Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik -->
-        <div class="form-group hidden" id="group-pengolahan">
-            <label for="sub-pengolahan">Pilih Rincian Unit / Kegiatan (Bidang Pengolahan, Diseminasi, & Evaluasi)</label>
-            <select id="sub-pengolahan" onchange="showSelectionResult()">
-                <option value="" disabled selected>-- Pilih Rincian Unit Kerja --</option>
-                <option value="Pelaksanaan tugas teknis bidang pengolahan dan diseminasi statistik">Pelaksanaan tugas teknis bidang pengolahan dan diseminasi statistik</option>
-                <option value="Pembinaan tugas teknis bidang pengolahan dan diseminasi statistik">Pembinaan tugas teknis bidang pengolahan dan diseminasi statistik</option>
-                <option value="Koordinasi tugas teknis bidang pengolahan dan diseminasi statistik">Koordinasi tugas teknis bidang pengolahan dan diseminasi statistik</option>
-                <option value="Pelaksanaan tugas teknis bidang evaluasi penyelenggaraan dan penjaminan kualitas statistik">Pelaksanaan tugas teknis bidang evaluasi penyelenggaraan dan penjaminan kualitas statistik</option>
-                <option value="Pemantauan bidang pengolahan, diseminasi, dan evaluasi statistik">Pemantauan bidang pengolahan, diseminasi, dan evaluasi statistik</option>
-                <option value="Analisis bidang pengolahan, diseminasi, dan evaluasi statistik">Analisis bidang pengolahan, diseminasi, dan evaluasi statistik</option>
-                <option value="Evaluasi bidang pengolahan, diseminasi, dan evaluasi statistik">Evaluasi bidang pengolahan, diseminasi, dan evaluasi statistik</option>
-                <option value="Pelaporan bidang pengolahan, diseminasi, dan evaluasi statistik">Pelaporan bidang pengolahan, diseminasi, dan evaluasi statistik</option>
+        <!-- Dropdown Utama Level 2: Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik -->
+        <div class="form-group hidden" id="group-pde-main">
+            <label for="sub-pde-main">Pilih Kategori Bidang</label>
+            <select id="sub-pde-main" onchange="handlePdeMainChange()">
+                <option value="" disabled selected>-- Pilih Kategori --</option>
+                <option value="pengolahan">Pengolahan</option>
+                <option value="diseminasi">Diseminasi</option>
+                <option value="evaluasi">Evaluasi</option>
             </select>
         </div>
 
-        <!-- Kotak Informasi Pilihan -->
+        <!-- Dropdown Turunan Level 3: Pengolahan -->
+        <div class="form-group hidden" id="group-pde-pengolahan">
+            <label for="sub-pde-pengolahan">Pilih Rincian Kegiatan (Pengolahan)</label>
+            <select id="sub-pde-pengolahan" onchange="checkFinalSelection()">
+                <option value="" disabled selected>-- Pilih Kegiatan Pengolahan --</option>
+                <option value="Pelaksanaan Pengolahan">Pelaksanaan Pengolahan</option>
+                <option value="Pembinaan Pengolahan">Pembinaan Pengolahan</option>
+                <option value="Koordinasi Pengolahan">Koordinasi Pengolahan</option>
+                <option value="Pemantauan Pengolahan">Pemantauan Pengolahan</option>
+                <option value="Analisis Pengolahan">Analisis Pengolahan</option>
+                <option value="Evaluasi Pengolahan">Evaluasi Pengolahan</option>
+                <option value="Pelaporan Pengolahan">Pelaporan Pengolahan</option>
+            </select>
+        </div>
+
+        <!-- Dropdown Turunan Level 3: Diseminasi -->
+        <div class="form-group hidden" id="group-pde-diseminasi">
+            <label for="sub-pde-diseminasi">Pilih Rincian Kegiatan (Diseminasi)</label>
+            <select id="sub-pde-diseminasi" onchange="checkFinalSelection()">
+                <option value="" disabled selected>-- Pilih Kegiatan Diseminasi --</option>
+                <option value="Pelaksanaan Diseminasi">Pelaksanaan Diseminasi</option>
+                <option value="Pembinaan Diseminasi">Pembinaan Diseminasi</option>
+                <option value="Koordinasi Diseminasi">Koordinasi Diseminasi</option>
+                <option value="Pemantauan Diseminasi">Pemantauan Diseminasi</option>
+                <option value="Analisis Diseminasi">Analisis Diseminasi</option>
+                <option value="Evaluasi Diseminasi">Evaluasi Diseminasi</option>
+                <option value="Pelaporan Diseminasi">Pelaporan Diseminasi</option>
+            </select>
+        </div>
+
+        <!-- Dropdown Turunan Level 3: Evaluasi -->
+        <div class="form-group hidden" id="group-pde-evaluasi">
+            <label for="sub-pde-evaluasi">Pilih Rincian Kegiatan (Evaluasi)</label>
+            <select id="sub-pde-evaluasi" onchange="checkFinalSelection()">
+                <option value="" disabled selected>-- Pilih Kegiatan Evaluasi --</option>
+                <option value="Pelaksanaan evaluasi penyelenggaraan dan penjaminan kualitas">Pelaksanaan evaluasi penyelenggaraan dan penjaminan kualitas</option>
+                <option value="Pemantauan evaluasi penyelenggaraan dan penjaminan kualitas">Pemantauan evaluasi penyelenggaraan dan penjaminan kualitas</option>
+                <option value="Analisis evaluasi penyelenggaraan dan penjaminan kualitas">Analisis evaluasi penyelenggaraan dan penjaminan kualitas</option>
+                <option value="Evaluasi evaluasi penyelenggaraan dan penjaminan kualitas">Evaluasi evaluasi penyelenggaraan dan penjaminan kualitas</option>
+                <option value="Pelaporan evaluasi penyelenggaraan dan penjaminan kualitas">Pelaporan evaluasi penyelenggaraan dan penjaminan kualitas</option>
+            </select>
+        </div>
+
+        <!-- Kotak Informasi Pilihan & Tombol Lanjut -->
         <div id="result-container" class="result-box hidden">
             <strong>Pilihan Anda:</strong> <span id="selected-summary">-</span>
+            <button id="btn-goto-url" class="btn-submit hidden" onclick="navigateToTargetUrl()">Lanjut ke Halaman Tujuan</button>
         </div>
     </div>
 
@@ -202,12 +258,13 @@
         const SUPABASE_ANON_KEY = "sb_publishable_2NptgOcQUYnDVl92DYB5KQ_7O_P29zh";
 
         let sb;
+        let finalPathData = "";
 
         try {
             const { createClient } = window.supabase;
             sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-            // Validasi Sesi: Pastikan user benar-benar login, jika tidak tendang kembali ke index.html
+            // Validasi Sesi: Pastikan user benar-benar login
             sb.auth.getSession().then(({ data: { session } }) => {
                 if (!session) {
                     window.location.href = "index.html";
@@ -229,49 +286,113 @@
         function handleMainCategoryChange() {
             const mainVal = document.getElementById("main-category").value;
 
-            // Sembunyikan semua sub-dropdown terlebih dahulu
+            // Sembunyikan semua sub-dropdown turunan
             document.getElementById("group-umum").classList.add("hidden");
             document.getElementById("group-produksi").classList.add("hidden");
-            document.getElementById("group-pengolahan").classList.add("hidden");
+            document.getElementById("group-pde-main").classList.add("hidden");
+            document.getElementById("group-pde-pengolahan").classList.add("hidden");
+            document.getElementById("group-pde-diseminasi").classList.add("hidden");
+            document.getElementById("group-pde-evaluasi").classList.add("hidden");
 
-            // Reset nilai pilihan sub-dropdown
+            // Reset nilai pilihan seluruh sub-dropdown
             document.getElementById("sub-umum").selectedIndex = 0;
             document.getElementById("sub-produksi").selectedIndex = 0;
-            document.getElementById("sub-pengolahan").selectedIndex = 0;
+            document.getElementById("sub-pde-main").selectedIndex = 0;
+            document.getElementById("sub-pde-pengolahan").selectedIndex = 0;
+            document.getElementById("sub-pde-diseminasi").selectedIndex = 0;
+            document.getElementById("sub-pde-evaluasi").selectedIndex = 0;
 
             // Sembunyikan kotak hasil
             document.getElementById("result-container").classList.add("hidden");
 
-            // Tampilkan sub-dropdown yang sesuai dengan pilihan utama
+            // Tampilkan dropdown level berikutnya sesuai pilihan utama
             if (mainVal === "umum") {
                 document.getElementById("group-umum").classList.remove("hidden");
             } else if (mainVal === "produksi") {
                 document.getElementById("group-produksi").classList.remove("hidden");
-            } else if (mainVal === "pengolahan") {
-                document.getElementById("group-pengolahan").classList.remove("hidden");
+            } else if (mainVal === "pengolahan-diseminasi-evaluasi") {
+                document.getElementById("group-pde-main").classList.remove("hidden");
             }
         }
 
-        function showSelectionResult() {
+        function handlePdeMainChange() {
+            const pdeVal = document.getElementById("sub-pde-main").value;
+
+            // Sembunyikan sub-dropdown turunan level 3
+            document.getElementById("group-pde-pengolahan").classList.add("hidden");
+            document.getElementById("group-pde-diseminasi").classList.add("hidden");
+            document.getElementById("group-pde-evaluasi").classList.add("hidden");
+
+            document.getElementById("sub-pde-pengolahan").selectedIndex = 0;
+            document.getElementById("sub-pde-diseminasi").selectedIndex = 0;
+            document.getElementById("sub-pde-evaluasi").selectedIndex = 0;
+
+            document.getElementById("result-container").classList.add("hidden");
+
+            if (pdeVal === "pengolahan") {
+                document.getElementById("group-pde-pengolahan").classList.remove("hidden");
+            } else if (pdeVal === "diseminasi") {
+                document.getElementById("group-pde-diseminasi").classList.remove("hidden");
+            } else if (pdeVal === "evaluasi") {
+                document.getElementById("group-pde-evaluasi").classList.remove("hidden");
+            }
+        }
+
+        function checkFinalSelection() {
             const mainVal = document.getElementById("main-category").value;
-            let subText = "";
-            let mainText = "";
+            let summaryText = "";
+            let isComplete = false;
 
             if (mainVal === "umum") {
-                mainText = "Bagian Umum";
-                subText = document.getElementById("sub-umum").value;
+                const sub = document.getElementById("sub-umum").value;
+                if (sub) {
+                    summaryText = `Bagian Umum ➔ ${sub}`;
+                    isComplete = true;
+                }
             } else if (mainVal === "produksi") {
-                mainText = "Bidang Produksi Statistik";
-                subText = document.getElementById("sub-produksi").value;
-            } else if (mainVal === "pengolahan") {
-                mainText = "Bidang Pengolahan, Diseminasi, dan Evaluasi Statistik";
-                subText = document.getElementById("sub-pengolahan").value;
+                const sub = document.getElementById("sub-produksi").value;
+                if (sub) {
+                    summaryText = `Bidang Produksi Statistik ➔ ${sub}`;
+                    isComplete = true;
+                }
+            } else if (mainVal === "pengolahan-diseminasi-evaluasi") {
+                const pdeMain = document.getElementById("sub-pde-main").value;
+                if (pdeMain === "pengolahan") {
+                    const sub = document.getElementById("sub-pde-pengolahan").value;
+                    if (sub) {
+                        summaryText = `Bidang PDE ➔ Pengolahan ➔ ${sub}`;
+                        isComplete = true;
+                    }
+                } else if (pdeMain === "diseminasi") {
+                    const sub = document.getElementById("sub-pde-diseminasi").value;
+                    if (sub) {
+                        summaryText = `Bidang PDE ➔ Diseminasi ➔ ${sub}`;
+                        isComplete = true;
+                    }
+                } else if (pdeMain === "evaluasi") {
+                    const sub = document.getElementById("sub-pde-evaluasi").value;
+                    if (sub) {
+                        summaryText = `Bidang PDE ➔ Evaluasi ➔ ${sub}`;
+                        isComplete = true;
+                    }
+                }
             }
 
-            if (subText) {
-                document.getElementById("selected-summary").innerText = `${mainText} ➔ ${subText}`;
+            if (isComplete) {
+                finalPathData = summaryText;
+                document.getElementById("selected-summary").innerText = summaryText;
                 document.getElementById("result-container").classList.remove("hidden");
+                document.getElementById("btn-goto-url").classList.remove("hidden");
+            } else {
+                document.getElementById("result-container").classList.add("hidden");
+                document.getElementById("btn-goto-url").classList.add("hidden");
             }
+        }
+
+        function navigateToTargetUrl() {
+            // Placeholder: URL tujuan dapat ditambahkan atau disesuaikan di sini nanti
+            // Contoh: window.location.href = "halaman-tujuan.html?path=" + encodeURIComponent(finalPathData);
+            alert("Pilihan final tercatat:\n" + finalPathData + "\n\n(URL tujuan akan diarahkan ke sini sesuai konfigurasi berikutnya).");
         }
 
         async function handleLogout() {
