@@ -257,7 +257,7 @@
     <!-- Konten Utama Kartu Portal (PEDULI, PRESISI, PREMIUM) -->
     <div class="main-container">
 
-        <!-- Card 1: PEDULI Portal Edukasi dan Literasi -->
+        <!-- Card 0: PEDULI Portal Edukasi dan Literasi -->
         <div class="dashboard-card">
             <h2>P E D U L I</h2>
             <div class="section-title">Portal Edukasi dan Literasi</div>
@@ -266,6 +266,29 @@
             <div class="form-group" style="margin-bottom: 0;">
                 <label for="peduli-select">Pilih Menu / Tautan Literasi</label>
                 <select id="peduli-select" onchange="handleRedirect('peduli-select')">
+                    <option value="" disabled selected>-- Pilih Buku Saku / Portal --</option>
+                    <option value="https://perpustakaan.bps.go.id/digilib/guestbook/dev?l=pojok_ipb">Pojok Statistik IPB</option>
+                    <option value="https://perpustakaan.bps.go.id/digilib/guestbook/dev?l=pojok_itb">Pojok Statistik ITB</option>
+                    <option value="https://perpustakaan.bps.go.id/digilib/guestbook/dev?l=pojok_ui">Pojok Statistik UI</option>
+                    <option value="https://perpustakaan.bps.go.id/digilib/guestbook/dev?l=pojok_unisba">Pojok Statistik UNISBA</option>
+                    <option value="https://perpustakaan.bps.go.id/digilib/guestbook/dev?l=pojok_unpad">Pojok Statistik UNPAD</option>
+                    <option value="https://perpustakaan.bps.go.id/digilib/guestbook/dev?l=pojok_unpar">Pojok Statistik UNPAR</option>
+                    <option value="https://perpustakaan.bps.go.id/digilib/guestbook/dev?l=pojok_unsika">Pojok Statistik UNSIKA</option>
+                    <option value="https://perpustakaan.bps.go.id/digilib/guestbook/dev?l=pojok_unsil">Pojok Statistik UNSIL</option>
+                    <option value="https://perpustakaan.bps.go.id/digilib/guestbook/dev?l=pojok_upb_bekasi">Pojok Statistik UPB Bekasi</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Card 1: BERIMAN -->
+        <div class="dashboard-card">
+            <h2>B E R I M A N</h2>
+            <div class="section-title">Berbagi Ilmu dan Pengalaman</div>
+            <p class="subtitle">Semoga bermanfaat.</p>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="beriman-select">Pilih Menu</label>
+                <select id="beriman-select" onchange="handleRedirect('beriman-select')">
                     <option value="" disabled selected>-- Pilih Buku Saku / Portal --</option>
                     <option value="https://firmanh3200.github.io/pd32/">Audit Pengendali Dokumen ISO</option>
                     <option value="https://firmanh3200.github.io/peduli/cantik.html">Buku Saku Desa Cantik</option>
