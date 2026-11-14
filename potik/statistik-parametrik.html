@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Statistik Parametrik untuk Mahasiswa | Panduan Interaktif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1016;
+    --bg-2:#10161f;
+    --card:rgba(255,255,255,0.035);
+    --card-2:rgba(255,255,255,0.05);
+    --card-border:rgba(255,255,255,0.08);
+    --text:#e8eef5;
+    --muted:#8896a8;
+    --emerald:#10b981;
+    --emerald-2:#34d399;
+    --amber:#f59e0b;
+    --amber-2:#fbbf24;
+    --rose:#f43f5e;
+    --rose-2:#fb7185;
+    --indigo:#6366f1;
+    --indigo-2:#818cf8;
+    --cyan:#06b6d4;
+    --grad-1:linear-gradient(135deg,#10b981 0%,#06b6d4 100%);
+    --grad-2:linear-gradient(135deg,#f59e0b 0%,#f43f5e 100%);
+    --grad-3:linear-gradient(135deg,#6366f1 0%,#818cf8 100%);
+    --grad-4:linear-gradient(135deg,#06b6d4 0%,#fbbf24 100%);
+    --shadow-e:0 20px 60px -20px rgba(16,185,129,0.4);
+    --shadow-a:0 20px 60px -20px rgba(245,158,11,0.4);
+    --shadow-i:0 20px 60px -20px rgba(99,102,241,0.4);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;overflow-x:hidden}
+  body{
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  ::selection{background:rgba(16,185,129,0.3);color:var(--emerald-2)}
+  /* Decorative background */
+  .bg-decoration{
+    position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  }
+  .blob{
+    position:absolute;border-radius:50%;filter:blur(90px);opacity:0.25;
+  }
+  .blob-1{width:550px;height:550px;background:#10b981;top:-150px;right:-150px;animation:float 22s ease-in-out infinite}
+  .blob-2{width:450px;height:450px;background:#f59e0b;bottom:-100px;left:-100px;animation:float 28s ease-in-out infinite reverse}
+  .blob-3{width:380px;height:380px;background:#6366f1;top:45%;left:50%;animation:float 32s ease-in-out infinite}
+  .grid-bg{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse at center,black 0%,transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse at center,black 0%,transparent 75%);
+  }
+  @keyframes float{
+    0%,100%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(50px,40px) scale(1.08)}
+  }
+
+  /* Navigation */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(11,16,22,0.75);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--card-border);
+    padding:14px 0;
+  }
+  nav .container{display:flex;align-items:center;justify-content:space-between}
+  .logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;font-size:1.25rem;
+    display:flex;align-items:center;gap:10px;
+  }
+  .logo-icon{
+    width:34px;height:34px;border-radius:10px;
+    background:var(--grad-1);
+    display:grid;place-items:center;
+    box-shadow:0 8px 20px -8px var(--emerald);
+    font-size:1.05rem;
+  }
+  .nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap}
+  .nav-links a{
+    color:var(--muted);text-decoration:none;
+    padding:8px 12px;border-radius:10px;
+    font-size:.88rem;font-weight:500;
+    transition:all .2s ease;
+  }
+  .nav-links a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+  .menu-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+
+  .container{max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+  /* Hero */
+  .hero{
+    min-height:100vh;
+    display:flex;align-items:center;
+    padding:120px 0 80px;
+    position:relative;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 14px;border-radius:99px;
+    background:rgba(16,185,129,0.15);
+    border:1px solid rgba(16,185,129,0.3);
+    color:#7eead0;font-size:.82rem;font-weight:600;
+    margin-bottom:24px;
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--emerald);box-shadow:0 0 12px var(--emerald);animation:pulse 2s ease infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+  .hero h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(2.4rem,5vw,4rem);
+    line-height:1.05;font-weight:700;
+    letter-spacing:-0.02em;
+    margin-bottom:22px;
+  }
+  .hero h1 .grad{
+    background:var(--grad-1);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{
+    color:var(--muted);font-size:1.08rem;
+    max-width:540px;margin-bottom:32px;
+  }
+  .hero-stats{display:flex;gap:30px;flex-wrap:wrap;margin-top:36px}
+  .stat{display:flex;flex-direction:column}
+  .stat .num{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.8rem;font-weight:700;
+    background:var(--grad-1);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .stat .label{font-size:.82rem;color:var(--muted);margin-top:2px}
+
+  /* Hero visual: bell curve animated */
+  .hero-visual{
+    position:relative;height:480px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hero-bell{
+    position:relative;width:100%;max-width:420px;
+  }
+  .formula-card{
+    position:absolute;
+    background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--card-border);
+    border-radius:14px;padding:12px 16px;
+    box-shadow:0 15px 35px -15px rgba(0,0,0,0.6);
+    animation:floatCard 6s ease-in-out infinite;
+    z-index:2;
+  }
+  .fc-1{top:0;left:0;animation-delay:0s}
+  .fc-2{top:140px;right:0;animation-delay:1.5s}
+  .fc-3{bottom:0;left:30px;animation-delay:3s}
+  .fc-4{bottom:60px;right:0;animation-delay:4.5s}
+  @keyframes floatCard{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-12px)}
+  }
+  .formula-card .fc-label{font-size:.7rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+  .formula-card .fc-value{font-family:'JetBrains Mono',monospace;font-size:.92rem;font-weight:700;color:var(--emerald-2)}
+  .formula-card.amber .fc-value{color:var(--amber-2)}
+  .formula-card.rose .fc-value{color:var(--rose-2)}
+  .formula-card.indigo .fc-value{color:var(--indigo-2)}
+
+  /* Section */
+  section{padding:80px 0;position:relative;scroll-margin-top:70px}
+  footer{scroll-margin-top:70px}
+  .section-head{max-width:740px;margin:0 auto 56px;text-align:center}
+  .section-tag{
+    display:inline-block;
+    padding:5px 14px;border-radius:99px;
+    background:rgba(16,185,129,0.12);
+    border:1px solid rgba(16,185,129,0.25);
+    color:#7eead0;font-size:.78rem;font-weight:600;
+    margin-bottom:18px;letter-spacing:.05em;
+  }
+  .section-head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(1.8rem,3.5vw,2.6rem);
+    line-height:1.1;font-weight:700;letter-spacing:-0.02em;
+    margin-bottom:14px;
+  }
+  .section-head p{color:var(--muted);font-size:1.02rem}
+
+  /* Card */
+  .card{
+    background:var(--card);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--card-border);
+    border-radius:22px;padding:28px;
+    transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(16,185,129,0.4);
+    box-shadow:0 25px 60px -25px rgba(16,185,129,0.35);
+  }
+  .card-icon{
+    width:54px;height:54px;border-radius:14px;
+    display:grid;place-items:center;font-size:1.6rem;margin-bottom:18px;
+  }
+  .card h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.2rem;font-weight:600;margin-bottom:10px;
+  }
+  .card p{color:var(--muted);font-size:.95rem}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:100%;min-width:0}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:100%;min-width:0}
+  .card{max-width:100%;min-width:0;overflow-wrap:break-word}
+
+  /* Definition box */
+  .def-box{
+    background:linear-gradient(135deg,rgba(16,185,129,0.12),rgba(6,182,212,0.06));
+    border:1px solid rgba(16,185,129,0.3);
+    border-radius:20px;padding:34px;
+    margin-bottom:40px;
+    display:flex;gap:24px;align-items:flex-start;
+  }
+  .def-box .quote-mark{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:3.5rem;font-weight:700;line-height:1;
+    background:var(--grad-1);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    flex-shrink:0;
+  }
+  .def-box h3{font-size:1.3rem;margin-bottom:10px;font-family:'Space Grotesk',sans-serif}
+  .def-box p{color:var(--muted);font-size:1rem}
+
+  /* Example callout */
+  .example{
+    margin-top:18px;
+    padding:16px 18px;
+    background:rgba(245,158,11,0.08);
+    border-left:3px solid var(--amber);
+    border-radius:0 12px 12px 0;
+    font-size:.92rem;
+  }
+  .example .ex-label{
+    display:inline-block;
+    font-size:.72rem;font-weight:700;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--amber);
+    margin-bottom:6px;
+  }
+  .example p{color:#ead4b8;font-size:.9rem;line-height:1.6}
+
+  /* Tip box */
+  .tip{
+    margin-top:18px;
+    padding:14px 18px;
+    background:rgba(6,182,212,0.08);
+    border-left:3px solid var(--cyan);
+    border-radius:0 12px 12px 0;
+    font-size:.9rem;color:#bfe6f0;
+    display:flex;gap:10px;align-items:flex-start;
+  }
+  .tip-icon{flex-shrink:0;color:var(--cyan);font-size:1.1rem;line-height:1.6}
+
+  /* Warning box */
+  .warn{
+    margin-top:18px;
+    padding:14px 18px;
+    background:rgba(244,63,94,0.08);
+    border-left:3px solid var(--rose);
+    border-radius:0 12px 12px 0;
+    font-size:.9rem;color:#fcc6d2;
+    display:flex;gap:10px;align-items:flex-start;
+  }
+  .warn-icon{flex-shrink:0;color:var(--rose);font-size:1.1rem;line-height:1.6}
+
+  /* Formula box */
+  .formula-box{
+    background:rgba(0,0,0,0.3);
+    border:1px solid var(--card-border);
+    border-radius:14px;padding:20px;
+    margin:14px 0;
+    text-align:center;
+    overflow-x:auto;max-width:100%;
+  }
+  .formula-box .f-label{
+    font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;
+    margin-bottom:10px;font-weight:600;
+  }
+  .formula-box .f-math{
+    font-family:'JetBrains Mono',monospace;font-size:1.1rem;
+    color:var(--emerald-2);font-weight:600;
+    word-break:break-word;white-space:normal;overflow-wrap:anywhere;
+  }
+  .formula-box.amber .f-math{color:var(--amber-2)}
+  .formula-box.rose .f-math{color:var(--rose-2)}
+  .formula-box.indigo .f-math{color:var(--indigo-2)}
+
+  /* Tabs */
+  .tabs{
+    display:flex;gap:8px;flex-wrap:wrap;
+    background:rgba(255,255,255,0.03);
+    padding:6px;border-radius:14px;margin-bottom:24px;
+    border:1px solid var(--card-border);
+  }
+  .tab-btn{
+    flex:1;min-width:120px;
+    padding:12px 16px;border-radius:10px;
+    background:transparent;border:none;
+    color:var(--muted);font-family:inherit;font-weight:600;font-size:.92rem;
+    cursor:pointer;transition:all .25s ease;
+  }
+  .tab-btn:hover{color:var(--text)}
+  .tab-btn.active{
+    background:var(--grad-1);
+    color:#06281b;
+    box-shadow:0 10px 25px -10px var(--emerald);
+  }
+  .tab-content{display:none;animation:fadeIn .4s ease}
+  .tab-content.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* Calculator */
+  .calc-card{
+    background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(6,182,212,0.04));
+    border:1px solid rgba(16,185,129,0.3);
+    border-radius:24px;padding:32px;
+  }
+  .calc-input{
+    width:100%;
+    background:rgba(0,0,0,0.3);
+    border:1px solid var(--card-border);
+    border-radius:12px;
+    padding:14px 18px;
+    color:var(--text);font-family:'JetBrains Mono',monospace;
+    font-size:1rem;
+    transition:all .2s ease;
+  }
+  .calc-input:focus{
+    outline:none;
+    border-color:var(--emerald);
+    box-shadow:0 0 0 3px rgba(16,185,129,0.2);
+  }
+  .calc-input::placeholder{color:#5b6370}
+  .calc-btn{
+    background:var(--grad-1);
+    color:#06281b;border:none;
+    padding:13px 28px;border-radius:12px;
+    font-family:inherit;font-weight:700;font-size:.95rem;
+    cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 10px 25px -10px var(--emerald);
+  }
+  .calc-btn:hover{transform:translateY(-2px);box-shadow:0 15px 30px -10px var(--emerald)}
+  .calc-btn:active{transform:translateY(0)}
+  .calc-btn.amber{background:var(--grad-2);color:#3a1c08;box-shadow:0 10px 25px -10px var(--amber)}
+  .calc-btn.indigo{background:var(--grad-3);color:#fff;box-shadow:0 10px 25px -10px var(--indigo)}
+
+  .result-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px;
+  }
+  .result-box{
+    background:rgba(0,0,0,0.25);
+    border:1px solid var(--card-border);
+    border-radius:14px;padding:18px;text-align:center;
+  }
+  .result-box .rb-label{
+    font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;
+    margin-bottom:6px;
+  }
+  .result-box .rb-value{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.4rem;font-weight:700;
+    background:var(--grad-1);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .result-box.amber .rb-value{background:var(--grad-2);-webkit-background-clip:text;background-clip:text}
+  .result-box.rose .rb-value{background:linear-gradient(135deg,#f43f5e,#fb7185);-webkit-background-clip:text;background-clip:text}
+  .result-box.indigo .rb-value{background:var(--grad-3);-webkit-background-clip:text;background-clip:text}
+
+  /* Verdict pill */
+  .verdict{
+    margin-top:24px;padding:20px;border-radius:14px;
+    font-weight:600;text-align:center;
+    border:1px solid;display:none;
+  }
+  .verdict.show{display:block;animation:fadeIn .4s ease}
+  .verdict.reject{
+    background:rgba(244,63,94,0.12);color:#fb7185;border-color:rgba(244,63,94,0.4);
+  }
+  .verdict.accept{
+    background:rgba(16,185,129,0.12);color:var(--emerald-2);border-color:rgba(16,185,129,0.4);
+  }
+
+  /* Comparison table */
+  .compare-table{
+    width:100%;border-collapse:separate;border-spacing:0;
+    background:rgba(255,255,255,0.02);
+    border-radius:16px;overflow:hidden;
+    border:1px solid var(--card-border);
+    font-size:.92rem;
+  }
+  .compare-table th,.compare-table td{padding:16px 20px;text-align:left}
+  .compare-table th{
+    background:rgba(16,185,129,0.1);
+    font-family:'Space Grotesk',sans-serif;
+    font-size:.82rem;font-weight:600;
+    color:#7eead0;text-transform:uppercase;letter-spacing:.05em;
+  }
+  .compare-table td{border-top:1px solid var(--card-border);color:var(--muted)}
+  .compare-table td:first-child{color:var(--text);font-weight:600}
+  .compare-table tr:hover td{background:rgba(255,255,255,0.02)}
+  .pill{
+    display:inline-block;padding:3px 10px;border-radius:99px;
+    font-size:.78rem;font-weight:600;
+  }
+  .pill.e{background:rgba(16,185,129,0.15);color:var(--emerald-2);border:1px solid rgba(16,185,129,0.3)}
+  .pill.a{background:rgba(245,158,11,0.15);color:var(--amber-2);border:1px solid rgba(245,158,11,0.3)}
+  .pill.i{background:rgba(99,102,241,0.15);color:var(--indigo-2);border:1px solid rgba(99,102,241,0.3)}
+  .pill.r{background:rgba(244,63,94,0.15);color:var(--rose-2);border:1px solid rgba(244,63,94,0.3)}
+
+  /* Bar chart */
+  .bar-chart{display:flex;align-items:flex-end;gap:14px;height:200px;padding:0 8px}
+  .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}
+  .bar{
+    width:100%;max-width:60px;
+    background:var(--grad-1);
+    border-radius:8px 8px 0 0;
+    transition:height 1s cubic-bezier(.16,1,.3,1);
+    position:relative;min-height:4px;
+  }
+  .bar .bar-val{
+    position:absolute;top:-22px;left:50%;transform:translateX(-50%);
+    font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;color:var(--text);
+  }
+  .bar-label{font-size:.78rem;color:var(--muted);text-align:center}
+
+  /* Scatter plot */
+  .scatter-plot{
+    position:relative;
+    background:rgba(0,0,0,0.25);
+    border:1px solid var(--card-border);
+    border-radius:14px;
+    height:340px;margin-top:14px;overflow:hidden;
+  }
+  .scatter-plot svg{width:100%;height:100%}
+
+  /* Quiz */
+  .quiz-card{
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--card-border);
+    border-radius:20px;padding:28px;margin-bottom:18px;
+    transition:all .3s ease;
+  }
+  .quiz-question{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.05rem;font-weight:600;margin-bottom:18px;
+    display:flex;gap:12px;
+  }
+  .quiz-q-num{
+    flex-shrink:0;width:32px;height:32px;border-radius:50%;
+    background:var(--grad-1);
+    display:grid;place-items:center;color:#06281b;font-size:.85rem;font-weight:700;
+  }
+  .quiz-options{display:grid;gap:10px;margin-left:44px}
+  .quiz-opt{
+    padding:12px 18px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--card-border);
+    border-radius:10px;
+    cursor:pointer;
+    transition:all .2s ease;
+    font-size:.92rem;
+    display:flex;align-items:center;gap:10px;
+  }
+  .quiz-opt:hover{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.4)}
+  .quiz-opt .opt-letter{
+    width:24px;height:24px;border-radius:6px;
+    background:rgba(255,255,255,0.06);
+    display:grid;place-items:center;font-weight:700;font-size:.8rem;
+    flex-shrink:0;
+  }
+  .quiz-opt.correct{
+    background:rgba(16,185,129,0.15);border-color:var(--emerald);
+    color:#9be8c4;
+  }
+  .quiz-opt.correct .opt-letter{background:var(--emerald);color:#06281b}
+  .quiz-opt.wrong{
+    background:rgba(244,63,94,0.15);border-color:var(--rose);
+    color:#fcd0d8;
+  }
+  .quiz-opt.wrong .opt-letter{background:var(--rose);color:#3a0814}
+  .quiz-feedback{
+    margin-top:14px;margin-left:44px;padding:12px 16px;
+    border-radius:10px;font-size:.9rem;display:none;
+  }
+  .quiz-feedback.show{display:block;animation:fadeIn .3s ease}
+  .quiz-feedback.correct{background:rgba(16,185,129,0.1);color:#9be8c4;border:1px solid rgba(16,185,129,0.3)}
+  .quiz-feedback.wrong{background:rgba(244,63,94,0.1);color:#fcd0d8;border:1px solid rgba(244,63,94,0.3)}
+  .quiz-score{
+    text-align:center;padding:28px;
+    background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(6,182,212,0.1));
+    border:1px solid rgba(16,185,129,0.3);
+    border-radius:20px;
+    margin-top:24px;display:none;
+  }
+  .quiz-score.show{display:block;animation:fadeIn .4s ease}
+  .quiz-score .score-num{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:3rem;font-weight:700;
+    background:var(--grad-1);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  /* Chi-square sim */
+  .chi-square-card{
+    background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(129,140,248,0.04));
+    border:1px solid rgba(99,102,241,0.3);
+    border-radius:24px;padding:30px;
+  }
+  .cs-grid{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:20px;
+    max-width:500px;margin-left:auto;margin-right:auto;
+  }
+  .cs-cell{
+    padding:14px;text-align:center;
+    background:rgba(0,0,0,0.3);border:1px solid var(--card-border);
+    border-radius:10px;
+  }
+  .cs-cell .cs-label{font-size:.78rem;color:var(--muted);margin-bottom:4px}
+  .cs-cell .cs-value{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--indigo-2)}
+  .cs-cell.observed .cs-value{color:var(--amber-2)}
+  .cs-cell.expected .cs-value{color:var(--muted)}
+  .cs-cell.diff .cs-value{color:var(--rose-2)}
+
+  /* Normal dist viz */
+  .normal-viz{
+    background:rgba(0,0,0,0.25);
+    border:1px solid var(--card-border);
+    border-radius:18px;padding:24px;margin-top:20px;
+  }
+
+  /* Reveal on scroll */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease, transform .8s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* Footer */
+  footer{
+    padding:60px 0 40px;
+    border-top:1px solid var(--card-border);
+    text-align:center;color:var(--muted);
+    margin-top:40px;
+  }
+  footer .logo{justify-content:center;margin-bottom:14px}
+  footer p{font-size:.88rem;max-width:500px;margin:0 auto 18px}
+
+  /* Responsive */
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:30px}
+    .hero-visual{height:380px}
+    .grid-3,.grid-2,.grid-4{grid-template-columns:1fr}
+    .result-grid{grid-template-columns:repeat(2,1fr)}
+    .nav-links{
+      position:fixed;top:60px;left:0;right:0;
+      background:rgba(11,16,22,0.95);
+      backdrop-filter:blur(20px);
+      flex-direction:column;padding:20px;
+      border-bottom:1px solid var(--card-border);
+      transform:translateY(-150%);
+      transition:transform .3s ease;
+    }
+    .nav-links.open{transform:translateY(0)}
+    .menu-toggle{display:block}
+    .quiz-options{margin-left:0}
+    .quiz-feedback{margin-left:0}
+    .def-box{flex-direction:column;gap:12px}
+    .formula-card{padding:8px 12px}
+    .formula-card .fc-value{font-size:.78rem}
+    .fc-1{top:0;left:0}
+    .fc-2{top:120px;right:0}
+    .fc-3{bottom:20px;left:0}
+    .fc-4{bottom:90px;right:0}
+    .cs-grid{grid-template-columns:1fr 1fr 1fr;gap:6px}
+    .cs-cell{padding:10px 6px}
+    .cs-cell .cs-value{font-size:.95rem}
+    .compare-table{display:block;overflow-x:auto;white-space:nowrap;border-radius:14px;table-layout:fixed;max-width:100%}
+  }
+  .compare-table td,.compare-table th{word-break:break-word;overflow-wrap:anywhere}
+  @media(max-width:560px){
+    .hero h1{font-size:2.2rem}
+    section{padding:60px 0}
+    .card{padding:22px}
+    .calc-card,.chi-square-card{padding:22px}
+    .formula-box .f-math{font-size:.92rem}
+  }
+  @media(max-width:420px){
+    .formula-box .f-math{font-size:.8rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-decoration">
+  <div class="grid-bg"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- Navigation -->
+<nav>
+  <div class="container">
+    <div class="logo">
+      <div class="logo-icon">σ²</div>
+      <span>Statistik Parametrik</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#pengertian">Pengertian</a></li>
+      <li><a href="#asumsi">Asumsi</a></li>
+      <li><a href="#uji-t">Uji-t</a></li>
+      <li><a href="#anova">ANOVA</a></li>
+      <li><a href="#korelasi">Korelasi</a></li>
+      <li><a href="#chi-square">Chi-Square</a></li>
+      <li><a href="#regresi">Regresi</a></li>
+      <li><a href="#deret-waktu">Deret Waktu</a></li>
+      <li><a href="#kuis">Kuis</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="badge"><span class="dot"></span> Panduan Lanjutan untuk Mahasiswa</div>
+        <h1>Statistik <span class="grad">Parametrik</span> dari Nol Sampai Mahir</h1>
+        <p class="lead">Dari uji-t, ANOVA, korelasi Pearson, chi-square, regresi, hingga analisis deret waktu (ARIMA). Pelajari metode pengujian hipotesis paling sering dipakai riset &amp; skripsi — dengan contoh nyata dari keseharian mahasiswa.</p>
+        <div class="hero-stats">
+          <div class="stat"><span class="num" data-count="8">0</span><span class="label">Topik Inti</span></div>
+          <div class="stat"><span class="num" data-count="30">0</span><span class="label">+ Contoh Nyata</span></div>
+          <div class="stat"><span class="num" data-count="6">0</span><span class="label">Alat Interaktif</span></div>
+          <div class="stat"><span class="num" data-count="7">0</span><span class="label">Soal Kuis</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-bell">
+          <svg viewBox="0 0 420 280" style="width:100%;height:auto;opacity:0.95">
+            <defs>
+              <linearGradient id="bellGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#10b981" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="tailL" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.45"/>
+                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="tailR" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.45"/>
+                <stop offset="100%" stop-color="#f43f5e" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- Critical region left (alpha) -->
+            <path d="M 30,240 Q 60,235 80,225 L 80,240 Z" fill="url(#tailL)"/>
+            <!-- Critical region right -->
+            <path d="M 340,225 Q 360,235 390,240 L 390,240 L 340,240 Z" fill="url(#tailR)"/>
+            <!-- Main bell -->
+            <path d="M 30,240 Q 80,238 110,225 Q 150,200 170,140 Q 200,40 210,40 Q 220,40 250,140 Q 270,200 310,225 Q 340,238 390,240 L 390,240 L 30,240 Z" fill="url(#bellGrad)" stroke="#10b981" stroke-width="1.5"/>
+            <!-- Mean line -->
+            <line x1="210" y1="40" x2="210" y2="240" stroke="#fbbf24" stroke-width="2" stroke-dasharray="3 3"/>
+            <text x="210" y="262" text-anchor="middle" fill="#fbbf24" font-family="'Space Grotesk'" font-size="11" font-weight="600">μ (mean)</text>
+            <!-- Alpha labels -->
+            <text x="55" y="225" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="600">α/2</text>
+            <text x="365" y="225" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="600">α/2</text>
+            <!-- 1 sigma -->
+            <text x="155" y="262" text-anchor="middle" fill="#7eead0" font-size="10">-1σ</text>
+            <text x="265" y="262" text-anchor="middle" fill="#7eead0" font-size="10">+1σ</text>
+            <line x1="40" y1="240" x2="380" y2="240" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="formula-card fc-1">
+          <div class="fc-label">Uji-t</div>
+          <div class="fc-value">t = (x̄−μ₀) / (s/√n)</div>
+        </div>
+        <div class="formula-card fc-2 amber">
+          <div class="fc-label">ANOVA</div>
+          <div class="fc-value">F = MSB / MSW</div>
+        </div>
+        <div class="formula-card fc-3 rose">
+          <div class="fc-label">Chi-Square</div>
+          <div class="fc-value">χ² = Σ (O−E)² / E</div>
+        </div>
+        <div class="formula-card fc-4 indigo">
+          <div class="fc-label">Pearson</div>
+          <div class="fc-value">r = Σxy / √(Σx²·Σy²)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Pengertian -->
+<section id="pengertian">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">01 — Pengertian</span>
+      <h2>Statistik Parametrik itu Apa?</h2>
+      <p>Memahami batas dan kekuatan metode parametrik sebelum memakainya.</p>
+    </div>
+
+    <div class="def-box reveal">
+      <div class="quote-mark">"</div>
+      <div>
+        <h3>Statistik parametrik adalah metode inferensial yang mengasumsikan data berasal dari distribusi tertentu — paling sering distribusi normal — dengan parameter yang bisa diestimasi (mean, variansi).</h3>
+        <p>"Parametrik" karena metode ini menguji/memperkirakan <strong>parameter</strong> populasi (μ, σ²). Lawannya, statistik non-parametrik (Mann-Whitney, Kruskal-Wallis) tidak perlu asumsi distribusi dan cocok untuk data ordinal atau sampel kecil.</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(16,185,129,0.05));color:var(--emerald-2)">🎯</div>
+        <h3>Kapan Dipakai?</h3>
+        <p>Untuk data skala interval/rasio yang berdistribusi normal. Contoh: nilai ujian, berat badan, suhu, pendapatan, waktu tempuh.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Peneliti ingin tahu apakah rata-rata nilai mata kuliah Statistik kelas A (78) berbeda signifikan dari standar kampus (75). Karena nilai numerik &amp; bisa normal, gunakan uji-t satu sampel.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(245,158,11,0.05));color:var(--amber-2)">⚖️</div>
+        <h3>Parametrik vs Non-Parametrik</h3>
+        <p>Parametrik lebih kuat (power tinggi) jika asumsi terpenuhi, tapi rapuh saat dilanggar. Non-parametrik lebih fleksibel tapi kurang sensitif.</p>
+        <table style="width:100%;font-size:.85rem;margin-top:14px">
+          <tr style="border-bottom:1px solid var(--card-border)">
+            <td style="padding:8px 0;color:var(--text);font-weight:600">Data</td>
+            <td style="padding:8px 0">Interval/rasio vs Ordinal/nominal</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--card-border)">
+            <td style="padding:8px 0;color:var(--text);font-weight:600">Distribusi</td>
+            <td style="padding:8px 0">Normal vs Bebas distribusi</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;color:var(--text);font-weight:600">Sampel</td>
+            <td style="padding:8px 0">Besar (≥30) vs Bisa kecil</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(6,182,212,0.05));color:var(--cyan)">🧭</div>
+        <h3>Mengapa Dipelajari?</h3>
+        <p> Hampir semua penelitian kuantitatif publikasi ilmiah — medis, ekonomi, psikologi, sosial — memakai metode parametrik. Wajib dikuasai untuk membaca jurnal &amp; skripsi.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Journal of Educational Psychology: 80%+ studi memakai uji-t atau ANOVA. Tidak menguasainya = tidak bisa membaca hasil riset peer-review.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Asumsi -->
+<section id="asumsi">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">02 — Asumsi Dasar</span>
+      <h2>Empat Pilar yang Harus Dipenuhi</h2>
+      <p>Sebelum pakai metode parametrik, pastikan empat asumsi ini terpenuhi. Jika tidak, hasil bisa menyesatkan.</p>
+    </div>
+
+    <div class="grid-4">
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(16,185,129,0.05));color:var(--emerald-2)">📈</div>
+        <h3>1. Normalitas</h3>
+        <p>Data sampel diharapkan berasal dari populasi yang berdistribusi normal. Diuji dengan Shapiro-Wilk (n&lt;50), Kolmogorov-Smirnov (n&gt;50), atau Q-Q plot.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Tinggi badan mahasiswa umumnya normal. Tapi pengeluaran bulanan mahasiswa sering miring kanan (banyak yang kecil, sedikit yang ekstrem) — bukan normal.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(245,158,11,0.05));color:var(--amber-2)">⚖️</div>
+        <h3>2. Homogenitas</h3>
+        <p>Variansi antar kelompok sebanding. Diuji dengan Levene's Test. Penting untuk uji-t dua sampel &amp; ANOVA.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Mau bandingkan nilai dua kelas. Kelas A variansi 4 (rapat), kelas B variansi 100 (tersebar). Homogenitas lemah — ANOVA biasa jadi tak valid.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(6,182,212,0.05));color:var(--cyan)">🎲</div>
+        <h3>3. Independensi</h3>
+        <p>Pengamatan satu sampel tidak mempengaruhi pengamatan lain. Dirancang saat pengambilan sampel.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Survei kepuasan mahasiswa satu kelas — mungkin mereka saling ngobrol dulu. Untuk independen, ambil sampel acak dari seluruh angkatan, bukan satu kelas saja.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(99,102,241,0.05));color:var(--indigo-2)">🔢</div>
+        <h3>4. Skala Interval/Rasio</h3>
+        <p>Data berupa angka bermakna dengan jarak tetap. Bukan kategorikal atau ordinal.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Nilai ujian (0-100), tinggi badan, berat, suhu — interval/rasio, cocok. Rating kepuasan 1-5 bintang — ordinal, sebaiknya non-parametrik.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:30px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">🔍 Uji Asumsi yang Umum Dipakai</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Asumsi</th><th>Uji Statistik</th><th>Aturan</th><th>Alternatif Jika Gagal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Normalitas</td><td>Shapiro-Wilk / K-S</td><td>p &gt; 0.05 = normal</td><td>Transformasi data / non-parametrik</td></tr>
+          <tr><td>Homogenitas Variansi</td><td>Levene's Test</td><td>p &gt; 0.05 = homogen</td><td>Uji-t Welch / ANOVA Welch</td></tr>
+          <tr><td>Independensi</td><td>Desain riset (bukan uji)</td><td>Sampel acak, tidak berhubungan</td><td>Gunakan paired test / model efek acak</td></tr>
+          <tr><td>Skala Data</td><td>Inspeksi manual</td><td>Interval atau rasio</td><td>Non-parametrik (Mann-Whitney, dll)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Uji-t -->
+<section id="uji-t">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">03 — Uji-t</span>
+      <h2>Uji-t: Membandingkan Rata-rata</h2>
+      <p>Uji paling dasar untuk membandingkan mean. Tiga varian: satu sampel, dua sampel independen, dan berpasangan.</p>
+    </div>
+
+    <div class="tabs reveal">
+      <button class="tab-btn t-tab active" data-tab="t1">🎯 Satu Sampel</button>
+      <button class="tab-btn t-tab" data-tab="t2">👥 Dua Sampel Independen</button>
+      <button class="tab-btn t-tab" data-tab="t3">🔄 Berpasangan</button>
+    </div>
+
+    <div class="tab-content active" id="tab-t1">
+      <div class="grid-2">
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Uji-t Satu Sampel</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Membandingkan rata-rata satu kelompok dengan nilai referensi (μ₀) yang sudah diketahui.</p>
+          <div class="formula-box">
+            <div class="f-label">Rumus</div>
+            <div class="f-math">t = (x̄ − μ₀) / (s / √n)</div>
+          </div>
+          <div class="example">
+            <span class="ex-label">Contoh Nyata</span>
+            <p>Klaim kampus: rata-rata IPK mahasiswa = 3.5. Kamu ambil sampel 36 mahasiswa, dapat x̄=3.3, s=0.4. Apakah klaim benar?</p>
+          </div>
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <span>Derajat bebas (df) = n − 1. Untuk n=36, df=35. Bandingkan t-hitung dengan t-tabel (umumnya ±2.03 pada α=0.05 dua arah).</span>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Visual: Distribusi t</h3>
+          <div class="normal-viz">
+            <svg viewBox="0 0 600 240" style="width:100%;height:auto">
+              <defs>
+                <linearGradient id="tGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#10b981" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#10b981" stop-opacity="0.05"/>
+                </linearGradient>
+                <linearGradient id="tCrit" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.6"/>
+                  <stop offset="100%" stop-color="#f43f5e" stop-opacity="0.1"/>
+                </linearGradient>
+              </defs>
+              <!-- Main bell -->
+              <path d="M 40,200 Q 120,198 180,180 Q 230,140 250,90 Q 280,30 300,25 Q 320,30 350,90 Q 370,140 420,180 Q 480,198 560,200 L 560,200 L 40,200 Z" fill="url(#tGrad1)" stroke="#10b981" stroke-width="1.5"/>
+              <!-- Critical region right (t-hitung = 2.5 area) -->
+              <path d="M 430,180 Q 480,198 560,200 L 560,200 L 430,200 Z" fill="url(#tCrit)" stroke="#f43f5e" stroke-width="1.5"/>
+              <!-- t-critical line -->
+              <line x1="430" y1="30" x2="430" y2="200" stroke="#fb7185" stroke-width="2" stroke-dasharray="4 3"/>
+              <text x="430" y="22" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="600" font-family="'Space Grotesk'">t-tabel</text>
+              <!-- t-hitung arrow -->
+              <circle cx="490" cy="190" r="4" fill="#fbbf24"/>
+              <text x="490" y="220" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="600">t-hitung</text>
+              <!-- H0 -->
+              <line x1="300" y1="25" x2="300" y2="200" stroke="#7eead0" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <text x="300" y="220" text-anchor="middle" fill="#7eead0" font-size="11" font-weight="600">H₀: μ=μ₀</text>
+              <line x1="20" y1="200" x2="580" y2="200" stroke="rgba(255,255,255,0.2)"/>
+            </svg>
+            <p style="text-align:center;margin-top:10px;font-size:.85rem;color:var(--muted)">Jika t-hitung &gt; t-tabel → tolak H₀ (ada beda signifikan)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-t2">
+      <div class="grid-2">
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Uji-t Dua Sampel Independen</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Membandingkan rata-rata dua kelompok yang berbeda &amp; tidak berhubungan.</p>
+          <div class="formula-box amber">
+            <div class="f-label">Rumus (variansi diasumsikan sama)</div>
+            <div class="f-math">t = (x̄₁ − x̄₂) / [s_p · √(1/n₁ + 1/n₂)]</div>
+          </div>
+          <div class="formula-box amber" style="margin-top:10px">
+            <div class="f-label">Pooled Variansi</div>
+            <div class="f-math">s_p² = [(n₁−1)s₁² + (n₂−1)s₂²] / (n₁+n₂−2)</div>
+          </div>
+          <div class="example">
+            <span class="ex-label">Contoh Nyata</span>
+            <p>Apakah metode belajar baru lebih efektif? Kelas A (metode lama): n=25, x̄=75, s=8. Kelas B (metode baru): n=25, x̄=82, s=7. Bandingkan rata-rata kedua kelas.</p>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Tahapan Pengujian</h3>
+          <ol style="color:var(--muted);font-size:.95rem;line-height:1.9;padding-left:20px">
+            <li><strong style="color:var(--text)">Hipotesis:</strong> H₀: μ₁ = μ₂ vs H₁: μ₁ ≠ μ₂</li>
+            <li><strong style="color:var(--text)">Tingkat signifikansi:</strong> α = 0.05</li>
+            <li><strong style="color:var(--text)">Uji asumsi:</strong> normalitas &amp; homogenitas variansi</li>
+            <li><strong style="color:var(--text)">Hitung t-hitung</strong> dengan rumus di kiri</li>
+            <li><strong style="color:var(--text)">Bandingkan</strong> dengan t-tabel (df = n₁+n₂−2)</li>
+            <li><strong style="color:var(--text)">Kesimpulan:</strong> jika |t-hitung| &gt; t-tabel → tolak H₀</li>
+          </ol>
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <span>Jika variansi tidak homogen (Levene p&lt;0.05), gunakan uji-t Welch (varian tak diasumsikan sama) — formula sedikit berbeda &amp; df disesuaikan.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-t3">
+      <div class="grid-2">
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Uji-t Berpasangan (Paired t-test)</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Membandingkan dua pengukuran pada <strong>subjek yang sama</strong> — sebelum &amp; sesudah, kondisi A vs B.</p>
+          <div class="formula-box rose">
+            <div class="f-label">Rumus</div>
+            <div class="f-math">t = d̄ / (s_d / √n)</div>
+          </div>
+          <p style="font-size:.85rem;color:var(--muted);margin-top:6px">d̄ = rata-rata selisih; s_d = std. deviasi selisih; n = pasangan</p>
+          <div class="example">
+            <span class="ex-label">Contoh Nyata</span>
+            <p>Nilai 20 mahasiswa sebelum (rata 70) &amp; sesudah les (rata 80). Karena subjeknya sama, gunakan uji-t berpasangan — bukan dua sampel independen!</p>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Sebelum vs Sesudah</h3>
+          <div class="normal-viz">
+            <div class="bar-chart" id="pairedChart"></div>
+            <div style="text-align:center;margin-top:14px;font-size:.85rem;color:var(--muted)">d̄ = +10 (rata-rata kenaikan)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Calculator -->
+    <div class="calc-card reveal" style="margin-top:40px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:8px">🧮 Kalkulator Uji-t Satu Sampel</h3>
+      <p style="color:var(--muted);margin-bottom:22px">Masukkan rata-rata sampel (x̄), nilai referensi (μ₀), standar deviasi (s), ukuran sampel (n). Hasil: t-hitung &amp; kesimpulan.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px">
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">x̄ (rata-rata sampel)</label>
+          <input type="number" class="calc-input" id="tXbar" placeholder="3.3" step="0.01">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">μ₀ (referensi)</label>
+          <input type="number" class="calc-input" id="tMu0" placeholder="3.5" step="0.01">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">s (std. deviasi)</label>
+          <input type="number" class="calc-input" id="tS" placeholder="0.4" step="0.01">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">n (sampel)</label>
+          <input type="number" class="calc-input" id="tN" placeholder="36" step="1">
+        </div>
+      </div>
+      <button class="calc-btn" id="tCalcBtn">Hitung t-hitung</button>
+      <div class="result-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="result-box">
+          <div class="rb-label">t-hitung</div>
+          <div class="rb-value" id="tResult">—</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">df (n−1)</div>
+          <div class="rb-value" id="tDf">—</div>
+        </div>
+        <div class="result-box indigo">
+          <div class="rb-label">t-tabel (α=0.05)</div>
+          <div class="rb-value" id="tCrit">—</div>
+        </div>
+      </div>
+      <div class="verdict" id="tVerdict"></div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:14px;text-align:center">💡 Coba contoh: x̄=3.3, μ₀=3.5, s=0.4, n=36 — melihat apakah IPK mahasiswa benar-benar 3.5.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ANOVA -->
+<section id="anova">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">04 — ANOVA</span>
+      <h2>ANOVA: Membandingkan &gt;2 Kelompok</h2>
+      <p>Bukan melakukan banyak uji-t berulang, ANOVA menyelesaikan semuanya dalam satu uji.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(245,158,11,0.05));color:var(--amber-2)">📊</div>
+        <h3>Analysis of Variance</h3>
+        <p>Menguji apakah rata-rata 3 kelompok atau lebih berbeda signifikan. Ide kunci: membandingkan variansi <strong>antar</strong> kelompok dengan variansi <strong>dalam</strong> kelompok.</p>
+        <div class="formula-box amber">
+          <div class="f-label">Rumus F</div>
+          <div class="f-math">F = MSB / MSW</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">
+          <strong>MSB</strong> = Mean Square Between (variansi antar kelompok)<br>
+          <strong>MSW</strong> = Mean Square Within (variansi dalam kelompok)
+        </p>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(16,185,129,0.05));color:var(--emerald-2)">🎯</div>
+        <h3>Mengapa Tidak Banyak Uji-t?</h3>
+        <p>Kalau bandingkan 4 kelompok, butuh C(4,2)=6 uji-t. Dengan α=0.05 tiap uji, peluang setidaknya satu kesalahan tipe I meningkat menjadi ~26%.</p>
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <span>ANOVA hanya bilang "ada beda". Untuk tahu kelompok mana yang beda, butuh uji lanjutan (Post-hoc): Tukey HSD, Bonferroni, atau Scheffé.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Tabel ANOVA (Konsep)</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Sumber Variansi</th><th>SS (Sum of Squares)</th><th>df</th><th>MS (Mean Square)</th><th>F</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Antar Kelompok (Between)</td><td>SSB</td><td>k − 1</td><td>SSB / (k−1) = MSB</td><td>F = MSB / MSW</td></tr>
+          <tr><td>Dalam Kelompok (Within)</td><td>SSW</td><td>N − k</td><td>SSW / (N−k) = MSW</td><td>—</td></tr>
+          <tr><td>Total</td><td>SST</td><td>N − 1</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.85rem;color:var(--muted);margin-top:10px"><strong style="color:var(--text)">k</strong> = banyak kelompok, <strong style="color:var(--text)">N</strong> = total pengamatan</p>
+    </div>
+
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:8px">📊 Visualisasi: 3 Kelompok dengan Mean Berbeda</h3>
+      <p style="color:var(--muted);margin-bottom:22px">Tiga metode belajar dengan rata-rata skor berbeda. Apakah perbedaannya signifikan? ANOVA menjawab.</p>
+      <div class="bar-chart" id="anovaChart"></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px">
+        <div class="result-box">
+          <div class="rb-label">Metode A (Konvensional)</div>
+          <div class="rb-value" style="font-size:1.1rem">x̄ = 70</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">Metode B (Diskusi)</div>
+          <div class="rb-value" style="font-size:1.1rem">x̄ = 78</div>
+        </div>
+        <div class="result-box indigo">
+          <div class="rb-label">Metode C (Game-based)</div>
+          <div class="rb-value" style="font-size:1.1rem">x̄ = 85</div>
+        </div>
+      </div>
+      <div class="example">
+        <span class="ex-label">Contoh Nyata</span>
+        <p>Dosen ingin tahu mana metode belajar paling efektif. Tiga kelas masing-masing 30 mhs diberi metode berbeda. ANOVA menguji: H₀: μ_A = μ_B = μ_C. Jika p-value &lt; 0.05, tolak H₀ — minimal ada satu kelompok yang berbeda. Lalu uji post-hoc menemukan: Metode C paling unggul.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Korelasi Pearson -->
+<section id="korelasi">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">05 — Korelasi Pearson</span>
+      <h2>Mengukur Hubungan Dua Variabel</h2>
+      <p>Apakah dua hal saling berhubungan? Korelasi Pearson menjawab dengan angka antara -1 hingga +1.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Koefisien Korelasi (r)</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Mengukur kekuatan &amp; arah hubungan <strong>linear</strong> antara dua variabel interval/rasio.</p>
+        <div class="formula-box indigo">
+          <div class="f-label">Rumus</div>
+          <div class="f-math">r = Σ(xᵢ−x̄)(yᵢ−ȳ) / √[Σ(xᵢ−x̄)² · Σ(yᵢ−ȳ)²]</div>
+        </div>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Apakah jam belajar berhubungan dengan nilai? Dari 30 mahasiswa didapat r = +0.78 — hubungan kuat positif. Makin sering belajar, makin tinggi nilai.</p>
+        </div>
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <span><strong>Korelasi bukan kausalitas!</strong> r yang tinggi tidak berarti satu menyebabkan lain. Bisa jadi ada variabel ketiga (confounder) atau kebetulan.</span>
+        </div>
+      </div>
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Interpretasi Nilai r</h3>
+        <table class="compare-table">
+          <thead><tr><th>|r|</th><th>Kekuatan Hubungan</th><th>Visual</th></tr></thead>
+          <tbody>
+            <tr><td>0.00 – 0.19</td><td>Sangat lemah</td><td>acak</td></tr>
+            <tr><td>0.20 – 0.39</td><td>Lemah</td><td>agak naik</td></tr>
+            <tr><td>0.40 – 0.59</td><td>Sedang</td><td>terlihat naik</td></tr>
+            <tr><td>0.60 – 0.79</td><td>Kuat</td><td>jelas naik</td></tr>
+            <tr><td>0.80 – 1.00</td><td>Sangat kuat</td><td>garis lurus</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          <span class="pill e">r &gt; 0 : positif (naik)</span>
+          <span class="pill r">r &lt; 0 : negatif (turun)</span>
+          <span class="pill a">r = 0 : tidak linear</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Scatter -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">🔬 Scatter Plot Interaktif: Jam Belajar vs Nilai</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Geser slider korelasi untuk melihat bagaimana titik menyebar &amp; koefisien r berubah.</p>
+      <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:14px">
+        <label style="font-size:.9rem;color:var(--muted);font-weight:600">Kekuatan korelasi (r):</label>
+        <input type="range" id="corrSlider" min="-1" max="1" step="0.05" value="0.7" style="flex:1;min-width:240px;accent-color:var(--indigo)">
+        <span id="corrVal" style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--indigo-2);min-width:80px">+0.70</span>
+      </div>
+      <div class="scatter-plot">
+        <svg id="scatterSvg" viewBox="0 0 600 340" preserveAspectRatio="none"></svg>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px">
+        <div class="result-box indigo">
+          <div class="rb-label">Koefisien r</div>
+          <div class="rb-value" id="scatterR">+0.70</div>
+        </div>
+        <div class="result-box">
+          <div class="rb-label">Kekuatan</div>
+          <div class="rb-value" id="scatterStrength" style="font-size:1rem">Kuat</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">Arah</div>
+          <div class="rb-value" id="scatterDir" style="font-size:1rem">Positif</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Chi-Square -->
+<section id="chi-square">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">06 — Chi-Square</span>
+      <h2>Uji Chi-Square: Data Kategorikal</h2>
+      <p>Untuk menguji hubungan antara dua variabel kategorikal. Beda dengan Pearson: datanya bukan angka berurutan.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(99,102,241,0.05));color:var(--indigo-2)">🎯</div>
+        <h3>Chi-SquareIndependence</h3>
+        <p>Menguji apakah dua variabel kategorikal saling bebas (tidak berhubungan). Hasil dibandingkan dengan tabel kontingensi (silang).</p>
+        <div class="formula-box indigo">
+          <div class="f-label">Rumus</div>
+          <div class="f-math">χ² = Σ (Oᵢ − Eᵢ)² / Eᵢ</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">
+          <strong>O</strong> = frekuensi observasi (yang teramati)<br>
+          <strong>E</strong> = frekuensi ekspektasi (yang diharapkan jika H₀ benar)
+        </p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Apakah pilihan jurusan (Teknik/Soshum/Seni) berhubungan dengan jenis kelamin? Survei 200 mahasiswa baru, buat tabel kontingensi 3×2, hitung χ².</p>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(245,158,11,0.05));color:var(--amber-2)">🔢</div>
+        <h3>Menghitung Expected (E)</h3>
+        <p>Frekuensi yang diharapkan jika tidak ada hubungan antara dua variabel.</p>
+        <div class="formula-box amber">
+          <div class="f-label">Rumus</div>
+          <div class="f-math">Eᵢⱼ = (baris_i × kolom_j) / N_total</div>
+        </div>
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <span>Syarat: setiap sel expected sebaiknya ≥ 5. Jika kurang, gunakan Fisher's Exact Test atau gabungkan kategori.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Chi-Square Sim -->
+    <div class="chi-square-card reveal" style="margin-top:30px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:8px">🧮 Simulator Chi-Square: Hobi &amp; IPK</h3>
+      <p style="color:var(--muted);margin-bottom:22px">Tabel kontingensi 2×2: hubungan antara hobi membaca (Y/T) dengan IPK tinggi (≥3.5). Atur jumlah pengamatan, lihat χ² berubah.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:680px;margin:0 auto">
+        <div>
+          <h4 style="font-family:'Space Grotesk';font-size:.95rem;color:var(--muted);margin-bottom:10px;text-align:center">Pembaca (Hobi Baca = Ya)</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="cs-cell observed">
+              <div class="cs-label">IPK Tinggi</div>
+              <input type="number" class="calc-input cs-input" data-cell="a" value="40" style="text-align:center;padding:8px">
+            </div>
+            <div class="cs-cell observed">
+              <div class="cs-label">IPK Rendah</div>
+              <input type="number" class="calc-input cs-input" data-cell="b" value="10" style="text-align:center;padding:8px">
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4 style="font-family:'Space Grotesk';font-size:.95rem;color:var(--muted);margin-bottom:10px;text-align:center">Bukan Pembaca (Tidak)</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="cs-cell observed">
+              <div class="cs-label">IPK Tinggi</div>
+              <input type="number" class="calc-input cs-input" data-cell="c" value="20" style="text-align:center;padding:8px">
+            </div>
+            <div class="cs-cell observed">
+              <div class="cs-label">IPK Rendah</div>
+              <input type="number" class="calc-input cs-input" data-cell="d" value="30" style="text-align:center;padding:8px">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn indigo" id="csCalcBtn" style="margin:24px auto 0;display:block;background:var(--grad-3);color:white;box-shadow:0 10px 25px -10px var(--indigo)">Hitung Chi-Square</button>
+
+      <div class="result-grid" style="grid-template-columns:repeat(3,1fr);max-width:520px;margin:24px auto 0">
+        <div class="result-box indigo">
+          <div class="rb-label">χ² Hitung</div>
+          <div class="rb-value" id="csResult">—</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">χ² Tabel (df=1, α=0.05)</div>
+          <div class="rb-value" id="csCrit">3.84</div>
+        </div>
+        <div class="result-box">
+          <div class="rb-label">p-value (aprox)</div>
+          <div class="rb-value" id="csPval">—</div>
+        </div>
+      </div>
+      <div class="verdict" id="csVerdict"></div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:14px;text-align:center">💡 Coba nilai a=40, b=10, c=20, d=30 — apakah hobi membaca berhubungan dengan IPK?</p>
+    </div>
+  </div>
+</section>
+
+<!-- Regresi Linear -->
+<section id="regresi">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">07 — Regresi Linear</span>
+      <h2>Regresi: Memprediksi dari Data</h2>
+      <p>Lebih jauh dari korelasi: regresi membuat persamaan untuk memprediksi nilai y dari x.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Persamaan Garis Regresi</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Mencari garis lurus terbaik yang menggambarkan hubungan x dan y, meminimalkan jumlah kuadrat error.</p>
+        <div class="formula-box indigo">
+          <div class="f-label">Persamaan</div>
+          <div class="f-math">ŷ = a + b·x</div>
+        </div>
+        <div class="formula-box amber" style="margin-top:10px">
+          <div class="f-label">Slope (kemiringan)</div>
+          <div class="f-math">b = r · (s_y / s_x)</div>
+        </div>
+        <div class="formula-box" style="margin-top:10px">
+          <div class="f-label">Intercept (perpotongan)</div>
+          <div class="f-math">a = ȳ − b·x̄</div>
+        </div>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Data 30 mahasiswa: jam belajar (x) vs nilai ujian (y). Didapat persamaan ŷ = 50 + 4x. Berarti tiap 1 jam tambahan belajar, nilai naik 4 poin. Kalau belajar 8 jam → prediksi nilai = 50 + 4×8 = 82.</p>
+        </div>
+      </div>
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Koefisien Determinasi (R²)</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Proporsi variasi y yang bisa dijelaskan oleh x. Nilai 0 sampai 1 (atau 0–100%).</p>
+        <div class="formula-box">
+          <div class="f-label">R²</div>
+          <div class="f-math">R² = r²</div>
+        </div>
+        <table class="compare-table" style="margin-top:14px">
+          <thead><tr><th>R²</th><th>Interpretasi</th></tr></thead>
+          <tbody>
+            <tr><td>0.90</td><td>90% variasi nilai dijelaskan jam belajar</td></tr>
+            <tr><td>0.50</td><td>50% — cukup, ada faktor lain</td></tr>
+            <tr><td>0.10</td><td>10% — model lemah</td></tr>
+          </tbody>
+        </table>
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>Korelasi r = 0.78 → R² = 0.61. Berarti 61% variasi nilai bisa dijelaskan oleh jam belajar. Sisanya 39% dari faktor lain (motivasi, kelelahan, bakat, dsb).</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual regression -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">📊 Visual: Garis Regresi ŷ = 50 + 4x</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Garis merah adalah persamaan regresi — titik adalah data aktual. Jarak titik ke garis = residual.</p>
+      <div class="scatter-plot" style="height:360px">
+        <svg viewBox="0 0 600 360" preserveAspectRatio="none" id="regSvg" style="width:100%;height:100%"></svg>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px">
+        <div class="result-box">
+          <div class="rb-label">Slope (b)</div>
+          <div class="rb-value">+4.0</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">Intercept (a)</div>
+          <div class="rb-value">50</div>
+        </div>
+        <div class="result-box indigo">
+          <div class="rb-label">Korelasi r</div>
+          <div class="rb-value">0.78</div>
+        </div>
+        <div class="result-box rose">
+          <div class="rb-label">R²</div>
+          <div class="rb-value" style="background:linear-gradient(135deg,#f43f5e,#fb7185);-webkit-background-clip:text;background-clip:text">0.61</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Deret Waktu -->
+<section id="deret-waktu">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">08 — Deret Waktu (Time Series)</span>
+      <h2>Analisis Deret Waktu</h2>
+      <p>Menganalisis data yang dikumpulkan dalam urutan waktu — saham, cuaca, penjualan bulanan, IPK per semester.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Komponen Deret Waktu</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Setiap deret waktu bisa diurai menjadi 4 komponen:</p>
+        <div style="display:grid;gap:10px">
+          <div style="padding:14px;background:rgba(124,92,255,0.06);border-left:3px solid var(--primary);border-radius:0 10px 10px 0">
+            <strong style="color:#b9a8ff">1. Tren (Trend)</strong> — pergerakan jangka panjang (naik/turun stabil). Contoh: inflasi tahunan.
+          </div>
+          <div style="padding:14px;background:rgba(255,107,157,0.06);border-left:3px solid var(--accent);border-radius:0 10px 10px 0">
+            <strong style="color:#ffb3cf">2. Musiman (Seasonal)</strong> — pola berulang periode tetap. Contoh: penjualan naik tiap Lebaran.
+          </div>
+          <div style="padding:14px;background:rgba(255,209,102,0.06);border-left:3px solid var(--accent-2);border-radius:0 10px 10px 0">
+            <strong style="color:#ffe39c">3. Siklus (Cyclical)</strong> — fluktuasi jangka panjang tak tetap. Contoh: siklus ekonomi 7-10 tahun.
+          </div>
+          <div style="padding:14px;background:rgba(52,211,153,0.06);border-left:3px solid var(--green);border-radius:0 10px 10px 0">
+            <strong style="color:#9be8c4">4. Residual (Irregular)</strong> — fluktuasi tak terduga, acak. Contoh: dampak pandemi.
+          </div>
+        </div>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Penjualan sepatu toko: ada tren naik 5%/tahun (tren), lonjak Juni-September (musiman sekolah baru), turun saat krisis 2008 (siklus), anjlok saat pandemi 2020 (residual).</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Model ARIMA</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Model peramalan paling populer. Menggabungkan 3 komponen: Autoregressive (AR), Integrated (I), dan Moving Average (MA).</p>
+        <div class="formula-box amber">
+          <div class="f-label">Notasi ARIMA(p,d,q)</div>
+          <div class="f-math">ARIMA(p, d, q)</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">
+          <strong>p</strong> = ordo autoregressive (lag nilai lampau)<br>
+          <strong>d</strong> = ordo differencing (differensi agar stasioner)<br>
+          <strong>q</strong> = ordo moving average (lag error lampau)
+        </p>
+        <div class="formula-box">
+          <div class="f-label">Persamaan AR(1)</div>
+          <div class="f-math">Yₜ = φ·Yₜ₋₁ + εₜ</div>
+        </div>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>ARIMA(1,1,0) untuk data penjualan: nilai penjualan bulan ini = 0.7 × penjualan bulan lalu + noise. Ordo d=1 karena data perlu di-differencing 1x agar stasioner.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Time Series Visualization -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">📈 Visualisasi Komponen Deret Waktu</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Klik tombol untuk melihat dekomposisi deret waktu: data asli, tren, musiman, dan residual.</p>
+      <div class="tabs" style="background:rgba(0,0,0,0.25)">
+        <button class="tab-btn ts-btn active" data-ts="raw">Data Asli</button>
+        <button class="tab-btn ts-btn" data-ts="trend">Tren</button>
+        <button class="tab-btn ts-btn" data-ts="seasonal">Musiman</button>
+        <button class="tab-btn ts-btn" data-ts="residual">Residual</button>
+      </div>
+      <div class="viz-box" style="margin-top:20px">
+        <svg id="tsSvg" viewBox="0 0 600 280" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;min-height:280px"></svg>
+      </div>
+      <p style="font-size:.85rem;color:var(--muted);margin-top:14px;text-align:center" id="tsDesc">Data penjualan bulanan 24 bulan — gabungan tren naik, pola musiman, dan noise.</p>
+    </div>
+
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Tahapan Analisis Deret Waktu</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Tahap</th><th>Langkah</th><th>Tools / Uji</th><th>Contoh</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Visualisasi</td><td>Line plot, ACF, PACF</td><td>Plot penjualan bulanan</td></tr>
+          <tr><td>2</td><td>Uji Stasioneritas</td><td>ADF / KPSS test</td><td>p &lt; 0.05 = stasioner</td></tr>
+          <tr><td>3</td><td>Differencing</td><td>Yₜ − Yₜ₋₁ (d=1, d=2...)</td><td>Hingga data stasioner</td></tr>
+          <tr><td>4</td><td>Identifikasi ordo</td><td>Plot ACF &amp; PACF</td><td>p dari PACF, q dari ACF</td></tr>
+          <tr><td>5</td><td>Estimasi model</td><td>ARIMA(p,d,q)</td><td>Maximum Likelihood</td></tr>
+          <tr><td>6</td><td>Diagnostik</td><td>Ljung-Box, residual plot</td><td>Residual harus putih-noise</td></tr>
+          <tr><td>7</td><td>Peramalan</td><td>Forecast &amp; interval</td><td>Prediksi 12 bulan ke depan</td></tr>
+        </tbody>
+      </table>
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <span>Sebelum ARIMA, cek dulu stasioneritas. Kalau data tidak stasioner (ada tren atau musiman), di-differencing dulu. Banyak library (statsmodels di Python, forecast di R) yang otomatis membantu.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Kuis -->
+<section id="kuis">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">09 — Kuis Interaktif</span>
+      <h2>Uji Pemahamanmu</h2>
+      <p>6 soal pilihan ganda. Setiap jawaban langsung diberi feedback. Lihat skormu di akhir!</p>
+    </div>
+
+    <div class="reveal" id="quizContainer"></div>
+
+    <div class="quiz-score" id="quizScore">
+      <div style="font-size:.95rem;color:var(--muted);margin-bottom:6px">Skor Akhir</div>
+      <div class="score-num" id="scoreNum">0 / 7</div>
+      <div id="scoreMsg" style="font-size:1rem;margin-top:8px;color:var(--muted)">—</div>
+      <button class="calc-btn" id="quizReset" style="margin-top:18px">Coba Lagi</button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="logo">
+      <div class="logo-icon">σ²</div>
+      <span>Statistik Parametrik</span>
+    </div>
+    <p>PELITA - Portal Edukasi dan Literasi Statistik</p>
+    <p style="font-size:.82rem;color:#5b6370;margin-top:14px">Tim Pembina Pojok Statistik BPS Jabar · 2026</p>
+  </div>
+</footer>
+
+<script>
+  /* ============ NAV ============ */
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  /* ============ COUNT UP ============ */
+  const counters = document.querySelectorAll('[data-count]');
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const target = parseInt(el.dataset.count);
+        let cur = 0;
+        const step = Math.max(1, Math.floor(target / 30));
+        const timer = setInterval(() => {
+          cur += step;
+          if (cur >= target) { cur = target; clearInterval(timer); }
+          el.textContent = cur;
+        }, 40);
+        counterObs.unobserve(el);
+      }
+    });
+  }, {threshold: 0.5});
+  counters.forEach(c => counterObs.observe(c));
+
+  /* ============ REVEAL ============ */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ============ TABS ============ */
+  document.querySelectorAll('.t-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.t-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+    });
+  });
+
+  /* ============ Paired chart ============ */
+  function renderPairedChart() {
+    const before = [70, 72, 68, 75, 65, 80, 73];
+    const after = [80, 85, 78, 88, 78, 92, 84];
+    const labels = ['Mhs 1','Mhs 2','Mhs 3','Mhs 4','Mhs 5','Mhs 6','Mhs 7'];
+    const max = 100;
+    const container = document.getElementById('pairedChart');
+    container.innerHTML = '';
+    labels.forEach((l, i) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'bar-wrap';
+      // stacked visual: before bar + after bar (just show side-by-side)
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.style.height = '0%';
+      bar.style.background = 'linear-gradient(135deg,#6366f1,#818cf8)';
+      bar.innerHTML = `<span class="bar-val">${before[i]} → ${after[i]}</span>`;
+      const label = document.createElement('div');
+      label.className = 'bar-label';
+      label.textContent = l;
+      wrap.appendChild(bar);
+      wrap.appendChild(label);
+      container.appendChild(wrap);
+      setTimeout(() => { bar.style.height = `${(after[i]/max)*100}%`; }, 100 + i*100);
+    });
+  }
+
+  /* ============ ANOVA chart ============ */
+  function renderAnovaChart() {
+    const data = [70, 78, 85];
+    const labels = ['Metode A','Metode B','Metode C'];
+    const max = 100;
+    const colors = ['linear-gradient(135deg,#10b981,#06b6d4)', 'linear-gradient(135deg,#f59e0b,#f43f5e)', 'linear-gradient(135deg,#6366f1,#818cf8)'];
+    const container = document.getElementById('anovaChart');
+    container.innerHTML = '';
+    data.forEach((v, i) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'bar-wrap';
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.style.height = '0%';
+      bar.style.background = colors[i];
+      bar.innerHTML = `<span class="bar-val">${v}</span>`;
+      const label = document.createElement('div');
+      label.className = 'bar-label';
+      label.textContent = labels[i];
+      wrap.appendChild(bar);
+      wrap.appendChild(label);
+      container.appendChild(wrap);
+      setTimeout(() => { bar.style.height = `${(v/max)*100}%`; }, 100 + i*150);
+    });
+  }
+
+  /* ============ Uji-t Calculator ============ */
+  // Approx t-critical (two-tailed, alpha=0.05) for given df
+  function tCriticalApprox(df) {
+    if (df < 1) return 0;
+    // Common two-tailed t-values at alpha=0.05
+    const tbl = {1:12.706, 2:4.303, 3:3.182, 4:2.776, 5:2.571, 6:2.447, 7:2.365, 8:2.306,
+      10:2.228, 15:2.131, 20:2.086, 25:2.060, 30:2.042, 35:2.030, 40:2.021,
+      50:2.009, 60:2.000, 100:1.984, 120:1.980, 200:1.972, 1000:1.962};
+    if (tbl[df]) return tbl[df];
+    // Interpolate roughly between known points
+    const keys = Object.keys(tbl).map(Number).sort((a,b) => a-b);
+    let lo = 0, hi = keys.length - 1;
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (df >= keys[i] && df <= keys[i+1]) { lo = i; hi = i+1; break; }
+    }
+    if (df > keys[keys.length - 1]) return 1.96; // approx infinity
+    if (df < keys[0]) return tbl[keys[0]];
+    const x0 = keys[lo], x1 = keys[hi];
+    const y0 = tbl[x0], y1 = tbl[x1];
+    return y0 + (y1 - y0) * (df - x0) / (x1 - x0);
+  }
+
+  document.getElementById('tCalcBtn').addEventListener('click', () => {
+    const xbar = parseFloat(document.getElementById('tXbar').value);
+    const mu0 = parseFloat(document.getElementById('tMu0').value);
+    const s = parseFloat(document.getElementById('tS').value);
+    const n = parseInt(document.getElementById('tN').value);
+    if (isNaN(xbar) || isNaN(mu0) || isNaN(s) || isNaN(n) || n < 2 || s <= 0) {
+      alert('Mohon isi semua nilai dengan benar. n ≥ 2 dan s > 0.');
+      return;
+    }
+    const t = (xbar - mu0) / (s / Math.sqrt(n));
+    const df = n - 1;
+    const tcrit = tCriticalApprox(df);
+    document.getElementById('tResult').textContent = t.toFixed(3);
+    document.getElementById('tDf').textContent = df;
+    document.getElementById('tCrit').textContent = tcrit.toFixed(3);
+    const verdict = document.getElementById('tVerdict');
+    const reject = Math.abs(t) > tcrit;
+    verdict.className = 'verdict show ' + (reject ? 'reject' : 'accept');
+    if (reject) {
+      verdict.innerHTML = `❌ <strong>Tolak H₀</strong> (|t| = ${Math.abs(t).toFixed(3)} &gt; t-tabel = ${tcrit.toFixed(3)}). Ada perbedaan signifikan antara rata-rata sampel (${xbar}) dan nilai referensi (${mu0}) pada α = 0.05.`;
+    } else {
+      verdict.innerHTML = `✅ <strong>Gagal Tolak H₀</strong> (|t| = ${Math.abs(t).toFixed(3)} ≤ t-tabel = ${tcrit.toFixed(3)}). Tidak ada perbedaan signifikan antara rata-rata sampel (${xbar}) dan nilai referensi (${mu0}) pada α = 0.05.`;
+    }
+  });
+
+  /* ============ Scatter Plot - Correlation Slider ============ */
+  function generateScatterData(r, n = 30) {
+    // Use bivariate normal approximation
+    const data = [];
+    for (let i = 0; i < n; i++) {
+      const u1 = Math.random(), u2 = Math.random();
+      const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+      const z2 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
+      const x = z1;
+      const y = r * z1 + Math.sqrt(1 - r * r) * z2;
+      data.push([x, y]);
+    }
+    return data;
+  }
+
+  function renderScatter(r) {
+    const svg = document.getElementById('scatterSvg');
+    const data = generateScatterData(r);
+    // Scale to viewBox 600x340, with padding
+    const pad = { l: 40, r: 20, t: 20, b: 40 };
+    const w = 600 - pad.l - pad.r;
+    const h = 340 - pad.t - pad.b;
+    // Get range
+    let minX = -3, maxX = 3, minY = -3, maxY = 3;
+    // Map to coords
+    const pts = data.map(([x, y]) => [
+      pad.l + ((x - minX) / (maxX - minX)) * w,
+      pad.t + (1 - (y - minY) / (maxY - minY)) * h
+    ]);
+    let html = '';
+    // Axes
+    html += `<line x1="${pad.l}" y1="${pad.t + h/2}" x2="${pad.l + w}" y2="${pad.t + h/2}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>`;
+    html += `<line x1="${pad.l + w/2}" y1="${pad.t}" x2="${pad.l + w/2}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    // Axis labels
+    html += `<text x="${pad.l + w/2}" y="${340 - 8}" text-anchor="middle" fill="#8896a8" font-size="11" font-family="'Plus Jakarta Sans'">Jam Belajar (x)</text>`;
+    html += `<text x="14" y="${pad.t + h/2}" text-anchor="middle" fill="#8896a8" font-size="11" font-family="'Plus Jakarta Sans'" transform="rotate(-90 14 ${pad.t + h/2})">Nilai Ujian (y)</text>`;
+    // Regression line based on r
+    // For standardized x,y: regression y = r * x. Map to coords
+    const x1 = pad.l + (0 - minX) / (maxX - minX) * w;
+    const y1_0 = pad.t + (1 - (0 - minY) / (maxY - minY)) * h;
+    // line from (minX, r*minX) to (maxX, r*maxX)
+    const lx1 = pad.l + ((-2.5 - minX) / (maxX - minX)) * w;
+    const ly1 = pad.t + (1 - (r * -2.5 - minY) / (maxY - minY)) * h;
+    const lx2 = pad.l + ((2.5 - minX) / (maxX - minX)) * w;
+    const ly2 = pad.t + (1 - (r * 2.5 - minY) / (maxY - minY)) * h;
+    html += `<line x1="${lx1}" y1="${ly1}" x2="${lx2}" y2="${ly2}" stroke="#f43f5e" stroke-width="2" stroke-dasharray="5 4" opacity="0.85"/>`;
+    // Points
+    pts.forEach(([px, py]) => {
+      html += `<circle cx="${px}" cy="${py}" r="5" fill="rgba(129,140,248,0.7)" stroke="#818cf8" stroke-width="1"/>`;
+    });
+    svg.innerHTML = html;
+    // Update labels
+    const rSign = r > 0 ? '+' : '';
+    document.getElementById('scatterR').textContent = rSign + r.toFixed(2);
+    document.getElementById('corrVal').textContent = rSign + r.toFixed(2);
+    let strength;
+    const ar = Math.abs(r);
+    if (ar < 0.2) strength = 'Sangat lemah';
+    else if (ar < 0.4) strength = 'Lemah';
+    else if (ar < 0.6) strength = 'Sedang';
+    else if (ar < 0.8) strength = 'Kuat';
+    else strength = 'Sangat kuat';
+    document.getElementById('scatterStrength').textContent = strength;
+    document.getElementById('scatterDir').textContent = r > 0 ? 'Positif (naik)' : (r < 0 ? 'Negatif (turun)' : 'Tidak ada');
+  }
+  const slider = document.getElementById('corrSlider');
+  slider.addEventListener('input', () => renderScatter(parseFloat(slider.value)));
+
+  /* ============ Chi-Square Calculator ============ */
+  document.getElementById('csCalcBtn').addEventListener('click', () => {
+    const a = parseFloat(document.querySelector('.cs-input[data-cell="a"]').value) || 0;
+    const b = parseFloat(document.querySelector('.cs-input[data-cell="b"]').value) || 0;
+    const c = parseFloat(document.querySelector('.cs-input[data-cell="c"]').value) || 0;
+    const d = parseFloat(document.querySelector('.cs-input[data-cell="d"]').value) || 0;
+    if (a + b + c + d === 0) {
+      alert('Masukkan minimal satu nilai pada tabel.');
+      return;
+    }
+    const N = a + b + c + d;
+    // Row totals: row1 (IPK Tinggi) = a + c, row2 (IPK Rendah) = b + d
+    // Col totals: col1 (Pembaca) = a + b, col2 (Bukan) = c + d
+    const row1 = a + c, row2 = b + d;
+    const col1 = a + b, col2 = c + d;
+    const ea = (row1 * col1) / N;
+    const eb = (row2 * col1) / N;
+    const ec = (row1 * col2) / N;
+    const ed = (row2 * col2) / N;
+    let chi2 = 0;
+    if (ea > 0) chi2 += Math.pow(a - ea, 2) / ea;
+    if (eb > 0) chi2 += Math.pow(b - eb, 2) / eb;
+    if (ec > 0) chi2 += Math.pow(c - ec, 2) / ec;
+    if (ed > 0) chi2 += Math.pow(d - ed, 2) / ed;
+    document.getElementById('csResult').textContent = chi2.toFixed(3);
+    // Compute p-value for chi-square, df=1: P(X > x) = 1 - CDF(x)
+    // CDF for df=1: erf(sqrt(x/2)). So p = 1 - erf(sqrt(x/2)) = erfc(sqrt(x/2))
+    // Use Abramowitz-Stegun erf approximation (7.1.26) - accurate to ~1e-7
+    const erfApprox = (x) => {
+      const sign = x < 0 ? -1 : 1;
+      const z = Math.abs(x);
+      const t = 1 / (1 + 0.3275911 * z);
+      const y = 1 - (((((1.061405429*t - 1.453152027)*t) + 1.421413741)*t - 0.284496736)*t + 0.254829592)*t * Math.exp(-z*z);
+      return sign * y;
+    };
+    const crit = 3.84; // df=1, alpha=0.05
+    let pval = '—';
+    if (chi2 >= 0) {
+      // p = erfc(sqrt(x/2)) = 1 - erf(sqrt(x/2))
+      const erfVal = erfApprox(Math.sqrt(chi2 / 2));
+      pval = (1 - erfVal).toFixed(4);
+      if (parseFloat(pval) < 0.0001) pval = '< 0.0001';
+    }
+    document.getElementById('csPval').textContent = pval;
+    const verdict = document.getElementById('csVerdict');
+    const reject = chi2 > crit;
+    verdict.className = 'verdict show ' + (reject ? 'reject' : 'accept');
+    if (reject) {
+      verdict.innerHTML = `❌ <strong>Tolak H₀</strong> (χ² = ${chi2.toFixed(3)} &gt; 3.84). Ada hubungan signifikan antara hobi membaca dan IPK pada α = 0.05 (p ≈ ${pval}).`;
+    } else {
+      verdict.innerHTML = `✅ <strong>Gagal Tolak H₀</strong> (χ² = ${chi2.toFixed(3)} ≤ 3.84). Tidak ada bukti hubungan signifikan antara hobi membaca dan IPK (p ≈ ${pval}).`;
+    }
+  });
+
+  /* ============ Regression Visualization ============ */
+  function renderRegression() {
+    const svg = document.getElementById('regSvg');
+    const a = 50, b = 4; // y = 50 + 4x
+    // Generate data with some noise around the line
+    const xs = [1,2,3,4,5,6,7,8,9,10,11,12];
+    const ys = xs.map(x => Math.round((a + b * x + (Math.random() - 0.5) * 18) * 10) / 10);
+    const pad = { l: 50, r: 20, t: 20, b: 50 };
+    const w = 600 - pad.l - pad.r;
+    const h = 360 - pad.t - pad.b;
+    // x range: 0-13, y range: 30-110
+    const minX = 0, maxX = 13, minY = 30, maxY = 110;
+    const xToPx = x => pad.l + (x - minX) / (maxX - minX) * w;
+    const yToPx = y => pad.t + (1 - (y - minY) / (maxY - minY)) * h;
+    let html = '';
+    // Grid
+    for (let y = 40; y <= 100; y += 20) {
+      const py = yToPx(y);
+      html += `<line x1="${pad.l}" y1="${py}" x2="${pad.l + w}" y2="${py}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+      html += `<text x="${pad.l - 8}" y="${py + 4}" text-anchor="end" fill="#8896a8" font-size="10">${y}</text>`;
+    }
+    for (let x = 0; x <= 12; x += 2) {
+      const px = xToPx(x);
+      html += `<line x1="${px}" y1="${pad.t}" x2="${px}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+      html += `<text x="${px}" y="${pad.t + h + 18}" text-anchor="middle" fill="#8896a8" font-size="10">${x}</text>`;
+    }
+    // Axis
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    // Regression line
+    const lx1 = xToPx(0), ly1 = yToPx(a + b * 0);
+    const lx2 = xToPx(13), ly2 = yToPx(a + b * 13);
+    html += `<line x1="${lx1}" y1="${ly1}" x2="${lx2}" y2="${ly2}" stroke="#f43f5e" stroke-width="2.5"/>`;
+    // Residual lines (dashed)
+    xs.forEach((x, i) => {
+      const yActual = ys[i];
+      const yPred = a + b * x;
+      const px = xToPx(x);
+      const pyA = yToPx(yActual);
+      const pyP = yToPx(yPred);
+      html += `<line x1="${px}" y1="${pyA}" x2="${px}" y2="${pyP}" stroke="rgba(244,63,94,0.3)" stroke-width="1" stroke-dasharray="2 2"/>`;
+    });
+    // Points
+    xs.forEach((x, i) => {
+      const px = xToPx(x);
+      const py = yToPx(ys[i]);
+      html += `<circle cx="${px}" cy="${py}" r="5" fill="rgba(129,140,248,0.8)" stroke="#818cf8" stroke-width="1.5"/>`;
+    });
+    // Labels
+    html += `<text x="${pad.l + w/2}" y="${360 - 8}" text-anchor="middle" fill="#8896a8" font-size="12" font-family="'Plus Jakarta Sans'">Jam Belajar (jam/minggu)</text>`;
+    html += `<text x="16" y="${pad.t + h/2}" text-anchor="middle" fill="#8896a8" font-size="12" font-family="'Plus Jakarta Sans'" transform="rotate(-90 16 ${pad.t + h/2})">Nilai Ujian</text>`;
+    // Equation label
+    html += `<text x="${xToPx(11)}" y="${yToPx(94) - 4}" text-anchor="middle" fill="#fb7185" font-size="12" font-weight="700" font-family="'JetBrains Mono'">ŷ = 50 + 4x</text>`;
+    svg.innerHTML = html;
+  }
+
+  /* ============ TIME SERIES VISUALIZATION ============ */
+  // Generate 24 months of sales data with trend + seasonality + noise
+  function genTSData() {
+    const data = [];
+    for (let t = 0; t < 24; t++) {
+      const trend = 100 + t * 2;  // upward trend
+      const seasonal = 15 * Math.sin((t / 12) * 2 * Math.PI);  // yearly cycle
+      const residual = (Math.random() - 0.5) * 10;
+      data.push({ t, raw: trend + seasonal + residual, trend, seasonal, residual });
+    }
+    return data;
+  }
+  let tsData = null;
+  function renderTS(component) {
+    if (!tsData) tsData = genTSData();
+    const svg = document.getElementById('tsSvg');
+    const pad = { l: 50, r: 20, t: 20, b: 40 };
+    const w = 600 - pad.l - pad.r;
+    const h = 280 - pad.t - pad.b;
+    // Determine min/max for current component
+    const values = tsData.map(d => d[component]);
+    const minV = Math.min(...values);
+    const maxV = Math.max(...values);
+    const rangeV = Math.max(maxV - minV, 1);
+    const padV = rangeV * 0.1;
+    const yMin = minV - padV;
+    const yMax = maxV + padV;
+    const yRange = yMax - yMin;
+    const xToPx = i => pad.l + (i / 23) * w;
+    const yToPx = v => pad.t + (1 - (v - yMin) / yRange) * h;
+    let html = '';
+    // grid
+    for (let i = 0; i < 5; i++) {
+      const py = pad.t + (i / 4) * h;
+      html += `<line x1="${pad.l}" y1="${py}" x2="${pad.l + w}" y2="${py}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+    }
+    // axis
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    // x labels
+    for (let i = 0; i < 24; i += 4) {
+      const px = xToPx(i);
+      html += `<text x="${px}" y="${pad.t + h + 18}" text-anchor="middle" fill="#9aa3c7" font-size="10">B${i + 1}</text>`;
+    }
+    // y labels
+    for (let i = 0; i <= 4; i++) {
+      const v = yMin + (yRange * i / 4);
+      const py = pad.t + (1 - i / 4) * h;
+      html += `<text x="${pad.l - 6}" y="${py + 4}" text-anchor="end" fill="#9aa3c7" font-size="10">${Math.round(v)}</text>`;
+    }
+    // line color per component
+    const colors = {
+      raw: { line: '#7c5cff', fill: 'rgba(124,92,255,0.15)', point: '#7c5cff' },
+      trend: { line: '#34d399', fill: 'rgba(52,211,153,0.15)', point: '#34d399' },
+      seasonal: { line: '#fbbf24', fill: 'rgba(251,191,36,0.15)', point: '#fbbf24' },
+      residual: { line: '#fb7185', fill: 'rgba(251,113,133,0.15)', point: '#fb7185' }
+    };
+    const c = colors[component];
+    // area fill (under line)
+    let pathFill = `M ${xToPx(0)},${yToPx(values[0])}`;
+    for (let i = 1; i < values.length; i++) pathFill += ` L ${xToPx(i)},${yToPx(values[i])}`;
+    pathFill += ` L ${xToPx(values.length - 1)},${pad.t + h} L ${xToPx(0)},${pad.t + h} Z`;
+    html += `<path d="${pathFill}" fill="${c.fill}" stroke="none"/>`;
+    // line
+    let pathLine = `M ${xToPx(0)},${yToPx(values[0])}`;
+    for (let i = 1; i < values.length; i++) pathLine += ` L ${xToPx(i)},${yToPx(values[i])}`;
+    html += `<path d="${pathLine}" fill="none" stroke="${c.line}" stroke-width="2.5"/>`;
+    // points
+    tsData.forEach((d, i) => {
+      html += `<circle cx="${xToPx(i)}" cy="${yToPx(values[i])}" r="3.5" fill="${c.point}" stroke="white" stroke-width="1"/>`;
+    });
+    // axis labels
+    html += `<text x="${pad.l + w/2}" y="${280 - 8}" text-anchor="middle" fill="#9aa3c7" font-size="11">Bulan</text>`;
+    html += `<text x="14" y="${pad.t + h/2}" text-anchor="middle" fill="#9aa3c7" font-size="11" transform="rotate(-90 14 ${pad.t + h/2})">Nilai</text>`;
+    svg.innerHTML = html;
+    // Update description
+    const desc = {
+      raw: 'Data penjualan bulanan 24 bulan — gabungan tren naik, pola musiman, dan noise.',
+      trend: 'Komponen TREN — pergerakan jangka panjang naik stabil. Diisolasi dengan moving average atau regresi.',
+      seasonal: 'Komponen MUSIMAN — pola berulang setiap 12 bulan. Diisolasi dengan seasonal decomposition.',
+      residual: 'Komponen RESIDUAL — fluktuasi acak setelah tren & musiman dihilangkan. Harus seperti white noise.'
+    };
+    document.getElementById('tsDesc').textContent = desc[component];
+  }
+  document.querySelectorAll('.ts-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.ts-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTS(btn.dataset.ts);
+    });
+  });
+
+  /* ============ QUIZ ============ */
+  const quizData = [
+    {
+      q: 'Sebuah peneliti menguji apakah rata-rata nilai kelas (x̄=78, s=8, n=25) berbeda dari standar kampus 75. df yang digunakan adalah?',
+      opts: ['24', '25', '49', '74'],
+      correct: 0,
+      fb: 'Uji-t satu sampel memakai df = n − 1 = 25 − 1 = 24.'
+    },
+    {
+      q: 'Peneliti punya 3 kelompok metode belajar untuk dibandingkan rata-ratanya. Sebaiknya gunakan?',
+      opts: ['3 kali uji-t berurutan', 'ANOVA satu jalur', 'Korelasi Pearson', 'Uji chi-square'],
+      correct: 1,
+      fb: 'ANOVA menyelesaikan pengujian 3+ kelompok dalam satu uji, mengontrol tingkat kesalahan Tipe I.'
+    },
+    {
+      q: 'Korelasi r = 0.85 ditemukan antara jam belajar dan nilai. Manakah yang BENAR?',
+      opts: ['Jam belajar menyebabkan nilai naik', 'Nilai menyebabkan jam belajar naik', 'Ada hubungan kuat, bukan sebab-akibat', 'Tidak ada hubungan'],
+      correct: 2,
+      fb: 'Korelasi tidak menyiratkan kausalitas. Ada hubungan kuat, tapi sebab-akibat butuh desain riset (eksperimen, kontrol variabel).'
+    },
+    {
+      q: 'Data: jenis kelamin (L/P) × pilihan jurusan (Teknik/Soshum). Uji yang tepat adalah?',
+      opts: ['Uji-t dua sampel', 'Korelasi Pearson', 'Chi-square independence', 'ANOVA'],
+      correct: 2,
+      fb: 'Kedua variabel kategorikal → chi-square independence. Pearson untuk data numerik, uji-t/ANOVA untuk mean.'
+    },
+    {
+      q: 'Regresi ŷ = 50 + 4x. Jika seseorang belajar 8 jam, prediksi nilai adalah?',
+      opts: ['54', '58', '82', '32'],
+      correct: 2,
+      fb: 'ŷ = 50 + 4×8 = 50 + 32 = 82. Slope = 4 berarti tiap 1 jam = +4 poin.'
+    },
+    {
+      q: 'Manakah BUKAN asumsi statistik parametrik?',
+      opts: ['Distribusi normal', 'Skala interval/rasio', 'Variabel kategorikal', 'Variansi homogen'],
+      correct: 2,
+      fb: 'Statistik parametrik butuh data interval/rasio &amp; normal. Variabel kategorikal → gunakan non-parametrik atau chi-square.'
+    },
+    {
+      q: 'Dalam ARIMA(p, d, q), parameter "d" merepresentasikan?',
+      opts: ['Ordo autoregressive (lag nilai lampau)', 'Ordo differencing (untuk stasioneritas)', 'Ordo moving average (lag error)', 'Jumlah observasi'],
+      correct: 1,
+      fb: 'd = ordo differencing. Jika data punya tren (tidak stasioner), di-differencing d kali (Yₜ − Yₜ₋₁) hingga stasioner. p = AR, q = MA.'
+    }
+  ];
+
+  const quizContainer = document.getElementById('quizContainer');
+  let answered = 0, correctCount = 0;
+  quizData.forEach((item, qi) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    const optsHTML = item.opts.map((o, oi) => `
+      <div class="quiz-opt" data-qi="${qi}" data-oi="${oi}">
+        <span class="opt-letter">${String.fromCharCode(65 + oi)}</span>
+        <span>${o}</span>
+      </div>`).join('');
+    card.innerHTML = `
+      <div class="quiz-question">
+        <div class="quiz-q-num">${qi + 1}</div>
+        <div>${item.q}</div>
+      </div>
+      <div class="quiz-options">${optsHTML}</div>
+      <div class="quiz-feedback" id="fb-${qi}"></div>`;
+    quizContainer.appendChild(card);
+  });
+  quizContainer.addEventListener('click', (e) => {
+    const opt = e.target.closest('.quiz-opt');
+    if (!opt) return;
+    const qi = parseInt(opt.dataset.qi);
+    const oi = parseInt(opt.dataset.oi);
+    const card = opt.closest('.quiz-card');
+    if (card.dataset.answered === '1') return;
+    card.dataset.answered = '1';
+    const item = quizData[qi];
+    const fb = document.getElementById('fb-' + qi);
+    if (oi === item.correct) {
+      opt.classList.add('correct');
+      fb.className = 'quiz-feedback show correct';
+      fb.innerHTML = '✓ <strong>Benar!</strong> ' + item.fb;
+      correctCount++;
+    } else {
+      opt.classList.add('wrong');
+      const correctOpt = card.querySelector(`.quiz-opt[data-oi="${item.correct}"]`);
+      correctOpt.classList.add('correct');
+      fb.className = 'quiz-feedback show wrong';
+      fb.innerHTML = '✗ <strong>Belum tepat.</strong> Jawaban benar: <strong>' + item.opts[item.correct] + '</strong>. ' + item.fb;
+    }
+    answered++;
+    if (answered === quizData.length) {
+      const scoreEl = document.getElementById('quizScore');
+      const scoreNum = document.getElementById('scoreNum');
+      const scoreMsg = document.getElementById('scoreMsg');
+      scoreNum.textContent = correctCount + ' / ' + quizData.length;
+      let msg;
+      if (correctCount === quizData.length) msg = '🎉 Sempurna! Kamu siap ujian statistik parametrik.';
+      else if (correctCount >= 5) msg = '👍 Bagus! Beberapa konsep masih bisa dipertajam.';
+      else msg = '💪 Tetap semangat! Baca ulang materi — statistik butuh latihan.';
+      scoreMsg.textContent = msg;
+      setTimeout(() => scoreEl.classList.add('show'), 400);
+      scoreEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+  document.getElementById('quizReset').addEventListener('click', () => {
+    answered = 0; correctCount = 0;
+    document.getElementById('quizScore').classList.remove('show');
+    document.querySelectorAll('.quiz-card').forEach(card => {
+      card.dataset.answered = '0';
+      card.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('correct', 'wrong'));
+      card.querySelectorAll('.quiz-feedback').forEach(f => { f.className = 'quiz-feedback'; f.innerHTML = ''; });
+    });
+    document.getElementById('kuis').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  /* ============ INIT VISUALS (on scroll) ============ */
+  const chartObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        if (e.target.id === 'pairedChart') renderPairedChart();
+        if (e.target.id === 'anovaChart') renderAnovaChart();
+        if (e.target.id === 'regSvg') renderRegression();
+        if (e.target.id === 'tsSvg') renderTS('raw');
+        chartObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  ['pairedChart', 'anovaChart', 'regSvg', 'tsSvg'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) chartObs.observe(el);
+  });
+  // Render scatter on load (it's in viewport potentially)
+  renderScatter(parseFloat(slider.value));
+  // Init time series default
+  renderTS('raw');
+</script>
+</body>
+</html>

@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Teknik Sampling untuk Mahasiswa | Panduan Interaktif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#06141a;
+    --bg-2:#0a1c24;
+    --card:rgba(255,255,255,0.035);
+    --card-border:rgba(255,255,255,0.08);
+    --text:#e0f0f5;
+    --muted:#7fa0b0;
+    --teal:#0d9488;
+    --teal-2:#14b8a6;
+    --teal-3:#2dd4bf;
+    --cyan:#06b6d4;
+    --cyan-2:#22d3ee;
+    --sky:#0ea5e9;
+    --sky-2:#38bdf8;
+    --amber:#f59e0b;
+    --amber-2:#fbbf24;
+    --rose:#f43f5e;
+    --rose-2:#fb7185;
+    --emerald:#10b981;
+    --emerald-2:#34d399;
+    --grad-1:linear-gradient(135deg,#0d9488 0%,#06b6d4 100%);
+    --grad-2:linear-gradient(135deg,#0ea5e9 0%,#22d3ee 100%);
+    --grad-3:linear-gradient(135deg,#f59e0b 0%,#fb7185 100%);
+    --grad-4:linear-gradient(135deg,#10b981 0%,#06b6d4 100%);
+    --grad-5:linear-gradient(135deg,#22d3ee 0%,#14b8a6 100%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;overflow-x:hidden}
+  body{
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  ::selection{background:rgba(13,148,136,0.3);color:var(--teal-3)}
+  .bg-decoration{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:0.25}
+  .blob-1{width:560px;height:560px;background:#0d9488;top:-150px;right:-100px;animation:float 22s ease-in-out infinite}
+  .blob-2{width:480px;height:480px;background:#0ea5e9;bottom:-100px;left:-100px;animation:float 28s ease-in-out infinite reverse}
+  .blob-3{width:380px;height:380px;background:#22d3ee;top:42%;left:55%;animation:float 32s ease-in-out infinite}
+  .grid-bg{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse at center,black 0%,transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse at center,black 0%,transparent 75%);
+  }
+  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(50px,40px) scale(1.08)}}
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(6,20,26,0.78);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--card-border);
+    padding:14px 0;
+  }
+  nav .container{display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;display:flex;align-items:center;gap:10px}
+  .logo-icon{
+    width:34px;height:34px;border-radius:10px;
+    background:var(--grad-1);
+    display:grid;place-items:center;
+    box-shadow:0 8px 20px -8px var(--teal);
+    font-size:1.05rem;font-family:'JetBrains Mono',monospace;
+  }
+  .nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap}
+  .nav-links a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-size:.86rem;font-weight:500;transition:all .2s ease}
+  .nav-links a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+  .menu-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+
+  .container{max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+  .hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 80px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 14px;border-radius:99px;
+    background:rgba(13,148,136,0.15);border:1px solid rgba(13,148,136,0.3);
+    color:#9eead0;font-size:.82rem;font-weight:600;margin-bottom:24px;
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--teal-2);box-shadow:0 0 12px var(--teal-2);animation:pulse 2s ease infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+  .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;font-weight:700;letter-spacing:-0.02em;margin-bottom:22px}
+  .hero h1 .grad{background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{color:var(--muted);font-size:1.08rem;max-width:540px;margin-bottom:32px}
+  .hero-stats{display:flex;gap:30px;flex-wrap:wrap;margin-top:36px}
+  .stat{display:flex;flex-direction:column}
+  .stat .num{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .label{font-size:.82rem;color:var(--muted);margin-top:2px}
+
+  .hero-visual{position:relative;height:480px;display:flex;align-items:center;justify-content:center}
+  .hero-svg{width:100%;max-width:420px}
+  .floating-card{
+    position:absolute;background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--card-border);border-radius:14px;
+    padding:12px 16px;box-shadow:0 15px 35px -15px rgba(0,0,0,0.6);
+    animation:floatCard 6s ease-in-out infinite;z-index:2;
+  }
+  .fc-1{top:0;left:0;animation-delay:0s}
+  .fc-2{top:130px;right:0;animation-delay:1.5s}
+  .fc-3{bottom:0;left:20px;animation-delay:3s}
+  .fc-4{bottom:80px;right:0;animation-delay:4.5s}
+  @keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .floating-card .fc-label{font-size:.7rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+  .floating-card .fc-value{font-family:'JetBrains Mono',monospace;font-size:.88rem;font-weight:700;color:var(--teal-3)}
+  .floating-card.sky .fc-value{color:var(--sky-2)}
+  .floating-card.amber .fc-value{color:var(--amber-2)}
+  .floating-card.rose .fc-value{color:var(--rose-2)}
+
+  section{padding:80px 0;position:relative;scroll-margin-top:70px}
+  footer{scroll-margin-top:70px}
+  .section-head{max-width:740px;margin:0 auto 56px;text-align:center}
+  .section-tag{
+    display:inline-block;padding:5px 14px;border-radius:99px;
+    background:rgba(13,148,136,0.12);border:1px solid rgba(13,148,136,0.25);
+    color:#9eead0;font-size:.78rem;font-weight:600;margin-bottom:18px;letter-spacing:.05em;
+  }
+  .section-head h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.1;font-weight:700;letter-spacing:-0.02em;margin-bottom:14px}
+  .section-head p{color:var(--muted);font-size:1.02rem}
+
+  .card{
+    background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--card-border);border-radius:22px;padding:28px;
+    transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    max-width:100%;min-width:0;overflow-wrap:break-word;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(13,148,136,0.4);box-shadow:0 25px 60px -25px rgba(13,148,136,0.35)}
+  .card-icon{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;font-size:1.6rem;margin-bottom:18px}
+  .card h3{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;margin-bottom:10px}
+  .card p{color:var(--muted);font-size:.95rem}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:100%;min-width:0}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:100%;min-width:0}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:100%;min-width:0}
+
+  .def-box{
+    background:linear-gradient(135deg,rgba(13,148,136,0.12),rgba(6,182,212,0.06));
+    border:1px solid rgba(13,148,136,0.3);border-radius:20px;padding:34px;
+    margin-bottom:40px;display:flex;gap:24px;align-items:flex-start;
+  }
+  .def-box .quote-mark{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:700;line-height:1;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent;flex-shrink:0}
+  .def-box h3{font-size:1.3rem;margin-bottom:10px;font-family:'Space Grotesk',sans-serif}
+  .def-box p{color:var(--muted);font-size:1rem}
+
+  .example{margin-top:18px;padding:16px 18px;background:rgba(245,158,11,0.08);border-left:3px solid var(--amber);border-radius:0 12px 12px 0;font-size:.92rem}
+  .example .ex-label{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--amber);margin-bottom:6px}
+  .example p{color:#ead4b8;font-size:.9rem;line-height:1.6}
+
+  .tip{margin-top:18px;padding:14px 18px;background:rgba(34,211,238,0.08);border-left:3px solid var(--cyan);border-radius:0 12px 12px 0;font-size:.9rem;color:#bfeaf2;display:flex;gap:10px;align-items:flex-start}
+  .tip-icon{flex-shrink:0;color:var(--cyan);font-size:1.1rem;line-height:1.6}
+
+  .warn{margin-top:18px;padding:14px 18px;background:rgba(244,63,94,0.08);border-left:3px solid var(--rose);border-radius:0 12px 12px 0;font-size:.9rem;color:#fcc6d2;display:flex;gap:10px;align-items:flex-start}
+  .warn-icon{flex-shrink:0;color:var(--rose);font-size:1.1rem;line-height:1.6}
+
+  .formula-box{background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:14px;padding:20px;margin:14px 0;text-align:center;overflow-x:auto;max-width:100%}
+  .formula-box .f-label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;font-weight:600}
+  .formula-box .f-math{font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--teal-3);font-weight:600;word-break:break-word;white-space:normal;overflow-wrap:anywhere}
+  .formula-box.amber .f-math{color:var(--amber-2)}
+  .formula-box.rose .f-math{color:var(--rose-2)}
+  .formula-box.sky .f-math{color:var(--sky-2)}
+  .formula-box.cyan .f-math{color:var(--cyan-2)}
+
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;background:rgba(255,255,255,0.03);padding:6px;border-radius:14px;margin-bottom:24px;border:1px solid var(--card-border)}
+  .tab-btn{flex:1;min-width:120px;padding:12px 16px;border-radius:10px;background:transparent;border:none;color:var(--muted);font-family:inherit;font-weight:600;font-size:.92rem;cursor:pointer;transition:all .25s ease}
+  .tab-btn:hover{color:var(--text)}
+  .tab-btn.active{background:var(--grad-1);color:#06281b;box-shadow:0 10px 25px -10px var(--teal)}
+  .tab-content{display:none;animation:fadeIn .4s ease}
+  .tab-content.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  .calc-card{background:linear-gradient(135deg,rgba(13,148,136,0.08),rgba(6,182,212,0.04));border:1px solid rgba(13,148,136,0.3);border-radius:24px;padding:32px}
+  .calc-input{width:100%;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:1rem;transition:all .2s ease}
+  .calc-input:focus{outline:none;border-color:var(--teal-2);box-shadow:0 0 0 3px rgba(13,148,136,0.2)}
+  .calc-input::placeholder{color:#5b7585}
+  .calc-btn{background:var(--grad-1);color:#06281b;border:none;padding:13px 28px;border-radius:12px;font-family:inherit;font-weight:700;font-size:.95rem;cursor:pointer;transition:transform .2s ease, box-shadow .2s ease;box-shadow:0 10px 25px -10px var(--teal)}
+  .calc-btn:hover{transform:translateY(-2px);box-shadow:0 15px 30px -10px var(--teal)}
+  .calc-btn:active{transform:translateY(0)}
+  .calc-btn.amber{background:var(--grad-3);color:#3a1c08;box-shadow:0 10px 25px -10px var(--amber)}
+  .calc-btn.sky{background:var(--grad-2);color:#06281b;box-shadow:0 10px 25px -10px var(--sky)}
+
+  .result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+  .result-box{background:rgba(0,0,0,0.25);border:1px solid var(--card-border);border-radius:14px;padding:18px;text-align:center}
+  .result-box .rb-label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+  .result-box .rb-value{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .result-box.sky .rb-value{background:var(--grad-2);-webkit-background-clip:text;background-clip:text}
+  .result-box.amber .rb-value{background:var(--grad-3);-webkit-background-clip:text;background-clip:text}
+  .result-box.rose .rb-value{background:linear-gradient(135deg,#f43f5e,#fb7185);-webkit-background-clip:text;background-clip:text}
+
+  .compare-table{width:100%;border-collapse:separate;border-spacing:0;background:rgba(255,255,255,0.02);border-radius:16px;overflow:hidden;border:1px solid var(--card-border);font-size:.92rem;table-layout:auto}
+  .compare-table td,.compare-table th{word-break:break-word;overflow-wrap:anywhere;padding:16px 20px;text-align:left}
+  .compare-table th{background:rgba(13,148,136,0.1);font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;color:#9eead0;text-transform:uppercase;letter-spacing:.05em}
+  .compare-table td{border-top:1px solid var(--card-border);color:var(--muted)}
+  .compare-table td:first-child{color:var(--text);font-weight:600}
+  .compare-table tr:hover td{background:rgba(255,255,255,0.02)}
+  .pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.78rem;font-weight:600}
+  .pill.t{background:rgba(13,148,136,0.15);color:var(--teal-3);border:1px solid rgba(13,148,136,0.3)}
+  .pill.c{background:rgba(6,182,212,0.15);color:var(--cyan-2);border:1px solid rgba(6,182,212,0.3)}
+  .pill.s{background:rgba(14,165,233,0.15);color:var(--sky-2);border:1px solid rgba(14,165,233,0.3)}
+  .pill.a{background:rgba(245,158,11,0.15);color:var(--amber-2);border:1px solid rgba(245,158,11,0.3)}
+  .pill.r{background:rgba(244,63,94,0.15);color:var(--rose-2);border:1px solid rgba(244,63,94,0.3)}
+  .pill.e{background:rgba(16,185,129,0.15);color:var(--emerald-2);border:1px solid rgba(16,185,129,0.3)}
+
+  .viz-box{background:rgba(0,0,0,0.25);border:1px solid var(--card-border);border-radius:18px;padding:24px;margin-top:20px}
+  .viz-box svg{width:100%;height:auto;display:block;min-height:240px}
+
+  .quiz-card{background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:20px;padding:28px;margin-bottom:18px;transition:all .3s ease}
+  .quiz-question{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:18px;display:flex;gap:12px}
+  .quiz-q-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--grad-1);display:grid;place-items:center;color:#06281b;font-size:.85rem;font-weight:700}
+  .quiz-options{display:grid;gap:10px;margin-left:44px}
+  .quiz-opt{padding:12px 18px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .2s ease;font-size:.92rem;display:flex;align-items:center;gap:10px}
+  .quiz-opt:hover{background:rgba(13,148,136,0.1);border-color:rgba(13,148,136,0.4)}
+  .quiz-opt .opt-letter{width:24px;height:24px;border-radius:6px;background:rgba(255,255,255,0.06);display:grid;place-items:center;font-weight:700;font-size:.8rem;flex-shrink:0}
+  .quiz-opt.correct{background:rgba(16,185,129,0.15);border-color:var(--emerald);color:#9be8c4}
+  .quiz-opt.correct .opt-letter{background:var(--emerald);color:#06281b}
+  .quiz-opt.wrong{background:rgba(244,63,94,0.15);border-color:var(--rose);color:#fcd0d8}
+  .quiz-opt.wrong .opt-letter{background:var(--rose);color:#3a0814}
+  .quiz-feedback{margin-top:14px;margin-left:44px;padding:12px 16px;border-radius:10px;font-size:.9rem;display:none}
+  .quiz-feedback.show{display:block;animation:fadeIn .3s ease}
+  .quiz-feedback.correct{background:rgba(16,185,129,0.1);color:#9be8c4;border:1px solid rgba(16,185,129,0.3)}
+  .quiz-feedback.wrong{background:rgba(244,63,94,0.1);color:#fcd0d8;border:1px solid rgba(244,63,94,0.3)}
+  .quiz-score{text-align:center;padding:28px;background:linear-gradient(135deg,rgba(13,148,136,0.15),rgba(6,182,212,0.1));border:1px solid rgba(13,148,136,0.3);border-radius:20px;margin-top:24px;display:none}
+  .quiz-score.show{display:block;animation:fadeIn .4s ease}
+  .quiz-score .score-num{font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:700;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease, transform .8s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  .stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px}
+  .step{padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);position:relative}
+  .step:not(:last-child)::after{content:'';position:absolute;top:50%;right:-10px;width:20px;height:2px;background:var(--card-border);transform:translateY(-50%)}
+  .step .step-num{font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:var(--teal-3);font-weight:700;margin-bottom:6px}
+  .step .step-text{font-size:.88rem;color:var(--text);font-weight:600}
+  .step .step-desc{font-size:.8rem;color:var(--muted);margin-top:4px;line-height:1.5}
+
+  footer{padding:60px 0 40px;border-top:1px solid var(--card-border);text-align:center;color:var(--muted);margin-top:40px}
+  footer .logo{justify-content:center;margin-bottom:14px}
+  footer p{font-size:.88rem;max-width:500px;margin:0 auto 18px}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:30px}
+    .hero-visual{height:380px}
+    .grid-3,.grid-2,.grid-4{grid-template-columns:1fr}
+    .result-grid{grid-template-columns:repeat(2,1fr)}
+    .nav-links{position:fixed;top:60px;left:0;right:0;background:rgba(6,20,26,0.95);backdrop-filter:blur(20px);flex-direction:column;padding:20px;border-bottom:1px solid var(--card-border);transform:translateY(-150%);transition:transform .3s ease}
+    .nav-links.open{transform:translateY(0)}
+    .menu-toggle{display:block}
+    .quiz-options{margin-left:0}
+    .quiz-feedback{margin-left:0}
+    .def-box{flex-direction:column;gap:12px}
+    .floating-card{padding:8px 12px}
+    .floating-card .fc-value{font-size:.74rem}
+    .fc-1{top:0;left:0}
+    .fc-2{top:120px;right:0}
+    .fc-3{bottom:20px;left:0}
+    .fc-4{bottom:90px;right:0}
+    .stepper{grid-template-columns:1fr 1fr}
+    .step:not(:last-child)::after{display:none}
+    .step{margin-bottom:8px}
+    .hero-stats{gap:18px 24px}
+    .stat{flex:1 1 calc(50% - 12px);min-width:0}
+    .compare-table{display:block;overflow-x:auto;white-space:nowrap;border-radius:14px;table-layout:fixed;max-width:100%}
+  }
+  @media(max-width:560px){
+    .hero h1{font-size:2.2rem}
+    section{padding:60px 0}
+    .card{padding:22px}
+    .calc-card{padding:22px}
+    .formula-box .f-math{font-size:.92rem}
+  }
+  @media(max-width:420px){
+    .formula-box .f-math{font-size:.8rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-decoration">
+  <div class="grid-bg"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<nav>
+  <div class="container">
+    <div class="logo">
+      <div class="logo-icon">n/N</div>
+      <span>Teknik Sampling</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#pengertian">Pengertian</a></li>
+      <li><a href="#probabilitas">Probability</a></li>
+      <li><a href="#non-probabilitas">Non-Probability</a></li>
+      <li><a href="#ukuran-sampel">Ukuran Sampel</a></li>
+      <li><a href="#clt">CLT</a></li>
+      <li><a href="#bias">Bias &amp; Error</a></li>
+      <li><a href="#kuis">Kuis</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="badge"><span class="dot"></span> Topik Penting · Riset &amp; Survei</div>
+        <h1>Teknik <span class="grad">Sampling</span> untuk Mahasiswa</h1>
+        <p class="lead">Dari Simple Random, Stratified, Cluster, Systematic, hingga Snowball Sampling. Pelajari cara memilih sampel yang representatif — lengkap dengan kalkulator ukuran sampel &amp; simulasi Central Limit Theorem interaktif.</p>
+        <div class="hero-stats">
+          <div class="stat"><span class="num" data-count="9">0</span><span class="label">Teknik Sampling</span></div>
+          <div class="stat"><span class="num" data-count="25">0</span><span class="label">+ Contoh Nyata</span></div>
+          <div class="stat"><span class="num" data-count="5">0</span><span class="label">Alat Interaktif</span></div>
+          <div class="stat"><span class="num" data-count="6">0</span><span class="label">Soal Kuis</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <svg class="hero-svg" viewBox="0 0 420 320" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="popGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="sampGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Population: big circle -->
+          <circle cx="210" cy="160" r="130" fill="url(#popGrad)" stroke="rgba(13,148,136,0.4)" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="210" y="40" text-anchor="middle" fill="#9eead0" font-size="11" font-weight="700" font-family="'Space Grotesk'">POPULASI (N=5.000)</text>
+          <!-- Population dots (many small) -->
+          <g opacity="0.7">
+            <circle cx="120" cy="100" r="3" fill="#14b8a6"/><circle cx="150" cy="120" r="3" fill="#14b8a6"/>
+            <circle cx="180" cy="90" r="3" fill="#14b8a6"/><circle cx="220" cy="110" r="3" fill="#14b8a6"/>
+            <circle cx="260" cy="130" r="3" fill="#14b8a6"/><circle cx="290" cy="100" r="3" fill="#14b8a6"/>
+            <circle cx="120" cy="180" r="3" fill="#14b8a6"/><circle cx="160" cy="200" r="3" fill="#14b8a6"/>
+            <circle cx="200" cy="180" r="3" fill="#14b8a6"/><circle cx="240" cy="210" r="3" fill="#14b8a6"/>
+            <circle cx="280" cy="190" r="3" fill="#14b8a6"/><circle cx="140" cy="240" r="3" fill="#14b8a6"/>
+            <circle cx="190" cy="260" r="3" fill="#14b8a6"/><circle cx="240" cy="250" r="3" fill="#14b8a6"/>
+            <circle cx="290" cy="240" r="3" fill="#14b8a6"/><circle cx="170" cy="150" r="3" fill="#14b8a6"/>
+            <circle cx="220" cy="170" r="3" fill="#14b8a6"/><circle cx="270" cy="170" r="3" fill="#14b8a6"/>
+            <circle cx="140" cy="220" r="3" fill="#14b8a6"/><circle cx="290" cy="220" r="3" fill="#14b8a6"/>
+          </g>
+          <!-- Sample: smaller highlighted circle -->
+          <circle cx="280" cy="200" r="55" fill="url(#sampGrad)" stroke="#22d3ee" stroke-width="2.5"/>
+          <text x="280" y="295" text-anchor="middle" fill="#22d3ee" font-size="11" font-weight="700" font-family="'Space Grotesk'">SAMPEL (n=100)</text>
+          <!-- Sample dots (highlighted, larger) -->
+          <circle cx="265" cy="190" r="4" fill="#22d3ee"/><circle cx="295" cy="195" r="4" fill="#22d3ee"/>
+          <circle cx="275" cy="215" r="4" fill="#22d3ee"/><circle cx="290" cy="210" r="4" fill="#22d3ee"/>
+          <circle cx="260" cy="205" r="4" fill="#22d3ee"/><circle cx="300" cy="200" r="4" fill="#22d3ee"/>
+          <circle cx="280" cy="195" r="4" fill="#22d3ee"/><circle cx="285" cy="220" r="4" fill="#22d3ee"/>
+          <!-- Caption -->
+          <text x="210" y="315" text-anchor="middle" fill="#a09187" font-size="10" font-family="'Plus Jakarta Sans'">Inferensi dari Sampel → Populasi</text>
+        </svg>
+        <div class="floating-card fc-1">
+          <div class="fc-label">Simple Random</div>
+          <div class="fc-value">Setiap anggota</div>
+        </div>
+        <div class="floating-card fc-2 sky">
+          <div class="fc-label">Stratified</div>
+          <div class="fc-value">Per strata</div>
+        </div>
+        <div class="floating-card fc-3 amber">
+          <div class="fc-label">Cluster</div>
+          <div class="fc-value">Per klaster</div>
+        </div>
+        <div class="floating-card fc-4 rose">
+          <div class="fc-label">Snowball</div>
+          <div class="fc-value">Bola salju</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="pengertian">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">01 — Pengertian</span>
+      <h2>Apa Itu Sampling &amp; Mengapa Penting?</h2>
+      <p>Memahami esensi sampling sebelum memilih teknik yang tepat.</p>
+    </div>
+
+    <div class="def-box reveal">
+      <div class="quote-mark">"</div>
+      <div>
+        <h3>Sampling adalah proses memilih sebagian elemen dari populasi untuk dimbil kesimpulan tentang populasi tersebut.</h3>
+        <p>Tanpa sampling, kita harus mengukur seluruh populasi (sensus) — mahal, lambat, dan sering tidak mungkin. Sampling yang baik menghasilkan sampel <strong>representatif</strong>: karakteristik sampel mencerminkan populasi.</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(13,148,136,0.2),rgba(13,148,136,0.05));color:var(--teal-3)">🎯</div>
+        <h3>Populasi vs Sampel</h3>
+        <p><strong>Populasi</strong>: seluruh objek yang ingin dipelajari (N). <strong>Sampel</strong>: bagian dari populasi yang diukur (n). <strong>Parameter</strong> menggambarkan populasi (μ, σ), <strong>statistik</strong> menggambarkan sampel (x̄, s).</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Mau tahu rata-rata IPK seluruh mahasiswa UGM (N=50.000). Ambil sampel 400 mahasiswa (n=400), hitung rata-rata IPK sampel, lalu perkirakan IPK populasi.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(6,182,212,0.05));color:var(--cyan-2)">💡</div>
+        <h3>Mengapa Sampling?</h3>
+        <p>Hemat biaya &amp; waktu, lebih cepat, sering lebih akurat (lebih mudah kontrol kualitas), dan satu-satunya pilihan saat populasi tak terbatas atau pengukuran merusak objek (uji kualitas).</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Survei election polling: wawancara 1.000 pemilih (1 minggu, $10.000) vs 160 juta pemilih (sensus, butuh bulan, miliaran dolar).</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(245,158,11,0.05));color:var(--amber-2)">🧭</div>
+        <h3>Sampling yang Baik</h3>
+        <p>Representatif, tidak bias, ukuran mencukupi, dan metode sesuai tujuan. Sampel harus dipilih dengan proses yang bisa direplikasi &amp; dijelaskan.</p>
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <span>Sampel "yang ada" (convenience) hampir selalu tidak representatif. Survei mahasiswa di kantin tidak mewakili semua mahasiswa.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:30px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">🧭 Peta Teknik Sampling</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Kategori</th><th>Teknik</th><th>Prinsip</th><th>Contoh</th></tr>
+        </thead>
+        <tbody>
+          <tr><td rowspan="5"><span class="pill t">Probability</span></td><td>Simple Random</td><td>Setiap anggota punya peluang sama</td><td>Nomor undian</td></tr>
+          <tr><td>Stratified</td><td>Bagi populasi ke strata, ambil sampel tiap strata</td><td>Survei per jurusan</td></tr>
+          <tr><td>Cluster</td><td>Bagi ke klaster, ambil seluruh klaster terpilih</td><td>Survei per kelas</td></tr>
+          <tr><td>Systematic</td><td>Ambil setiap ke-k anggota</td><td>Setiap 10 mahasiswa</td></tr>
+          <tr><td>Multistage</td><td>Kombinasi bertingkat</td><td>Provinsi → kota → sekolah → siswa</td></tr>
+          <tr><td rowspan="4"><span class="pill a">Non-Probability</span></td><td>Quota</td><td>Bagi sesuai kuota kategori</td><td>50 pria + 50 wanita</td></tr>
+          <tr><td>Convenience</td><td>Ambil yang mudah diakses</td><td>Survei teman dekat</td></tr>
+          <tr><td>Purposive</td><td>Pilih sesuai tujuan riset</td><td>Expert interview</td></tr>
+          <tr><td>Snowball</td><td>Responden merekomendasi responden lain</td><td>Komunitas tersembunyi</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="probabilitas">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">02 — Sampling Probabilitas</span>
+      <h2>Sampling Probabilitas (Berpeluang)</h2>
+      <p>Setiap anggota populasi punya peluang yang diketahui (≠ 0) untuk terpilih. Bisa diinferensial statistik.</p>
+    </div>
+
+    <div class="tabs reveal">
+      <button class="tab-btn p-tab active" data-tab="sr">🎲 Simple Random</button>
+      <button class="tab-btn p-tab" data-tab="st">👥 Stratified</button>
+      <button class="tab-btn p-tab" data-tab="cl">🏗️ Cluster</button>
+      <button class="tab-btn p-tab" data-tab="sy">🔢 Systematic</button>
+      <button class="tab-btn p-tab" data-tab="ms">🏢 Multistage</button>
+    </div>
+
+    <div class="tab-content active" id="tab-sr">
+      <div class="grid-2">
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Simple Random Sampling (SRS)</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Setiap anggota populasi punya <strong>peluang sama</strong> untuk terpilih. Setiap kemungkinan sampel ukuran n punya peluang sama. "Memberi undian" di setiap anggota.</p>
+          <div class="formula-box">
+            <div class="f-label">Peluang terpilih</div>
+            <div class="f-math">P(i) = n / N</div>
+          </div>
+          <div class="example">
+            <span class="ex-label">Contoh Nyata</span>
+            <p>Pilih 100 mahasiswa dari 5.000 secara acak. Tiap mahasiswa punya peluang 100/5.000 = 2% terpilih. Pakai random number generator.</p>
+          </div>
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <span>SRS adalah "standard emas" — metode paling adil &amp; basis statistik inferensial. Tapi butuh kerangka sampling lengkap (daftar seluruh populasi).</span>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Kelebihan &amp; Kekurangan</h3>
+          <table class="compare-table">
+            <thead><tr><th>Aspek</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Sederhana</td><td><span class="pill e">Kelebihan</span></td></tr>
+              <tr><td>Tidak bias</td><td><span class="pill e">Kelebihan</span></td></tr>
+              <tr><td>Bisa inferensial</td><td><span class="pill e">Kelebihan</span></td></tr>
+              <tr><td>Butuh daftar populasi</td><td><span class="pill r">Kekurangan</span></td></tr>
+              <tr><td>Tidak menjamin strata terwakili</td><td><span class="pill r">Kekurangan</span></td></tr>
+              <tr><td>Mahal untuk populasi tersebar</td><td><span class="pill r">Kekurangan</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-st">
+      <div class="grid-2">
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Stratified Random Sampling</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Populasi dibagi ke <strong>strata</strong> (kelompok homogen), lalu SRS dilakukan di tiap strata. Menjamin kelompok tertentu terwakili.</p>
+          <div class="formula-box sky">
+            <div class="f-label">Alokasi Proporsional</div>
+            <div class="f-math">nₕ = (Nₕ / N) × n</div>
+          </div>
+          <p style="font-size:.85rem;color:var(--muted);margin-top:8px">Nₕ = ukuran strata h, N = total populasi, n = ukuran sampel</p>
+          <div class="example">
+            <span class="ex-label">Contoh Nyata</span>
+            <p>Kampus 60% Sains, 30% Soshum, 10% Seni. Sampel 100 mhs → 60 Sains + 30 Soshum + 10 Seni. Tiap strata terwakili sesuai proporsi.</p>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Kapan Dipakai?</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Saat ada kelompok berbeda yang ingin dipastikan terwakili, atau variabilitas dalam strata kecil tapi antar strata besar.</p>
+          <table class="compare-table">
+            <thead><tr><th>Jenis Alokasi</th><th>Cara</th></tr></thead>
+            <tbody>
+              <tr><td>Proporsional</td><td>nₕ sesuai proporsi strata</td></tr>
+              <tr><td>Equal</td><td>nₕ sama untuk semua strata</td></tr>
+              <tr><td>Optimal (Neyman)</td><td>nₕ proporsional Nₕ × σₕ</td></tr>
+            </tbody>
+          </table>
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <span>Alokasi Neyman: ambil sampel lebih banyak dari strata yang lebih bervariasi. Lebih efisien dibanding proporsional.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-cl">
+      <div class="grid-2">
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Cluster Sampling</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Populasi dibagi ke <strong>klaster</strong> (kelompok alami, mis. kelas, sekolah, desa). Pilih beberapa klaster secara acak, lalu ambil <strong>semua anggota</strong> klaster terpilih.</p>
+          <div class="formula-box amber">
+            <div class="f-label">Jumlah klaster terpilih</div>
+            <div class="f-math">k = n / ukuran klaster rata-rata</div>
+          </div>
+          <div class="example">
+            <span class="ex-label">Contoh Nyata</span>
+            <p>Survei 1.000 siswa SMA di Solo. Solo punya 80 SMA. Acak pilih 10 SMA, survei semua siswa di 10 SMA terpilih. Hemat biaya transport.</p>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Cluster vs Stratified</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Sering tertukar. Perbedaan kunci:</p>
+          <table class="compare-table">
+            <thead><tr><th>Aspek</th><th>Stratified</th><th>Cluster</th></tr></thead>
+            <tbody>
+              <tr><td>Hubungan antar unit</td><td>Homogen dalam strata</td><td>Heterogen dalam klaster</td></tr>
+              <tr><td>Hubungan antar kelompok</td><td>Heterogen antar strata</td><td>Homogen antar klaster</td></tr>
+              <tr><td>Sampling</td><td>Sedikit dari tiap strata</td><td>Sedikit klaster, semua unit</td></tr>
+              <tr><td>Tujuan</td><td>Presisi</td><td>Efisiensi biaya</td></tr>
+              <tr><td>Contoh</td><td>Jurusan</td><td>Sekolah</td></tr>
+            </tbody>
+          </table>
+          <div class="warn">
+            <span class="warn-icon">⚠️</span>
+            <span>Cluster sampling biasanya kurang presisi dibanding SRS dengan ukuran sama, tapi jauh lebih murah. Trade-off presisi vs biaya.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-sy">
+      <div class="grid-2">
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Systematic Sampling</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Pilih titik awal acak, lalu ambil setiap ke-k elemen dari daftar populasi. Praktis &amp; cepat untuk populasi berurut.</p>
+          <div class="formula-box">
+            <div class="f-label">Interval Sampling</div>
+            <div class="f-math">k = N / n</div>
+          </div>
+          <p style="font-size:.85rem;color:var(--muted);margin-top:8px">k = interval, N = ukuran populasi, n = ukuran sampel. Pilih r acak dari 1 ke k, lalu ambil elemen ke r, r+k, r+2k, ...</p>
+          <div class="example">
+            <span class="ex-label">Contoh Nyata</span>
+            <p>Populasi 1.000 mahasiswa, mau sampel 100. Interval k = 1000/100 = 10. Pilih angka acak 1-10, mis. 7. Ambil mhs ke-7, 17, 27, 37, ..., 997.</p>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Hati-Hati Periodisitas</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Systematic berbahaya jika daftar punya pola periodik yang sesuai dengan interval. Bisa bias parah.</p>
+          <div class="warn">
+            <span class="warn-icon">⚠️</span>
+            <span>Contoh: daftar mahasiswa urut per kelas (30 mhs/kelas). Interval 30 → semua dari urutan yang sama di tiap kelas (mis. semua ketua kelas). Bias!</span>
+          </div>
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <span>Solusi: pakai systematic dengan interval acak (variasi k), atau pastikan daftar tidak punya pola periodik sebelum pakai systematic sampling.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-ms">
+      <div class="grid-2">
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Multistage Sampling</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Kombinasi bertingkat dari teknik sampling. Cocok untuk populasi tersebar luas (nasional, regional). Survei sosial besar pakai ini.</p>
+          <div class="stepper">
+            <div class="step">
+              <div class="step-num">TAHAP 1</div>
+              <div class="step-text">Cluster Provinsi</div>
+              <div class="step-desc">Acak pilih 10 provinsi</div>
+            </div>
+            <div class="step">
+              <div class="step-num">TAHAP 2</div>
+              <div class="step-text">Cluster Kota</div>
+              <div class="step-desc">Acak 5 kota per provinsi</div>
+            </div>
+            <div class="step">
+              <div class="step-num">TAHAP 3</div>
+              <div class="step-text">Cluster Kelurahan</div>
+              <div class="step-desc">Acak 3 kelurahan per kota</div>
+            </div>
+            <div class="step">
+              <div class="step-num">TAHAP 4</div>
+              <div class="step-text">SRS Rumah</div>
+              <div class="step-desc">Acak 10 rumah per kelurahan</div>
+            </div>
+          </div>
+          <div class="example">
+            <span class="ex-label">Contoh Nyata</span>
+            <p>Survei SUSENAS: tahap 1 pilih provinsi, tahap 2 kota/kab, tahap 3 kelurahan, tahap 4 SRS rumah tangga. Total 10×5×3×10 = 1.500 rumah tangga.</p>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Mengapa Multistage?</h3>
+          <p style="color:var(--muted);margin-bottom:14px">Tidak realistis punya daftar seluruh rumah tangga Indonesia (260 juta). Multistage turun bertahap hingga punya daftar pada level terkecil.</p>
+          <table class="compare-table">
+            <thead><tr><th>Aspek</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Efisien untuk populasi luas</td><td><span class="pill e">Kelebihan</span></td></tr>
+              <tr><td>Tidak butuh daftar lengkap</td><td><span class="pill e">Kelebihan</span></td></tr>
+              <tr><td>Fleksibel</td><td><span class="pill e">Kelebihan</span></td></tr>
+              <tr><td>Desain rumit</td><td><span class="pill r">Kekurangan</span></td></tr>
+              <tr><td>Analisis butuh bobot sampling</td><td><span class="pill r">Kekurangan</span></td></tr>
+              <tr><td>Presisi lebih rendah dari SRS</td><td><span class="pill r">Kekurangan</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="non-probabilitas">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">03 — Sampling Non-Probabilitas</span>
+      <h2>Sampling Non-Probabilitas</h2>
+      <p>Peluang terpilih tidak diketahui. Tidak bisa diinferensial statistik parametrik, tapi sering lebih praktis.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(245,158,11,0.05));color:var(--amber-2)">⚖️</div>
+        <h3>Quota Sampling</h3>
+        <p>Peneliti menetapkan kuota per kategori (mis. 50 pria + 50 wanita), lalu mengisi kuota secara non-acak (biasanya convenience).</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Survei mall: wawancara 50 pria + 50 wanita yang lewat. Kuota terpenuhi, tapi pemilihan non-acak (siapa yang lewat saat itu).</p>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>Mirip stratified, tapi pemilihan dalam kuota tidak acak. Quota = non-probability, stratified = probability.</span>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(244,63,94,0.2),rgba(244,63,94,0.05));color:var(--rose-2)">🚶</div>
+        <h3>Convenience Sampling</h3>
+        <p>Ambil responden yang mudah diakses: teman, keluarga, mahasiswa di kantin. Cepat &amp; murah, tapi hampir selalu tidak representatif.</p>
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <span>Convenience sampling tidak boleh dipakai untuk klaim populasi. Hanya cocok untuk riset eksplorasi, pilot study, atau pre-test kuesioner.</span>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(13,148,136,0.2),rgba(13,148,136,0.05));color:var(--teal-3)">🎯</div>
+        <h3>Purposive (Judgmental) Sampling</h3>
+        <p>Peneliti pilih responden sesuai pertimbangan ahli. Cocok untuk populasi khusus yang sulit dijangkau atau expert opinion.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Riset dampak kurikulum baru: wawancara kepala sekolah &amp; guru senior yang dianggap paham. Sampling purposive — pilih yang dianggap "information-rich".</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(34,211,238,0.2),rgba(34,211,238,0.05));color:var(--cyan-2)">❄️</div>
+        <h3>Snowball Sampling</h3>
+        <p>Responden awal kecil, lalu minta mereka merekomendasikan responden lain. Cocok untuk populasi tersembunyi (hidden population).</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Riset pengguna narkoba, pekerja seks, atau komunitas minoritas. Sulit dijangkau survei biasa. Mulai dari beberapa responden awal → minta rekomendasi → sampel seperti "bola salju" membesar.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Probability vs Non-Probability: Ringkasan</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Aspek</th><th>Probability</th><th>Non-Probability</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Peluang terpilih</td><td>Diketahui, tidak nol</td><td>Tidak diketahui</td></tr>
+          <tr><td>Representativitas</td><td>Tinggi (jika desain baik)</td><td>Rendah, bias</td></tr>
+          <tr><td>Inferensial statistik</td><td>Bisa</td><td>Tidak bisa</td></tr>
+          <tr><td>Generalisasi</td><td>Ke populasi</td><td>Terbatas/hypotesis</td></tr>
+          <tr><td>Biaya</td><td>Lebih mahal</td><td>Lebih murah</td></tr>
+          <tr><td>Butuh kerangka sampling</td><td>Ya</td><td>Tidak</td></tr>
+          <tr><td>Cocok untuk</td><td>Survei, eksperimen</td><td>Eksplorasi, studi kualitatif</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="ukuran-sampel">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">04 — Ukuran Sampel</span>
+      <h2>Menentukan Ukuran Sampel</h2>
+      <p>Berapa sampel yang cukup? Terlalu sedikit → tidak presisi. Terlalu banyak → boros.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Rumus Slovin</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Rumus paling sering dipakai di skripsi mahasiswa untuk populasi terbatas. Sederhana &amp; praktis.</p>
+        <div class="formula-box">
+          <div class="f-label">Rumus Slovin</div>
+          <div class="f-math">n = N / (1 + N·e²)</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">
+          n = ukuran sampel, N = ukuran populasi, e = error toleransi (mis. 0.05 = 5%)
+        </p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Populasi mahasiswa = 5.000. Error toleransi 10% (e=0.10). n = 5000 / (1 + 5000×0.01) = 5000/51 = 98 mahasiswa.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Rumus Cochran</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Lebih akurat untuk populasi besar atau tak terbatas, mempertimbangkan z-score (tingkat kepercayaan) dan proporsi.</p>
+        <div class="formula-box sky">
+          <div class="f-label">Rumus Cochran</div>
+          <div class="f-math">n₀ = z² · p · (1−p) / e²</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">
+          z = z-score (1.96 untuk 95% CI), p = estimasi proporsi (0.5 = maksimum), e = error
+        </p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Tingkat kepercayaan 95% (z=1.96), proporsi 50% (p=0.5), error 5% (e=0.05). n₀ = 3.84 × 0.25 / 0.0025 = 384 sampel.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Calculator -->
+    <div class="calc-card reveal" style="margin-top:30px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:8px">🧮 Kalkulator Ukuran Sampel</h3>
+      <p style="color:var(--muted);margin-bottom:22px">Atur populasi (N), error toleransi (e), tingkat kepercayaan (z). Hitung ukuran sampel dengan rumus Slovin &amp; Cochran.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px">
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">N (Populasi)</label>
+          <input type="number" class="calc-input" id="ssN" value="5000" step="100">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">e (Error, 0-1)</label>
+          <input type="number" class="calc-input" id="ssE" value="0.05" step="0.01" min="0.01" max="0.20">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">Tingkat Kepercayaan</label>
+          <select class="calc-input" id="ssConf">
+            <option value="1.645">90% (z=1.645)</option>
+            <option value="1.96" selected>95% (z=1.96)</option>
+            <option value="2.576">99% (z=2.576)</option>
+          </select>
+        </div>
+      </div>
+      <button class="calc-btn" id="ssCalcBtn">Hitung Ukuran Sampel</button>
+      <div class="result-grid" style="grid-template-columns:repeat(3,1fr);margin-top:24px">
+        <div class="result-box">
+          <div class="rb-label">Slovin</div>
+          <div class="rb-value" id="ssSlovin">—</div>
+        </div>
+        <div class="result-box sky">
+          <div class="rb-label">Cochran</div>
+          <div class="rb-value" id="ssCochran">—</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">Cochran (Finite Pop. Correction)</div>
+          <div class="rb-value" id="ssCochranFPC">—</div>
+        </div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:14px;text-align:center">💡 Coba N=5000, e=0.05, z=1.96 → Slovin = 370, Cochran = 384 (tanpa FPC), Cochran FPC = 357 (koreksi populasi terbatas).</p>
+    </div>
+
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Faktor yang Mempengaruhi Ukuran Sampel</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Faktor</th><th>Pengaruh</th><th>Implikasi</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Variabilitas populasi (σ)</td><td>Makin besar → n makin besar</td><td>Populasi heterogen butuh sampel besar</td></tr>
+          <tr><td>Tingkat error (e)</td><td>Makin kecil → n makin besar</td><td>Mau presisi tinggi, bayar dengan sampel besar</td></tr>
+          <tr><td>Tingkat kepercayaan (z)</td><td>Makin tinggi → n makin besar</td><td>99% CI butuh sampel lebih dari 95%</td></tr>
+          <tr><td>Ukuran populasi (N)</td><td>Besar → n menambah melambat</td><td>Untuk N &gt; 100.000, n hampir konstan</td></tr>
+          <tr><td>Effek yang dideteksi</td><td>Effek kecil → n besar</td><td>Uji efek kecil butuh power besar</td></tr>
+        </tbody>
+      </table>
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <span>Untuk riset skripsi sederhana: N ≤ 1000 → Slovin e=0.10 (sampel ~91). N besar atau ingin publikasi jurnal → Cochran dengan z=1.96, e=0.05.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="clt">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">05 — Central Limit Theorem</span>
+      <h2>Simulasi Central Limit Theorem</h2>
+      <p>Mengapa distribusi rata-rata sampel selalu normal, walau populasi tidak normal? CLT menjawab.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Apa itu CLT?</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Central Limit Theorem: <strong>distribusi rata-rata sampel</strong> akan mendekati distribusi normal untuk n yang cukup besar (umumnya n ≥ 30), terlepas dari bentuk distribusi populasi asal.</p>
+        <div class="formula-box">
+          <div class="f-label">Distribusi Sampling Mean</div>
+          <div class="f-math">x̄ ~ N(μ, σ/√n)</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">x̄ ~ Normal dengan mean = μ (populasi), std. error = σ/√n</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Dadu 6 sisi (uniform, tidak normal). Lempar 100 dadu, hitung rata-rata. Ulangi 1.000 kali. Distribusi 1.000 rata-rata akan berbentuk lonceng normal!</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Mengapa Penting?</h3>
+        <p style="color:var(--muted);margin-bottom:14px">CLT adalah fondasi statistik inferensial. Karena x̄ normal, kita bisa pakai uji-t, ANOVA, dan z-test bahkan saat populasi tidak normal (untuk n besar).</p>
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>Standard error (SE) = σ/√n. Makin besar n, makin kecil SE → estimasi makin presisi. Inilah alasan "sampel besar = estimasi lebih akurat".</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive CLT Simulator -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">🔬 Simulator CLT: Distribusi Rata-rata Sampel</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Pilih bentuk distribusi populasi &amp; ukuran sampel. Lihat bagaimana distribusi rata-rata sampel berubah mendekati normal saat n besar.</p>
+      <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <label style="font-size:.9rem;color:var(--muted);font-weight:600">Distribusi:</label>
+          <select class="calc-input" id="cltDist" style="padding:8px 12px;font-size:.92rem;min-width:140px">
+            <option value="uniform">Uniform (dadu)</option>
+            <option value="skewed">Skewed kanan</option>
+            <option value="bimodal">Bimodal</option>
+            <option value="exponential">Eksponensial</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:240px">
+          <label style="font-size:.9rem;color:var(--muted);font-weight:600">n per sampel:</label>
+          <input type="range" id="cltSlider" min="1" max="200" step="1" value="30" style="flex:1;accent-color:var(--teal-2)">
+          <span id="cltN" style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--teal-3);min-width:50px">30</span>
+        </div>
+      </div>
+      <div class="grid-2" style="gap:18px">
+        <div>
+          <div style="font-family:'Space Grotesk';font-size:.95rem;color:var(--muted);margin-bottom:10px;text-align:center">Distribusi Populasi (1 nilai acak)</div>
+          <div class="viz-box" style="margin-top:0">
+            <svg id="cltPopSvg" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid meet" style="min-height:240px"></svg>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Space Grotesk';font-size:.95rem;color:var(--muted);margin-bottom:10px;text-align:center">Distribusi x̄ (1.000 sampel)</div>
+          <div class="viz-box" style="margin-top:0">
+            <svg id="cltSampSvg" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid meet" style="min-height:240px"></svg>
+          </div>
+        </div>
+      </div>
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:18px">
+        <div class="result-box">
+          <div class="rb-label">μ Populasi</div>
+          <div class="rb-value" id="cltMu">—</div>
+        </div>
+        <div class="result-box sky">
+          <div class="rb-label">σ Populasi</div>
+          <div class="rb-value" id="cltSigma">—</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">Rata-rata x̄</div>
+          <div class="rb-value" id="cltMeanXbar">—</div>
+        </div>
+        <div class="result-box rose">
+          <div class="rb-label">SE (σ/√n)</div>
+          <div class="rb-value" id="cltSE">—</div>
+        </div>
+      </div>
+      <p style="font-size:.85rem;color:var(--muted);margin-top:14px;text-align:center">💡 Coba n=1 → distribusi x̄ = populasi. n=30 → x̄ sudah mendekati normal. n=200 → sangat normal.</p>
+    </div>
+  </div>
+</section>
+
+<section id="bias">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">06 — Bias &amp; Sampling Error</span>
+      <h2>Bias &amp; Sampling Error</h2>
+      <p>Mengapa sampel bisa "berbohong"? Kenali jenis bias &amp; cara meminimalkannya.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Sampling Error</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Selisih antara statistik sampel &amp; parameter populasi karena sampel acak. <strong>Selalu ada</strong>, bisa diukur &amp; dikontrol.</p>
+        <div class="formula-box">
+          <div class="f-label">Sampling Error</div>
+          <div class="f-math">SE = x̄ − μ</div>
+        </div>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>IPK seluruh mahasiswa μ = 3.45. Sampel 100 dapat x̄ = 3.52. Sampling error = +0.07. Makin besar n, makin kecil error (SE = σ/√n).</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Non-Sampling Error (Bias)</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Error karena masalah desain/eksekusi, bukan acak. <strong>Tidak bisa dihilangkan dengan menambah sampel</strong> — harus diperbaiki di desain.</p>
+        <table class="compare-table">
+          <thead><tr><th>Jenis Bias</th><th>Sebab</th></tr></thead>
+          <tbody>
+            <tr><td>Selection bias</td><td>Sampel tidak mewakili populasi</td></tr>
+            <tr><td>Non-response bias</td><td>Yang tak merespons berbeda dari yang merespons</td></tr>
+            <tr><td>Response bias</td><td>Responden tidak jujur (mis. soal sensitif)</td></tr>
+            <tr><td>Measurement bias</td><td>Pertanyaan tidak jelas / alat tidak kalibrasi</td></tr>
+            <tr><td>Interviewer bias</td><td>Penanya mempengaruhi jawaban</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Cara Meminimalkan Bias</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Jenis Bias</th><th>Solusi</th><th>Contoh Praktis</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Selection bias</td><td>Pakai probability sampling</td><td>Ganti convenience dengan SRS/stratified</td></tr>
+          <tr><td>Non-response</td><td>Follow-up, insentif, metode cadangan</td><td>Kirim ulang kuesioner, telepon, SMS follow-up</td></tr>
+          <tr><td>Response</td><td>Anonimitas, pertanyaan netral</td><td>Kuesioner online tanpa nama, jangan memimpin</td></tr>
+          <tr><td>Measurement</td><td>Pre-test kuesioner, alat terkalibrasi</td><td>Uji coba ke 20 mhs sebelum survei besar</td></tr>
+          <tr><td>Interviewer</td><td>Latih pewawancara, blind</td><td>Pewawancara tidak tahu hipotesis riset</td></tr>
+          <tr><td>Survivorship</td><td>Sertakan yang "gugur"</td><td>Sertakan mhs dropout, bukan hanya lulus</td></tr>
+        </tbody>
+      </table>
+      <div class="warn">
+        <span class="warn-icon">⚠️</span>
+        <span>Bias tidak bisa diperbaiki dengan menambah sampel. Sampel 1 juta pun masih bias jika metode pemilihannya salah. Bias = masalah desain, bukan ukuran.</span>
+      </div>
+    </div>
+
+    <!-- Interactive Sampling Bias Visualization -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">🔬 Visualisasi: SRS vs Bias Sampling</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Populasi: 200 mahasiswa (warna = jurusan). Lihat bagaimana SRS mewakili semua jurusan, sementara convenience sampling (mis. dari kantin) bias ke jurusan tertentu.</p>
+      <div class="tabs" style="background:rgba(0,0,0,0.25)">
+        <button class="tab-btn bias-tab active" data-bias="pop">Populasi</button>
+        <button class="tab-btn bias-tab" data-bias="srs">SRS (n=50)</button>
+        <button class="tab-btn bias-tab" data-bias="bias">Convenience (n=50)</button>
+      </div>
+      <div class="viz-box" style="margin-top:20px">
+        <svg id="biasSvg" viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet" style="min-height:280px"></svg>
+      </div>
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:18px">
+        <div class="result-box">
+          <div class="rb-label">% Sains</div>
+          <div class="rb-value" id="biasSci">—</div>
+        </div>
+        <div class="result-box sky">
+          <div class="rb-label">% Soshum</div>
+          <div class="rb-value" id="biasSos">—</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">% Seni</div>
+          <div class="rb-value" id="biasArt">—</div>
+        </div>
+        <div class="result-box rose">
+          <div class="rb-label">Bias Status</div>
+          <div class="rb-value" id="biasStatus" style="font-size:.95rem">—</div>
+        </div>
+      </div>
+      <p style="font-size:.85rem;color:var(--muted);margin-top:14px;text-align:center">💡 Populasi: 40% Sains, 35% Soshum, 25% Seni. SRS akan mendekati proporsi ini. Convenience sampling bias ke satu kelompok.</p>
+    </div>
+  </div>
+</section>
+
+<section id="kuis">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">07 — Kuis Interaktif</span>
+      <h2>Uji Pemahamanmu</h2>
+      <p>6 soal pilihan ganda tentang teknik sampling. Lihat skormu di akhir!</p>
+    </div>
+    <div class="reveal" id="quizContainer"></div>
+    <div class="quiz-score" id="quizScore">
+      <div style="font-size:.95rem;color:var(--muted);margin-bottom:6px">Skor Akhir</div>
+      <div class="score-num" id="scoreNum">0 / 6</div>
+      <div id="scoreMsg" style="font-size:1rem;margin-top:8px;color:var(--muted)">—</div>
+      <button class="calc-btn" id="quizReset" style="margin-top:18px">Coba Lagi</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="logo">
+      <div class="logo-icon">n/N</div>
+      <span>Teknik Sampling</span>
+    </div>
+    <p>PELITA - Portal Edukasi dan Literasi Statistik</p>
+    <p style="font-size:.82rem;color:#5b7585;margin-top:14px">Tim Pembina Pojok Statistik BPS Jabar · 2026</p>
+  </div>
+</footer>
+
+<script>
+  /* NAV */
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  /* COUNT UP */
+  const counters = document.querySelectorAll('[data-count]');
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target; const target = parseInt(el.dataset.count);
+        let cur = 0; const step = Math.max(1, Math.floor(target / 30));
+        const timer = setInterval(() => {
+          cur += step; if (cur >= target) { cur = target; clearInterval(timer); }
+          el.textContent = cur;
+        }, 40);
+        counterObs.unobserve(el);
+      }
+    });
+  }, {threshold: 0.5});
+  counters.forEach(c => counterObs.observe(c));
+
+  /* REVEAL */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* TABS - Probability sampling */
+  document.querySelectorAll('.p-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.p-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+    });
+  });
+
+  /* ===== UKURAN SAMPEL CALCULATOR ===== */
+  document.getElementById('ssCalcBtn').addEventListener('click', () => {
+    const N = parseFloat(document.getElementById('ssN').value);
+    const e = parseFloat(document.getElementById('ssE').value);
+    const z = parseFloat(document.getElementById('ssConf').value);
+    if (isNaN(N) || N <= 0 || isNaN(e) || e <= 0 || e >= 1) {
+      alert('Mohon isi nilai valid. N > 0, e antara 0 dan 1.');
+      return;
+    }
+    // Slovin
+    const slovin = Math.ceil(N / (1 + N * e * e));
+    // Cochran (assuming p=0.5 for max variance)
+    const p = 0.5;
+    const cochran0 = Math.ceil((z * z * p * (1 - p)) / (e * e));
+    // Cochran with Finite Population Correction (FPC)
+    const fpc = cochran0 / (1 + (cochran0 - 1) / N);
+    const cochranFPC = Math.ceil(fpc);
+    document.getElementById('ssSlovin').textContent = slovin;
+    document.getElementById('ssCochran').textContent = cochran0;
+    document.getElementById('ssCochranFPC').textContent = cochranFPC;
+  });
+
+  /* ===== CLT SIMULATOR ===== */
+  // Population generators
+  function genPop(dist, n = 5000) {
+    const data = [];
+    for (let i = 0; i < n; i++) {
+      let v;
+      if (dist === 'uniform') {
+        v = Math.random() * 6 + 1;  // dice 1-6
+      } else if (dist === 'skewed') {
+        // right-skewed: -log(uniform)
+        v = -Math.log(Math.random()) * 2;
+      } else if (dist === 'bimodal') {
+        // mix of two normals
+        v = Math.random() < 0.5 ? (Math.random() * 2 - 1 + 2) : (Math.random() * 2 - 1 + 8);
+      } else if (dist === 'exponential') {
+        v = -Math.log(1 - Math.random()) * 3;
+      } else {
+        v = Math.random();
+      }
+      data.push(v);
+    }
+    return data;
+  }
+  function mean(arr) { return arr.reduce((s, v) => s + v, 0) / arr.length; }
+  function std(arr, m) {
+    if (m === undefined) m = mean(arr);
+    return Math.sqrt(arr.reduce((s, v) => s + (v - m) * (v - m), 0) / arr.length);
+  }
+  function histogram(arr, bins, min, max) {
+    const counts = new Array(bins).fill(0);
+    const range = max - min;
+    arr.forEach(v => {
+      let idx = Math.floor((v - min) / range * bins);
+      if (idx >= bins) idx = bins - 1;
+      if (idx < 0) idx = 0;
+      counts[idx]++;
+    });
+    return counts;
+  }
+  function renderHistogram(svgId, counts, color, min, max, label) {
+    const svg = document.getElementById(svgId);
+    const pad = { l: 30, r: 15, t: 15, b: 35 };
+    const w = 400 - pad.l - pad.r;
+    const h = 240 - pad.t - pad.b;
+    const bins = counts.length;
+    const maxC = Math.max(...counts);
+    const barW = w / bins * 0.9;
+    const gap = w / bins * 0.1;
+    let html = '';
+    // axes
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    // bars
+    counts.forEach((c, i) => {
+      const bh = (c / maxC) * h;
+      const x = pad.l + (i * (w / bins)) + gap / 2;
+      const y = pad.t + h - bh;
+      html += `<rect x="${x}" y="${y}" width="${barW}" height="${bh}" fill="${color}" fill-opacity="0.75" stroke="${color}" stroke-width="1" rx="1"/>`;
+    });
+    // x labels
+    html += `<text x="${pad.l}" y="${240 - 8}" text-anchor="start" fill="#7fa0b0" font-size="10">${min.toFixed(1)}</text>`;
+    html += `<text x="${pad.l + w}" y="${240 - 8}" text-anchor="end" fill="#7fa0b0" font-size="10">${max.toFixed(1)}</text>`;
+    html += `<text x="${pad.l + w/2}" y="${240 - 8}" text-anchor="middle" fill="#7fa0b0" font-size="10">${label}</text>`;
+    svg.innerHTML = html;
+  }
+
+  function runCLT() {
+    const dist = document.getElementById('cltDist').value;
+    const n = parseInt(document.getElementById('cltSlider').value);
+    document.getElementById('cltN').textContent = n;
+    // Generate population
+    const pop = genPop(dist, 5000);
+    const mu = mean(pop);
+    const sigma = std(pop, mu);
+    // Generate 1000 sample means
+    const sampleMeans = [];
+    for (let s = 0; s < 1000; s++) {
+      let sum = 0;
+      for (let i = 0; i < n; i++) sum += pop[Math.floor(Math.random() * pop.length)];
+      sampleMeans.push(sum / n);
+    }
+    const xbarMean = mean(sampleMeans);
+    const se = sigma / Math.sqrt(n);
+    // Histograms
+    const popMin = Math.min(...pop), popMax = Math.max(...pop);
+    const sampMin = Math.min(...sampleMeans), sampMax = Math.max(...sampleMeans);
+    const popBins = histogram(pop, 25, popMin, popMax);
+    const sampBins = histogram(sampleMeans, 25, sampMin, sampMax);
+    renderHistogram('cltPopSvg', popBins, '#14b8a6', popMin, popMax, 'Nilai Populasi');
+    renderHistogram('cltSampSvg', sampBins, '#22d3ee', sampMin, sampMax, 'Rata-rata Sampel (x̄)');
+    // Stats
+    document.getElementById('cltMu').textContent = mu.toFixed(2);
+    document.getElementById('cltSigma').textContent = sigma.toFixed(2);
+    document.getElementById('cltMeanXbar').textContent = xbarMean.toFixed(2);
+    document.getElementById('cltSE').textContent = se.toFixed(3);
+  }
+  document.getElementById('cltSlider').addEventListener('input', runCLT);
+  document.getElementById('cltDist').addEventListener('change', runCLT);
+  runCLT();
+
+  /* ===== BIAS VISUALIZATION ===== */
+  // 200 mahasiswa, 3 jurusan: 40% Sains, 35% Soshum, 25% Seni
+  // Position: random across grid, but Sains concentrated near kantin (right side)
+  function genStudents() {
+    const students = [];
+    for (let i = 0; i < 200; i++) {
+      const r = Math.random();
+      let jurusan, color;
+      if (r < 0.40) { jurusan = 'Sains'; color = '#14b8a6'; }
+      else if (r < 0.75) { jurusan = 'Soshum'; color = '#fbbf24'; }
+      else { jurusan = 'Seni'; color = '#fb7185'; }
+      students.push({
+        x: 30 + Math.random() * 540,
+        y: 30 + Math.random() * 280,
+        jurusan,
+        color
+      });
+    }
+    // Reassign positions: Sains cluster near kantin (x > 400), others random
+    students.forEach((s, i) => {
+      if (s.jurusan === 'Sains') {
+        s.x = 400 + Math.random() * 170;
+        s.y = 30 + Math.random() * 280;
+      } else if (s.jurusan === 'Soshum') {
+        s.x = 30 + Math.random() * 350;
+        s.y = 30 + Math.random() * 280;
+      } else {
+        s.x = 30 + Math.random() * 540;
+        s.y = 30 + Math.random() * 280;
+      }
+    });
+    return students;
+  }
+  let studentsData = null;
+  function renderBias(mode) {
+    if (!studentsData) studentsData = genStudents();
+    const svg = document.getElementById('biasSvg');
+    const pad = { l: 20, r: 20, t: 20, b: 50 };
+    let html = '';
+    // axes & background
+    html += `<line x1="${pad.l}" y1="${340 - 20}" x2="${600 - 20}" y2="${340 - 20}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>`;
+    html += `<text x="300" y="355" text-anchor="middle" fill="#7fa0b0" font-size="11" font-family="'Plus Jakarta Sans'">Peta Mahasiswa (kanan = dekat kantin)</text>`;
+    let selected = [];
+    if (mode === 'pop') {
+      selected = studentsData.map(s => ({ ...s, opacity: 0.9 }));
+      document.getElementById('biasSci').textContent = '40%';
+      document.getElementById('biasSos').textContent = '35%';
+      document.getElementById('biasArt').textContent = '25%';
+      document.getElementById('biasStatus').textContent = 'Populasi';
+      document.getElementById('biasStatus').style.background = 'var(--grad-1)';
+      document.getElementById('biasStatus').style.webkitBackgroundClip = 'text';
+      document.getElementById('biasStatus').style.backgroundClip = 'text';
+    } else if (mode === 'srs') {
+      // SRS: pick 50 random
+      const indices = [...Array(studentsData.length).keys()].sort(() => Math.random() - 0.5).slice(0, 50);
+      const sample = indices.map(i => studentsData[i]);
+      const counts = { Sains: 0, Soshum: 0, Seni: 0 };
+      sample.forEach(s => counts[s.jurusan]++);
+      document.getElementById('biasSci').textContent = Math.round(counts.Sains / 50 * 100) + '%';
+      document.getElementById('biasSos').textContent = Math.round(counts.Soshum / 50 * 100) + '%';
+      document.getElementById('biasArt').textContent = Math.round(counts.Seni / 50 * 100) + '%';
+      document.getElementById('biasStatus').textContent = 'Mewakili';
+      document.getElementById('biasStatus').style.background = 'var(--grad-4)';
+      document.getElementById('biasStatus').style.webkitBackgroundClip = 'text';
+      document.getElementById('biasStatus').style.backgroundClip = 'text';
+      selected = studentsData.map((s, i) => ({ ...s, opacity: indices.includes(i) ? 1 : 0.15 }));
+    } else if (mode === 'bias') {
+      // Convenience: pick 50 nearest to kantin (x > 400)
+      const sorted = [...studentsData].sort((a, b) => b.x - a.x);
+      const sample = sorted.slice(0, 50);
+      const sampleIds = new Set(studentsData.filter(s => s.x >= sample[49].x).map(s => s));
+      // Simpler: just pick top 50 by x
+      const sampleSet = new Set(sorted.slice(0, 50));
+      const counts = { Sains: 0, Soshum: 0, Seni: 0 };
+      sample.slice(0, 50).forEach(s => counts[s.jurusan]++);
+      document.getElementById('biasSci').textContent = Math.round(counts.Sains / 50 * 100) + '%';
+      document.getElementById('biasSos').textContent = Math.round(counts.Soshum / 50 * 100) + '%';
+      document.getElementById('biasArt').textContent = Math.round(counts.Seni / 50 * 100) + '%';
+      const sciPct = counts.Sains / 50;
+      const sosPct = counts.Soshum / 50;
+      const artPct = counts.Seni / 50;
+      const biased = Math.abs(sciPct - 0.40) > 0.15 || Math.abs(sosPct - 0.35) > 0.15 || Math.abs(artPct - 0.25) > 0.15;
+      document.getElementById('biasStatus').textContent = biased ? 'BIAS!' : 'OK';
+      document.getElementById('biasStatus').style.background = biased ? 'linear-gradient(135deg,#f43f5e,#fb7185)' : 'var(--grad-4)';
+      document.getElementById('biasStatus').style.webkitBackgroundClip = 'text';
+      document.getElementById('biasStatus').style.backgroundClip = 'text';
+      selected = studentsData.map(s => ({ ...s, opacity: sampleSet.has(s) ? 1 : 0.15 }));
+    }
+    // Draw dots
+    selected.forEach(s => {
+      html += `<circle cx="${s.x}" cy="${s.y}" r="5" fill="${s.color}" fill-opacity="${s.opacity}" stroke="${s.opacity > 0.5 ? 'white' : 'transparent'}" stroke-width="1"/>`;
+    });
+    // Legend
+    const lx = 30, ly = 30;
+    html += `<circle cx="${lx}" cy="${ly}" r="5" fill="#14b8a6"/>`;
+    html += `<text x="${lx + 10}" y="${ly + 4}" fill="#14b8a6" font-size="11" font-family="'Plus Jakarta Sans'">Sains</text>`;
+    html += `<circle cx="${lx + 70}" cy="${ly}" r="5" fill="#fbbf24"/>`;
+    html += `<text x="${lx + 80}" y="${ly + 4}" fill="#fbbf24" font-size="11" font-family="'Plus Jakarta Sans'">Soshum</text>`;
+    html += `<circle cx="${lx + 140}" cy="${ly}" r="5" fill="#fb7185"/>`;
+    html += `<text x="${lx + 150}" y="${ly + 4}" fill="#fb7185" font-size="11" font-family="'Plus Jakarta Sans'">Seni</text>`;
+    svg.innerHTML = html;
+  }
+  document.querySelectorAll('.bias-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.bias-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderBias(btn.dataset.bias);
+    });
+  });
+  renderBias('pop');
+
+  /* ===== QUIZ ===== */
+  const quizData = [
+    {
+      q: 'Sebuah peneliti ingin mengetahui rata-rata pendapat seluruh mahasiswa sebuah kampus. Ia wawancara mahasiswa yang kebetulan lewat di kantin. Teknik sampling yang dipakai?',
+      opts: ['Simple Random Sampling', 'Stratified Sampling', 'Convenience Sampling', 'Snowball Sampling'],
+      correct: 2,
+      fb: 'Convenience sampling — ambil yang mudah diakses. Tidak representatif, tidak bisa diinferensial ke seluruh mahasiswa.'
+    },
+    {
+      q: 'Peneliti bagi mahasiswa ke 3 jurusan, lalu SRS tiap jurusan. Teknik ini disebut?',
+      opts: ['Cluster Sampling', 'Stratified Sampling', 'Systematic Sampling', 'Multistage Sampling'],
+      correct: 1,
+      fb: 'Stratified: bagi populasi ke strata (jurusan), ambil sampel dari tiap strata. Cluster: bagi ke klaster, ambil seluruh klaster terpilih.'
+    },
+    {
+      q: 'Rumus Slovin untuk N=10.000 dan e=10% menghasilkan ukuran sampel?',
+      opts: ['100', '99', '999', '1000'],
+      correct: 1,
+      fb: 'n = N / (1 + N·e²) = 10000 / (1 + 10000×0.01) = 10000/101 = 99 (pembulatan ke atas).'
+    },
+    {
+      q: 'Central Limit Theorem menyatakan bahwa untuk n besar, distribusi rata-rata sampel akan?',
+      opts: ['Sama dengan populasi', 'Mendekati normal', 'Menyimpang ke kiri', 'Tidak terprediksi'],
+      correct: 1,
+      fb: 'CLT: untuk n ≥ 30 (umumnya), x̄ ~ Normal terlepas dari distribusi populasi. Inilah dasar statistik inferensial.'
+    },
+    {
+      q: 'Snowball sampling paling cocok untuk?',
+      opts: ['Populasi besar & tersebar', 'Populasi tersembunyi (hidden population)', 'Sampel probabilitas murni', 'Riset eksperimen laboratorium'],
+      correct: 1,
+      fb: 'Snowball cocok untuk populasi tersembunyi: pengguna narkoba, pekerja seks, komunitas minoritas. Responden merekomendasi responden lain.'
+    },
+    {
+      q: 'Manakah yang TIDAK bisa diperbaiki dengan menambah ukuran sampel?',
+      opts: ['Sampling error', 'Presisi estimasi', 'Selection bias', 'Tingkat kepercayaan'],
+      correct: 2,
+      fb: 'Bias (selection, non-response, dll.) TIDAK bisa dihilangkan dengan n lebih besar. Harus diperbaiki di desain sampling. Sampling error bisa dikecilkan dengan n besar.'
+    }
+  ];
+
+  const quizContainer = document.getElementById('quizContainer');
+  let answered = 0, correctCount = 0;
+  quizData.forEach((item, qi) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    const optsHTML = item.opts.map((o, oi) => `
+      <div class="quiz-opt" data-qi="${qi}" data-oi="${oi}">
+        <span class="opt-letter">${String.fromCharCode(65 + oi)}</span>
+        <span>${o}</span>
+      </div>`).join('');
+    card.innerHTML = `
+      <div class="quiz-question">
+        <div class="quiz-q-num">${qi + 1}</div>
+        <div>${item.q}</div>
+      </div>
+      <div class="quiz-options">${optsHTML}</div>
+      <div class="quiz-feedback" id="fb-${qi}"></div>`;
+    quizContainer.appendChild(card);
+  });
+  quizContainer.addEventListener('click', (e) => {
+    const opt = e.target.closest('.quiz-opt');
+    if (!opt) return;
+    const qi = parseInt(opt.dataset.qi);
+    const oi = parseInt(opt.dataset.oi);
+    const card = opt.closest('.quiz-card');
+    if (card.dataset.answered === '1') return;
+    card.dataset.answered = '1';
+    const item = quizData[qi];
+    const fb = document.getElementById('fb-' + qi);
+    if (oi === item.correct) {
+      opt.classList.add('correct');
+      fb.className = 'quiz-feedback show correct';
+      fb.innerHTML = '✓ <strong>Benar!</strong> ' + item.fb;
+      correctCount++;
+    } else {
+      opt.classList.add('wrong');
+      const correctOpt = card.querySelector(`.quiz-opt[data-oi="${item.correct}"]`);
+      correctOpt.classList.add('correct');
+      fb.className = 'quiz-feedback show wrong';
+      fb.innerHTML = '✗ <strong>Belum tepat.</strong> Jawaban benar: <strong>' + item.opts[item.correct] + '</strong>. ' + item.fb;
+    }
+    answered++;
+    if (answered === quizData.length) {
+      const scoreEl = document.getElementById('quizScore');
+      document.getElementById('scoreNum').textContent = correctCount + ' / ' + quizData.length;
+      let msg;
+      if (correctCount === quizData.length) msg = '🎉 Sempurna! Kamu siap merancang sampling riset.';
+      else if (correctCount >= 4) msg = '👍 Bagus! Beberapa konsep bisa dipertajam lagi.';
+      else msg = '💪 Tetap semangat! Sampling butuh latihan &amp; pemahaman desain.';
+      document.getElementById('scoreMsg').textContent = msg;
+      setTimeout(() => scoreEl.classList.add('show'), 400);
+      scoreEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+  document.getElementById('quizReset').addEventListener('click', () => {
+    answered = 0; correctCount = 0;
+    document.getElementById('quizScore').classList.remove('show');
+    document.querySelectorAll('.quiz-card').forEach(card => {
+      card.dataset.answered = '0';
+      card.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('correct', 'wrong'));
+      card.querySelectorAll('.quiz-feedback').forEach(f => { f.className = 'quiz-feedback'; f.innerHTML = ''; });
+    });
+    document.getElementById('kuis').scrollIntoView({ behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>

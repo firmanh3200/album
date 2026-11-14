@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Analisis Multivariat untuk Mahasiswa | Panduan Interaktif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a14;
+    --bg-2:#10101c;
+    --card:rgba(255,255,255,0.035);
+    --card-2:rgba(255,255,255,0.06);
+    --card-border:rgba(255,255,255,0.09);
+    --text:#ebeaf7;
+    --muted:#8a8aa5;
+    --fuchsia:#d946ef;
+    --fuchsia-2:#e879f9;
+    --violet:#8b5cf6;
+    --violet-2:#a78bfa;
+    --teal:#14b8a6;
+    --teal-2:#2dd4bf;
+    --rose:#fb7185;
+    --amber:#fbbf24;
+    --cyan:#22d3ee;
+    --grad-1:linear-gradient(135deg,#d946ef 0%,#8b5cf6 100%);
+    --grad-2:linear-gradient(135deg,#14b8a6 0%,#22d3ee 100%);
+    --grad-3:linear-gradient(135deg,#fb7185 0%,#fbbf24 100%);
+    --grad-4:linear-gradient(135deg,#8b5cf6 0%,#22d3ee 100%);
+    --grad-5:linear-gradient(135deg,#d946ef 0%,#fb7185 100%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;overflow-x:hidden}
+  body{
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  ::selection{background:rgba(217,70,239,0.3);color:var(--fuchsia-2)}
+  .bg-decoration{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:0.22}
+  .blob-1{width:580px;height:580px;background:#d946ef;top:-150px;right:-100px;animation:float 22s ease-in-out infinite}
+  .blob-2{width:480px;height:480px;background:#14b8a6;bottom:-100px;left:-100px;animation:float 28s ease-in-out infinite reverse}
+  .blob-3{width:400px;height:400px;background:#8b5cf6;top:42%;left:55%;animation:float 32s ease-in-out infinite}
+  .grid-bg{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse at center,black 0%,transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse at center,black 0%,transparent 80%);
+  }
+  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(50px,40px) scale(1.08)}}
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(10,10,20,0.78);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--card-border);
+    padding:14px 0;
+  }
+  nav .container{display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;display:flex;align-items:center;gap:10px}
+  .logo-icon{
+    width:34px;height:34px;border-radius:10px;
+    background:var(--grad-1);
+    display:grid;place-items:center;
+    box-shadow:0 8px 20px -8px var(--fuchsia);
+    font-size:1.05rem;font-family:'JetBrains Mono',monospace;
+  }
+  .nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap}
+  .nav-links a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-size:.86rem;font-weight:500;transition:all .2s ease}
+  .nav-links a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+  .menu-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+
+  .container{max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+  .hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 80px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 14px;border-radius:99px;
+    background:rgba(217,70,239,0.15);border:1px solid rgba(217,70,239,0.3);
+    color:#f5d4f9;font-size:.82rem;font-weight:600;margin-bottom:24px;
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--fuchsia);box-shadow:0 0 12px var(--fuchsia);animation:pulse 2s ease infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+  .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;font-weight:700;letter-spacing:-0.02em;margin-bottom:22px}
+  .hero h1 .grad{background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{color:var(--muted);font-size:1.08rem;max-width:540px;margin-bottom:32px}
+  .hero-stats{display:flex;gap:30px;flex-wrap:wrap;margin-top:36px}
+  .stat{display:flex;flex-direction:column}
+  .stat .num{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .label{font-size:.82rem;color:var(--muted);margin-top:2px}
+
+  /* Hero visual: cluster scatter */
+  .hero-visual{position:relative;height:480px;display:flex;align-items:center;justify-content:center}
+  .hero-svg{width:100%;max-width:420px}
+  .floating-card{
+    position:absolute;background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--card-border);border-radius:14px;
+    padding:12px 16px;box-shadow:0 15px 35px -15px rgba(0,0,0,0.6);
+    animation:floatCard 6s ease-in-out infinite;z-index:2;
+  }
+  .fc-1{top:0;left:0;animation-delay:0s}
+  .fc-2{top:130px;right:0;animation-delay:1.5s}
+  .fc-3{bottom:0;left:30px;animation-delay:3s}
+  .fc-4{bottom:80px;right:0;animation-delay:4.5s}
+  @keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .floating-card .fc-label{font-size:.7rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+  .floating-card .fc-value{font-family:'JetBrains Mono',monospace;font-size:.88rem;font-weight:700;color:var(--fuchsia-2)}
+  .floating-card.teal .fc-value{color:var(--teal-2)}
+  .floating-card.violet .fc-value{color:var(--violet-2)}
+  .floating-card.amber .fc-value{color:var(--amber)}
+
+  section{padding:80px 0;position:relative;scroll-margin-top:70px}
+  footer{scroll-margin-top:70px}
+  .section-head{max-width:740px;margin:0 auto 56px;text-align:center}
+  .section-tag{
+    display:inline-block;padding:5px 14px;border-radius:99px;
+    background:rgba(217,70,239,0.12);border:1px solid rgba(217,70,239,0.25);
+    color:#f5d4f9;font-size:.78rem;font-weight:600;margin-bottom:18px;letter-spacing:.05em;
+  }
+  .section-head h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.1;font-weight:700;letter-spacing:-0.02em;margin-bottom:14px}
+  .section-head p{color:var(--muted);font-size:1.02rem}
+
+  .card{
+    background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--card-border);border-radius:22px;padding:28px;
+    transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(217,70,239,0.4);box-shadow:0 25px 60px -25px rgba(217,70,239,0.35)}
+  .card-icon{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;font-size:1.6rem;margin-bottom:18px}
+  .card h3{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;margin-bottom:10px}
+  .card p{color:var(--muted);font-size:.95rem}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:100%;min-width:0}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:100%;min-width:0}
+  .card{max-width:100%;min-width:0;overflow-wrap:break-word}
+
+  .def-box{
+    background:linear-gradient(135deg,rgba(217,70,239,0.12),rgba(139,92,246,0.06));
+    border:1px solid rgba(217,70,239,0.3);border-radius:20px;padding:34px;
+    margin-bottom:40px;display:flex;gap:24px;align-items:flex-start;
+  }
+  .def-box .quote-mark{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:700;line-height:1;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent;flex-shrink:0}
+  .def-box h3{font-size:1.3rem;margin-bottom:10px;font-family:'Space Grotesk',sans-serif}
+  .def-box p{color:var(--muted);font-size:1rem}
+
+  .example{margin-top:18px;padding:16px 18px;background:rgba(251,191,36,0.08);border-left:3px solid var(--amber);border-radius:0 12px 12px 0;font-size:.92rem}
+  .example .ex-label{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--amber);margin-bottom:6px}
+  .example p{color:#ead4b8;font-size:.9rem;line-height:1.6}
+
+  .tip{margin-top:18px;padding:14px 18px;background:rgba(34,211,238,0.08);border-left:3px solid var(--cyan);border-radius:0 12px 12px 0;font-size:.9rem;color:#bfeaf2;display:flex;gap:10px;align-items:flex-start}
+  .tip-icon{flex-shrink:0;color:var(--cyan);font-size:1.1rem;line-height:1.6}
+
+  .warn{margin-top:18px;padding:14px 18px;background:rgba(251,113,133,0.08);border-left:3px solid var(--rose);border-radius:0 12px 12px 0;font-size:.9rem;color:#fcd0d8;display:flex;gap:10px;align-items:flex-start}
+  .warn-icon{flex-shrink:0;color:var(--rose);font-size:1.1rem;line-height:1.6}
+
+  .formula-box{background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:14px;padding:20px;margin:14px 0;text-align:center;overflow-x:auto;max-width:100%}
+  .formula-box .f-label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;font-weight:600}
+  .formula-box .f-math{font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--fuchsia-2);font-weight:600;word-break:break-word;white-space:normal;overflow-wrap:anywhere}
+  .formula-box.teal .f-math{color:var(--teal-2)}
+  .formula-box.violet .f-math{color:var(--violet-2)}
+  .formula-box.amber .f-math{color:var(--amber)}
+  .formula-box.rose .f-math{color:var(--rose)}
+  .formula-box.cyan .f-math{color:var(--cyan)}
+
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;background:rgba(255,255,255,0.03);padding:6px;border-radius:14px;margin-bottom:24px;border:1px solid var(--card-border)}
+  .tab-btn{flex:1;min-width:120px;padding:12px 16px;border-radius:10px;background:transparent;border:none;color:var(--muted);font-family:inherit;font-weight:600;font-size:.92rem;cursor:pointer;transition:all .25s ease}
+  .tab-btn:hover{color:var(--text)}
+  .tab-btn.active{background:var(--grad-1);color:#2a0a2e;box-shadow:0 10px 25px -10px var(--fuchsia)}
+  .tab-content{display:none;animation:fadeIn .4s ease}
+  .tab-content.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  .calc-card{
+    background:linear-gradient(135deg,rgba(217,70,239,0.08),rgba(139,92,246,0.04));
+    border:1px solid rgba(217,70,239,0.3);border-radius:24px;padding:32px;
+  }
+  .calc-input{
+    width:100%;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);
+    border-radius:12px;padding:14px 18px;color:var(--text);
+    font-family:'JetBrains Mono',monospace;font-size:1rem;transition:all .2s ease;
+  }
+  .calc-input:focus{outline:none;border-color:var(--fuchsia);box-shadow:0 0 0 3px rgba(217,70,239,0.2)}
+  .calc-input::placeholder{color:#5b5b75}
+  .calc-btn{
+    background:var(--grad-1);color:#2a0a2e;border:none;
+    padding:13px 28px;border-radius:12px;font-family:inherit;font-weight:700;font-size:.95rem;
+    cursor:pointer;transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 10px 25px -10px var(--fuchsia);
+  }
+  .calc-btn:hover{transform:translateY(-2px);box-shadow:0 15px 30px -10px var(--fuchsia)}
+  .calc-btn:active{transform:translateY(0)}
+  .calc-btn.teal{background:var(--grad-2);color:#06281b;box-shadow:0 10px 25px -10px var(--teal)}
+  .calc-btn.violet{background:var(--grad-4);color:white;box-shadow:0 10px 25px -10px var(--violet)}
+  .calc-btn.amber{background:var(--grad-3);color:#3a1c08;box-shadow:0 10px 25px -10px var(--amber)}
+
+  .result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+  .result-box{background:rgba(0,0,0,0.25);border:1px solid var(--card-border);border-radius:14px;padding:18px;text-align:center}
+  .result-box .rb-label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+  .result-box .rb-value{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .result-box.teal .rb-value{background:var(--grad-2);-webkit-background-clip:text;background-clip:text}
+  .result-box.violet .rb-value{background:var(--grad-4);-webkit-background-clip:text;background-clip:text}
+  .result-box.amber .rb-value{background:var(--grad-3);-webkit-background-clip:text;background-clip:text}
+
+  .compare-table{width:100%;border-collapse:separate;border-spacing:0;background:rgba(255,255,255,0.02);border-radius:16px;overflow:hidden;border:1px solid var(--card-border);font-size:.92rem;table-layout:auto}
+  .compare-table td,.compare-table th{word-break:break-word;overflow-wrap:anywhere}
+  .compare-table th,.compare-table td{padding:16px 20px;text-align:left}
+  .compare-table th{background:rgba(217,70,239,0.1);font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;color:#f5d4f9;text-transform:uppercase;letter-spacing:.05em}
+  .compare-table td{border-top:1px solid var(--card-border);color:var(--muted)}
+  .compare-table td:first-child{color:var(--text);font-weight:600}
+  .compare-table tr:hover td{background:rgba(255,255,255,0.02)}
+  .pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.78rem;font-weight:600}
+  .pill.f{background:rgba(217,70,239,0.15);color:var(--fuchsia-2);border:1px solid rgba(217,70,239,0.3)}
+  .pill.t{background:rgba(20,184,166,0.15);color:var(--teal-2);border:1px solid rgba(20,184,166,0.3)}
+  .pill.v{background:rgba(139,92,246,0.15);color:var(--violet-2);border:1px solid rgba(139,92,246,0.3)}
+  .pill.a{background:rgba(251,191,36,0.15);color:var(--amber);border:1px solid rgba(251,191,36,0.3)}
+  .pill.r{background:rgba(251,113,133,0.15);color:var(--rose);border:1px solid rgba(251,113,133,0.3)}
+  .pill.c{background:rgba(34,211,238,0.15);color:var(--cyan);border:1px solid rgba(34,211,238,0.3)}
+
+  .viz-box{background:rgba(0,0,0,0.25);border:1px solid var(--card-border);border-radius:18px;padding:24px;margin-top:20px}
+  .viz-box svg{width:100%;height:auto;display:block;min-height:280px}
+
+  /* Quiz */
+  .quiz-card{background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:20px;padding:28px;margin-bottom:18px;transition:all .3s ease}
+  .quiz-question{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:18px;display:flex;gap:12px}
+  .quiz-q-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--grad-1);display:grid;place-items:center;color:#2a0a2e;font-size:.85rem;font-weight:700}
+  .quiz-options{display:grid;gap:10px;margin-left:44px}
+  .quiz-opt{padding:12px 18px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .2s ease;font-size:.92rem;display:flex;align-items:center;gap:10px}
+  .quiz-opt:hover{background:rgba(217,70,239,0.1);border-color:rgba(217,70,239,0.4)}
+  .quiz-opt .opt-letter{width:24px;height:24px;border-radius:6px;background:rgba(255,255,255,0.06);display:grid;place-items:center;font-weight:700;font-size:.8rem;flex-shrink:0}
+  .quiz-opt.correct{background:rgba(20,184,166,0.15);border-color:var(--teal);color:#9be8d4}
+  .quiz-opt.correct .opt-letter{background:var(--teal);color:#06281b}
+  .quiz-opt.wrong{background:rgba(251,113,133,0.15);border-color:var(--rose);color:#fcd0d8}
+  .quiz-opt.wrong .opt-letter{background:var(--rose);color:#3a0814}
+  .quiz-feedback{margin-top:14px;margin-left:44px;padding:12px 16px;border-radius:10px;font-size:.9rem;display:none}
+  .quiz-feedback.show{display:block;animation:fadeIn .3s ease}
+  .quiz-feedback.correct{background:rgba(20,184,166,0.1);color:#9be8d4;border:1px solid rgba(20,184,166,0.3)}
+  .quiz-feedback.wrong{background:rgba(251,113,133,0.1);color:#fcd0d8;border:1px solid rgba(251,113,133,0.3)}
+  .quiz-score{text-align:center;padding:28px;background:linear-gradient(135deg,rgba(217,70,239,0.15),rgba(139,92,246,0.1));border:1px solid rgba(217,70,239,0.3);border-radius:20px;margin-top:24px;display:none}
+  .quiz-score.show{display:block;animation:fadeIn .4s ease}
+  .quiz-score .score-num{font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:700;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease, transform .8s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* Stepper */
+  .stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px}
+  .step{padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);position:relative}
+  .step:not(:last-child)::after{content:'';position:absolute;top:50%;right:-10px;width:20px;height:2px;background:var(--card-border);transform:translateY(-50%)}
+  .step .step-num{font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:var(--fuchsia-2);font-weight:700;margin-bottom:6px}
+  .step .step-text{font-size:.88rem;color:var(--text);font-weight:600}
+  .step .step-desc{font-size:.8rem;color:var(--muted);margin-top:4px;line-height:1.5}
+
+  footer{padding:60px 0 40px;border-top:1px solid var(--card-border);text-align:center;color:var(--muted);margin-top:40px}
+  footer .logo{justify-content:center;margin-bottom:14px}
+  footer p{font-size:.88rem;max-width:500px;margin:0 auto 18px}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:30px}
+    .hero-visual{height:380px}
+    .grid-3,.grid-2,.grid-4{grid-template-columns:1fr}
+    .result-grid{grid-template-columns:repeat(2,1fr)}
+    .nav-links{position:fixed;top:60px;left:0;right:0;background:rgba(10,10,20,0.95);backdrop-filter:blur(20px);flex-direction:column;padding:20px;border-bottom:1px solid var(--card-border);transform:translateY(-150%);transition:transform .3s ease}
+    .nav-links.open{transform:translateY(0)}
+    .menu-toggle{display:block}
+    .quiz-options{margin-left:0}
+    .quiz-feedback{margin-left:0}
+    .def-box{flex-direction:column;gap:12px}
+    .floating-card{padding:8px 12px}
+    .floating-card .fc-value{font-size:.74rem}
+    .fc-1{top:0;left:0}
+    .fc-2{top:120px;right:0}
+    .fc-3{bottom:20px;left:0}
+    .fc-4{bottom:90px;right:0}
+    .stepper{grid-template-columns:1fr 1fr}
+    .step:not(:last-child)::after{display:none}
+    .step{margin-bottom:8px}
+    .hero-stats{gap:18px 24px}
+    .stat{flex:1 1 calc(50% - 12px);min-width:0}
+    .compare-table{display:block;overflow-x:auto;white-space:nowrap;border-radius:14px;table-layout:fixed;max-width:100%}
+  }
+  @media(max-width:560px){
+    .hero h1{font-size:2.2rem}
+    section{padding:60px 0}
+    .card{padding:22px}
+    .calc-card{padding:22px}
+    .formula-box .f-math{font-size:.88rem}
+  }
+  @media(max-width:420px){
+    .formula-box .f-math{font-size:.78rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-decoration">
+  <div class="grid-bg"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<nav>
+  <div class="container">
+    <div class="logo">
+      <div class="logo-icon">Σₓ</div>
+      <span>Analisis Multivariat</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#pengertian">Pengertian</a></li>
+      <li><a href="#pca">PCA</a></li>
+      <li><a href="#faktor">Faktor</a></li>
+      <li><a href="#regresi-multi">Regresi Berganda</a></li>
+      <li><a href="#diskriminan">Diskriminan</a></li>
+      <li><a href="#manova">MANOVA</a></li>
+      <li><a href="#klaster">Klaster</a></li>
+      <li><a href="#bayesian">Bayesian</a></li>
+      <li><a href="#sem">SEM</a></li>
+      <li><a href="#kuis">Kuis</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="badge"><span class="dot"></span> Topik Lanjutan · Riset &amp; Skripsi</div>
+        <h1>Analisis <span class="grad">Multivariat</span> untuk Mahasiswa</h1>
+        <p class="lead">Dari PCA, Analisis Faktor, Regresi Berganda, Diskriminan, MANOVA, K-Means, hingga Analisis Bayesian &amp; SEM/Path Analysis. Pelajari metode analisis banyak variabel sekaligus — lengkap dengan visualisasi interaktif &amp; contoh nyata dari riset kampus.</p>
+        <div class="hero-stats">
+          <div class="stat"><span class="num" data-count="9">0</span><span class="label">Topik Multivariat</span></div>
+          <div class="stat"><span class="num" data-count="30">0</span><span class="label">+ Contoh Riset</span></div>
+          <div class="stat"><span class="num" data-count="8">0</span><span class="label">Alat Interaktif</span></div>
+          <div class="stat"><span class="num" data-count="8">0</span><span class="label">Soal Kuis</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <svg class="hero-svg" viewBox="0 0 420 320" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="clusterA" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#d946ef" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#d946ef" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="clusterB" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="clusterC" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="110" cy="100" r="80" fill="url(#clusterA)"/>
+          <circle cx="320" cy="120" r="75" fill="url(#clusterB)"/>
+          <circle cx="220" cy="270" r="75" fill="url(#clusterC)"/>
+          <!-- Cluster A points -->
+          <circle cx="90" cy="80" r="4" fill="#e879f9"/><circle cx="120" cy="100" r="4" fill="#e879f9"/>
+          <circle cx="100" cy="120" r="4" fill="#e879f9"/><circle cx="130" cy="90" r="4" fill="#e879f9"/>
+          <circle cx="85" cy="110" r="4" fill="#e879f9"/><circle cx="115" cy="115" r="4" fill="#e879f9"/>
+          <circle cx="105" cy="85" r="4" fill="#e879f9"/><circle cx="125" cy="115" r="4" fill="#e879f9"/>
+          <circle cx="95" cy="95" r="4" fill="#e879f9"/><circle cx="110" cy="105" r="4" fill="#e879f9"/>
+          <!-- Cluster B points -->
+          <circle cx="310" cy="100" r="4" fill="#2dd4bf"/><circle cx="330" cy="130" r="4" fill="#2dd4bf"/>
+          <circle cx="320" cy="110" r="4" fill="#2dd4bf"/><circle cx="295" cy="125" r="4" fill="#2dd4bf"/>
+          <circle cx="335" cy="105" r="4" fill="#2dd4bf"/><circle cx="305" cy="140" r="4" fill="#2dd4bf"/>
+          <circle cx="325" cy="135" r="4" fill="#2dd4bf"/><circle cx="315" cy="95" r="4" fill="#2dd4bf"/>
+          <circle cx="300" cy="115" r="4" fill="#2dd4bf"/><circle cx="340" cy="115" r="4" fill="#2dd4bf"/>
+          <!-- Cluster C points -->
+          <circle cx="210" cy="260" r="4" fill="#fbbf24"/><circle cx="230" cy="280" r="4" fill="#fbbf24"/>
+          <circle cx="220" cy="265" r="4" fill="#fbbf24"/><circle cx="240" cy="255" r="4" fill="#fbbf24"/>
+          <circle cx="205" cy="275" r="4" fill="#fbbf24"/><circle cx="225" cy="290" r="4" fill="#fbbf24"/>
+          <circle cx="215" cy="285" r="4" fill="#fbbf24"/><circle cx="235" cy="270" r="4" fill="#fbbf24"/>
+          <circle cx="200" cy="265" r="4" fill="#fbbf24"/><circle cx="225" cy="260" r="4" fill="#fbbf24"/>
+          <!-- Centroids -->
+          <circle cx="110" cy="100" r="7" fill="#d946ef" stroke="white" stroke-width="2"/>
+          <circle cx="320" cy="120" r="7" fill="#14b8a6" stroke="white" stroke-width="2"/>
+          <circle cx="220" cy="270" r="7" fill="#fbbf24" stroke="white" stroke-width="2"/>
+          <!-- Axis -->
+          <line x1="20" y1="310" x2="400" y2="310" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          <line x1="20" y1="20" x2="20" y2="310" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          <text x="380" y="305" fill="#8a8aa5" font-size="10" font-family="'Plus Jakarta Sans'">PC1</text>
+          <text x="12" y="25" fill="#8a8aa5" font-size="10" font-family="'Plus Jakarta Sans'">PC2</text>
+        </svg>
+        <div class="floating-card fc-1">
+          <div class="fc-label">PCA</div>
+          <div class="fc-value">PC1 (62% var)</div>
+        </div>
+        <div class="floating-card fc-2 teal">
+          <div class="fc-label">Klaster (K-Means)</div>
+          <div class="fc-value">K = 3</div>
+        </div>
+        <div class="floating-card fc-3 violet">
+          <div class="fc-label">Analisis Faktor</div>
+          <div class="fc-value">2 faktor</div>
+        </div>
+        <div class="floating-card fc-4 amber">
+          <div class="fc-label">Diskriminan</div>
+          <div class="fc-value">87% akurasi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="pengertian">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">01 — Pengertian</span>
+      <h2>Apa Itu Analisis Multivariat?</h2>
+      <p>Mengapa kita butuh metode yang menangani banyak variabel sekaligus?</p>
+    </div>
+
+    <div class="def-box reveal">
+      <div class="quote-mark">"</div>
+      <div>
+        <h3>Analisis multivariat adalah kumpulan metode statistik yang menganalisis dua atau lebih variabel secara simultan untuk memahami struktur, hubungan, atau pola yang tidak terlihat bila tiap variabel dianalisis terpisah.</h3>
+        <p>Dalam riset sosial, ekonomi, psikologi, dan biomedis, fenomena nyata nyaris selibat banyak variabel. Menganalisis satu per satu bisa menyesatkan — multivariat memberi gambaran utuh.</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(217,70,239,0.2),rgba(217,70,239,0.05));color:var(--fuchsia-2)">🎯</div>
+        <h3>Mengapa Multivariat?</h3>
+        <p>Hubungan antar variabel bisa berubah saat variabel lain ikut dikontrol. Misal, korelasi nilai &amp; jam belajar bisa berbeda jika kita kontrol tingkat motivasi.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Prediksi lulus kuliah: bukan cuma IPK, tapi juga Kehadiran, Partisipasi, Skor TPA, Status Kerja. Multivariat menggabungkan semuanya menjadi 1 model prediksi.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(20,184,166,0.2),rgba(20,184,166,0.05));color:var(--teal-2)">📊</div>
+        <h3>Kapan Dipakai?</h3>
+        <p>Saat punya banyak variabel dependen (yang harus diuji bersamaan) atau banyak variabel independen (untuk reduksi dimensi atau prediksi).</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Riset kepribadian: 50 item kuesioner. Susah divisualisasikan. Pakai PCA → reduksi ke 5 dimensi utama (Big Five).</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(139,92,246,0.05));color:var(--violet-2)">🧭</div>
+        <h3>Tantangan</h3>
+        <p>Butuh sampel besar (umumnya 10× variabel). Multikolinearitas (variabel saling berkorelasi tinggi). Interpretasi lebih kompleks.</p>
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <span>Jangan asal pakai SEM atau PCA kalau sampel kecil. Hasil bisa tidak stabil — bahkan menyesatkan.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:30px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">🧭 Peta Metode Multivariat</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Tujuan</th><th>Metode</th><th>Jenis Variabel</th><th>Contoh Riset Mahasiswa</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Reduksi dimensi</td><td><span class="pill f">PCA</span> / <span class="pill f">Faktor</span></td><td>Banyak variabel interval</td><td>Item kuesioner → beberapa faktor</td></tr>
+          <tr><td>Prediksi numerik</td><td><span class="pill v">Regresi Berganda</span></td><td>Y numerik, X banyak</td><td>Prediksi IPK dari jam belajar + Kehadiran</td></tr>
+          <tr><td>Klasifikasi kelompok</td><td><span class="pill a">Diskriminan</span></td><td>Y kategorikal, X banyak</td><td>Klasifikasi jurusan berdasarkan 3 skor tes</td></tr>
+          <tr><td>Bandingkan &gt;1 dependen</td><td><span class="pill t">MANOVA</span></td><td>Y banyak numerik, X kategorikal</td><td>Banding 3 metode belajar pada 4 aspek nilai</td></tr>
+          <tr><td>Pengelompokan</td><td><span class="pill c">K-Means</span> / Hierarki</td><td>Banyak variabel tanpa label</td><td>Segmentasi mahasiswa berdasar kebiasaan</td></tr>
+          <tr><td>Hubungan tersembunyi</td><td><span class="pill v">SEM / PLS</span></td><td>Banyak latent &amp; observed</td><td>Model pengaruh motivasi → keterlibatan → prestasi</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="pca">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">02 — PCA</span>
+      <h2>Principal Component Analysis (PCA)</h2>
+      <p>Mengubah banyak variabel berkorelasi menjadi sedikit komponen baru tanpa banyak kehilangan informasi.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Inti PCA</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Mencari kombinasi linear variabel asli yang menghasilkan komponen baru (PC1, PC2, ...) yang tidak saling berkorelasi &amp; menjelaskan variansi terbanyak.</p>
+        <div class="formula-box">
+          <div class="f-label">Komponen Utama ke-i</div>
+          <div class="f-math">PCᵢ = aᵢ₁·X₁ + aᵢ₂·X₂ + ... + aᵢₚ·Xₚ</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">aᵢⱼ = loading (koefisien) variabel Xⱼ pada PCᵢ. PCA memakai dekomposisi nilai &amp; vektor eigen matriks kovarians.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>100 item kuesioner kepribadian mahasiswa. Koresi tinggi antar item yang mirip. PCA → 5 komponen utama (Big Five: Ekstraversi, Agreabilitas, Konsistensi, Neurotisisme, Keterbukaan).</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Mengapa Bekerja?</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Bayangkan data mahasiswa punya 3 variabel: Nilai Matematika, Nilai Fisika, Nilai Kimia. Ketiganya berkorelasi tinggi. PCA akan membuat 1 komponen "kemampuan sains" yang menjelaskan 80% variansi.</p>
+        <div class="stepper">
+          <div class="step">
+            <div class="step-num">LANGKAH 1</div>
+            <div class="step-text">Standardisasi</div>
+            <div class="step-desc">Setiap variabel ke mean=0, std=1</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 2</div>
+            <div class="step-text">Matriks Korelasi</div>
+            <div class="step-desc">Hitung korelasi antar variabel</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 3</div>
+            <div class="step-text">Eigen</div>
+            <div class="step-desc">Cari nilai &amp; vektor eigen</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 4</div>
+            <div class="step-text">Sortir &amp; Pilih</div>
+            <div class="step-desc">Ambil PC dengan eigenvalue &gt; 1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive PCA viz -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">🔬 Visualisasi: 4 Variabel → 2 Komponen Utama</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Data 30 mahasiswa dengan 4 skor mata kuliah (Matematika, Fisika, Kimia, Biologi). Lihat bagaimana PCA mereduksi 4 dimensi menjadi 2 komponen yang menjelaskan sebagian besar variansi.</p>
+      <div class="grid-2" style="gap:18px">
+        <div>
+          <div style="font-family:'Space Grotesk';font-size:.95rem;color:var(--muted);margin-bottom:10px;text-align:center">Data Asli — Plot Nilai Mat vs Fisika (Salah 1 Pasangan)</div>
+          <div class="viz-box" style="margin-top:0">
+            <svg id="pcaRaw" viewBox="0 0 320 280" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Space Grotesk';font-size:.95rem;color:var(--muted);margin-bottom:10px;text-align:center">Hasil PCA — Plot PC1 vs PC2</div>
+          <div class="viz-box" style="margin-top:0">
+            <svg id="pcaResult" viewBox="0 0 320 280" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+        </div>
+      </div>
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:18px">
+        <div class="result-box">
+          <div class="rb-label">PC1 Variansi</div>
+          <div class="rb-value" id="pcaPC1">62%</div>
+        </div>
+        <div class="result-box teal">
+          <div class="rb-label">PC2 Variansi</div>
+          <div class="rb-value" id="pcaPC2">23%</div>
+        </div>
+        <div class="result-box violet">
+          <div class="rb-label">Total Dijelaskan</div>
+          <div class="rb-value" id="pcaTotal">85%</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">Sisa Dimensi</div>
+          <div class="rb-value">15%</div>
+        </div>
+      </div>
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <span>PC1 (sumbu utama) menjelaskan 62% variansi — biasanya mewakili "kemampuan akademik umum". PC2 menjelaskan 23% — biasanya memisahkan mhs IPA kuat vs IPS kuat.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faktor">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">03 — Analisis Faktor</span>
+      <h2>Analisis Faktor: Mengungkap Variabel Laten</h2>
+      <p>Sering bingung dengan PCA? Mari pahami perbedaan &amp; kapan memakai analisis faktor.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Konsep Faktor</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Analisis faktor mencari <strong>variabel laten</strong> (tak teramati) yang menjelaskan korelasi antara variabel-variabel yang teramati. Contoh: "Kecerdasan" tidak bisa diukur langsung — tapi menjelaskan korelasi skor tes Mat, Verbal, Logika.</p>
+        <div class="formula-box violet">
+          <div class="f-label">Model Faktor</div>
+          <div class="f-math">Xⱼ = aⱼ₁·F₁ + aⱼ₂·F₂ + ... + aⱼₘ·Fₘ + eⱼ</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">F = faktor laten, a = loading, e = error unik untuk variabel Xⱼ.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Kuesioner 20 item stres (kepala pusing, susah tidur, jantung berdebar, dll). Analisis faktor → 3 faktor: "Stres Fisik", "Stres Kognitif", "Stres Emosional". Tiap faktor mewakili dimensi stres.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">PCA vs Faktor</h3>
+        <table class="compare-table">
+          <thead><tr><th>Aspek</th><th>PCA</th><th>Faktor</th></tr></thead>
+          <tbody>
+            <tr><td>Tujuan</td><td>Reduksi data</td><td>Mencari konstruk laten</td></tr>
+            <tr><td>Asumsi</td><td>Tidak ada error</td><td>Ada error unik</td></tr>
+            <tr><td>Direction</td><td>Var → Komponen</td><td>Faktor → Var</td></tr>
+            <tr><td>Korelasi error</td><td>Tidak termodelkan</td><td>Bisa dimodelkan</td></tr>
+            <tr><td>Hasil</td><td>Skor komponen</td><td>Skor faktor + loading</td></tr>
+          </tbody>
+        </table>
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>PCA: data-driven (apa adanya). Faktor: teori-driven (ada konstruk teoritis). Keduanya sering dipakai berturut-turut: EFA → CFA → SEM.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Contoh Output: Loading Faktor</h3>
+      <p style="color:var(--muted);margin-bottom:18px">Kuesioner stres mahasiswa, 8 item, hasil ekstraksi 3 faktor. Loading &gt; 0.4 ditandai tebal — menunjukkan item dimuat ke faktor tersebut.</p>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Item</th><th>Faktor 1 (Fisik)</th><th>Faktor 2 (Kognitif)</th><th>Faktor 3 (Emosional)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Kepala pusing</td><td style="color:var(--fuchsia-2);font-weight:700">0.82</td><td>0.12</td><td>0.18</td></tr>
+          <tr><td>Susah tidur</td><td style="color:var(--fuchsia-2);font-weight:700">0.75</td><td>0.22</td><td>0.15</td></tr>
+          <tr><td>Jantung berdebar</td><td style="color:var(--fuchsia-2);font-weight:700">0.78</td><td>0.10</td><td>0.25</td></tr>
+          <tr><td>Susah konsentrasi</td><td>0.15</td><td style="color:var(--teal-2);font-weight:700">0.85</td><td>0.20</td></tr>
+          <tr><td>Lupa materi</td><td>0.18</td><td style="color:var(--teal-2);font-weight:700">0.79</td><td>0.22</td></tr>
+          <tr><td>Bingung</td><td>0.20</td><td style="color:var(--teal-2);font-weight:700">0.80</td><td>0.15</td></tr>
+          <tr><td>Mudah marah</td><td>0.10</td><td>0.18</td><td style="color:var(--amber);font-weight:700">0.83</td></tr>
+          <tr><td>Cemas berlebih</td><td>0.20</td><td>0.22</td><td style="color:var(--amber);font-weight:700">0.78</td></tr>
+        </tbody>
+      </table>
+      <div class="warn" style="margin-top:18px">
+        <span class="warn-icon">⚠️</span>
+        <span>Sebelum EFA, wajib cek KMO (≥ 0.6) dan Bartlett's Test (p &lt; 0.05) untuk memastikan data cocok dianalisis faktor.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="regresi-multi">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">04 — Regresi Berganda</span>
+      <h2>Regresi Linier Berganda</h2>
+      <p>Prediksi nilai Y dari beberapa variabel X sekaligus. Metode paling sering dipakai riset kuantitatif.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Persamaan Regresi Berganda</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Memprediksi Y dari k variabel prediktor, masing-masing dengan koefisien (slope) sendiri.</p>
+        <div class="formula-box">
+          <div class="f-label">Persamaan</div>
+          <div class="f-math">Y = β₀ + β₁·X₁ + β₂·X₂ + ... + βₖ·Xₖ + ε</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">
+          β₀ = intersep, βᵢ = koefisien (efek Xᵢ pada Y saat variabel lain dikonstantankan), ε = error.
+        </p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Prediksi IPK (Y) dari: X₁ = Jam Belajar, X₂ = Kehadiran, X₃ = Skor TPA. Hasil: Y = 1.5 + 0.05·X₁ + 0.01·X₂ + 0.005·X₃. Maksudnya: jam belajar 1 jam tambahan → IPK naik 0.05, jika Kehadiran &amp; TPA konstan.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Asumsi Klasik</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Regresi berganda punya 4 asumsi utama yang harus dipenuhi agar hasilnya valid.</p>
+        <div style="display:grid;gap:10px">
+          <div style="padding:14px;background:rgba(217,70,239,0.06);border-left:3px solid var(--fuchsia);border-radius:0 10px 10px 0">
+            <strong style="color:var(--fuchsia-2)">1. Linearitas</strong> — Hubungan Y dengan tiap X harus linier. Cek dengan scatter plot.
+          </div>
+          <div style="padding:14px;background:rgba(20,184,166,0.06);border-left:3px solid var(--teal);border-radius:0 10px 10px 0">
+            <strong style="color:var(--teal-2)">2. Independensi Error</strong> — Residual tidak berkorelasi. Cek dengan Durbin-Watson (1.5–2.5).
+          </div>
+          <div style="padding:14px;background:rgba(251,191,36,0.06);border-left:3px solid var(--amber);border-radius:0 10px 10px 0">
+            <strong style="color:var(--amber)">3. Homoskedastisitas</strong> — Variansi error konstan. Cek plot residual vs prediksi.
+          </div>
+          <div style="padding:14px;background:rgba(251,113,133,0.06);border-left:3px solid var(--rose);border-radius:0 10px 10px 0">
+            <strong style="color:var(--rose)">4. Tidak Multikolinearitas</strong> — Prediktor tidak saling berkorelasi tinggi. Cek VIF &lt; 10.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Regression Calculator -->
+    <div class="calc-card reveal" style="margin-top:30px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:8px">🧮 Kalkulator Regresi Berganda (2 Prediktor)</h3>
+      <p style="color:var(--muted);margin-bottom:22px">Masukkan koefisien β₀, β₁, β₂, lalu nilai X₁ &amp; X₂ untuk prediksi Y. Berdasarkan model Y = β₀ + β₁·X₁ + β₂·X₂.</p>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:18px">
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">β₀ (intersep)</label>
+          <input type="number" class="calc-input" id="regB0" value="1.5" step="0.1">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">β₁ (slope X₁)</label>
+          <input type="number" class="calc-input" id="regB1" value="0.05" step="0.01">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">β₂ (slope X₂)</label>
+          <input type="number" class="calc-input" id="regB2" value="0.01" step="0.01">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">X₁ (Jam Belajar)</label>
+          <input type="number" class="calc-input" id="regX1" value="20" step="1">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">X₂ (Kehadiran %)</label>
+          <input type="number" class="calc-input" id="regX2" value="80" step="1">
+        </div>
+      </div>
+      <button class="calc-btn" id="regCalcBtn">Hitung Prediksi Y (IPK)</button>
+      <div class="result-grid" style="grid-template-columns:repeat(3,1fr);margin-top:24px">
+        <div class="result-box">
+          <div class="rb-label">Y Prediksi (IPK)</div>
+          <div class="rb-value" id="regY">—</div>
+        </div>
+        <div class="result-box teal">
+          <div class="rb-label">Kontribusi X₁</div>
+          <div class="rb-value" id="regContribX1">—</div>
+        </div>
+        <div class="result-box violet">
+          <div class="rb-label">Kontribusi X₂</div>
+          <div class="rb-value" id="regContribX2">—</div>
+        </div>
+      </div>
+      <div class="formula-box" style="margin-top:18px">
+        <div class="f-label">Interpretasi Model</div>
+        <div class="f-math" id="regEquation">Y = 1.50 + 0.05·X₁ + 0.01·X₂</div>
+      </div>
+      <p style="font-size:.85rem;color:var(--muted);margin-top:14px;text-align:center">💡 Kontribusi = βᵢ × Xᵢ. Jika negatif, variabel menurunkan Y.</p>
+    </div>
+  </div>
+</section>
+
+<section id="diskriminan">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">05 — Diskriminan</span>
+      <h2>Analisis Diskriminan: Klasifikasi Kelompok</h2>
+      <p>Prediksi keanggotaan kelompok berdasarkan beberapa variabel independen.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(251,191,36,0.2),rgba(251,191,36,0.05));color:var(--amber)">🎯</div>
+        <h3>Konsep Diskriminan</h3>
+        <p>Mencari kombinasi linear variabel X yang paling baik memisahkan kelompok Y (kategorikal). Mirip regresi logistik, tapi asumsinya data multivariat normal.</p>
+        <div class="formula-box amber">
+          <div class="f-label">Fungsi Diskriminan</div>
+          <div class="f-math">D = β₁·X₁ + β₂·X₂ + ... + βₖ·Xₖ</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">D = skor diskriminan, β = koefisien kanonik. Memaksimisasi rasio variansi antar-kelompok vs dalam-kelompok.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Prediksi lulus-tidak lulus (Y biner) berdasarkan X₁=IPK, X₂=Kehadiran, X₃=Skor TPA. Diskriminan membentuk fungsi D = 0.5·X₁ + 0.3·X₂ + 0.4·X₃. Lulus jika D &gt; threshold.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(217,70,239,0.2),rgba(217,70,239,0.05));color:var(--fuchsia-2)">⚙️</div>
+        <h3>Evaluasi Diskriminan</h3>
+        <p>Tiga statistik penting untuk menilai kualitas model diskriminan:</p>
+        <table class="compare-table" style="margin-top:14px">
+          <thead><tr><th>Statistik</th><th>Arti</th></tr></thead>
+          <tbody>
+            <tr><td>Eigenvalue</td><td>Rasio variansi antar-dalam. &gt; 1 = baik.</td></tr>
+            <tr><td>Wilks' Lambda</td><td>0–1; makin kecil makin baik pemisahan</td></tr>
+            <tr><td>Canonical Correlation</td><td>Kekuatan hubungan D dengan kelompok</td></tr>
+            <tr><td>Akurasi Klasifikasi</td><td>% prediksi benar ( confusion matrix )</td></tr>
+          </tbody>
+        </table>
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>Untuk &gt; 2 kelompok, analisis diskriminan menghasilkan beberapa fungsi (k−1 fungsi untuk k kelompok). Lihat scree plot untuk pilih fungsi signifikan.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diskriminan Visualization -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">📊 Visualisasi: Pemisahan 2 Kelompok dengan Diskriminan</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Garis merah adalah fungsi diskriminan yang memisahkan kelompok "Lulus" (titik teal) dari "Tidak Lulus" (titik merah) berdasarkan IPK &amp; Kehadiran.</p>
+      <div class="viz-box">
+        <svg id="diskSvg" viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:18px">
+        <div class="result-box teal">
+          <div class="rb-label">Akurasi</div>
+          <div class="rb-value">87%</div>
+        </div>
+        <div class="result-box">
+          <div class="rb-label">Wilks' Lambda</div>
+          <div class="rb-value">0.42</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">Eigenvalue</div>
+          <div class="rb-value">1.38</div>
+        </div>
+        <div class="result-box violet">
+          <div class="rb-label">Canonical r</div>
+          <div class="rb-value">0.76</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="manova">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">06 — MANOVA</span>
+      <h2>MANOVA: ANOVA Multivariat</h2>
+      <p>Menguji perbedaan beberapa variabel dependen sekaligus antar kelompok.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Mengapa MANOVA?</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Kalo punya 4 variabel dependen (mis. Nilai Mat, Fisika, Kimia, Biologi) dan mau bandingkan 3 metode belajar — kalau pakai ANOVA 4 kali, error tipe I membesar. MANOVA selesai dalam satu uji.</p>
+        <div class="formula-box teal">
+          <div class="f-label">Statistik MANOVA (Pillai's Trace)</div>
+          <div class="f-math">V = tr[(E + H)⁻¹ · H]</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">H = matriks sum of square antar kelompok, E = matriks dalam kelompok.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Banding 3 metode belajar (Konvensional, Diskusi, Game-based) pada 4 aspek nilai. MANOVA menjawab: adakah perbedaan multivariat di antara 3 metode?</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">4 Statistik Uji MANOVA</h3>
+        <table class="compare-table">
+          <thead><tr><th>Statistik</th><th>Kapan Lebih Kuat</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill t">Pillai's Trace</span></td><td>Umunya paling robust, asumsi longgar</td></tr>
+            <tr><td><span class="pill t">Wilks' Lambda</span></td><td>Standar, paling sering dipakai</td></tr>
+            <tr><td><span class="pill t">Hotelling-Lawley</span></td><td>Kuat saat sampel besar, kelompok sama</td></tr>
+            <tr><td><span class="pill t">Roy's Largest</span></td><td>Kuat jika mean terpusat di 1 dimensi</td></tr>
+          </tbody>
+        </table>
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>Jika MANOVA signifikan (p &lt; 0.05), lanjut ANOVA satu-arah untuk tiap variabel dependen + post-hoc untuk tahu mana yang berbeda.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Contoh Output MANOVA (SPSS-style)</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Effect</th><th>Statistik</th><th>Nilai</th><th>F</th><th>df</th><th>p</th><th>Kesimpulan</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Metode Belajar</td><td>Pillai's Trace</td><td>0.42</td><td>3.85</td><td>8, 92</td><td>0.001</td><td><span class="pill t">Signifikan</span></td></tr>
+          <tr><td>(Wilks)</td><td>Wilks' Lambda</td><td>0.58</td><td>4.12</td><td>8, 90</td><td>0.0005</td><td><span class="pill t">Signifikan</span></td></tr>
+          <tr><td>(Hotelling)</td><td>Hotelling's T</td><td>0.72</td><td>3.97</td><td>8, 88</td><td>0.0007</td><td><span class="pill t">Signifikan</span></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.88rem;color:var(--muted);margin-top:14px">Karena p &lt; 0.05 pada ketiga statistik → tolak H₀: ada perbedaan minimal 1 aspek nilai antar 3 metode belajar. Lanjut post-hoc ANOVA per variabel.</p>
+    </div>
+  </div>
+</section>
+
+<section id="klaster">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">07 — Klaster K-Means</span>
+      <h2>Pengelompokan K-Means</h2>
+      <p>Mengelompokkan data tanpa label sebelumnya (unsupervised) berdasarkan kemiripan.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Algoritma K-Means</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Memisahkan n data ke k klaster agar within-cluster variance minimum. Iteratif sampai konvergen.</p>
+        <div class="stepper" style="margin-top:14px">
+          <div class="step">
+            <div class="step-num">LANGKAH 1</div>
+            <div class="step-text">Pilih K</div>
+            <div class="step-desc">Tentukan jumlah klaster</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 2</div>
+            <div class="step-text">Inisialisasi</div>
+            <div class="step-desc">Pilih K titik sebagai centroid awal</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 3</div>
+            <div class="step-text">Assign</div>
+            <div class="step-desc">Setiap titik → klaster centroid terdekat</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 4</div>
+            <div class="step-text">Update</div>
+            <div class="step-desc">Hitung ulang centroid → ulang langkah 3</div>
+          </div>
+        </div>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>100 mahasiswa dikumpulkan berdasar jam belajar &amp; IPK. K-Means temukan 3 klaster: "Santai" (rendah-rendah), "Tekun" (tinggi-tinggi), "Berbakat" (rendah jam belajar-IPK tinggi). Segmentasi untuk program mentoring.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Memilih K Optimal</h3>
+        <p style="color:var(--muted);margin-bottom:14px">K sering tidak diketahui. Dua metode umum untuk memilih K:</p>
+        <div style="display:grid;gap:14px">
+          <div style="padding:18px;background:rgba(20,184,166,0.06);border-left:3px solid var(--teal);border-radius:0 12px 12px 0">
+            <strong style="color:var(--teal-2)">Elbow Method</strong>
+            <p style="font-size:.88rem;color:var(--muted);margin-top:4px">Plot K vs WCSS (within-cluster sum of squares). Pilih K di "siku" kurva — titik dimana penurunan WCSS tidak lagi signifikan.</p>
+          </div>
+          <div style="padding:18px;background:rgba(139,92,246,0.06);border-left:3px solid var(--violet);border-radius:0 12px 12px 0">
+            <strong style="color:var(--violet-2)">Silhouette Score</strong>
+            <p style="font-size:.88rem;color:var(--muted);margin-top:4px">Mengukur seberapa baik titik di klaster vs klaster lain. Skor -1 to 1. K dengan silhouette tertinggi = optimal.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive K-Means Sim -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">🔬 Simulator K-Means</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Atur jumlah klaster K, klik "Lakukan K-Means". Lihat bagaimana 30 mahasiswa (berdasarkan jam belajar &amp; IPK) dikelompokkan ke K klaster.</p>
+      <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:14px">
+        <label style="font-size:.9rem;color:var(--muted);font-weight:600">Jumlah Klaster (K):</label>
+        <input type="range" id="kmeansSlider" min="2" max="5" step="1" value="3" style="flex:1;min-width:200px;accent-color:var(--fuchsia)">
+        <span id="kmeansK" style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--fuchsia-2);min-width:60px">K = 3</span>
+      </div>
+      <div class="viz-box">
+        <svg id="kmeansSvg" viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:18px">
+        <div class="result-box">
+          <div class="rb-label">WCSS</div>
+          <div class="rb-value" id="kmeansWcss">—</div>
+        </div>
+        <div class="result-box teal">
+          <div class="rb-label">Iterasi</div>
+          <div class="rb-value" id="kmeansIter">—</div>
+        </div>
+        <div class="result-box violet">
+          <div class="rb-label">Silhouette</div>
+          <div class="rb-value" id="kmeansSil">—</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">Klaster Aktif</div>
+          <div class="rb-value" id="kmeansActive">—</div>
+        </div>
+      </div>
+      <button class="calc-btn" id="kmeansBtn" style="margin-top:18px">Lakukan K-Means</button>
+    </div>
+  </div>
+</section>
+
+<!-- Bayesian -->
+<section id="bayesian">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">08 — Analisis Bayesian</span>
+      <h2>Statistik Bayesian: Pendekatan Probabilitas</h2>
+      <p>Alternatif dari statistik frequentist. Menggunakan teorema Bayes untuk update keyakinan dengan data.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Filosofi Bayesian</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Bayesian memperlakukan <strong>parameter sebagai variabel acak</strong> dengan distribusi prior, lalu di-update jadi distribusi posterior setelah melihat data. Berbeda dengan frequentist yang menganggap parameter tetap.</p>
+        <div class="formula-box indigo">
+          <div class="f-label">Teorema Bayes</div>
+          <div class="f-math"><span style="display:block">P(θ|D) =</span><span style="display:block">P(D|θ) · P(θ)</span><span style="display:block">/ P(D)</span></div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">
+          <strong>P(θ|D)</strong> = posterior (keyakinan setelah data)<br>
+          <strong>P(D|θ)</strong> = likelihood (probabilitas data jika θ benar)<br>
+          <strong>P(θ)</strong> = prior (keyakinan awal)<br>
+          <strong>P(D)</strong> = evidence (normalisasi)
+        </p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Seorang pasien positif test COVID. Apakah benar-benar terinfeksi? Prior: 1% populasi terinfeksi. Likelihood: test 95% sensitif, 5% false positive. Posterior: hanya ~16% benar-benar positif! Ini paradoks base-rate yang Bayesian selesaikan.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Bayesian vs Frequentist</h3>
+        <table class="compare-table">
+          <thead><tr><th>Aspek</th><th>Frequentist</th><th>Bayesian</th></tr></thead>
+          <tbody>
+            <tr><td>Parameter</td><td>Tetap (tidak acak)</td><td>Acak (punya distribusi)</td></tr>
+            <tr><td>Probabilitas</td><td>Frekuensi jangka panjang</td><td>Tingkat keyakinan</td></tr>
+            <tr><td>Output</td><td>p-value, CI</td><td>Posterior, credible interval</td></tr>
+            <tr><td>Prior</td><td>Tidak dipakai</td><td>Wajib (subjektif)</td></tr>
+            <tr><td>Untuk sampel kecil</td><td>Sensitif</td><td>Lebih stabil</td></tr>
+            <tr><td>Interpretasi p</td><td>Probabilitas data jika H₀ benar</td><td>Probabilitas H₀ benar</td></tr>
+          </tbody>
+        </table>
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>Bayesian cocok untuk: sampel kecil, data berurutan (update real-time), ada pengetahuan prior (literatur, expert). Frequentist cocok untuk: sampel besar, eksperimen terkontrol, ingin hasil "objektif".</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Bayesian Visualization -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">🔬 Visualisasi: Prior → Likelihood → Posterior</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Geser slider untuk mengatur keyakinan awal (prior). Lihat bagaimana posterior bergeser saat data masuk. Semakin kuat data, semakin posterior mendekati likelihood.</p>
+      <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:14px">
+        <label style="font-size:.9rem;color:var(--muted);font-weight:600">Kekuatan Prior (α = β):</label>
+        <input type="range" id="bayesSlider" min="1" max="50" step="1" value="5" style="flex:1;min-width:240px;accent-color:var(--indigo)">
+        <span id="bayesVal" style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--indigo-2);min-width:80px">α=β=5</span>
+      </div>
+      <div class="viz-box">
+        <svg id="bayesSvg" viewBox="0 0 600 320" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;min-height:280px"></svg>
+      </div>
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:18px">
+        <div class="result-box">
+          <div class="rb-label">Prior Mean</div>
+          <div class="rb-value" id="priorMean">—</div>
+        </div>
+        <div class="result-box teal">
+          <div class="rb-label">Likelihood Mean</div>
+          <div class="rb-value" id="likMean">0.65</div>
+        </div>
+        <div class="result-box violet">
+          <div class="rb-label">Posterior Mean</div>
+          <div class="rb-value" id="postMean">—</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">Keyakinan (95% CI)</div>
+          <div class="rb-value" id="ciWidth" style="font-size:1.1rem">—</div>
+        </div>
+      </div>
+      <p style="font-size:.85rem;color:var(--muted);margin-top:14px;text-align:center">💡 Prior kuat (α=β besar) → posterior mirip prior. Prior lemah → posterior mendekati likelihood (data).</p>
+    </div>
+
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Aplikasi Bayesian di Riset Mahasiswa</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Topik Riset</th><th>Model Bayesian</th><th>Software</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Estimasi proporsi</td><td>Beta-Binomial</td><td>PyMC3, Stan</td></tr>
+          <tr><td>Regresi linear</td><td>Bayesian Linear Regression</td><td>brms (R), PyMC</td></tr>
+          <tr><td>Multi-level data</td><td>Hierarchical Bayesian</td><td>Stan, JAGS</td></tr>
+          <tr><td>Klasifikasi</td><td>Naive Bayes Classifier</td><td>scikit-learn</td></tr>
+          <tr><td>Peramalan</td><td>Bayesian Structural Time Series</td><td>CausalImpact, bsts</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SEM / Path Analysis -->
+<section id="sem">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">09 — SEM &amp; Path Analysis</span>
+      <h2>Structural Equation Modeling &amp; Path Analysis</h2>
+      <p>Menguji model teoritis dengan variabel laten (tidak teramati) dan hubungan kausal antar variabel.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Apa itu SEM?</h3>
+        <p style="color:var(--muted);margin-bottom:14px">SEM menggabungkan <strong>analisis faktor</strong> (ukur variabel laten dari indikator) dengan <strong>regresi</strong> (uji hubungan antar variabel). Menguji teori secara keseluruhan — bukan satu-persatu.</p>
+        <div class="formula-box">
+          <div class="f-label">Model Pengukuran</div>
+          <div class="f-math">X = λₓ · ξ + δ<br>(indikator → laten)</div>
+        </div>
+        <div class="formula-box amber" style="margin-top:10px">
+          <div class="f-label">Model Struktural</div>
+          <div class="f-math">η = β · ξ + γ · ζ + ε<br>(laten → laten)</div>
+        </div>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Riset pengaruh motivasi (laten) terhadap prestasi (laten), dengan Keterlibatan sebagai mediator. Motivasi diukur dari 5 item kuesioner. Prestasi dari nilai. SEM menguji semua sekaligus: validitas indikator + hubungan kausal.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Path Analysis vs SEM Penuh</h3>
+        <p style="color:var(--muted);margin-bottom:14px"><strong>Path Analysis</strong> = SEM dengan variabel yang semuanya teramati (tak ada laten). Sub-set dari SEM. Cocok untuk riset dengan variabel konkret.</p>
+        <table class="compare-table">
+          <thead><tr><th>Aspek</th><th>Path Analysis</th><th>SEM Penuh</th></tr></thead>
+          <tbody>
+            <tr><td>Variabel laten</td><td>Tidak ada</td><td>Ada</td></tr>
+            <tr><td>Model pengukuran</td><td>Tidak ada</td><td>Ada (CFA)</td></tr>
+            <tr><td>Asumsi</td><td>Data teramati</td><td>Indikator + struktur</td></tr>
+            <tr><td>Kompleksitas</td><td>Lebih sederhana</td><td>Kompleks</td></tr>
+            <tr><td>Software</td><td>Regresi berganda</td><td>AMOS, LISREL, lavaan</td></tr>
+            <tr><td>Sampel min.</td><td>100+</td><td>200+ (idealnya 10× variabel)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Path Diagram Visualization -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">🔗 Diagram Jalur: Motivasi → Keterlibatan → Prestasi</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Lingkaran = variabel laten (tidak teramati), kotak = indikator (teramati). Anak panah = pengaruh langsung. Angka = koefisien jalur (path coefficient).</p>
+      <div class="viz-box">
+        <svg id="semSvg" viewBox="0 0 700 380" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;min-height:280px"></svg>
+      </div>
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:18px">
+        <div class="result-box">
+          <div class="rb-label">Pengaruh Langsung</div>
+          <div class="rb-value">0.32</div>
+        </div>
+        <div class="result-box violet">
+          <div class="rb-label">Pengaruh Tidak Langsung</div>
+          <div class="rb-value">0.28</div>
+        </div>
+        <div class="result-box teal">
+          <div class="rb-label">Pengaruh Total</div>
+          <div class="rb-value">0.60</div>
+        </div>
+        <div class="result-box amber">
+          <div class="rb-label">Goodness-of-Fit (CFI)</div>
+          <div class="rb-value">0.95</div>
+        </div>
+      </div>
+      <p style="font-size:.88rem;color:var(--muted);margin-top:14px">Motivasi → Keterlibatan (β=0.70) → Prestasi (β=0.40). Pengaruh tidak langsung = 0.70 × 0.40 = 0.28. Pengaruh langsung = 0.32. Total = 0.60.</p>
+    </div>
+
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Indikator Goodness-of-Fit SEM</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Indikator</th><th>Singkatan</th><th>Nilai Baik</th><th>Interpretasi</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Chi-Square (χ²/df)</td><td>χ²/df</td><td>&lt; 3</td><td>Model cocok dengan data</td></tr>
+          <tr><td>Comparative Fit Index</td><td>CFI</td><td>&gt; 0.95</td><td>Perbandingan dengan model nol</td></tr>
+          <tr><td>Root Mean Square Error</td><td>RMSEA</td><td>&lt; 0.06</td><td>Erreur per parameter</td></tr>
+          <tr><td>Standardized RMSEA</td><td>SRMR</td><td>&lt; 0.08</td><td>Rata-rata residual standar</td></tr>
+          <tr><td>Tucker-Lewis Index</td><td>TLI</td><td>&gt; 0.95</td><td>Penalti untuk kompleksitas</td></tr>
+          <tr><td>Akaike Information Criterion</td><td>AIC</td><td>Lebih kecil lebih baik</td><td>Perbandingan antar model</td></tr>
+        </tbody>
+      </table>
+      <div class="warn">
+        <span class="warn-icon">⚠️</span>
+        <span>SEM butuh sampel besar (idealnya n &gt; 200, atau 10× jumlah parameter). Sampel kecil menyebabkan estimasi tidak stabil dan model gagal konvergen.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kuis">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">10 — Kuis Interaktif</span>
+      <h2>Uji Pemahamanmu</h2>
+      <p>8 soal pilihan ganda tentang analisis multivariat. Lihat skormu di akhir!</p>
+    </div>
+    <div class="reveal" id="quizContainer"></div>
+    <div class="quiz-score" id="quizScore">
+      <div style="font-size:.95rem;color:var(--muted);margin-bottom:6px">Skor Akhir</div>
+      <div class="score-num" id="scoreNum">0 / 8</div>
+      <div id="scoreMsg" style="font-size:1rem;margin-top:8px;color:var(--muted)">—</div>
+      <button class="calc-btn" id="quizReset" style="margin-top:18px">Coba Lagi</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="logo">
+      <div class="logo-icon">Σₓ</div>
+      <span>Analisis Multivariat</span>
+    </div>
+    <p>PELITA - Portal Edukasi dan Literasi Statistik.</p>
+    <p style="font-size:.82rem;color:#5b5b75;margin-top:14px">Tim Pembina Pojok Statistik BPS Jabar · 2026</p>
+  </div>
+</footer>
+
+<script>
+  /* NAV */
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  /* COUNT UP */
+  const counters = document.querySelectorAll('[data-count]');
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target; const target = parseInt(el.dataset.count);
+        let cur = 0; const step = Math.max(1, Math.floor(target / 30));
+        const timer = setInterval(() => {
+          cur += step; if (cur >= target) { cur = target; clearInterval(timer); }
+          el.textContent = cur;
+        }, 40);
+        counterObs.unobserve(el);
+      }
+    });
+  }, {threshold: 0.5});
+  counters.forEach(c => counterObs.observe(c));
+
+  /* REVEAL */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ===== PCA Visualization ===== */
+  // Generate 30 students with 4 scores (Math, Physics, Chemistry, Biology), all correlated
+  function genPCAData() {
+    const data = [];
+    for (let i = 0; i < 30; i++) {
+      const base = (Math.random() - 0.5) * 4;
+      const stemBias = (Math.random() - 0.5) * 2;
+      data.push({
+        math: 70 + base * 8 + stemBias * 4 + (Math.random() - 0.5) * 3,
+        physics: 70 + base * 8 + stemBias * 5 + (Math.random() - 0.5) * 3,
+        chemistry: 70 + base * 8 + stemBias * 3 + (Math.random() - 0.5) * 3,
+        biology: 70 + base * 8 - stemBias * 2 + (Math.random() - 0.5) * 3
+      });
+    }
+    return data;
+  }
+  function renderPCA() {
+    const data = genPCAData();
+    const rawSvg = document.getElementById('pcaRaw');
+    const resSvg = document.getElementById('pcaResult');
+    // Plot Math vs Physics (raw)
+    const pad = { l: 35, r: 15, t: 15, b: 30 };
+    const w = 320 - pad.l - pad.r;
+    const h = 280 - pad.t - pad.b;
+    let html = '';
+    // grid
+    for (let v = 50; v <= 90; v += 10) {
+      const px = pad.l + ((v - 50) / 40) * w;
+      const py = pad.t + (1 - (v - 50) / 40) * h;
+      html += `<line x1="${pad.l}" y1="${py}" x2="${pad.l + w}" y2="${py}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      html += `<text x="${pad.l - 4}" y="${py + 4}" text-anchor="end" fill="#8a8aa5" font-size="9">${v}</text>`;
+      html += `<line x1="${px}" y1="${pad.t}" x2="${px}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      html += `<text x="${px}" y="${pad.t + h + 16}" text-anchor="middle" fill="#8a8aa5" font-size="9">${v}</text>`;
+    }
+    // axes
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<text x="${pad.l + w/2}" y="${280 - 4}" text-anchor="middle" fill="#8a8aa5" font-size="11">Matematika</text>`;
+    html += `<text x="10" y="${pad.t + h/2}" text-anchor="middle" fill="#8a8aa5" font-size="11" transform="rotate(-90 10 ${pad.t + h/2})">Fisika</text>`;
+    // points
+    data.forEach(d => {
+      const px = pad.l + ((d.math - 50) / 40) * w;
+      const py = pad.t + (1 - (d.physics - 50) / 40) * h;
+      html += `<circle cx="${px}" cy="${py}" r="3.5" fill="rgba(217,70,239,0.6)" stroke="#e879f9" stroke-width="1"/>`;
+    });
+    rawSvg.innerHTML = html;
+
+    // PCA result: PC1 vs PC2 (we'll fake-compute: PC1 = avg of all, PC2 = (math+physics-chem-bio)/4)
+    let html2 = '';
+    // grid
+    for (let v = -3; v <= 3; v += 1) {
+      const px = pad.l + ((v + 3) / 6) * w;
+      const py = pad.t + (1 - (v + 3) / 6) * h;
+      html2 += `<line x1="${pad.l}" y1="${py}" x2="${pad.l + w}" y2="${py}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      html2 += `<line x1="${px}" y1="${pad.t}" x2="${px}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+    }
+    // axes
+    html2 += `<line x1="${pad.l}" y1="${pad.t + h/2}" x2="${pad.l + w}" y2="${pad.t + h/2}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>`;
+    html2 += `<line x1="${pad.l + w/2}" y1="${pad.t}" x2="${pad.l + w/2}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>`;
+    html2 += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html2 += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html2 += `<text x="${pad.l + w/2}" y="${280 - 4}" text-anchor="middle" fill="#8a8aa5" font-size="11">PC1 (62% var)</text>`;
+    html2 += `<text x="10" y="${pad.t + h/2}" text-anchor="middle" fill="#8a8aa5" font-size="11" transform="rotate(-90 10 ${pad.t + h/2})">PC2 (23%)</text>`;
+    // points: compute PC1 = mean of 4 scores (centered), PC2 = math+physics - chem - bio
+    data.forEach(d => {
+      const pc1 = ((d.math + d.physics + d.chemistry + d.biology) / 4 - 70) / 8;
+      const pc2 = ((d.math + d.physics - d.chemistry - d.biology) / 4) / 4;
+      const px = pad.l + ((pc1 + 3) / 6) * w;
+      const py = pad.t + (1 - (pc2 + 3) / 6) * h;
+      // color by PC2 sign
+      const fill = pc2 > 0.2 ? 'rgba(217,70,239,0.7)' : (pc2 < -0.2 ? 'rgba(20,184,166,0.7)' : 'rgba(139,92,246,0.7)');
+      const stroke = pc2 > 0.2 ? '#e879f9' : (pc2 < -0.2 ? '#2dd4bf' : '#a78bfa');
+      html2 += `<circle cx="${px}" cy="${py}" r="3.5" fill="${fill}" stroke="${stroke}" stroke-width="1"/>`;
+    });
+    resSvg.innerHTML = html2;
+  }
+
+  /* ===== Regression Calculator ===== */
+  document.getElementById('regCalcBtn').addEventListener('click', () => {
+    const b0 = parseFloat(document.getElementById('regB0').value);
+    const b1 = parseFloat(document.getElementById('regB1').value);
+    const b2 = parseFloat(document.getElementById('regB2').value);
+    const x1 = parseFloat(document.getElementById('regX1').value);
+    const x2 = parseFloat(document.getElementById('regX2').value);
+    if (isNaN(b0) || isNaN(b1) || isNaN(b2) || isNaN(x1) || isNaN(x2)) {
+      alert('Mohon isi semua nilai dengan benar.');
+      return;
+    }
+    const y = b0 + b1 * x1 + b2 * x2;
+    const c1 = b1 * x1;
+    const c2 = b2 * x2;
+    document.getElementById('regY').textContent = y.toFixed(3);
+    document.getElementById('regContribX1').textContent = (c1 >= 0 ? '+' : '') + c1.toFixed(3);
+    document.getElementById('regContribX2').textContent = (c2 >= 0 ? '+' : '') + c2.toFixed(3);
+    document.getElementById('regEquation').textContent = `Y = ${b0.toFixed(2)} + ${b1.toFixed(3)}·X₁ + ${b2.toFixed(3)}·X₂`;
+  });
+
+  /* ===== Discriminant Visualization ===== */
+  function renderDisc() {
+    const svg = document.getElementById('diskSvg');
+    const pad = { l: 50, r: 20, t: 20, b: 50 };
+    const w = 600 - pad.l - pad.r;
+    const h = 360 - pad.t - pad.b;
+    // X = IPK (1.0-4.0), Y = Kehadiran (0-100)
+    // Lulus group (teal): high IPK + high attendance
+    const lulus = [[3.6,90],[3.4,85],[3.2,80],[3.7,95],[3.5,88],[3.8,92],[3.3,82],[3.6,87],[3.4,90],[3.5,85],[3.9,95],[3.7,90],[3.3,87],[3.5,93],[3.6,88]];
+    const tidak = [[2.5,60],[2.3,55],[2.7,65],[2.0,50],[2.4,58],[2.6,62],[2.2,52],[2.5,57],[2.8,68],[2.4,55],[2.0,45],[2.3,50],[2.6,60],[2.5,53],[2.7,65]];
+    let html = '';
+    // grid
+    for (let ipk = 1.0; ipk <= 4.0; ipk += 0.5) {
+      const px = pad.l + ((ipk - 1.0) / 3.0) * w;
+      html += `<line x1="${px}" y1="${pad.t}" x2="${px}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      html += `<text x="${px}" y="${pad.t + h + 18}" text-anchor="middle" fill="#8a8aa5" font-size="10">${ipk.toFixed(1)}</text>`;
+    }
+    for (let had = 0; had <= 100; had += 20) {
+      const py = pad.t + (1 - had / 100) * h;
+      html += `<line x1="${pad.l}" y1="${py}" x2="${pad.l + w}" y2="${py}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      html += `<text x="${pad.l - 6}" y="${py + 4}" text-anchor="end" fill="#8a8aa5" font-size="10">${had}</text>`;
+    }
+    // axes
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<text x="${pad.l + w/2}" y="${360 - 8}" text-anchor="middle" fill="#8a8aa5" font-size="12">IPK</text>`;
+    html += `<text x="14" y="${pad.t + h/2}" text-anchor="middle" fill="#8a8aa5" font-size="12" transform="rotate(-90 14 ${pad.t + h/2})">Kehadiran (%)</text>`;
+    // Discriminant line: rough boundary y = -30*ipk + 130 → ipk = (130-y)/30
+    // Let's draw: at IPK=2.0, hadir=70; at IPK=4.0, hadir=50
+    const lx1 = pad.l + ((2.0 - 1.0) / 3.0) * w;
+    const ly1 = pad.t + (1 - 70/100) * h;
+    const lx2 = pad.l + ((4.0 - 1.0) / 3.0) * w;
+    const ly2 = pad.t + (1 - 50/100) * h;
+    html += `<line x1="${lx1}" y1="${ly1}" x2="${lx2}" y2="${ly2}" stroke="#fb7185" stroke-width="2.5" stroke-dasharray="6 4"/>`;
+    html += `<text x="${lx2 - 10}" y="${ly2 - 8}" text-anchor="end" fill="#fb7185" font-size="11" font-weight="600" font-family="'JetBrains Mono'">Fungsi Diskriminan</text>`;
+    // lulus points
+    lulus.forEach(([ipk, had]) => {
+      const px = pad.l + ((ipk - 1.0) / 3.0) * w;
+      const py = pad.t + (1 - had / 100) * h;
+      html += `<circle cx="${px}" cy="${py}" r="5" fill="rgba(20,184,166,0.7)" stroke="#2dd4bf" stroke-width="1.5"/>`;
+    });
+    tidak.forEach(([ipk, had]) => {
+      const px = pad.l + ((ipk - 1.0) / 3.0) * w;
+      const py = pad.t + (1 - had / 100) * h;
+      html += `<circle cx="${px}" cy="${py}" r="5" fill="rgba(251,113,133,0.7)" stroke="#fb7185" stroke-width="1.5"/>`;
+    });
+    // legend
+    html += `<circle cx="${pad.l + 20}" cy="${pad.t + 10}" r="5" fill="rgba(20,184,166,0.7)" stroke="#2dd4bf" stroke-width="1.5"/>`;
+    html += `<text x="${pad.l + 30}" y="${pad.t + 14}" fill="#2dd4bf" font-size="11" font-family="'Plus Jakarta Sans'">Lulus</text>`;
+    html += `<circle cx="${pad.l + 80}" cy="${pad.t + 10}" r="5" fill="rgba(251,113,133,0.7)" stroke="#fb7185" stroke-width="1.5"/>`;
+    html += `<text x="${pad.l + 90}" y="${pad.t + 14}" fill="#fb7185" font-size="11" font-family="'Plus Jakarta Sans'">Tidak Lulus</text>`;
+    svg.innerHTML = html;
+  }
+
+  /* ===== K-Means Simulator ===== */
+  // Generate 30 students: jam belajar (0-20), IPK (1.0-4.0) with some cluster structure
+  const kmeansData = [];
+  function genKmeansData() {
+    kmeansData.length = 0;
+    // 3 natural clusters
+    const seeds = [
+      { jb: 5, ipk: 2.5, n: 10 },
+      { jb: 12, ipk: 3.2, n: 10 },
+      { jb: 18, ipk: 3.8, n: 10 }
+    ];
+    seeds.forEach(s => {
+      for (let i = 0; i < s.n; i++) {
+        const jb = s.jb + (Math.random() - 0.5) * 4;
+        const ipk = s.ipk + (Math.random() - 0.5) * 0.4;
+        kmeansData.push({ jb: Math.max(0, Math.min(20, jb)), ipk: Math.max(1, Math.min(4, ipk)) });
+      }
+    });
+  }
+
+  function kmeansCluster(data, k, maxIter = 20) {
+    // Initialize: pick k random points as centroids
+    let centroids = [];
+    const indices = [];
+    while (indices.length < k) {
+      const idx = Math.floor(Math.random() * data.length);
+      if (!indices.includes(idx)) { indices.push(idx); centroids.push({ ...data[idx] }); }
+    }
+    let assignments = new Array(data.length).fill(0);
+    let iter = 0;
+    let changed = true;
+    while (changed && iter < maxIter) {
+      changed = false;
+      iter++;
+      // Assign
+      data.forEach((d, i) => {
+        let minDist = Infinity, minIdx = 0;
+        centroids.forEach((c, ci) => {
+          const dist = Math.pow(d.jb - c.jb, 2) + Math.pow(d.ipk - c.ipk, 2);
+          if (dist < minDist) { minDist = dist; minIdx = ci; }
+        });
+        if (assignments[i] !== minIdx) { assignments[i] = minIdx; changed = true; }
+      });
+      // Update
+      for (let ci = 0; ci < k; ci++) {
+        const members = data.filter((_, i) => assignments[i] === ci);
+        if (members.length > 0) {
+          centroids[ci] = {
+            jb: members.reduce((s, m) => s + m.jb, 0) / members.length,
+            ipk: members.reduce((s, m) => s + m.ipk, 0) / members.length
+          };
+        }
+      }
+    }
+    // WCSS
+    let wcss = 0;
+    data.forEach((d, i) => {
+      const c = centroids[assignments[i]];
+      wcss += Math.pow(d.jb - c.jb, 2) + Math.pow(d.ipk - c.ipk, 2);
+    });
+    // Silhouette (approximate - average for sample)
+    let silSum = 0, silCount = 0;
+    for (let i = 0; i < data.length; i++) {
+      const ci = assignments[i];
+      const sameCluster = data.filter((_, j) => assignments[j] === ci && j !== i);
+      if (sameCluster.length === 0) continue;
+      const a = sameCluster.reduce((s, m) => s + Math.sqrt(Math.pow(data[i].jb - m.jb, 2) + Math.pow(data[i].ipk - m.ipk, 2)), 0) / sameCluster.length;
+      // b: min avg dist to other clusters
+      let b = Infinity;
+      for (let oc = 0; oc < k; oc++) {
+        if (oc === ci) continue;
+        const others = data.filter((_, j) => assignments[j] === oc);
+        if (others.length === 0) continue;
+        const avg = others.reduce((s, m) => s + Math.sqrt(Math.pow(data[i].jb - m.jb, 2) + Math.pow(data[i].ipk - m.ipk, 2)), 0) / others.length;
+        if (avg < b) b = avg;
+      }
+      if (b === Infinity) continue;
+      const s = (b - a) / Math.max(a, b);
+      silSum += s; silCount++;
+    }
+    const silhouette = silCount > 0 ? silSum / silCount : 0;
+    return { centroids, assignments, iter, wcss, silhouette };
+  }
+
+  function renderKmeans() {
+    const svg = document.getElementById('kmeansSvg');
+    const pad = { l: 50, r: 20, t: 20, b: 50 };
+    const w = 600 - pad.l - pad.r;
+    const h = 360 - pad.t - pad.b;
+    let html = '';
+    // grid
+    for (let jb = 0; jb <= 20; jb += 4) {
+      const px = pad.l + (jb / 20) * w;
+      html += `<line x1="${px}" y1="${pad.t}" x2="${px}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      html += `<text x="${px}" y="${pad.t + h + 18}" text-anchor="middle" fill="#8a8aa5" font-size="10">${jb}</text>`;
+    }
+    for (let ipk = 1.0; ipk <= 4.0; ipk += 0.5) {
+      const py = pad.t + (1 - (ipk - 1.0) / 3.0) * h;
+      html += `<line x1="${pad.l}" y1="${py}" x2="${pad.l + w}" y2="${py}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      html += `<text x="${pad.l - 6}" y="${py + 4}" text-anchor="end" fill="#8a8aa5" font-size="10">${ipk.toFixed(1)}</text>`;
+    }
+    // axes
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<text x="${pad.l + w/2}" y="${360 - 8}" text-anchor="middle" fill="#8a8aa5" font-size="12">Jam Belajar (jam/minggu)</text>`;
+    html += `<text x="14" y="${pad.t + h/2}" text-anchor="middle" fill="#8a8aa5" font-size="12" transform="rotate(-90 14 ${pad.t + h/2})">IPK</text>`;
+    // plot unassigned (gray)
+    kmeansData.forEach(d => {
+      const px = pad.l + (d.jb / 20) * w;
+      const py = pad.t + (1 - (d.ipk - 1.0) / 3.0) * h;
+      html += `<circle cx="${px}" cy="${py}" r="5" fill="rgba(255,255,255,0.3)" stroke="#8a8aa5" stroke-width="1.2" class="km-point" data-x="${px}" data-y="${py}"/>`;
+    });
+    svg.innerHTML = html;
+    document.getElementById('kmeansWcss').textContent = '—';
+    document.getElementById('kmeansIter').textContent = '—';
+    document.getElementById('kmeansSil').textContent = '—';
+    document.getElementById('kmeansActive').textContent = '—';
+  }
+
+  function renderKmeansResult(result, k) {
+    const svg = document.getElementById('kmeansSvg');
+    const pad = { l: 50, r: 20, t: 20, b: 50 };
+    const w = 600 - pad.l - pad.r;
+    const h = 360 - pad.t - pad.b;
+    const colors = [
+      { fill: 'rgba(217,70,239,0.7)', stroke: '#e879f9' },
+      { fill: 'rgba(20,184,166,0.7)', stroke: '#2dd4bf' },
+      { fill: 'rgba(251,191,36,0.7)', stroke: '#fbbf24' },
+      { fill: 'rgba(139,92,246,0.7)', stroke: '#a78bfa' },
+      { fill: 'rgba(251,113,133,0.7)', stroke: '#fb7185' }
+    ];
+    let html = '';
+    for (let jb = 0; jb <= 20; jb += 4) {
+      const px = pad.l + (jb / 20) * w;
+      html += `<line x1="${px}" y1="${pad.t}" x2="${px}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      html += `<text x="${px}" y="${pad.t + h + 18}" text-anchor="middle" fill="#8a8aa5" font-size="10">${jb}</text>`;
+    }
+    for (let ipk = 1.0; ipk <= 4.0; ipk += 0.5) {
+      const py = pad.t + (1 - (ipk - 1.0) / 3.0) * h;
+      html += `<line x1="${pad.l}" y1="${py}" x2="${pad.l + w}" y2="${py}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      html += `<text x="${pad.l - 6}" y="${py + 4}" text-anchor="end" fill="#8a8aa5" font-size="10">${ipk.toFixed(1)}</text>`;
+    }
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<text x="${pad.l + w/2}" y="${360 - 8}" text-anchor="middle" fill="#8a8aa5" font-size="12">Jam Belajar (jam/minggu)</text>`;
+    html += `<text x="14" y="${pad.t + h/2}" text-anchor="middle" fill="#8a8aa5" font-size="12" transform="rotate(-90 14 ${pad.t + h/2})">IPK</text>`;
+    // points
+    kmeansData.forEach((d, i) => {
+      const ci = result.assignments[i];
+      const c = colors[ci % colors.length];
+      const px = pad.l + (d.jb / 20) * w;
+      const py = pad.t + (1 - (d.ipk - 1.0) / 3.0) * h;
+      html += `<circle cx="${px}" cy="${py}" r="5" fill="${c.fill}" stroke="${c.stroke}" stroke-width="1.5"/>`;
+    });
+    // centroids
+    result.centroids.forEach((c, ci) => {
+      const px = pad.l + (c.jb / 20) * w;
+      const py = pad.t + (1 - (c.ipk - 1.0) / 3.0) * h;
+      html += `<circle cx="${px}" cy="${py}" r="8" fill="${colors[ci % colors.length].stroke}" stroke="white" stroke-width="2"/>`;
+      html += `<text x="${px}" y="${py - 12}" text-anchor="middle" fill="white" font-size="11" font-weight="700">C${ci+1}</text>`;
+    });
+    svg.innerHTML = html;
+    // Update stats
+    document.getElementById('kmeansWcss').textContent = result.wcss.toFixed(2);
+    document.getElementById('kmeansIter').textContent = String(result.iter);
+    document.getElementById('kmeansSil').textContent = result.silhouette.toFixed(3);
+    const activeClusters = new Set(result.assignments).size;
+    document.getElementById('kmeansActive').textContent = String(activeClusters);
+  }
+
+  /* Init */
+  let currentK = 3;
+  let kmeansClustered = false;  // declared here so it's accessible to click handler
+  document.getElementById('kmeansSlider').addEventListener('input', (e) => {
+    currentK = parseInt(e.target.value);
+    document.getElementById('kmeansK').textContent = 'K = ' + currentK;
+    if (kmeansData.length === 0) genKmeansData();
+    if (!kmeansClustered) renderKmeans();  // only reset if not yet clustered
+  });
+  document.getElementById('kmeansBtn').addEventListener('click', () => {
+    if (kmeansData.length === 0) genKmeansData();
+    try {
+      const result = kmeansCluster(kmeansData, currentK, 20);
+      kmeansClustered = true;  // Mark as clustered so observer won't reset
+      renderKmeansResult(result, currentK);
+    } catch (e) {
+      console.error('K-Means error:', e.message);
+      alert('Error: ' + e.message);
+    }
+  });
+
+  /* ===== QUIZ ===== */
+  const quizData = [
+    {
+      q: 'PCA berbeda dengan Analisis Faktor karena PCA bersifat...?',
+      opts: ['Mencari konstruk laten', 'Reduksi data tanpa asumsi error', 'Berbasis teori psikologi', 'Membutuhkan variabel dependen'],
+      correct: 1,
+      fb: 'PCA bersifat data-driven (reduksi variabel) tanpa mengasumsikan error. Analisis Faktor mencari konstruk laten yang menjelaskan korelasi.'
+    },
+    {
+      q: 'Dalam regresi berganda, koefisien β₁ = 0.05 untuk X₁ (jam belajar). Artinya?',
+      opts: ['Setiap kenaikan 1 jam belajar, IPK naik 0.05 (jika variabel lain konstan)', 'Jam belajar naik 0.05 jam', 'IPK naik 0.05', 'Korelasi 0.05'],
+      correct: 0,
+      fb: 'β₁ = perubahan Y per unit X₁ saat variabel lain dikonstantankan. 0.05 berarti tiap +1 jam belajar → +0.05 IPK.'
+    },
+    {
+      q: 'Analisis diskriminan dipakai saat variabel dependen (Y) berupa?',
+      opts: ['Numerik kontinu', 'Kategorikal (kelompok)', 'Banyak variabel numerik', 'Tidak ada dependen'],
+      correct: 1,
+      fb: 'Diskriminan mengklasifikasi kelompok (Y kategorikal) berdasarkan beberapa X numerik. Mirip regresi logistik.'
+    },
+    {
+      q: 'Mengapa MANOVA dipakai alih-alih beberapa ANOVA terpisah?',
+      opts: ['Lebih cepat dihitung', 'Mengontrol error Tipe I yang membengkak', 'Tidak butuh asumsi', 'Bisa untuk sampel kecil'],
+      correct: 1,
+      fb: 'Beberapa ANOVA terpisah meningkatkan error Tipe I kumulatif. MANOVA menguji semua dependen sekaligus, mengontrol tingkat kesalahan.'
+    },
+    {
+      q: 'Untuk menentukan K optimal di K-Means, metode yang umum dipakai adalah?',
+      opts: ['Chi-Square test', 'Levene test', 'Elbow Method & Silhouette Score', 't-test'],
+      correct: 2,
+      fb: 'Elbow Method melihat "siku" kurva K vs WCSS. Silhouette Score mengukur kualitas pengelompokan (skor -1 hingga 1).'
+    },
+    {
+      q: 'Multikolinearitas dalam regresi berganda bisa dideteksi dengan?',
+      opts: ['VIF (Variance Inflation Factor) > 10', 'p-value < 0.05', 'R² > 0.8', 'Durbin-Watson 1.5-2.5'],
+      correct: 0,
+      fb: 'VIF (Variance Inflation Factor) > 10 menandakan multikolinearitas tinggi. Solusi: hilangkan variabel atau pakai PCA dulu.'
+    },
+    {
+      q: 'Dalam Bayesian, "prior" merepresentasikan?',
+      opts: ['Distribusi data observasi', 'Keyakinan awal sebelum data masuk', 'Hasil akhir estimasi', 'Distribusi sampling'],
+      correct: 1,
+      fb: 'Prior = keyakinan awal tentang parameter sebelum melihat data. Setelah data masuk, prior di-update menjadi posterior lewat Teorema Bayes.'
+    },
+    {
+      q: 'SEM menggabungkan dua teknik analisis yaitu?',
+      opts: ['Regresi &amp; ANOVA', 'Analisis Faktor &amp; Regresi', 'Klaster &amp; Diskriminan', 'Chi-Square &amp; Korelasi'],
+      correct: 1,
+      fb: 'SEM = Analisis Faktor (model pengukuran: indikator → variabel laten) + Regresi (model struktural: hubungan antar variabel laten).'
+    }
+  ];
+
+  const quizContainer = document.getElementById('quizContainer');
+  let answered = 0, correctCount = 0;
+  quizData.forEach((item, qi) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    const optsHTML = item.opts.map((o, oi) => `
+      <div class="quiz-opt" data-qi="${qi}" data-oi="${oi}">
+        <span class="opt-letter">${String.fromCharCode(65 + oi)}</span>
+        <span>${o}</span>
+      </div>`).join('');
+    card.innerHTML = `
+      <div class="quiz-question">
+        <div class="quiz-q-num">${qi + 1}</div>
+        <div>${item.q}</div>
+      </div>
+      <div class="quiz-options">${optsHTML}</div>
+      <div class="quiz-feedback" id="fb-${qi}"></div>`;
+    quizContainer.appendChild(card);
+  });
+  quizContainer.addEventListener('click', (e) => {
+    const opt = e.target.closest('.quiz-opt');
+    if (!opt) return;
+    const qi = parseInt(opt.dataset.qi);
+    const oi = parseInt(opt.dataset.oi);
+    const card = opt.closest('.quiz-card');
+    if (card.dataset.answered === '1') return;
+    card.dataset.answered = '1';
+    const item = quizData[qi];
+    const fb = document.getElementById('fb-' + qi);
+    if (oi === item.correct) {
+      opt.classList.add('correct');
+      fb.className = 'quiz-feedback show correct';
+      fb.innerHTML = '✓ <strong>Benar!</strong> ' + item.fb;
+      correctCount++;
+    } else {
+      opt.classList.add('wrong');
+      const correctOpt = card.querySelector(`.quiz-opt[data-oi="${item.correct}"]`);
+      correctOpt.classList.add('correct');
+      fb.className = 'quiz-feedback show wrong';
+      fb.innerHTML = '✗ <strong>Belum tepat.</strong> Jawaban benar: <strong>' + item.opts[item.correct] + '</strong>. ' + item.fb;
+    }
+    answered++;
+    if (answered === quizData.length) {
+      const scoreEl = document.getElementById('quizScore');
+      document.getElementById('scoreNum').textContent = correctCount + ' / ' + quizData.length;
+      let msg;
+      if (correctCount === quizData.length) msg = '🎉 Sempurna! Kamu siap ujian analisis multivariat.';
+      else if (correctCount >= 6) msg = '👍 Bagus! Beberapa konsep bisa dipertajam lagi.';
+      else msg = '💪 Tetap semangat! Multivariat memang butuh latihan ekstra.';
+      document.getElementById('scoreMsg').textContent = msg;
+      setTimeout(() => scoreEl.classList.add('show'), 400);
+      scoreEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+  document.getElementById('quizReset').addEventListener('click', () => {
+    answered = 0; correctCount = 0;
+    document.getElementById('quizScore').classList.remove('show');
+    document.querySelectorAll('.quiz-card').forEach(card => {
+      card.dataset.answered = '0';
+      card.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('correct', 'wrong'));
+      card.querySelectorAll('.quiz-feedback').forEach(f => { f.className = 'quiz-feedback'; f.innerHTML = ''; });
+    });
+    document.getElementById('kuis').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  /* ===== BAYESIAN VISUALIZATION ===== */
+  // Beta distribution PDF (using approximation via lookup) for prior/posterior
+  function betaPDF(x, alpha, beta) {
+    if (x <= 0 || x >= 1) return 0;
+    // Beta PDF: x^(a-1) * (1-x)^(b-1) / B(a, b)
+    // log Beta function
+    function lgamma(x) {
+      // Lanczos approximation
+      const g = 7;
+      const c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+        771.32342877765313, -176.61502916214059, 12.507343278686905,
+        -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+      if (x < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * x)) - lgamma(1 - x);
+      x -= 1;
+      let a = c[0];
+      const t = x + g + 0.5;
+      for (let i = 1; i < g + 2; i++) a += c[i] / (x + i);
+      return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(a);
+    }
+    const logB = lgamma(alpha) + lgamma(beta) - lgamma(alpha + beta);
+    return Math.exp((alpha - 1) * Math.log(x) + (beta - 1) * Math.log(1 - x) - logB);
+  }
+  function renderBayes(alphaPrior, betaPrior) {
+    const svg = document.getElementById('bayesSvg');
+    // Likelihood: binomial with 13 successes out of 20 (mean 0.65) — use Beta(14, 8) as conjugate
+    const alphaLik = 14, betaLik = 8;
+    const alphaPost = alphaPrior + alphaLik - 1;  // posterior = prior + likelihood - 1
+    const betaPost = betaPrior + betaLik - 1;
+    const pad = { l: 50, r: 20, t: 20, b: 40 };
+    const w = 600 - pad.l - pad.r;
+    const h = 320 - pad.t - pad.b;
+    // Find max density across all curves
+    let maxD = 0;
+    const xs = [];
+    for (let i = 0; i <= 100; i++) xs.push(i / 100);
+    xs.forEach(x => {
+      maxD = Math.max(maxD, betaPDF(x, alphaPrior, betaPrior), betaPDF(x, alphaLik, betaLik), betaPDF(x, alphaPost, betaPost));
+    });
+    const xToPx = x => pad.l + x * w;
+    const yToPx = d => pad.t + (1 - d / maxD) * h;
+    let html = '';
+    // grid
+    for (let i = 0; i <= 4; i++) {
+      const py = pad.t + (i / 4) * h;
+      html += `<line x1="${pad.l}" y1="${py}" x2="${pad.l + w}" y2="${py}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+    }
+    for (let i = 0; i <= 10; i++) {
+      const px = pad.l + (i / 10) * w;
+      html += `<line x1="${px}" y1="${pad.t}" x2="${px}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      if (i % 2 === 0) html += `<text x="${px}" y="${pad.t + h + 18}" text-anchor="middle" fill="#a09187" font-size="10">${(i/10).toFixed(1)}</text>`;
+    }
+    // axes
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<text x="${pad.l + w/2}" y="${320 - 8}" text-anchor="middle" fill="#a09187" font-size="11">θ (Probabilitas)</text>`;
+    html += `<text x="14" y="${pad.t + h/2}" text-anchor="middle" fill="#a09187" font-size="11" transform="rotate(-90 14 ${pad.t + h/2})">Density</text>`;
+    // Generate path for a distribution
+    function distPath(alpha, beta) {
+      let path = '';
+      xs.forEach((x, i) => {
+        const d = betaPDF(x, alpha, beta);
+        const px = xToPx(x);
+        const py = yToPx(d);
+        path += (i === 0 ? 'M' : ' L') + ` ${px},${py}`;
+      });
+      return path;
+    }
+    // Likelihood (teal)
+    html += `<path d="${distPath(alphaLik, betaLik)}" fill="none" stroke="#2dd4bf" stroke-width="2" stroke-dasharray="5 3" opacity="0.8"/>`;
+    // Prior (violet)
+    html += `<path d="${distPath(alphaPrior, betaPrior)}" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="2" opacity="0.8"/>`;
+    // Posterior (rose, thicker)
+    html += `<path d="${distPath(alphaPost, betaPost)}" fill="rgba(251,113,133,0.2)" stroke="#fb7185" stroke-width="3"/>`;
+    // Legend
+    html += `<line x1="${pad.l + 10}" y1="${pad.t + 14}" x2="${pad.l + 30}" y2="${pad.t + 14}" stroke="#a78bfa" stroke-width="2"/>`;
+    html += `<text x="${pad.l + 36}" y="${pad.t + 18}" fill="#a78bfa" font-size="11" font-family="'Plus Jakarta Sans'">Prior</text>`;
+    html += `<line x1="${pad.l + 80}" y1="${pad.t + 14}" x2="${pad.l + 100}" y2="${pad.t + 14}" stroke="#2dd4bf" stroke-width="2" stroke-dasharray="5 3"/>`;
+    html += `<text x="${pad.l + 106}" y="${pad.t + 18}" fill="#2dd4bf" font-size="11" font-family="'Plus Jakarta Sans'">Likelihood</text>`;
+    html += `<line x1="${pad.l + 180}" y1="${pad.t + 14}" x2="${pad.l + 200}" y2="${pad.t + 14}" stroke="#fb7185" stroke-width="3"/>`;
+    html += `<text x="${pad.l + 206}" y="${pad.t + 18}" fill="#fb7185" font-size="11" font-family="'Plus Jakarta Sans'">Posterior</text>`;
+    svg.innerHTML = html;
+    // Compute means
+    const priorMean = alphaPrior / (alphaPrior + betaPrior);
+    const postMean = alphaPost / (alphaPost + betaPost);
+    // Approx 95% credible interval of posterior (using normal approx)
+    const postVar = (alphaPost * betaPost) / ((alphaPost + betaPost) ** 2 * (alphaPost + betaPost + 1));
+    const postStd = Math.sqrt(postVar);
+    const ciLow = Math.max(0, postMean - 1.96 * postStd);
+    const ciHigh = Math.min(1, postMean + 1.96 * postStd);
+    document.getElementById('priorMean').textContent = priorMean.toFixed(3);
+    document.getElementById('postMean').textContent = postMean.toFixed(3);
+    document.getElementById('ciWidth').textContent = `[${ciLow.toFixed(2)}, ${ciHigh.toFixed(2)}]`;
+  }
+  const bayesSlider = document.getElementById('bayesSlider');
+  bayesSlider.addEventListener('input', (e) => {
+    const v = parseInt(e.target.value);
+    document.getElementById('bayesVal').textContent = `α=β=${v}`;
+    renderBayes(v, v);
+  });
+  renderBayes(5, 5);
+
+  /* ===== SEM PATH DIAGRAM ===== */
+  function renderSEM() {
+    const svg = document.getElementById('semSvg');
+    let html = '';
+    // Latent variables (circles)
+    // Motivasi at left, Keterlibatan middle, Prestasi right
+    const latentColors = ['#d946ef', '#14b8a6', '#fbbf24'];
+    const latents = [
+      { name: 'Motivasi', x: 100, y: 180, color: latentColors[0] },
+      { name: 'Keterlibatan', x: 350, y: 180, color: latentColors[1] },
+      { name: 'Prestasi', x: 600, y: 180, color: latentColors[2] }
+    ];
+    // Indicators (rectangles) for each latent (3 each)
+    const indicators = [
+      // Motivasi
+      { label: 'M1', x: 50, y: 40, parent: 0 },
+      { label: 'M2', x: 100, y: 40, parent: 0 },
+      { label: 'M3', x: 150, y: 40, parent: 0 },
+      // Keterlibatan
+      { label: 'K1', x: 300, y: 40, parent: 1 },
+      { label: 'K2', x: 350, y: 40, parent: 1 },
+      { label: 'K3', x: 400, y: 40, parent: 1 },
+      // Prestasi
+      { label: 'P1', x: 550, y: 40, parent: 2 },
+      { label: 'P2', x: 600, y: 40, parent: 2 },
+      { label: 'P3', x: 650, y: 40, parent: 2 }
+    ];
+    // Arrows from indicators to latents (measurement model)
+    indicators.forEach(ind => {
+      const parent = latents[ind.parent];
+      // From indicator bottom to parent top
+      const x1 = ind.x, y1 = 60;
+      const x2 = parent.x, y2 = parent.y - 30;
+      html += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${parent.color}" stroke-width="1.5" opacity="0.6"/>`;
+      // Indicator box
+      html += `<rect x="${ind.x - 16}" y="40" width="32" height="22" rx="4" fill="rgba(255,255,255,0.05)" stroke="${parent.color}" stroke-width="1.5"/>`;
+      html += `<text x="${ind.x}" y="55" text-anchor="middle" fill="${parent.color}" font-size="11" font-weight="700" font-family="'JetBrains Mono'">${ind.label}</text>`;
+    });
+    // Latent circles
+    latents.forEach(l => {
+      html += `<circle cx="${l.x}" cy="${l.y}" r="36" fill="${l.color}" fill-opacity="0.18" stroke="${l.color}" stroke-width="2.5"/>`;
+      const words = l.name.split(' ');
+      words.forEach((w, i) => {
+        html += `<text x="${l.x}" y="${l.y + 6 + (i - (words.length - 1) / 2) * 12}" text-anchor="middle" fill="${l.color}" font-size="11" font-weight="700" font-family="'Space Grotesk'">${w}</text>`;
+      });
+    });
+    // Structural paths (latent → latent)
+    function arrow(x1, y1, x2, y2, label, color) {
+      // line
+      html += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="2.5"/>`;
+      // arrowhead
+      const angle = Math.atan2(y2 - y1, x2 - x1);
+      const al = 10;
+      html += `<polygon points="${x2},${y2} ${x2 - al * Math.cos(angle - Math.PI/6)},${y2 - al * Math.sin(angle - Math.PI/6)} ${x2 - al * Math.cos(angle + Math.PI/6)},${y2 - al * Math.sin(angle + Math.PI/6)}" fill="${color}"/>`;
+      // label
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      html += `<rect x="${mx - 22}" y="${my - 12}" width="44" height="22" rx="6" fill="#0a0a14" stroke="${color}" stroke-width="1"/>`;
+      html += `<text x="${mx}" y="${my + 4}" text-anchor="middle" fill="${color}" font-size="11" font-weight="700" font-family="'JetBrains Mono'">${label}</text>`;
+    }
+    // Motivasi → Keterlibatan (β=0.70)
+    arrow(136, 180, 314, 180, '0.70', '#d946ef');
+    // Keterlibatan → Prestasi (β=0.40)
+    arrow(386, 180, 564, 180, '0.40', '#14b8a6');
+    // Motivasi → Prestasi (direct β=0.32) — curved arc above
+    const arcPath = `M 130,150 Q 350,80 570,150`;
+    html += `<path d="${arcPath}" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5 3"/>`;
+    html += `<rect x="328" y="78" width="44" height="22" rx="6" fill="#0a0a14" stroke="#fbbf24" stroke-width="1"/>`;
+    html += `<text x="350" y="94" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="700" font-family="'JetBrains Mono'">0.32</text>`;
+    // Arrowhead at end of arc (approx)
+    html += `<polygon points="570,150 562,140 562,158" fill="#fbbf24"/>`;
+    // Disturbance (error) arrows
+    html += `<text x="350" y="245" text-anchor="middle" fill="#fb7185" font-size="11" font-family="'JetBrains Mono'">D₁</text>`;
+    html += `<line x1="350" y1="216" x2="350" y2="236" stroke="#fb7185" stroke-width="1.5"/>`;
+    html += `<polygon points="350,236 346,228 354,228" fill="#fb7185"/>`;
+    html += `<text x="600" y="245" text-anchor="middle" fill="#fb7185" font-size="11" font-family="'JetBrains Mono'">D₂</text>`;
+    html += `<line x1="600" y1="216" x2="600" y2="236" stroke="#fb7185" stroke-width="1.5"/>`;
+    html += `<polygon points="600,236 596,228 604,228" fill="#fb7185"/>`;
+    // Caption
+    html += `<text x="350" y="290" text-anchor="middle" fill="#a09187" font-size="11" font-family="'Plus Jakarta Sans'">Model: Motivasi → Keterlibatan → Prestasi (dengan pengaruh langsung)</text>`;
+    svg.innerHTML = html;
+  }
+  renderSEM();
+
+  /* Init on scroll */
+  // Initialize data on page load
+  genKmeansData();
+  renderKmeans();
+  renderDisc();
+  renderPCA();
+
+  let kmeansObserved = false;
+
+  const chartObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        if (e.target.id === 'pcaRaw') renderPCA();
+        if (e.target.id === 'diskSvg') renderDisc();
+        if (e.target.id === 'kmeansSvg' && !kmeansObserved) {
+          kmeansObserved = true;
+          // Don't reset if already clustered
+          if (!kmeansClustered) { genKmeansData(); renderKmeans(); }
+        }
+        chartObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  ['pcaRaw', 'diskSvg', 'kmeansSvg'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) chartObs.observe(el);
+  });
+</script>
+</body>
+</html>

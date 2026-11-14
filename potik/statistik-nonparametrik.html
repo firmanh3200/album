@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Statistik Non-Parametrik untuk Mahasiswa | Panduan Interaktif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e0a08;
+    --bg-2:#15110e;
+    --card:rgba(255,255,255,0.035);
+    --card-border:rgba(255,255,255,0.08);
+    --text:#f4ebe3;
+    --muted:#a09187;
+    --orange:#f97316;
+    --orange-2:#fb923c;
+    --amber:#f59e0b;
+    --amber-2:#fbbf24;
+    --rose:#f43f5e;
+    --rose-2:#fb7185;
+    --lime:#84cc16;
+    --lime-2:#a3e635;
+    --teal:#14b8a6;
+    --teal-2:#2dd4bf;
+    --grad-1:linear-gradient(135deg,#f97316 0%,#f43f5e 100%);
+    --grad-2:linear-gradient(135deg,#f59e0b 0%,#fb923c 100%);
+    --grad-3:linear-gradient(135deg,#84cc16 0%,#14b8a6 100%);
+    --grad-4:linear-gradient(135deg,#fb7185 0%,#f59e0b 100%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  ::selection{background:rgba(249,115,22,0.3);color:var(--orange-2)}
+  .bg-decoration{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:0.25}
+  .blob-1{width:560px;height:560px;background:#f97316;top:-150px;right:-100px;animation:float 22s ease-in-out infinite}
+  .blob-2{width:460px;height:460px;background:#f43f5e;bottom:-100px;left:-100px;animation:float 28s ease-in-out infinite reverse}
+  .blob-3{width:380px;height:380px;background:#84cc16;top:42%;left:50%;animation:float 32s ease-in-out infinite}
+  .grid-bg{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse at center,black 0%,transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse at center,black 0%,transparent 75%);
+  }
+  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(50px,40px) scale(1.08)}}
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(14,10,8,0.78);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--card-border);
+    padding:14px 0;
+  }
+  nav .container{display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;display:flex;align-items:center;gap:10px}
+  .logo-icon{
+    width:34px;height:34px;border-radius:10px;
+    background:var(--grad-1);
+    display:grid;place-items:center;
+    box-shadow:0 8px 20px -8px var(--orange);
+    font-size:1.1rem;font-family:'JetBrains Mono',monospace;
+  }
+  .nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap}
+  .nav-links a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-size:.86rem;font-weight:500;transition:all .2s ease}
+  .nav-links a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+  .menu-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+
+  .container{max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+  .hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 80px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 14px;border-radius:99px;
+    background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.3);
+    color:#fdd5b8;font-size:.82rem;font-weight:600;margin-bottom:24px;
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 12px var(--orange);animation:pulse 2s ease infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+  .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;font-weight:700;letter-spacing:-0.02em;margin-bottom:22px}
+  .hero h1 .grad{background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{color:var(--muted);font-size:1.08rem;max-width:540px;margin-bottom:32px}
+  .hero-stats{display:flex;gap:30px;flex-wrap:wrap;margin-top:36px}
+  .stat{display:flex;flex-direction:column}
+  .stat .num{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .label{font-size:.82rem;color:var(--muted);margin-top:2px}
+
+  /* Hero visual: ranking ladder */
+  .hero-visual{position:relative;height:480px;display:flex;align-items:center;justify-content:center}
+  .hero-svg{width:100%;max-width:420px}
+  .floating-card{
+    position:absolute;background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--card-border);border-radius:14px;
+    padding:12px 16px;box-shadow:0 15px 35px -15px rgba(0,0,0,0.6);
+    animation:floatCard 6s ease-in-out infinite;z-index:2;
+  }
+  .fc-1{top:0;left:0;animation-delay:0s}
+  .fc-2{top:130px;right:0;animation-delay:1.5s}
+  .fc-3{bottom:0;left:20px;animation-delay:3s}
+  .fc-4{bottom:60px;right:0;animation-delay:4.5s}
+  @keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .floating-card .fc-label{font-size:.7rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+  .floating-card .fc-value{font-family:'JetBrains Mono',monospace;font-size:.88rem;font-weight:700;color:var(--orange-2)}
+  .floating-card.rose .fc-value{color:var(--rose-2)}
+  .floating-card.lime .fc-value{color:var(--lime-2)}
+  .floating-card.teal .fc-value{color:var(--teal-2)}
+
+  section{padding:80px 0;position:relative;scroll-margin-top:70px}
+  footer{scroll-margin-top:70px}
+  .section-head{max-width:740px;margin:0 auto 56px;text-align:center}
+  .section-tag{
+    display:inline-block;padding:5px 14px;border-radius:99px;
+    background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.25);
+    color:#fdd5b8;font-size:.78rem;font-weight:600;margin-bottom:18px;letter-spacing:.05em;
+  }
+  .section-head h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.1;font-weight:700;letter-spacing:-0.02em;margin-bottom:14px}
+  .section-head p{color:var(--muted);font-size:1.02rem}
+
+  .card{
+    background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--card-border);border-radius:22px;padding:28px;
+    transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(249,115,22,0.4);box-shadow:0 25px 60px -25px rgba(249,115,22,0.35)}
+  .card-icon{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;font-size:1.6rem;margin-bottom:18px}
+  .card h3{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;margin-bottom:10px}
+  .card p{color:var(--muted);font-size:.95rem}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+
+  .def-box{
+    background:linear-gradient(135deg,rgba(249,115,22,0.12),rgba(244,63,94,0.06));
+    border:1px solid rgba(249,115,22,0.3);border-radius:20px;padding:34px;
+    margin-bottom:40px;display:flex;gap:24px;align-items:flex-start;
+  }
+  .def-box .quote-mark{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:700;line-height:1;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent;flex-shrink:0}
+  .def-box h3{font-size:1.3rem;margin-bottom:10px;font-family:'Space Grotesk',sans-serif}
+  .def-box p{color:var(--muted);font-size:1rem}
+
+  .example{margin-top:18px;padding:16px 18px;background:rgba(251,191,36,0.08);border-left:3px solid var(--amber);border-radius:0 12px 12px 0;font-size:.92rem}
+  .example .ex-label{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--amber);margin-bottom:6px}
+  .example p{color:#ead4b8;font-size:.9rem;line-height:1.6}
+
+  .tip{margin-top:18px;padding:14px 18px;background:rgba(132,204,22,0.08);border-left:3px solid var(--lime);border-radius:0 12px 12px 0;font-size:.9rem;color:#d4e6a3;display:flex;gap:10px;align-items:flex-start}
+  .tip-icon{flex-shrink:0;color:var(--lime);font-size:1.1rem;line-height:1.6}
+
+  .warn{margin-top:18px;padding:14px 18px;background:rgba(244,63,94,0.08);border-left:3px solid var(--rose);border-radius:0 12px 12px 0;font-size:.9rem;color:#fcc6d2;display:flex;gap:10px;align-items:flex-start}
+  .warn-icon{flex-shrink:0;color:var(--rose);font-size:1.1rem;line-height:1.6}
+
+  .formula-box{background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:14px;padding:20px;margin:14px 0;text-align:center}
+  .formula-box .f-label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;font-weight:600}
+  .formula-box .f-math{font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--orange-2);font-weight:600}
+  .formula-box.rose .f-math{color:var(--rose-2)}
+  .formula-box.lime .f-math{color:var(--lime-2)}
+  .formula-box.teal .f-math{color:var(--teal-2)}
+  .formula-box.amber .f-math{color:var(--amber-2)}
+
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;background:rgba(255,255,255,0.03);padding:6px;border-radius:14px;margin-bottom:24px;border:1px solid var(--card-border)}
+  .tab-btn{flex:1;min-width:120px;padding:12px 16px;border-radius:10px;background:transparent;border:none;color:var(--muted);font-family:inherit;font-weight:600;font-size:.92rem;cursor:pointer;transition:all .25s ease}
+  .tab-btn:hover{color:var(--text)}
+  .tab-btn.active{background:var(--grad-1);color:#3a1c08;box-shadow:0 10px 25px -10px var(--orange)}
+  .tab-content{display:none;animation:fadeIn .4s ease}
+  .tab-content.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  .calc-card{background:linear-gradient(135deg,rgba(249,115,22,0.08),rgba(244,63,94,0.04));border:1px solid rgba(249,115,22,0.3);border-radius:24px;padding:32px}
+  .calc-input{width:100%;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:1rem;transition:all .2s ease}
+  .calc-input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,0.2)}
+  .calc-input::placeholder{color:#6b5d52}
+  .calc-btn{background:var(--grad-1);color:#3a1c08;border:none;padding:13px 28px;border-radius:12px;font-family:inherit;font-weight:700;font-size:.95rem;cursor:pointer;transition:transform .2s ease, box-shadow .2s ease;box-shadow:0 10px 25px -10px var(--orange)}
+  .calc-btn:hover{transform:translateY(-2px);box-shadow:0 15px 30px -10px var(--orange)}
+  .calc-btn:active{transform:translateY(0)}
+  .calc-btn.lime{background:var(--grad-3);color:#1a2a08;box-shadow:0 10px 25px -10px var(--lime)}
+  .calc-btn.rose{background:var(--grad-4);color:#3a1c08;box-shadow:0 10px 25px -10px var(--rose)}
+
+  .result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+  .result-box{background:rgba(0,0,0,0.25);border:1px solid var(--card-border);border-radius:14px;padding:18px;text-align:center}
+  .result-box .rb-label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+  .result-box .rb-value{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .result-box.rose .rb-value{background:var(--grad-4);-webkit-background-clip:text;background-clip:text}
+  .result-box.lime .rb-value{background:var(--grad-3);-webkit-background-clip:text;background-clip:text}
+  .result-box.teal .rb-value{background:var(--grad-3);-webkit-background-clip:text;background-clip:text}
+
+  .verdict{margin-top:24px;padding:20px;border-radius:14px;font-weight:600;text-align:center;border:1px solid;display:none}
+  .verdict.show{display:block;animation:fadeIn .4s ease}
+  .verdict.reject{background:rgba(244,63,94,0.12);color:var(--rose-2);border-color:rgba(244,63,94,0.4)}
+  .verdict.accept{background:rgba(132,204,22,0.12);color:var(--lime-2);border-color:rgba(132,204,22,0.4)}
+
+  .compare-table{width:100%;border-collapse:separate;border-spacing:0;background:rgba(255,255,255,0.02);border-radius:16px;overflow:hidden;border:1px solid var(--card-border);font-size:.92rem}
+  .compare-table th,.compare-table td{padding:16px 20px;text-align:left}
+  .compare-table th{background:rgba(249,115,22,0.1);font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;color:#fdd5b8;text-transform:uppercase;letter-spacing:.05em}
+  .compare-table td{border-top:1px solid var(--card-border);color:var(--muted)}
+  .compare-table td:first-child{color:var(--text);font-weight:600}
+  .compare-table tr:hover td{background:rgba(255,255,255,0.02)}
+  .pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.78rem;font-weight:600}
+  .pill.o{background:rgba(249,115,22,0.15);color:var(--orange-2);border:1px solid rgba(249,115,22,0.3)}
+  .pill.r{background:rgba(244,63,94,0.15);color:var(--rose-2);border:1px solid rgba(244,63,94,0.3)}
+  .pill.l{background:rgba(132,204,22,0.15);color:var(--lime-2);border:1px solid rgba(132,204,22,0.3)}
+  .pill.t{background:rgba(20,184,166,0.15);color:var(--teal-2);border:1px solid rgba(20,184,166,0.3)}
+  .pill.a{background:rgba(251,191,36,0.15);color:var(--amber-2);border:1px solid rgba(251,191,36,0.3)}
+
+  .viz-box{background:rgba(0,0,0,0.25);border:1px solid var(--card-border);border-radius:18px;padding:24px;margin-top:20px}
+  .viz-box svg{width:100%;height:auto;display:block;min-height:240px}
+
+  /* Ranking visualization */
+  .ranking-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:12px;margin-bottom:8px;transition:all .3s ease}
+  .ranking-row:hover{background:rgba(249,115,22,0.06);border-color:rgba(249,115,22,0.3)}
+  .ranking-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--grad-1);display:grid;place-items:center;color:#3a1c08;font-weight:700;font-size:.9rem}
+  .ranking-name{flex:1;font-weight:600}
+  .ranking-score{font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:.9rem}
+  .ranking-rank{font-family:'Space Grotesk',sans-serif;color:var(--orange-2);font-weight:700}
+
+  /* Quiz */
+  .quiz-card{background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:20px;padding:28px;margin-bottom:18px;transition:all .3s ease}
+  .quiz-question{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:18px;display:flex;gap:12px}
+  .quiz-q-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--grad-1);display:grid;place-items:center;color:#3a1c08;font-size:.85rem;font-weight:700}
+  .quiz-options{display:grid;gap:10px;margin-left:44px}
+  .quiz-opt{padding:12px 18px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .2s ease;font-size:.92rem;display:flex;align-items:center;gap:10px}
+  .quiz-opt:hover{background:rgba(249,115,22,0.1);border-color:rgba(249,115,22,0.4)}
+  .quiz-opt .opt-letter{width:24px;height:24px;border-radius:6px;background:rgba(255,255,255,0.06);display:grid;place-items:center;font-weight:700;font-size:.8rem;flex-shrink:0}
+  .quiz-opt.correct{background:rgba(132,204,22,0.15);border-color:var(--lime);color:#c4e6a3}
+  .quiz-opt.correct .opt-letter{background:var(--lime);color:#1a2a08}
+  .quiz-opt.wrong{background:rgba(244,63,94,0.15);border-color:var(--rose);color:#fcd0d8}
+  .quiz-opt.wrong .opt-letter{background:var(--rose);color:#3a0814}
+  .quiz-feedback{margin-top:14px;margin-left:44px;padding:12px 16px;border-radius:10px;font-size:.9rem;display:none}
+  .quiz-feedback.show{display:block;animation:fadeIn .3s ease}
+  .quiz-feedback.correct{background:rgba(132,204,22,0.1);color:#c4e6a3;border:1px solid rgba(132,204,22,0.3)}
+  .quiz-feedback.wrong{background:rgba(244,63,94,0.1);color:#fcd0d8;border:1px solid rgba(244,63,94,0.3)}
+  .quiz-score{text-align:center;padding:28px;background:linear-gradient(135deg,rgba(249,115,22,0.15),rgba(244,63,94,0.1));border:1px solid rgba(249,115,22,0.3);border-radius:20px;margin-top:24px;display:none}
+  .quiz-score.show{display:block;animation:fadeIn .4s ease}
+  .quiz-score .score-num{font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:700;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease, transform .8s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* Stepper */
+  .stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px}
+  .step{padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);position:relative}
+  .step:not(:last-child)::after{content:'';position:absolute;top:50%;right:-10px;width:20px;height:2px;background:var(--card-border);transform:translateY(-50%)}
+  .step .step-num{font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:var(--orange-2);font-weight:700;margin-bottom:6px}
+  .step .step-text{font-size:.88rem;color:var(--text);font-weight:600}
+  .step .step-desc{font-size:.8rem;color:var(--muted);margin-top:4px;line-height:1.5}
+
+  footer{padding:60px 0 40px;border-top:1px solid var(--card-border);text-align:center;color:var(--muted);margin-top:40px}
+  footer .logo{justify-content:center;margin-bottom:14px}
+  footer p{font-size:.88rem;max-width:500px;margin:0 auto 18px}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:30px}
+    .hero-visual{height:380px}
+    .grid-3,.grid-2,.grid-4{grid-template-columns:1fr}
+    .result-grid{grid-template-columns:repeat(2,1fr)}
+    .nav-links{position:fixed;top:60px;left:0;right:0;background:rgba(14,10,8,0.95);backdrop-filter:blur(20px);flex-direction:column;padding:20px;border-bottom:1px solid var(--card-border);transform:translateY(-150%);transition:transform .3s ease}
+    .nav-links.open{transform:translateY(0)}
+    .menu-toggle{display:block}
+    .quiz-options{margin-left:0}
+    .quiz-feedback{margin-left:0}
+    .def-box{flex-direction:column;gap:12px}
+    .floating-card{padding:8px 12px}
+    .floating-card .fc-value{font-size:.74rem}
+    .fc-1{top:0;left:0}
+    .fc-2{top:120px;right:0}
+    .fc-3{bottom:20px;left:0}
+    .fc-4{bottom:90px;right:0}
+    .stepper{grid-template-columns:1fr 1fr}
+    .step:not(:last-child)::after{display:none}
+    .step{margin-bottom:8px}
+    .hero-stats{gap:18px 24px}
+    .stat{flex:1 1 calc(50% - 12px);min-width:0}
+  }
+  @media(max-width:560px){
+    .hero h1{font-size:2.2rem}
+    section{padding:60px 0}
+    .card{padding:22px}
+    .calc-card{padding:22px}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-decoration">
+  <div class="grid-bg"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<nav>
+  <div class="container">
+    <div class="logo">
+      <div class="logo-icon">ρ</div>
+      <span>Statistik Non-Parametrik</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#pengertian">Pengertian</a></li>
+      <li><a href="#kapan">Kapan Dipakai</a></li>
+      <li><a href="#mann-whitney">Mann-Whitney</a></li>
+      <li><a href="#wilcoxon">Wilcoxon</a></li>
+      <li><a href="#kruskal">Kruskal-Wallis</a></li>
+      <li><a href="#spearman">Spearman</a></li>
+      <li><a href="#chi-gof">Chi-Square GoF</a></li>
+      <li><a href="#kuis">Kuis</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="badge"><span class="dot"></span> Topik Lanjutan · Bebas Distribusi</div>
+        <h1>Statistik <span class="grad">Non-Parametrik</span> untuk Mahasiswa</h1>
+        <p class="lead">Ketika data tidak normal, sampel kecil, atau skala ordinal — statistik non-parametrik menyelamatkan. Pelajari Mann-Whitney, Wilcoxon, Kruskal-Wallis, Friedman, Spearman, &amp; Chi-Square GoF dengan contoh nyata.</p>
+        <div class="hero-stats">
+          <div class="stat"><span class="num" data-count="7">0</span><span class="label">Uji Non-Parametrik</span></div>
+          <div class="stat"><span class="num" data-count="25">0</span><span class="label">+ Contoh Nyata</span></div>
+          <div class="stat"><span class="num" data-count="5">0</span><span class="label">Alat Interaktif</span></div>
+          <div class="stat"><span class="num" data-count="6">0</span><span class="label">Soal Kuis</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <svg class="hero-svg" viewBox="0 0 420 320" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#f97316" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#f43f5e" stop-opacity="0.3"/>
+            </linearGradient>
+          </defs>
+          <!-- Skewed distribution (non-normal) -->
+          <path d="M 30,260 Q 80,260 100,250 Q 130,230 150,170 Q 170,80 200,50 Q 230,80 250,170 Q 270,230 300,250 Q 320,260 380,260 L 380,260 L 30,260 Z"
+                fill="url(#barGrad)" stroke="#fb923c" stroke-width="2"/>
+          <!-- Median line -->
+          <line x1="200" y1="50" x2="200" y2="260" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 4"/>
+          <text x="200" y="40" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="600" font-family="'Space Grotesk'">Median</text>
+          <!-- Axis -->
+          <line x1="30" y1="260" x2="380" y2="260" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          <text x="50" y="280" fill="#a09187" font-size="10" font-family="'Plus Jakarta Sans'">Skewness →</text>
+        </svg>
+        <div class="floating-card fc-1">
+          <div class="fc-label">Mann-Whitney</div>
+          <div class="fc-value">U = 28</div>
+        </div>
+        <div class="floating-card fc-2 rose">
+          <div class="fc-label">Wilcoxon</div>
+          <div class="fc-value">Z = -2.34</div>
+        </div>
+        <div class="floating-card fc-3 lime">
+          <div class="fc-label">Spearman ρ</div>
+          <div class="fc-value">+0.82</div>
+        </div>
+        <div class="floating-card fc-4 teal">
+          <div class="fc-label">Kruskal-Wallis</div>
+          <div class="fc-value">H = 8.7</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="pengertian">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">01 — Pengertian</span>
+      <h2>Apa Itu Statistik Non-Parametrik?</h2>
+      <p>Memahami metode "bebas distribusi" — kapan dipakai dan apa kelebihannya.</p>
+    </div>
+
+    <div class="def-box reveal">
+      <div class="quote-mark">"</div>
+      <div>
+        <h3>Statistik non-parametrik adalah metode statistik yang TIDAK mengasumsikan bentuk distribusi tertentu dari populasi data. Karena itu disebut juga "distribution-free".</h3>
+        <p>"Non-parametrik" karena metode ini tidak menguji/memperkirakan parameter populasi (μ, σ²). Sebagai gantinya, mereka memakai <strong>median, peringkat (rank)</strong>, atau <strong>frekuensi</strong> — bukan rata-rata &amp; variansi.</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(249,115,22,0.2),rgba(249,115,22,0.05));color:var(--orange-2)">🎯</div>
+        <h3>Karakteristik</h3>
+        <p>Tidak butuh asumsi normalitas. Cocok untuk data <strong>ordinal</strong> (peringkat, skala Likert). Lebih <strong>robust</strong> terhadap outlier. Berbasis peringkat (rank), bukan nilai mentah.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Rating kepuasan pelanggan (1-5 bintang) — datanya ordinal, jangan pakai uji-t! Gunakan Mann-Whitney untuk banding 2 kelompok.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(132,204,22,0.2),rgba(132,204,22,0.05));color:var(--lime-2)">⚖️</div>
+        <h3>Parametrik vs Non-Parametrik</h3>
+        <p>Parametrik lebih kuat (power tinggi) jika asumsi terpenuhi. Non-parametrik lebih fleksibel tapi sedikit kurang sensitif. Pilihan tergantung jenis data.</p>
+        <table class="compare-table" style="margin-top:14px;font-size:.85rem">
+          <tr style="border-bottom:1px solid var(--card-border)">
+            <td style="padding:8px;color:var(--text);font-weight:600">Parametrik</td>
+            <td style="padding:8px">Mean &amp; std. deviasi</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--card-border)">
+            <td style="padding:8px;color:var(--text);font-weight:600">Non-Parametrik</td>
+            <td style="padding:8px">Median &amp; rank</td>
+          </tr>
+          <tr>
+            <td style="padding:8px;color:var(--text);font-weight:600">Skala</td>
+            <td style="padding:8px">Interval/rasio vs ordinal/nominal</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(20,184,166,0.2),rgba(20,184,166,0.05));color:var(--teal-2)">🧭</div>
+        <h3>Kelebihan &amp; Kekurangan</h3>
+        <p><strong style="color:var(--lime-2)">Kelebihan:</strong> fleksibel, mudah dipahami, robust terhadap outlier, cocok sampel kecil.</p>
+        <p style="margin-top:10px"><strong style="color:var(--rose-2)">Kekurangan:</strong> buang informasi (rank → nilai asli hilang), kurang sensitif, kurang powerful jika data benar-benar normal.</p>
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <span>Jangan otomatis pakai non-parametrik "supaya aman". Kalau data benar-benar normal, parametrik lebih kuat mendeteksi efek.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kapan">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">02 — Kapan Dipakai</span>
+      <h2>Lima Situasi Wajib Non-Parametrik</h2>
+      <p>Kenali situasi ketika metode non-parametrik adalah pilihan terbaik (atau satu-satunya).</p>
+    </div>
+
+    <div class="grid-4">
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(249,115,22,0.2),rgba(249,115,22,0.05));color:var(--orange-2)">📊</div>
+        <h3>1. Data Ordinal</h3>
+        <p>Skala peringkat (1-5 bintang), rating, peringkat olahraga — angka hanya menunjukkan urutan, bukan jarak.</p>
+        <div class="example">
+          <span class="ex-label">Contoh</span>
+          <p>Rating GoFood 1-5 bintang. Beda 4 vs 5 belum tentu sama dengan 3 vs 4. Pakai Spearman untuk korelasi.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(244,63,94,0.2),rgba(244,63,94,0.05));color:var(--rose-2)">📏</div>
+        <h3>2. Sampel Kecil</h3>
+        <p>n &lt; 30 membuat uji normalitas tidak reliable. Non-parametrik tetap valid di sampel kecil.</p>
+        <div class="example">
+          <span class="ex-label">Contoh</span>
+          <p>Survei 12 mahasiswa baru — banding pre-test vs post-test pakai Wilcoxon Signed-Rank.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(132,204,22,0.2),rgba(132,204,22,0.05));color:var(--lime-2)">📈</div>
+        <h3>3. Data Outlier</h3>
+        <p>Ada beberapa nilai ekstrem yang menarik mean. Non-parametrik pakai median yang tahan outlier.</p>
+        <div class="example">
+          <span class="ex-label">Contoh</span>
+          <p>Pendapatan mhs dengan 1 yang kiriman Rp 20 juta. Median lebih masuk akal; uji pakai Mann-Whitney.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon" style="background:linear-gradient(135deg,rgba(20,184,166,0.2),rgba(20,184,166,0.05));color:var(--teal-2)">🚫</div>
+        <h3>4. Distribusi Tidak Normal</h3>
+        <p>Data miring (skewed), bimodal, atau L-shaped — gagal uji normalitas (Shapiro-Wilk p&lt;0.05).</p>
+        <div class="example">
+          <span class="ex-label">Contoh</span>
+          <p>Jumlah klik iklan per hari — banyak 0, sedikit 1000+. Distribusi miring kanan. Pakai Mann-Whitney.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:30px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Padanan Parametrik ↔ Non-Parametrik</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Tujuan Uji</th><th>Parametrik</th><th>Non-Parametrik</th><th>Contoh Kontekstual</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Banding 2 sampel independen</td><td><span class="pill a">Uji-t</span></td><td><span class="pill o">Mann-Whitney U</span></td><td>Nilai 2 kelas (data ordinal)</td></tr>
+          <tr><td>Banding 2 sampel berpasangan</td><td><span class="pill a">Paired t-test</span></td><td><span class="pill r">Wilcoxon Signed-Rank</span></td><td>Pre/post treatment</td></tr>
+          <tr><td>Banding ≥3 kelompok independen</td><td><span class="pill a">ANOVA</span></td><td><span class="pill o">Kruskal-Wallis H</span></td><td>Rating 3 merek</td></tr>
+          <tr><td>Banding ≥3 kelompok berpasangan</td><td><span class="pill a">Repeated ANOVA</span></td><td><span class="pill o">Friedman</span></td><td>Rating 3 menu oleh panelis</td></tr>
+          <tr><td>Korelasi 2 variabel</td><td><span class="pill a">Pearson r</span></td><td><span class="pill l">Spearman ρ</span></td><td>Hub. jam belajar & peringkat</td></tr>
+          <tr><td>Uji distribusi data</td><td><span class="pill a">—</span></td><td><span class="pill t">Kolmogorov-Smirnov</span></td><td>Apakah data berdistribusi normal?</td></tr>
+          <tr><td>Uji proporsi kategori</td><td><span class="pill a">—</span></td><td><span class="pill t">Chi-Square GoF</span></td><td>Apakah dadu 6 sisi adil?</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="mann-whitney">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">03 — Mann-Whitney U</span>
+      <h2>Uji Mann-Whitney: 2 Sampel Independen</h2>
+      <p>Versi non-parametrik dari uji-t dua sampel. Berbasis peringkat (rank) gabungan.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Konsep Uji</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Gabungkan kedua kelompok, beri peringkat dari terkecil ke terbesar. Jika kedua kelompok berasal dari populasi yang sama, jumlah peringkat tiap kelompok akan seimbang. Jika berbeda, salah satu akan punya peringkat lebih kecil/besar.</p>
+        <div class="formula-box">
+          <div class="f-label">Rumus U</div>
+          <div class="f-math">U = n₁·n₂ + n₁(n₁+1)/2 − R₁</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">R₁ = jumlah peringkat kelompok 1. U kecil = kelompok 1 punya peringkat lebih rendah.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Banding rating kepuasan 2 kafe (skala 1-10). Kafe A: 8, 9, 7, 8, 9 (n=5). Kafe B: 6, 5, 7, 6, 4 (n=5). Data ordinal → pakai Mann-Whitney.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Tahapan Pengujian</h3>
+        <div class="stepper">
+          <div class="step">
+            <div class="step-num">LANGKAH 1</div>
+            <div class="step-text">Gabung &amp; Ranking</div>
+            <div class="step-desc">Gabung data, beri peringkat 1 kecil → N besar</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 2</div>
+            <div class="step-text">Hitung R₁, R₂</div>
+            <div class="step-desc">Jumlahkan peringkat tiap kelompok</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 3</div>
+            <div class="step-text">Hitung U</div>
+            <div class="step-desc">Pakai rumus, ambil U terkecil</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 4</div>
+            <div class="step-text">Banding Tabel</div>
+            <div class="step-desc">Jika U &lt; U-kritis → tolak H₀</div>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>Untuk n₁, n₂ ≥ 10, U mengikuti distribusi normal. Hitung Z = (U − mean_U) / std_U, bandingkan dengan Z-tabel ±1.96 (α=0.05 dua arah).</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Calculator -->
+    <div class="calc-card reveal" style="margin-top:30px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:8px">🧮 Kalkulator Mann-Whitney U</h3>
+      <p style="color:var(--muted);margin-bottom:22px">Masukkan 2 kelompok data (pisah dengan koma). Hitung U &amp; Z otomatis. Coba dengan data rating kepuasan 2 kafe!</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">Kelompok A (mis. Kafe A)</label>
+          <input type="text" class="calc-input" id="mwA" placeholder="8, 9, 7, 8, 9">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">Kelompok B (mis. Kafe B)</label>
+          <input type="text" class="calc-input" id="mwB" placeholder="6, 5, 7, 6, 4">
+        </div>
+      </div>
+      <button class="calc-btn" id="mwCalcBtn">Hitung Mann-Whitney U</button>
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:24px">
+        <div class="result-box">
+          <div class="rb-label">U Hitung</div>
+          <div class="rb-value" id="mwU">—</div>
+        </div>
+        <div class="result-box rose">
+          <div class="rb-label">Z (aprox)</div>
+          <div class="rb-value" id="mwZ">—</div>
+        </div>
+        <div class="result-box lime">
+          <div class="rb-label">p-value (aprox)</div>
+          <div class="rb-value" id="mwP">—</div>
+        </div>
+        <div class="result-box teal">
+          <div class="rb-label">R₁ (Rank A)</div>
+          <div class="rb-value" id="mwR1">—</div>
+        </div>
+      </div>
+      <div class="verdict" id="mwVerdict"></div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:14px;text-align:center">💡 Default: A = 8,9,7,8,9 dan B = 6,5,7,6,4. Apakah ada beda signifikan kepuasan 2 kafe?</p>
+    </div>
+
+    <!-- Visual ranking -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">📊 Visualisasi Ranking Gabungan</h3>
+      <p style="color:var(--muted);margin-bottom:18px">Semua data digabung, diberi peringkat dari kecil ke besar. Warna menunjukkan asal kelompok.</p>
+      <div id="mwRanking"></div>
+    </div>
+  </div>
+</section>
+
+<section id="wilcoxon">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">04 — Wilcoxon Signed-Rank</span>
+      <h2>Wilcoxon: 2 Sampel Berpasangan</h2>
+      <p>Versi non-parametrik dari paired t-test. Untuk data berpasangan yang tidak normal.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Konsep</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Hitung selisih tiap pasangan (post − pre), ambil nilai absolutnya, beri peringkat. Lalu jumlahkan peringkat untuk selisih positif (W+) dan negatif (W−). Hipotesis nol: W+ = W−.</p>
+        <div class="formula-box rose">
+          <div class="f-label">Statistik Uji</div>
+          <div class="f-math">W = min(W⁺, W⁻)</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">W⁺ = jumlah peringkat selisih positif; W⁻ = jumlah peringkat selisih negatif.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Skor kepercayaan diri 10 mahasiswa sebelum vs sesudah pelatihan public speaking. Data ordinal (skala 1-7). Pakai Wilcoxon Signed-Rank.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Tahapan</h3>
+        <div class="stepper">
+          <div class="step">
+            <div class="step-num">LANGKAH 1</div>
+            <div class="step-text">Selisih</div>
+            <div class="step-desc">di = post_i − pre_i</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 2</div>
+            <div class="step-text">Rank |d|</div>
+            <div class="step-desc">Peringkat nilai absolut selisih</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 3</div>
+            <div class="step-text">Tanda</div>
+            <div class="step-desc">Pakai tanda selisih asli (+/−)</div>
+          </div>
+          <div class="step">
+            <div class="step-num">LANGKAH 4</div>
+            <div class="step-text">W+ &amp; W−</div>
+            <div class="step-desc">Jumlah peringkat per tanda</div>
+          </div>
+        </div>
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <span>Selisih = 0 (tidak berubah) dibuang dari analisis. Hipotesis: H₀: median selisih = 0 vs H₁: median ≠ 0.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example table -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:14px">📋 Contoh Perhitungan: Skor PD Sebelum vs Sesudah Pelatihan</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Mahasiswa</th><th>Pre</th><th>Post</th><th>Selisih (d)</th><th>|d|</th><th>Rank |d|</th><th>Rank Bertanda</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>3</td><td>5</td><td style="color:var(--lime-2)">+2</td><td>2</td><td>4</td><td style="color:var(--lime-2)">+4</td></tr>
+          <tr><td>2</td><td>4</td><td>4</td><td style="color:var(--muted)">0</td><td>0</td><td>—</td><td style="color:var(--muted)">—</td></tr>
+          <tr><td>3</td><td>2</td><td>5</td><td style="color:var(--lime-2)">+3</td><td>3</td><td>6</td><td style="color:var(--lime-2)">+6</td></tr>
+          <tr><td>4</td><td>5</td><td>4</td><td style="color:var(--rose-2)">−1</td><td>1</td><td>2</td><td style="color:var(--rose-2)">−2</td></tr>
+          <tr><td>5</td><td>3</td><td>6</td><td style="color:var(--lime-2)">+3</td><td>3</td><td>6</td><td style="color:var(--lime-2)">+6</td></tr>
+          <tr><td>6</td><td>4</td><td>6</td><td style="color:var(--lime-2)">+2</td><td>2</td><td>4</td><td style="color:var(--lime-2)">+4</td></tr>
+          <tr><td>7</td><td>5</td><td>3</td><td style="color:var(--rose-2)">−2</td><td>2</td><td>4</td><td style="color:var(--rose-2)">−4</td></tr>
+        </tbody>
+      </table>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px">
+        <div class="result-box lime">
+          <div class="rb-label">W⁺</div>
+          <div class="rb-value" style="font-size:1.2rem">20</div>
+        </div>
+        <div class="result-box rose">
+          <div class="rb-label">W⁻</div>
+          <div class="rb-value" style="font-size:1.2rem">6</div>
+        </div>
+        <div class="result-box">
+          <div class="rb-label">W (terkecil)</div>
+          <div class="rb-value" style="font-size:1.2rem">6</div>
+        </div>
+      </div>
+      <p style="font-size:.88rem;color:var(--muted);margin-top:14px">W = 6, dengan n = 6 (pasangan dengan d≠0), W-kritis pada α=0.05 dua arah adalah 0. Karena 6 &gt; 0, <strong style="color:var(--lime-2)">gagal tolak H₀</strong> — pelatihan TIDAK signifikan meningkatkan skor PD. (Perlu sampel lebih besar).</p>
+    </div>
+  </div>
+</section>
+
+<section id="kruskal">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">05 — Kruskal-Wallis H</span>
+      <h2>Kruskal-Wallis: ≥3 Kelompok Independen</h2>
+      <p>Versi non-parametrik dari ANOVA satu jalur. Untuk 3 atau lebih kelompok data ordinal/tidak normal.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Konsep</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Mirip Mann-Whitney tapi untuk 3+ kelompok. Gabung semua data, beri peringkat, hitung jumlah peringkat tiap kelompok (Rᵢ). Jika kelompok sama, Rᵢ akan seimbang.</p>
+        <div class="formula-box">
+          <div class="f-label">Rumus H</div>
+          <div class="f-math">H = (12 / N(N+1)) · Σ(Rᵢ²/nᵢ) − 3(N+1)</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">N = total pengamatan, nᵢ = ukuran kelompok i, Rᵢ = jumlah peringkat kelompok i.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Banding rating 3 merek kopi (skala 1-10) oleh panelis. Merek A (n=8), B (n=8), C (n=8). Data ordinal → Kruskal-Wallis.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Evaluasi &amp; Post-Hoc</h3>
+        <p style="color:var(--muted);margin-bottom:14px">H mengikuti distribusi chi-square dengan df = k − 1 (k = banyak kelompok). Bandingkan H dengan chi-square tabel.</p>
+        <table class="compare-table" style="margin-top:14px">
+          <thead><tr><th>df</th><th>χ² (α=0.05)</th><th>χ² (α=0.01)</th></tr></thead>
+          <tbody>
+            <tr><td>2</td><td>5.99</td><td>9.21</td></tr>
+            <tr><td>3</td><td>7.81</td><td>11.34</td></tr>
+            <tr><td>4</td><td>9.49</td><td>13.28</td></tr>
+          </tbody>
+        </table>
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <span>H signifikan hanya bilang "ada beda". Untuk tahu kelompok mana yang beda, lakukan post-hoc: uji Mann-Whitney berpasangan dengan koreksi Bonferroni.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visualization -->
+    <div class="card reveal" style="margin-top:24px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:8px">📊 Visualisasi: Rating 3 Merek Kopi</h3>
+      <p style="color:var(--muted);margin-bottom:14px">Rating panelis (1-10) untuk 3 merek. Kruskal-Wallis menguji apakah ada beda rating antar merek.</p>
+      <div class="viz-box">
+        <svg id="kwSvg" viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:18px">
+        <div class="result-box">
+          <div class="rb-label">H Hitung</div>
+          <div class="rb-value">7.42</div>
+        </div>
+        <div class="result-box rose">
+          <div class="rb-label">df</div>
+          <div class="rb-value">2</div>
+        </div>
+        <div class="result-box lime">
+          <div class="rb-label">χ² Kritis (α=0.05)</div>
+          <div class="rb-value">5.99</div>
+        </div>
+        <div class="result-box teal">
+          <div class="rb-label">p-value</div>
+          <div class="rb-value">0.024</div>
+        </div>
+      </div>
+      <p style="font-size:.9rem;color:var(--muted);margin-top:14px;text-align:center">Karena H (7.42) &gt; 5.99 dan p &lt; 0.05 → <strong style="color:var(--rose-2)">tolak H₀</strong>: ada beda rating antar merek. Lanjut post-hoc untuk tahu merek mana yang paling unggul.</p>
+    </div>
+  </div>
+</section>
+
+<section id="spearman">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">06 — Korelasi Spearman</span>
+      <h2>Spearman ρ: Korelasi Berbasis Peringkat</h2>
+      <p>Versi non-parametrik dari korelasi Pearson. Untuk data ordinal atau hubungan tidak linier.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Konsep Spearman</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Hitung korelasi Pearson pada peringkat (rank) kedua variabel, bukan nilai aslinya. Mendeteksi hubungan <strong>monoton</strong> (naik atau turun konsisten), bukan hanya linier.</p>
+        <div class="formula-box lime">
+          <div class="f-label">Rumus Spearman</div>
+          <div class="f-math">ρ = 1 − (6·Σdᵢ²) / (n·(n²−1))</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">dᵢ = selisih peringkat tiap pasangan, n = banyak pasangan.</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Hubungan antara peringkat kelas (rank 1-30) dengan peringkat lomba (rank 1-30). Keduanya ordinal → Spearman. Jika ρ = +0.78, makin tinggi peringkat kelas makin tinggi peringkat lomba.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Pearson vs Spearman</h3>
+        <table class="compare-table">
+          <thead><tr><th>Aspek</th><th>Pearson</th><th>Spearman</th></tr></thead>
+          <tbody>
+            <tr><td>Skala data</td><td>Interval/rasio</td><td>Ordinal atau interval</td></tr>
+            <tr><td>Bentuk hubungan</td><td>Linier</td><td>Monoton</td></tr>
+            <tr><td>Outlier</td><td>Sensitif</td><td>Robust</td></tr>
+            <tr><td>Asumsi</td><td>Normal &amp; linier</td><td>Hanya monoton</td></tr>
+            <tr><td>Interpretasi r</td><td>Kekuatan linier</td><td>Kekuatan monoton</td></tr>
+          </tbody>
+        </table>
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>Spearman ρ = Pearson r dari peringkat data. Karena ranking menghilangkan bentuk asli, ρ bisa mendeteksi hubungan eksponensial, logaritmik, dll.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Spearman Calculator -->
+    <div class="calc-card reveal" style="margin-top:30px;background:linear-gradient(135deg,rgba(132,204,22,0.08),rgba(20,184,166,0.04));border-color:rgba(132,204,22,0.3)">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:8px">🧮 Kalkulator Korelasi Spearman</h3>
+      <p style="color:var(--muted);margin-bottom:22px">Masukkan 2 variabel (pisah dengan koma). Hitung ρ Spearman otomatis. Coba dengan data peringkat kelas vs peringkat lomba!</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">Variabel X (mis. Peringkat Kelas)</label>
+          <input type="text" class="calc-input" id="spX" placeholder="1, 2, 3, 4, 5, 6, 7, 8">
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:6px">Variabel Y (mis. Peringkat Lomba)</label>
+          <input type="text" class="calc-input" id="spY" placeholder="2, 1, 4, 3, 6, 5, 8, 7">
+        </div>
+      </div>
+      <button class="calc-btn lime" id="spCalcBtn">Hitung Spearman ρ</button>
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:24px">
+        <div class="result-box lime">
+          <div class="rb-label">ρ Spearman</div>
+          <div class="rb-value" id="spRho">—</div>
+        </div>
+        <div class="result-box">
+          <div class="rb-label">n Pasangan</div>
+          <div class="rb-value" id="spN">—</div>
+        </div>
+        <div class="result-box rose">
+          <div class="rb-label">Σ d²</div>
+          <div class="rb-value" id="spDsum">—</div>
+        </div>
+        <div class="result-box teal">
+          <div class="rb-label">Kekuatan</div>
+          <div class="rb-value" id="spStrength" style="font-size:1rem">—</div>
+        </div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:14px;text-align:center">💡 Coba X = 1,2,3,4,5,6,7,8 dan Y = 2,1,4,3,6,5,8,7 → ρ seharusnya ~0.97 (hubungan kuat positif).</p>
+    </div>
+  </div>
+</section>
+
+<section id="chi-gof">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">07 — Chi-Square GoF</span>
+      <h2>Chi-Square Goodness of Fit</h2>
+      <p>Uji apakah distribusi frekuensi yang diamati cocok dengan yang diharapkan (teoretis).</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Konsep GoF</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Bandingkan frekuensi observasi (O) dengan frekuensi ekspektasi (E). Jika selisih kecil → cocok; besar → tidak cocok.</p>
+        <div class="formula-box amber">
+          <div class="f-label">Rumus</div>
+          <div class="f-math">χ² = Σ (Oᵢ − Eᵢ)² / Eᵢ</div>
+        </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">df = k − 1 (k = banyak kategori). Untuk uji proporsi tertentu (mis. 25%-25%-50%), df = k − 1 − m (m = parameter yang diestimasi).</p>
+        <div class="example">
+          <span class="ex-label">Contoh Nyata</span>
+          <p>Apakah dadu 6 sisi adil? Lempar 60 kali, harapan tiap sisi = 10. Hasil observasi: 8, 9, 11, 12, 10, 10. χ² kecil → dadu adil.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;margin-bottom:14px">Goodness of Fit vs Independence</h3>
+        <p style="color:var(--muted);margin-bottom:14px">Dua varian chi-square yang sering tertukar:</p>
+        <table class="compare-table">
+          <thead><tr><th>Aspek</th><th>GoF</th><th>Independence</th></tr></thead>
+          <tbody>
+            <tr><td>Tujuan</td><td>1 variabel vs teori</td><td>Hubungan 2 variabel</td></tr>
+            <tr><td>Jumlah variabel</td><td>1</td><td>2 (tabel silang)</td></tr>
+            <tr><td>H₀</td><td>O = E</td><td>2 variabel bebas</td></tr>
+            <tr><td>df</td><td>k − 1</td><td>(b-1)(k-1)</td></tr>
+            <tr><td>Contoh</td><td>Dadu adil?</td><td>Jurusan × gender?</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Interactive Chi-Square GoF -->
+    <div class="calc-card reveal" style="margin-top:30px;background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(249,115,22,0.04));border-color:rgba(251,191,36,0.3)">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:8px">🎲 Simulator: Apakah Dadu Adil?</h3>
+      <p style="color:var(--muted);margin-bottom:22px">Atur hasil lemparan dadu 6 sisi (frekuensi observasi tiap sisi). Chi-Square GoF memeriksa apakah dadu adil (harapan tiap sisi = total/6).</p>
+
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:18px">
+        <div>
+          <label style="font-size:.72rem;color:var(--muted);font-weight:600;display:block;margin-bottom:4px;text-align:center">Sisi 1</label>
+          <input type="number" class="calc-input cs-input" data-face="1" value="8" style="text-align:center;padding:10px 8px;font-size:1rem">
+        </div>
+        <div>
+          <label style="font-size:.72rem;color:var(--muted);font-weight:600;display:block;margin-bottom:4px;text-align:center">Sisi 2</label>
+          <input type="number" class="calc-input cs-input" data-face="2" value="9" style="text-align:center;padding:10px 8px;font-size:1rem">
+        </div>
+        <div>
+          <label style="font-size:.72rem;color:var(--muted);font-weight:600;display:block;margin-bottom:4px;text-align:center">Sisi 3</label>
+          <input type="number" class="calc-input cs-input" data-face="3" value="11" style="text-align:center;padding:10px 8px;font-size:1rem">
+        </div>
+        <div>
+          <label style="font-size:.72rem;color:var(--muted);font-weight:600;display:block;margin-bottom:4px;text-align:center">Sisi 4</label>
+          <input type="number" class="calc-input cs-input" data-face="4" value="12" style="text-align:center;padding:10px 8px;font-size:1rem">
+        </div>
+        <div>
+          <label style="font-size:.72rem;color:var(--muted);font-weight:600;display:block;margin-bottom:4px;text-align:center">Sisi 5</label>
+          <input type="number" class="calc-input cs-input" data-face="5" value="10" style="text-align:center;padding:10px 8px;font-size:1rem">
+        </div>
+        <div>
+          <label style="font-size:.72rem;color:var(--muted);font-weight:600;display:block;margin-bottom:4px;text-align:center">Sisi 6</label>
+          <input type="number" class="calc-input cs-input" data-face="6" value="10" style="text-align:center;padding:10px 8px;font-size:1rem">
+        </div>
+      </div>
+
+      <button class="calc-btn" id="gofCalcBtn">Hitung Chi-Square GoF</button>
+
+      <div class="viz-box" style="margin-top:24px">
+        <svg id="gofSvg" viewBox="0 0 600 280" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+
+      <div class="result-grid" style="grid-template-columns:repeat(4,1fr);margin-top:18px">
+        <div class="result-box">
+          <div class="rb-label">χ² Hitung</div>
+          <div class="rb-value" id="gofChi">—</div>
+        </div>
+        <div class="result-box rose">
+          <div class="rb-label">χ² Kritis (df=5, α=0.05)</div>
+          <div class="rb-value">11.07</div>
+        </div>
+        <div class="result-box lime">
+          <div class="rb-label">p-value (aprox)</div>
+          <div class="rb-value" id="gofPval">—</div>
+        </div>
+        <div class="result-box teal">
+          <div class="rb-label">Total Lempar</div>
+          <div class="rb-value" id="gofTotal">—</div>
+        </div>
+      </div>
+      <div class="verdict" id="gofVerdict"></div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:14px;text-align:center">💡 Coba 8,9,11,12,10,10 (total 60) → χ² kecil → dadu adil. Coba 5,5,5,20,15,10 → χ² besar → dadu miring!</p>
+    </div>
+  </div>
+</section>
+
+<section id="kuis">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">08 — Kuis Interaktif</span>
+      <h2>Uji Pemahamanmu</h2>
+      <p>6 soal pilihan ganda tentang statistik non-parametrik. Lihat skormu di akhir!</p>
+    </div>
+    <div class="reveal" id="quizContainer"></div>
+    <div class="quiz-score" id="quizScore">
+      <div style="font-size:.95rem;color:var(--muted);margin-bottom:6px">Skor Akhir</div>
+      <div class="score-num" id="scoreNum">0 / 6</div>
+      <div id="scoreMsg" style="font-size:1rem;margin-top:8px;color:var(--muted)">—</div>
+      <button class="calc-btn" id="quizReset" style="margin-top:18px">Coba Lagi</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="logo">
+      <div class="logo-icon">ρ</div>
+      <span>Statistik Non-Parametrik</span>
+    </div>
+    <p>PELITA - Portal Edukasi dan Literasi Statistik</p>
+    <p style="font-size:.82rem;color:#6b5d52;margin-top:14px">Tim Pembina Pojok Statistik BPS Jabar · 2026</p>
+  </div>
+</footer>
+
+<script>
+  /* NAV */
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  /* COUNT UP */
+  const counters = document.querySelectorAll('[data-count]');
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target; const target = parseInt(el.dataset.count);
+        let cur = 0; const step = Math.max(1, Math.floor(target / 30));
+        const timer = setInterval(() => {
+          cur += step; if (cur >= target) { cur = target; clearInterval(timer); }
+          el.textContent = cur;
+        }, 40);
+        counterObs.unobserve(el);
+      }
+    });
+  }, {threshold: 0.5});
+  counters.forEach(c => counterObs.observe(c));
+
+  /* REVEAL */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ===== MANN-WHITNEY CALCULATOR ===== */
+  function parseNums(str) {
+    return str.split(',').map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
+  }
+  function rankAll(values) {
+    // values: array of {val, group}
+    // Sort by value, assign ranks (average for ties)
+    const sorted = [...values].sort((a, b) => a.val - b.val);
+    let i = 0;
+    while (i < sorted.length) {
+      let j = i;
+      while (j < sorted.length && sorted[j].val === sorted[i].val) j++;
+      const avg = (i + 1 + j) / 2;  // average of ranks i+1 to j
+      for (let k = i; k < j; k++) sorted[k].rank = avg;
+      i = j;
+    }
+    return sorted;
+  }
+  function normCdf(z) {
+    // Standard normal CDF approximation
+    const t = 1 / (1 + 0.2316419 * Math.abs(z));
+    const d = 0.3989423 * Math.exp(-z * z / 2);
+    const p = d * t * (0.319381530 + t * (-0.356563782 + t * (1.781477937 + t * (-1.821255978 + t * 1.330274429))));
+    return z > 0 ? 1 - p : p;
+  }
+  document.getElementById('mwCalcBtn').addEventListener('click', () => {
+    const A = parseNums(document.getElementById('mwA').value);
+    const B = parseNums(document.getElementById('mwB').value);
+    if (A.length < 1 || B.length < 1) {
+      alert('Masukkan minimal 1 angka per kelompok.');
+      return;
+    }
+    const combined = [];
+    A.forEach(v => combined.push({ val: v, group: 'A' }));
+    B.forEach(v => combined.push({ val: v, group: 'B' }));
+    const ranked = rankAll(combined);
+    let R1 = 0, R2 = 0;
+    ranked.forEach(r => { if (r.group === 'A') R1 += r.rank; else R2 += r.rank; });
+    const n1 = A.length, n2 = B.length;
+    const U1 = n1 * n2 + n1 * (n1 + 1) / 2 - R1;
+    const U2 = n1 * n2 + n2 * (n2 + 1) / 2 - R2;
+    const U = Math.min(U1, U2);
+    // Z approximation
+    const meanU = n1 * n2 / 2;
+    const stdU = Math.sqrt(n1 * n2 * (n1 + n2 + 1) / 12);
+    const Z = stdU > 0 ? (U - meanU) / stdU : 0;
+    // Two-tailed p-value
+    const pval = 2 * (1 - normCdf(Math.abs(Z)));
+    document.getElementById('mwU').textContent = U;
+    document.getElementById('mwZ').textContent = Z.toFixed(3);
+    document.getElementById('mwP').textContent = pval < 0.0001 ? '< 0.0001' : pval.toFixed(4);
+    document.getElementById('mwR1').textContent = R1;
+    const verdict = document.getElementById('mwVerdict');
+    const reject = pval < 0.05;
+    verdict.className = 'verdict show ' + (reject ? 'reject' : 'accept');
+    if (reject) {
+      verdict.innerHTML = `❌ <strong>Tolak H₀</strong> (p = ${pval < 0.0001 ? '<0.0001' : pval.toFixed(4)} &lt; 0.05). Ada perbedaan signifikan antara 2 kelompok pada α = 0.05.`;
+    } else {
+      verdict.innerHTML = `✅ <strong>Gagal Tolak H₀</strong> (p = ${pval.toFixed(4)} ≥ 0.05). Tidak ada perbedaan signifikan antara 2 kelompok pada α = 0.05.`;
+    }
+    // Render ranking visualization
+    renderMWRanking(ranked);
+  });
+
+  function renderMWRanking(ranked) {
+    const container = document.getElementById('mwRanking');
+    container.innerHTML = '';
+    ranked.forEach((r, i) => {
+      const row = document.createElement('div');
+      row.className = 'ranking-row';
+      const isA = r.group === 'A';
+      const color = isA ? 'var(--orange-2)' : 'var(--rose-2)';
+      row.innerHTML = `
+        <div class="ranking-num" style="${isA ? 'background:var(--grad-1)' : 'background:var(--grad-4)'}">${i + 1}</div>
+        <div class="ranking-name" style="color:${color}">Kelompok ${r.group} — Nilai: ${r.val}</div>
+        <div class="ranking-score">Rank:</div>
+        <div class="ranking-rank" style="color:${color}">${r.rank}</div>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  /* ===== KRUSKAL-WALLIS VISUALIZATION ===== */
+  function renderKW() {
+    const svg = document.getElementById('kwSvg');
+    const pad = { l: 50, r: 20, t: 20, b: 50 };
+    const w = 600 - pad.l - pad.r;
+    const h = 360 - pad.t - pad.b;
+    // 3 brands with 8 ratings each
+    const A = [6, 7, 8, 5, 7, 6, 8, 7];
+    const Bc = [5, 6, 4, 5, 6, 4, 5, 6];
+    const Cc = [8, 9, 9, 8, 7, 9, 8, 9];
+    // Box plot style visualization
+    const groups = [
+      { name: 'Merek A', data: A, color: '#fb923c' },
+      { name: 'Merek B', data: Bc, color: '#fb7185' },
+      { name: 'Merek C', data: Cc, color: '#a3e635' }
+    ];
+    let html = '';
+    // axes
+    for (let v = 1; v <= 10; v += 1) {
+      const py = pad.t + (1 - (v - 1) / 9) * h;
+      html += `<line x1="${pad.l}" y1="${py}" x2="${pad.l + w}" y2="${py}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>`;
+      if (v % 2 === 0 || v === 1 || v === 10) {
+        html += `<text x="${pad.l - 6}" y="${py + 4}" text-anchor="end" fill="#a09187" font-size="10">${v}</text>`;
+      }
+    }
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<text x="14" y="${pad.t + h/2}" text-anchor="middle" fill="#a09187" font-size="11" transform="rotate(-90 14 ${pad.t + h/2})">Rating (1-10)</text>`;
+    // Draw scatter points for each group
+    const colW = w / 3;
+    groups.forEach((g, gi) => {
+      const xCenter = pad.l + colW * (gi + 0.5);
+      const sorted = [...g.data].sort((a, b) => a - b);
+      const min = sorted[0], max = sorted[sorted.length - 1];
+      const median = sorted[Math.floor(sorted.length / 2)];
+      const q1 = sorted[Math.floor(sorted.length / 4)];
+      const q3 = sorted[Math.floor(sorted.length * 3 / 4)];
+      // Box
+      const yMin = pad.t + (1 - (min - 1) / 9) * h;
+      const yMax = pad.t + (1 - (max - 1) / 9) * h;
+      const yMed = pad.t + (1 - (median - 1) / 9) * h;
+      const yQ1 = pad.t + (1 - (q1 - 1) / 9) * h;
+      const yQ3 = pad.t + (1 - (q3 - 1) / 9) * h;
+      const boxW = 50;
+      // Vertical line (whiskers)
+      html += `<line x1="${xCenter}" y1="${yMin}" x2="${xCenter}" y2="${yMax}" stroke="${g.color}" stroke-width="1.5"/>`;
+      // Box (Q1 to Q3)
+      html += `<rect x="${xCenter - boxW/2}" y="${yQ3}" width="${boxW}" height="${yQ1 - yQ3}" fill="${g.color}" fill-opacity="0.3" stroke="${g.color}" stroke-width="2"/>`;
+      // Median line
+      html += `<line x1="${xCenter - boxW/2}" y1="${yMed}" x2="${xCenter + boxW/2}" y2="${yMed}" stroke="white" stroke-width="2.5"/>`;
+      // Min/max markers
+      html += `<line x1="${xCenter - 8}" y1="${yMin}" x2="${xCenter + 8}" y2="${yMin}" stroke="${g.color}" stroke-width="2"/>`;
+      html += `<line x1="${xCenter - 8}" y1="${yMax}" x2="${xCenter + 8}" y2="${yMax}" stroke="${g.color}" stroke-width="2"/>`;
+      // Label
+      html += `<text x="${xCenter}" y="${pad.t + h + 22}" text-anchor="middle" fill="${g.color}" font-size="12" font-weight="600" font-family="'Space Grotesk'">${g.name}</text>`;
+      // Median label
+      html += `<text x="${xCenter + boxW/2 + 6}" y="${yMed + 4}" fill="white" font-size="10" font-weight="600">${median}</text>`;
+    });
+    svg.innerHTML = html;
+  }
+
+  /* ===== SPEARMAN CALCULATOR ===== */
+  function rankArray(arr) {
+    // Returns ranks with average for ties
+    const indexed = arr.map((v, i) => ({ val: v, idx: i }));
+    indexed.sort((a, b) => a.val - b.val);
+    const ranks = new Array(arr.length);
+    let i = 0;
+    while (i < indexed.length) {
+      let j = i;
+      while (j < indexed.length && indexed[j].val === indexed[i].val) j++;
+      const avg = (i + 1 + j) / 2;
+      for (let k = i; k < j; k++) ranks[indexed[k].idx] = avg;
+      i = j;
+    }
+    return ranks;
+  }
+  document.getElementById('spCalcBtn').addEventListener('click', () => {
+    const X = parseNums(document.getElementById('spX').value);
+    const Y = parseNums(document.getElementById('spY').value);
+    if (X.length !== Y.length || X.length < 3) {
+      alert('Kedua variabel harus punya panjang sama, minimal 3 data.');
+      return;
+    }
+    const n = X.length;
+    const rankX = rankArray(X);
+    const rankY = rankArray(Y);
+    let dSquaredSum = 0;
+    for (let i = 0; i < n; i++) {
+      dSquaredSum += Math.pow(rankX[i] - rankY[i], 2);
+    }
+    const rho = 1 - (6 * dSquaredSum) / (n * (n * n - 1));
+    document.getElementById('spRho').textContent = (rho >= 0 ? '+' : '') + rho.toFixed(3);
+    document.getElementById('spN').textContent = n;
+    document.getElementById('spDsum').textContent = dSquaredSum;
+    let strength;
+    const ar = Math.abs(rho);
+    if (ar < 0.2) strength = 'Sangat lemah';
+    else if (ar < 0.4) strength = 'Lemah';
+    else if (ar < 0.6) strength = 'Sedang';
+    else if (ar < 0.8) strength = 'Kuat';
+    else strength = 'Sangat kuat';
+    document.getElementById('spStrength').textContent = (rho >= 0 ? 'Positif ' : 'Negatif ') + strength;
+  });
+
+  /* ===== CHI-SQUARE GoF ===== */
+  document.getElementById('gofCalcBtn').addEventListener('click', () => {
+    const observed = [];
+    for (let i = 1; i <= 6; i++) {
+      const v = parseInt(document.querySelector(`.cs-input[data-face="${i}"]`).value) || 0;
+      observed.push(v);
+    }
+    const N = observed.reduce((s, v) => s + v, 0);
+    if (N === 0) {
+      alert('Masukkan minimal satu nilai.');
+      return;
+    }
+    const E = N / 6;
+    let chi2 = 0;
+    observed.forEach(o => {
+      if (E > 0) chi2 += Math.pow(o - E, 2) / E;
+    });
+    // p-value for chi-square df=5 using series
+    // Use approximation: P(X > x) for chi-square df=k
+    function chiSquarePValue(x, df) {
+      // Lower incomplete gamma function regularized
+      // P(s, x) where s = df/2
+      if (x <= 0) return 1;
+      const s = df / 2;
+      // Series expansion (Numerical Recipes style)
+      let sum = 1 / s;
+      let term = 1 / s;
+      for (let i = 1; i < 100; i++) {
+        term *= x / (s + i);
+        sum += term;
+        if (Math.abs(term) < Math.abs(sum) * 1e-10) break;
+      }
+      const cdf = Math.pow(x, s) * Math.exp(-x) * sum;
+      // We need upper regularized gamma: Q(s, x) = 1 - P(s, x)
+      // For x > s+1, use continued fraction for Q directly
+      if (x < s + 1) {
+        return 1 - cdf;
+      } else {
+        // Continued fraction for Q(s, x)
+        const min = 1e-12;
+        let b = x + 1 - s;
+        let c = 1 / min;
+        let d = 1 / b;
+        let h = d;
+        for (let i = 1; i < 200; i++) {
+          const an = -i * (i - s);
+          b += 2;
+          d = an * d + b;
+          if (Math.abs(d) < min) d = min;
+          c = b + an / c;
+          if (Math.abs(c) < min) c = min;
+          d = 1 / d;
+          const del = d * c;
+          h *= del;
+          if (Math.abs(del - 1) < 1e-10) break;
+        }
+        const q = Math.exp(-x + s * Math.log(x) - 0.5 * Math.log(2 * Math.PI) - 0.5 * Math.log(s)) * h;
+        return q;
+      }
+    }
+    const pval = chiSquarePValue(chi2, 5);
+    document.getElementById('gofChi').textContent = chi2.toFixed(3);
+    document.getElementById('gofPval').textContent = pval < 0.0001 ? '< 0.0001' : pval.toFixed(4);
+    document.getElementById('gofTotal').textContent = N;
+    const verdict = document.getElementById('gofVerdict');
+    const reject = chi2 > 11.07;
+    verdict.className = 'verdict show ' + (reject ? 'reject' : 'accept');
+    if (reject) {
+      verdict.innerHTML = `❌ <strong>Tolak H₀</strong> (χ² = ${chi2.toFixed(3)} &gt; 11.07, p ≈ ${pval < 0.0001 ? '<0.0001' : pval.toFixed(4)}). Distribusi tidak merata — dadu mungkin miring!`;
+    } else {
+      verdict.innerHTML = `✅ <strong>Gagal Tolak H₀</strong> (χ² = ${chi2.toFixed(3)} ≤ 11.07, p ≈ ${pval.toFixed(4)}). Tidak ada bukti dadu miring — bisa dianggap adil.`;
+    }
+    renderGoFChart(observed, E);
+  });
+
+  function renderGoFChart(observed, E) {
+    const svg = document.getElementById('gofSvg');
+    const pad = { l: 50, r: 20, t: 30, b: 50 };
+    const w = 600 - pad.l - pad.r;
+    const h = 280 - pad.t - pad.b;
+    const maxV = Math.max(...observed, E) * 1.1;
+    const colW = w / 6;
+    let html = '';
+    // grid
+    for (let v = 0; v <= maxV; v += Math.ceil(maxV / 5)) {
+      const py = pad.t + (1 - v / maxV) * h;
+      html += `<line x1="${pad.l}" y1="${py}" x2="${pad.l + w}" y2="${py}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>`;
+      html += `<text x="${pad.l - 6}" y="${py + 4}" text-anchor="end" fill="#a09187" font-size="10">${v}</text>`;
+    }
+    html += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<line x1="${pad.l}" y1="${pad.t + h}" x2="${pad.l + w}" y2="${pad.t + h}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>`;
+    html += `<text x="14" y="${pad.t + h/2}" text-anchor="middle" fill="#a09187" font-size="11" transform="rotate(-90 14 ${pad.t + h/2})">Frekuensi</text>`;
+    // Expected line
+    const eY = pad.t + (1 - E / maxV) * h;
+    html += `<line x1="${pad.l}" y1="${eY}" x2="${pad.l + w}" y2="${eY}" stroke="#a3e635" stroke-width="2" stroke-dasharray="6 4"/>`;
+    html += `<text x="${pad.l + 8}" y="${eY - 6}" text-anchor="start" fill="#a3e635" font-size="11" font-weight="600" font-family="'JetBrains Mono'">E = ${E.toFixed(1)}</text>`;
+    // Bars
+    observed.forEach((o, i) => {
+      const x = pad.l + colW * i + colW * 0.15;
+      const barW = colW * 0.7;
+      const barH = (o / maxV) * h;
+      const y = pad.t + h - barH;
+      const dev = o - E;
+      const fill = dev > 5 ? '#fb923c' : (dev < -5 ? '#fb7185' : '#fbbf24');
+      html += `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" fill="${fill}" fill-opacity="0.8" stroke="${fill}" stroke-width="1.5" rx="3"/>`;
+      html += `<text x="${x + barW/2}" y="${y - 6}" text-anchor="middle" fill="white" font-size="11" font-weight="700" font-family="'Space Grotesk'">${o}</text>`;
+      html += `<text x="${x + barW/2}" y="${pad.t + h + 18}" text-anchor="middle" fill="#a09187" font-size="11">Sisi ${i + 1}</text>`;
+    });
+    svg.innerHTML = html;
+  }
+
+  /* ===== QUIZ ===== */
+  const quizData = [
+    {
+      q: 'Kapan uji Mann-Whitney U menjadi pilihan TEPAT dibanding uji-t?',
+      opts: ['Data numerik normal & sampel besar', 'Data ordinal atau tidak normal', 'Data kategorial nominal', 'Sampel berpasangan'],
+      correct: 1,
+      fb: 'Mann-Whitney dipakai untuk 2 sampel independen data ordinal/tidak normal. Setara non-parametrik dari uji-t independen.'
+    },
+    {
+      q: 'Wilcoxon Signed-Rank Test digunakan ketika?',
+      opts: ['2 sampel independen', '2 sampel berpasangan (paired) non-normal', '3+ kelompok independen', 'Korelasi 2 variabel'],
+      correct: 1,
+      fb: 'Wilcoxon Signed-Rank = versi non-parametrik dari paired t-test. Untuk data berpasangan tidak normal (mis. pre vs post).'
+    },
+    {
+      q: 'Dalam Kruskal-Wallis, statistik H mengikuti distribusi?',
+      opts: ['t', 'F', 'Chi-square (df = k−1)', 'Normal standar'],
+      correct: 2,
+      fb: 'H mengikuti chi-square dengan df = k−1 (k = jumlah kelompok). Bandingkan dengan chi-square tabel.'
+    },
+    {
+      q: 'Spearman ρ berbeda dengan Pearson r karena Spearman?',
+      opts: ['Menggunakan peringkat (rank) bukan nilai mentah', 'Hanya untuk data kategorial', 'Tidak butuh sampel', 'Selalu menghasilkan 1'],
+      correct: 0,
+      fb: 'Spearman menghitung korelasi pada peringkat (rank), bukan nilai mentah. Mendeteksi hubungan monoton, bukan hanya linier.'
+    },
+    {
+      q: 'Chi-Square Goodness of Fit menguji?',
+      opts: ['Hubungan 2 variabel kategorial', 'Apakah frekuensi observasi cocok dengan yang diharapkan', 'Perbedaan mean 2 kelompok', 'Korelasi 2 variabel numerik'],
+      correct: 1,
+      fb: 'GoF membandingkan frekuensi observasi (O) dengan ekspektasi (E) untuk 1 variabel. Independence test untuk hubungan 2 variabel.'
+    },
+    {
+      q: 'Manakah BUKAN keunggulan metode non-parametrik?',
+      opts: ['Robust terhadap outlier', 'Cocok untuk sampel kecil', 'Bebas asumsi distribusi', 'Lebih sensitif mendeteksi efek kecil'],
+      correct: 3,
+      fb: 'Non-parametrik justru kurang sensitif karena memakai rank (informasi hilang). Kalau data normal, parametrik lebih kuat mendeteksi efek kecil.'
+    }
+  ];
+
+  const quizContainer = document.getElementById('quizContainer');
+  let answered = 0, correctCount = 0;
+  quizData.forEach((item, qi) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    const optsHTML = item.opts.map((o, oi) => `
+      <div class="quiz-opt" data-qi="${qi}" data-oi="${oi}">
+        <span class="opt-letter">${String.fromCharCode(65 + oi)}</span>
+        <span>${o}</span>
+      </div>`).join('');
+    card.innerHTML = `
+      <div class="quiz-question">
+        <div class="quiz-q-num">${qi + 1}</div>
+        <div>${item.q}</div>
+      </div>
+      <div class="quiz-options">${optsHTML}</div>
+      <div class="quiz-feedback" id="fb-${qi}"></div>`;
+    quizContainer.appendChild(card);
+  });
+  quizContainer.addEventListener('click', (e) => {
+    const opt = e.target.closest('.quiz-opt');
+    if (!opt) return;
+    const qi = parseInt(opt.dataset.qi);
+    const oi = parseInt(opt.dataset.oi);
+    const card = opt.closest('.quiz-card');
+    if (card.dataset.answered === '1') return;
+    card.dataset.answered = '1';
+    const item = quizData[qi];
+    const fb = document.getElementById('fb-' + qi);
+    if (oi === item.correct) {
+      opt.classList.add('correct');
+      fb.className = 'quiz-feedback show correct';
+      fb.innerHTML = '✓ <strong>Benar!</strong> ' + item.fb;
+      correctCount++;
+    } else {
+      opt.classList.add('wrong');
+      const correctOpt = card.querySelector(`.quiz-opt[data-oi="${item.correct}"]`);
+      correctOpt.classList.add('correct');
+      fb.className = 'quiz-feedback show wrong';
+      fb.innerHTML = '✗ <strong>Belum tepat.</strong> Jawaban benar: <strong>' + item.opts[item.correct] + '</strong>. ' + item.fb;
+    }
+    answered++;
+    if (answered === quizData.length) {
+      const scoreEl = document.getElementById('quizScore');
+      document.getElementById('scoreNum').textContent = correctCount + ' / ' + quizData.length;
+      let msg;
+      if (correctCount === 6) msg = '🎉 Sempurna! Kamu siap ujian statistik non-parametrik.';
+      else if (correctCount >= 4) msg = '👍 Bagus! Beberapa konsep bisa dipertajam lagi.';
+      else msg = '💪 Tetap semangat! Baca ulang materi — non-parametrik butuh latihan.';
+      document.getElementById('scoreMsg').textContent = msg;
+      setTimeout(() => scoreEl.classList.add('show'), 400);
+      scoreEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+  document.getElementById('quizReset').addEventListener('click', () => {
+    answered = 0; correctCount = 0;
+    document.getElementById('quizScore').classList.remove('show');
+    document.querySelectorAll('.quiz-card').forEach(card => {
+      card.dataset.answered = '0';
+      card.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('correct', 'wrong'));
+      card.querySelectorAll('.quiz-feedback').forEach(f => { f.className = 'quiz-feedback'; f.innerHTML = ''; });
+    });
+    document.getElementById('kuis').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  /* Init visualizations on page load + observer */
+  renderKW();
+
+  const chartObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        if (e.target.id === 'kwSvg') renderKW();
+        chartObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  ['kwSvg'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) chartObs.observe(el);
+  });
+</script>
+</body>
+</html>
