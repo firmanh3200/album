@@ -232,20 +232,20 @@
             <select id="lke-select" onchange="handleLkeRedirect(this)" aria-label="Lembar Kerja Evaluasi">
                 <option value="" disabled selected>Lembar Kerja Evaluasi</option>
                 <!-- Opsi diurutkan ascending (A-Z) agar mudah dicari -->
-                <option value="lke-anggaran.html">Anggaran</option>
-                <option value="lke-bpkp.html">BPKP</option>
-                <option value="lke-epss.html">EPSS</option>
-                <option value="lke-akip.html">Internal AKIP</option>
-                <option value="lke-iso.html">ISO</option>
-                <option value="lke-mr.html">Manajemen Risiko</option>
-                <option value="lke-pekppp.html">PEKPPP Mandiri</option>
-                <option value="lke-kontinu-wbbm.html">Pemeliharaan WBBM</option>
-                <option value="lke-sakip.html">SAKIP</option>
-                <option value="lke-spip.html">SPIP</option>
-                <option value="sp-pst-2026.html">Standar Pelayanan</option>
-                <option value="lke-tik.html">Tata Kelola TIK</option>
-                <option value="lke-wbbm.html">WBK menuju WBBM</option>
-                <option value="lke-wbk.html">ZI menuju WBK</option>
+                <option value="lke/lke-anggaran.html">Anggaran</option>
+                <option value="lke/lke-bpkp.html">BPKP</option>
+                <option value="lke/lke-epss.html">EPSS</option>
+                <option value="lke/lke-akip.html">Internal AKIP</option>
+                <option value="lke/lke-iso.html">ISO</option>
+                <option value="lke/lke-mr.html">Manajemen Risiko</option>
+                <option value="lke/lke-pekppp.html">PEKPPP Mandiri</option>
+                <option value="lke/lke-kontinu-wbbm.html">Pemeliharaan WBBM</option>
+                <option value="lke/lke-sakip.html">SAKIP</option>
+                <option value="lke/lke-spip.html">SPIP</option>
+                <option value="pst/sp-pst-2026.html">Standar Pelayanan</option>
+                <option value="lke/lke-tik.html">Tata Kelola TIK</option>
+                <option value="lke/lke-wbbm.html">WBK menuju WBBM</option>
+                <option value="lke/lke-wbk.html">ZI menuju WBK</option>
             </select>
         </div>
 
@@ -319,7 +319,7 @@
                     <option value="https://firmanh3200.github.io/linglung/lings/panduan-kipp.html">Panduan Kompetisi Inovasi</option>
                     <option value="https://firmanh3200.github.io/linglung/lings/panduan-rb-tematik.html">Panduan RB Tematik</option>
                     <option value="https://firmanh3200.github.io/ppid32/">PPID Berkibar</option>
-                    <option value="https://firmanh3200.github.io/album/sp-pst-2026.html">Standar Pelayanan</option>
+                    <option value="https://firmanh3200.github.io/album/pst/sp-pst-2026.html">Standar Pelayanan</option>
                     <option value="https://firmanh3200.github.io/32iso26/">QnA ISO 9001:2015</option>
                     <option value="https://webapi.bps.go.id/documentation/">WebAPI BPS - dokumentasi</option>
                     <option value="https://webapi.bps.go.id/developer/">WebAPI BPS - pendaftaran</option>
@@ -371,6 +371,37 @@
             </div>
         </div>
 
+        <!-- Card 1: SISTER -->
+        <div class="dashboard-card">
+            <h2>S I S T E R</h2>
+            <div class="section-title">Pembinaan Statistik Sektoral</div>
+            <p class="subtitle">Sistematis dan Terpadu</p>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="beriman-select">Pilih Menu</label>
+                <select id="beriman-select" onchange="handleRedirect('beriman-select')">
+                    <option value="" disabled selected>-- Pilih Materi --</option>
+                    <option value="pss/">Identifikasi Statistik Sektoral</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Card POST -->
+        <div class="dashboard-card">
+            <h2>POJOK STATISTIK</h2>
+            <div class="section-title">Pembinaan Pojok Statistik</div>
+            <p class="subtitle">Sistematis dan Terpadu</p>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="beriman-select">Pilih Menu</label>
+                <select id="beriman-select" onchange="handleRedirect('beriman-select')">
+                    <option value="" disabled selected>-- Pilih Materi --</option>
+                    <option value="potik/">Pembinaan Agen Pojok Statistik</option>
+                </select>
+            </div>
+        </div>
+        
+        
         <!-- Card 3: PREMIUM Portal Layanan Organisasi -->
         <div class="dashboard-card">
             <h2>P R E M I U M</h2>
