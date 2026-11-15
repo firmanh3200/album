@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perencanaan & Tata Kelola PST BPS Provinsi Jawa Barat Tahun 2027</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            bps: {
+              navy: '#0f172a',
+              dark: '#1e3a8a',
+              blue: '#0284c7',
+              light: '#e0f2fe',
+              emerald: '#059669',
+              amber: '#d97706',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Alpine.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Tree Connector Styling */
+    .tree-line-left {
+      position: relative;
+    }
+    .tree-line-left::before {
+      content: '';
+      position: absolute;
+      left: -1.25rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background-color: #cbd5e1;
+    }
+    .tree-node-branch {
+      position: relative;
+    }
+    .tree-node-branch::before {
+      content: '';
+      position: absolute;
+      left: -1.25rem;
+      top: 1.5rem;
+      width: 1.25rem;
+      height: 2px;
+      background-color: #cbd5e1;
+    }
+
+    /* Print Media Rules for Official BPS Document Formatting */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        font-size: 11pt;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-break-before {
+        page-break-before: always;
+      }
+      .print-avoid-break {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .shadow-sm, .shadow-md, .shadow-lg, .shadow-xl {
+        box-shadow: none !important;
+      }
+      .border {
+        border-color: #cbd5e1 !important;
+      }
+      header.hero-gradient {
+        background: #0f172a !important;
+        color: #ffffff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .badge-print {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-sky-200 selection:text-slate-900" x-data="pstApp()" x-init="initApp()">
+
+  <!-- STICKY TOP NAVIGATION BAR -->
+  <nav class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-md text-white border-b border-slate-800 shadow-lg no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Brand Logo -->
+        <div class="flex items-center gap-3 shrink-0">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-blue-700 flex items-center justify-center shadow-inner border border-sky-400/30">
+            <i data-lucide="bar-chart-3" class="w-5 h-5 text-white"></i>
+          </div>
+          <div>
+            <div class="font-display font-bold text-sm sm:text-base tracking-tight leading-tight flex items-center gap-2">
+              <span>PST BPS JABAR</span>
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full">2027</span>
+            </div>
+            <p class="text-[11px] text-slate-400 hidden sm:block">Tata Kelola & Perencanaan Pelayanan Statistik Terpadu</p>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Links -->
+        <div class="hidden xl:flex items-center space-x-1">
+          <template x-for="item in navItems" :key="item.id">
+            <a :href="'#' + item.id"
+               @click="activeSection = item.id"
+               :class="activeSection === item.id ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'"
+               class="px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-150 flex items-center gap-1.5">
+              <span x-text="item.shortLabel"></span>
+            </a>
+          </template>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-2">
+          <button @click="showRegModal = true"
+                  class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
+                  title="Lihat 8 Dasar Hukum & Pedoman">
+            <i data-lucide="scale" class="w-4 h-4 text-amber-400"></i>
+            <span class="hidden sm:inline">Regulasi (8)</span>
+          </button>
+
+          <button @click="printDocument()"
+                  class="px-3.5 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition cursor-pointer">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span>Cetak / PDF</span>
+          </button>
+
+          <!-- Mobile Menu Toggle -->
+          <button @click="mobileMenuOpen = !mobileMenuOpen"
+                  class="xl:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile / Tablet Quick Scroll Bar -->
+      <div x-show="mobileMenuOpen" x-collapse x-cloak class="xl:hidden pb-3 pt-1 border-t border-slate-800">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+          <template x-for="item in navItems" :key="item.id">
+            <a :href="'#' + item.id"
+               @click="activeSection = item.id; mobileMenuOpen = false"
+               class="px-3 py-2 rounded-lg bg-slate-800/80 hover:bg-sky-600 text-xs font-medium text-slate-200 hover:text-white transition">
+              <span x-text="item.label"></span>
+            </a>
+          </template>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO HEADER & EXECUTIVE DASHBOARD -->
+  <header class="hero-gradient bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white pt-10 pb-14 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto">
+      <!-- Top Institutional Badges -->
+      <div class="flex flex-wrap items-center gap-2 mb-5">
+        <span class="badge-print inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-400/30">
+          <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+          BPS Provinsi Jawa Barat • Tim IPDS & Humas/PPID
+        </span>
+        <span class="badge-print inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+          <i data-lucide="award" class="w-3.5 h-3.5"></i>
+          Pemeliharaan Zona Integritas WBBM (Capaian 2025)
+        </span>
+        <span class="badge-print inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          SMM ISO 9001:2015 & GSBPM Fase 7–8
+        </span>
+      </div>
+
+      <!-- Main Title & Subtitle -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+        <div class="lg:col-span-8">
+          <h1 class="font-display text-2xl sm:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight leading-tight text-white">
+            Dokumen Perencanaan & Tata Kelola Pelayanan Statistik Terpadu (PST) Tahun 2027
+          </h1>
+          <p class="mt-3 text-slate-300 text-sm sm:text-base leading-relaxed max-w-3xl">
+            Instrumen operasional terintegrasi berbasis <strong class="text-white">PermenPANRB No. 6 & 7 Tahun 2022</strong>, <strong class="text-white">PEKPPP</strong>, <strong class="text-white">SKM</strong>, <strong class="text-white">UU KIP</strong>, <strong class="text-white">Perpres SDI</strong>, dan <strong class="text-white">ISO 9001:2015</strong> untuk mewujudkan pelayanan data statistik Jawa Barat yang prima, inklusif, transparan, dan berstandar global.
+          </p>
+        </div>
+
+        <!-- Quick Meta Box -->
+        <div class="lg:col-span-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-xs space-y-2">
+          <div class="flex justify-between items-center border-b border-white/10 pb-2">
+            <span class="text-slate-400">Unit Penyelenggara</span>
+            <span class="font-semibold text-white">PST BPS Prov. Jawa Barat</span>
+          </div>
+          <div class="flex justify-between items-center border-b border-white/10 pb-2">
+            <span class="text-slate-400">Periode Pelaksanaan</span>
+            <span class="font-semibold text-sky-300">Januari – Desember 2027</span>
+          </div>
+          <div class="flex justify-between items-center border-b border-white/10 pb-2">
+            <span class="text-slate-400">Kanal Layanan</span>
+            <span class="font-semibold text-white text-right">Luring (Bandung) & Daring (pst.bps.go.id, WA Halo PST)</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-slate-400">Kerangka Proses</span>
+            <span class="font-semibold text-emerald-300">GSBPM 5.1 (Fase 7 Disseminate & 8 Evaluate)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 KPI TARGET CARDS 2027 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
+        <!-- KPI 1 -->
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-sky-400 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider">Target IPP-PM</span>
+            <i data-lucide="trophy" class="w-4 h-4"></i>
+          </div>
+          <div class="font-display text-2xl font-extrabold text-white">≥ 4,51 <span class="text-xs font-semibold text-emerald-400">(Prima)</span></div>
+          <p class="text-[11px] text-slate-400 mt-1">Indeks Pelayanan Publik Kategori A (PermenPANRB 4/2023)</p>
+        </div>
+
+        <!-- KPI 2 -->
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 hover:border-emerald-500/50 transition">
+          <div class="flex items-center justify-between text-emerald-400 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider">Indeks SKM</span>
+            <i data-lucide="smile-plus" class="w-4 h-4"></i>
+          </div>
+          <div class="font-display text-2xl font-extrabold text-white">≥ 92,00 <span class="text-xs font-semibold text-emerald-400">(Sangat Baik)</span></div>
+          <p class="text-[11px] text-slate-400 mt-1">Survei Kepuasan Masyarakat Sem. I & II (PermenPANRB 14/2017)</p>
+        </div>
+
+        <!-- KPI 3 -->
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 hover:border-amber-500/50 transition">
+          <div class="flex items-center justify-between text-amber-400 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider">Waktu Tunggu</span>
+            <i data-lucide="timer" class="w-4 h-4"></i>
+          </div>
+          <div class="font-display text-2xl font-extrabold text-white">&lt; 10 Menit</div>
+          <p class="text-[11px] text-slate-400 mt-1">Standar Pelayanan PST Luring & Respon Awal Chat Daring</p>
+        </div>
+
+        <!-- KPI 4 -->
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-sky-400 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider">Pemenuhan SLA</span>
+            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+          </div>
+          <div class="font-display text-2xl font-extrabold text-white">100%</div>
+          <p class="text-[11px] text-slate-400 mt-1">Penyelesaian Konsultasi, PNBP, Romantik & Permohonan PPID</p>
+        </div>
+
+        <!-- KPI 5 -->
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 hover:border-purple-500/50 transition">
+          <div class="flex items-center justify-between text-purple-400 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider">Audit ISO & WBBM</span>
+            <i data-lucide="shield-alert" class="w-4 h-4"></i>
+          </div>
+          <div class="font-display text-2xl font-extrabold text-white">Zero NC</div>
+          <p class="text-[11px] text-slate-400 mt-1">Zero Major Non-Conformity ISO 9001:2015 & Nol Pungli/Gratifikasi</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+    <!-- SECTION 0: LANDASAN REGULASI, PEDOMAN & SOP -->
+    <section id="regulasi" class="scroll-mt-24 print-avoid-break">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Fondasi Hukum & Tata Kelola</span>
+          <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+            8 Dasar Hukum, Buku Pedoman & SOP Operasional PST
+          </h2>
+          <p class="text-sm text-slate-600 mt-1 max-w-3xl">
+            Seluruh perencanaan dan eksekusi layanan PST BPS Provinsi Jawa Barat Tahun 2027 mengacu pada regulasi nasional, standar pelayanan publik, pengelolaan kinerja ASN, dan sistem manajemen mutu.
+          </p>
+        </div>
+        <button @click="regExpanded = !regExpanded"
+                class="no-print self-start md:self-auto px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-xs font-semibold text-slate-700 flex items-center gap-2 shadow-sm transition cursor-pointer">
+          <i data-lucide="chevrons-up-down" class="w-4 h-4 text-sky-600"></i>
+          <span x-text="regExpanded ? 'Ringkas Tampilan Regulasi' : 'Tampilkan Semua (8 Regulasi)'"></span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <template x-for="(reg, idx) in regulations" :key="reg.id">
+          <div x-show="regExpanded || idx < 4"
+               class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md hover:border-sky-300 transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-sky-50 text-sky-700 border border-sky-200" x-text="'REG-0' + (idx+1)"></span>
+                <span class="text-[11px] font-semibold text-slate-400" x-text="reg.category"></span>
+              </div>
+              <h3 class="font-display font-bold text-sm text-slate-900 leading-snug" x-text="reg.title"></h3>
+              <p class="text-xs text-slate-600 mt-2 leading-relaxed" x-text="reg.desc"></p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100">
+              <div class="text-[11px] font-semibold text-emerald-700 flex items-start gap-1.5">
+                <i data-lucide="bookmark-check" class="w-3.5 h-3.5 shrink-0 mt-0.5"></i>
+                <span x-text="reg.implication"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <!-- SECTION 1: RENCANA KERJA (WORK PLAN 2027) -->
+    <section id="rencana-kerja" class="scroll-mt-24 print-break-before">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold mb-2">
+            <span>BAGIAN 1</span>
+            <span>•</span>
+            <span>WORK PLAN 2027</span>
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">
+            1. Rencana Kerja Pelayanan Statistik Terpadu (PST) 2027
+          </h2>
+          <p class="text-sm text-slate-600 mt-1 max-w-3xl">
+            Cakupan program kerja operasional pada <strong>4 Layanan Utama PST BPS</strong> (Perpustakaan, Konsultasi Statistik, Penjualan Produk Statistik/PNBP, Rekomendasi Statistik/Romantik) serta <strong>3 Layanan Pendukung & Tata Kelola Mutu</strong>.
+          </p>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="no-print flex flex-col sm:flex-row gap-2.5">
+          <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+            <input type="text"
+                   x-model="workPlanSearch"
+                   placeholder="Cari program, SOP, layanan..."
+                   class="pl-9 pr-4 py-2 rounded-xl border border-slate-300 bg-white text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 w-full sm:w-60" />
+          </div>
+          <select x-model="workPlanFilter"
+                  class="px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option value="ALL">Semua Kategori Layanan (7)</option>
+            <option value="UTAMA">4 Layanan Utama PST</option>
+            <option value="PENDUKUNG">3 Layanan Pendukung & Tata Kelola</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Cards Grid for Work Plan -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <template x-for="wp in filteredWorkPlans" :key="wp.code">
+          <div class="print-avoid-break bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition overflow-hidden flex flex-col">
+            <!-- Card Header -->
+            <div class="p-5 border-b border-slate-100 flex items-start justify-between gap-3"
+                 :class="wp.type === 'UTAMA' ? 'bg-gradient-to-r from-sky-50/80 to-white' : 'bg-gradient-to-r from-emerald-50/80 to-white'">
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-slate-900 text-white" x-text="wp.code"></span>
+                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold"
+                        :class="wp.type === 'UTAMA' ? 'bg-sky-100 text-sky-800' : 'bg-emerald-100 text-emerald-800'"
+                        x-text="wp.type === 'UTAMA' ? 'Layanan Utama PST' : 'Layanan Pendukung & Mutu'"></span>
+                </div>
+                <h3 class="font-display font-bold text-lg text-slate-900" x-text="wp.title"></h3>
+              </div>
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                   :class="wp.type === 'UTAMA' ? 'bg-sky-100 text-sky-700' : 'bg-emerald-100 text-emerald-700'">
+                <i :data-lucide="wp.icon" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="p-5 space-y-4 flex-1 flex flex-col justify-between text-xs">
+              <div class="space-y-3">
+                <div>
+                  <span class="font-bold text-slate-700 uppercase tracking-wider text-[10px]">Ruang Lingkup & Kanal:</span>
+                  <p class="text-slate-600 mt-0.5 leading-relaxed" x-text="wp.scope"></p>
+                </div>
+
+                <div>
+                  <span class="font-bold text-slate-700 uppercase tracking-wider text-[10px]">Rincian Kegiatan Pokok 2027:</span>
+                  <ul class="mt-1 space-y-1.5 text-slate-700">
+                    <template x-for="act in wp.activities" :key="act">
+                      <li class="flex items-start gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-sky-500 mt-1.5 shrink-0"></span>
+                        <span x-text="act"></span>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Footer Metadata -->
+              <div class="pt-3 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-2 bg-slate-50/70 -mx-5 -mb-5 p-4 mt-4">
+                <div>
+                  <span class="block text-[10px] font-bold text-slate-400 uppercase">Target Kinerja 2027</span>
+                  <span class="font-semibold text-slate-900" x-text="wp.target"></span>
+                </div>
+                <div>
+                  <span class="block text-[10px] font-bold text-slate-400 uppercase">Acuan Regulasi / SOP</span>
+                  <span class="font-medium text-sky-700" x-text="wp.sop"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <!-- SECTION 2: RENCANA AKSI (ACTION PLAN - SIKLUS PDCA & SMART) -->
+    <section id="rencana-aksi" class="scroll-mt-24 print-break-before">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold mb-2">
+            <span>BAGIAN 2</span>
+            <span>•</span>
+            <span>ACTION PLAN (SIKLUS PDCA & SMART)</span>
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">
+            2. Rencana Aksi Operasional PST 2027 (Berbasis PDCA)
+          </h2>
+          <p class="text-sm text-slate-600 mt-1 max-w-3xl">
+            Penjabaran langkah taktis sepanjang tahun 2027 dalam siklus kendali mutu <strong>Plan – Do – Check – Act (PDCA)</strong> yang terukur secara <strong>SMART</strong>. Klik status aksi untuk melakukan simulasi pembaruan progres.
+          </p>
+        </div>
+
+        <!-- Interactive Filters -->
+        <div class="no-print flex flex-wrap items-center gap-2">
+          <select x-model="pdcaFilter"
+                  class="px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option value="ALL">Semua Fase PDCA</option>
+            <option value="PLAN">PLAN (Perencanaan & Standar)</option>
+            <option value="DO">DO (Pelaksanaan & Inovasi)</option>
+            <option value="CHECK">CHECK (Evaluasi, SKM & Audit)</option>
+            <option value="ACT">ACT (Tindak Lanjut & Perbaikan)</option>
+          </select>
+
+          <select x-model="quarterFilter"
+                  class="px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option value="ALL">Semua Triwulan (TW I–IV)</option>
+            <option value="TW I">Triwulan I (Jan–Mar)</option>
+            <option value="TW II">Triwulan II (Apr–Jun)</option>
+            <option value="TW III">Triwulan III (Jul–Sep)</option>
+            <option value="TW IV">Triwulan IV (Okt–Des)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- PDCA Summary Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+        <div class="bg-white border border-slate-200 rounded-xl p-3.5 flex items-center justify-between">
+          <div>
+            <span class="text-[11px] font-bold text-indigo-600 uppercase">1. PLAN</span>
+            <p class="text-xs text-slate-500">Penetapan Standar & SK</p>
+          </div>
+          <span class="font-display text-xl font-extrabold text-slate-900" x-text="actionPlans.filter(a => a.pdca === 'PLAN').length + ' Aksi'"></span>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-3.5 flex items-center justify-between">
+          <div>
+            <span class="text-[11px] font-bold text-sky-600 uppercase">2. DO</span>
+            <p class="text-xs text-slate-500">Eksekusi 4 Layanan & Pojok</p>
+          </div>
+          <span class="font-display text-xl font-extrabold text-slate-900" x-text="actionPlans.filter(a => a.pdca === 'DO').length + ' Aksi'"></span>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-3.5 flex items-center justify-between">
+          <div>
+            <span class="text-[11px] font-bold text-amber-600 uppercase">3. CHECK</span>
+            <p class="text-xs text-slate-500">SKM, PEKPPP, Audit ISO</p>
+          </div>
+          <span class="font-display text-xl font-extrabold text-slate-900" x-text="actionPlans.filter(a => a.pdca === 'CHECK').length + ' Aksi'"></span>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-3.5 flex items-center justify-between">
+          <div>
+            <span class="text-[11px] font-bold text-emerald-600 uppercase">4. ACT</span>
+            <p class="text-xs text-slate-500">RTM, CAPA & Replikasi</p>
+          </div>
+          <span class="font-display text-xl font-extrabold text-slate-900" x-text="actionPlans.filter(a => a.pdca === 'ACT').length + ' Aksi'"></span>
+        </div>
+      </div>
+
+      <!-- Responsive Action Plan Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-900 text-white uppercase tracking-wider text-[11px]">
+                <th class="py-3.5 px-4 font-bold">Kode & PDCA</th>
+                <th class="py-3.5 px-4 font-bold min-w-[230px]">Uraian Kegiatan Spesifik</th>
+                <th class="py-3.5 px-4 font-bold min-w-[170px]">Dasar Regulasi / SOP</th>
+                <th class="py-3.5 px-4 font-bold min-w-[190px]">Output / Eviden Fisik & Digital</th>
+                <th class="py-3.5 px-4 font-bold min-w-[170px]">Target SMART</th>
+                <th class="py-3.5 px-4 font-bold whitespace-nowrap">Jadwal</th>
+                <th class="py-3.5 px-4 font-bold text-center whitespace-nowrap">Simulasi Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <template x-for="item in filteredActionPlans" :key="item.code">
+                <tr class="hover:bg-slate-50/90 transition">
+                  <td class="py-3.5 px-4 align-top whitespace-nowrap">
+                    <div class="font-bold text-slate-900" x-text="item.code"></div>
+                    <span class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold"
+                          :class="{
+                            'bg-indigo-100 text-indigo-800': item.pdca === 'PLAN',
+                            'bg-sky-100 text-sky-800': item.pdca === 'DO',
+                            'bg-amber-100 text-amber-800': item.pdca === 'CHECK',
+                            'bg-emerald-100 text-emerald-800': item.pdca === 'ACT'
+                          }"
+                          x-text="item.pdca"></span>
+                  </td>
+                  <td class="py-3.5 px-4 align-top">
+                    <div class="font-semibold text-slate-900 leading-snug" x-text="item.activity"></div>
+                    <div class="text-[11px] text-slate-500 mt-1" x-text="'PIC: ' + item.pic"></div>
+                  </td>
+                  <td class="py-3.5 px-4 align-top text-slate-600" x-text="item.regulation"></td>
+                  <td class="py-3.5 px-4 align-top text-slate-700 font-medium" x-text="item.evidence"></td>
+                  <td class="py-3.5 px-4 align-top">
+                    <span class="inline-block bg-slate-100 text-slate-800 px-2.5 py-1 rounded-lg font-medium leading-snug" x-text="item.smart"></span>
+                  </td>
+                  <td class="py-3.5 px-4 align-top whitespace-nowrap">
+                    <span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 font-bold text-[11px]" x-text="item.schedule"></span>
+                  </td>
+                  <td class="py-3.5 px-4 align-top text-center whitespace-nowrap">
+                    <button @click="cycleActionStatus(item)"
+                            title="Klik untuk mengubah simulasi status progres"
+                            class="px-3 py-1.5 rounded-full text-[11px] font-bold transition cursor-pointer inline-flex items-center gap-1.5 shadow-xs"
+                            :class="{
+                              'bg-slate-100 text-slate-700 hover:bg-slate-200': item.status === 'Terjadwal',
+                              'bg-amber-100 text-amber-800 hover:bg-amber-200': item.status === 'Berjalan',
+                              'bg-emerald-100 text-emerald-800 hover:bg-emerald-200': item.status === 'Tercapai'
+                            }">
+                      <span class="w-2 h-2 rounded-full"
+                            :class="{
+                              'bg-slate-400': item.status === 'Terjadwal',
+                              'bg-amber-500 animate-pulse': item.status === 'Berjalan',
+                              'bg-emerald-600': item.status === 'Tercapai'
+                            }"></span>
+                      <span x-text="item.status"></span>
+                    </button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: POHON KINERJA (CASCADING PERFORMANCE TREE - SAKIP & SMART) -->
+    <section id="pohon-kinerja" class="scroll-mt-24 print-break-before">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-bold mb-2">
+            <span>BAGIAN 3</span>
+            <span>•</span>
+            <span>CASCADING SAKIP & LOGIC MODEL</span>
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">
+            3. Pohon Kinerja (Cascading Performance Tree) PST 2027
+          </h2>
+          <p class="text-sm text-slate-600 mt-1 max-w-3xl">
+            Penyelarasan vertikal (<em>vertical alignment</em>) dari <strong>Ultimate Outcome</strong> (Sasaran Strategis BPS Provinsi Jawa Barat), <strong>Intermediate Outcome (IKU)</strong>, <strong>Immediate Outcome</strong>, <strong>Output Layanan</strong>, hingga <strong>Aktivitas Harian Tim Kerja</strong>.
+          </p>
+        </div>
+
+        <div class="no-print flex items-center gap-2">
+          <button @click="toggleAllTree(true)"
+                  class="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-xs font-semibold text-slate-700 cursor-pointer">
+            Buka Semua Cabang
+          </button>
+          <button @click="toggleAllTree(false)"
+                  class="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-xs font-semibold text-slate-700 cursor-pointer">
+            Ringkas Cabang
+          </button>
+        </div>
+      </div>
+
+      <!-- Hierarchical Tree Visualization -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 shadow-sm space-y-6">
+        <!-- LEVEL 1: ULTIMATE OUTCOME -->
+        <div class="bg-gradient-to-r from-slate-900 to-blue-950 text-white rounded-2xl p-5 shadow-md border border-slate-800">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-md bg-sky-500/20 text-sky-300 border border-sky-400/30 text-[11px] font-bold uppercase tracking-wider">
+              Level 1 • Ultimate Outcome (Sasaran Strategis BPS Provinsi Jawa Barat)
+            </span>
+            <span class="text-xs text-slate-300 font-medium">Renstra BPS 2025–2029</span>
+          </div>
+          <h3 class="font-display text-lg sm:text-xl font-bold">
+            Terwujudnya Penyediaan Data dan Informasi Statistik Berkualitas yang Prima, Inklusif, serta Dipercaya oleh Pemerintah Daerah dan Masyarakat Jawa Barat
+          </h3>
+        </div>
+
+        <!-- LEVEL 2: INTERMEDIATE OUTCOME (IKU) -->
+        <div class="pl-4 sm:pl-8 tree-line-left space-y-4">
+          <div class="tree-node-branch bg-sky-50 border-2 border-sky-200 rounded-2xl p-5">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="px-2.5 py-0.5 rounded-md bg-sky-600 text-white text-[11px] font-bold uppercase">
+                Level 2 • Intermediate Outcome (Indikator Kinerja Utama / IKU)
+              </span>
+              <span class="text-xs font-bold text-sky-900">Target 2027: IPP-PM ≥ 4,51 | SKM ≥ 92,00</span>
+            </div>
+            <h4 class="font-display text-base sm:text-lg font-bold text-slate-900">
+              Meningkatnya Kualitas Pelayanan Publik dan Tingkat Kepuasan Konsumen Data pada Pelayanan Statistik Terpadu (PST) BPS Provinsi Jawa Barat
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3 text-xs">
+              <div class="bg-white p-3 rounded-xl border border-sky-100">
+                <span class="text-slate-500 block">IKU 1 (PEKPPP):</span>
+                <strong class="text-slate-900">Indeks Pelayanan Publik ≥ 4,51 (Kategori Prima)</strong>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-sky-100">
+                <span class="text-slate-500 block">IKU 2 (SKM & SKD):</span>
+                <strong class="text-slate-900">Indeks Kepuasan Konsumen Data ≥ 92,00</strong>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-sky-100">
+                <span class="text-slate-500 block">IKU 3 (Reformasi Birokrasi):</span>
+                <strong class="text-slate-900">Predikat ZI WBBM & Zero NC ISO 9001:2015</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- LEVEL 3, 4, 5: COLLAPSIBLE BRANCHES -->
+          <div class="pl-4 sm:pl-8 tree-line-left space-y-4">
+            <template x-for="(branch, bIdx) in performanceTree" :key="branch.id">
+              <div class="tree-node-branch bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden">
+                <!-- Branch Header (Level 3: Immediate Outcome) -->
+                <button @click="branch.open = !branch.open"
+                        class="w-full text-left p-4 sm:p-5 bg-white hover:bg-slate-50 transition flex items-start justify-between gap-4 cursor-pointer">
+                  <div>
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                      <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 uppercase">
+                        Level 3 • Immediate Outcome (Pilar <span x-text="bIdx + 1"></span>)
+                      </span>
+                      <span class="text-xs font-semibold text-slate-500" x-text="branch.indicator"></span>
+                    </div>
+                    <h5 class="font-display font-bold text-sm sm:text-base text-slate-900" x-text="branch.immediateOutcome"></h5>
+                  </div>
+                  <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 text-slate-600">
+                    <i :data-lucide="branch.open ? 'chevron-up' : 'chevron-down'" class="w-4 h-4"></i>
+                  </div>
+                </button>
+
+                <!-- Level 4 (Output) & Level 5 (Aktivitas Tim Kerja) -->
+                <div x-show="branch.open" x-collapse class="p-4 sm:p-5 border-t border-slate-200 bg-slate-50/70 space-y-3">
+                  <template x-for="out in branch.outputs" :key="out.code">
+                    <div class="bg-white rounded-xl border border-slate-200 p-4">
+                      <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 uppercase" x-text="'Level 4 • Output (' + out.code + ')'"></span>
+                        <span class="text-[11px] font-semibold text-sky-700" x-text="'PIC: ' + out.role"></span>
+                      </div>
+                      <div class="font-bold text-xs sm:text-sm text-slate-900 mb-2" x-text="out.title"></div>
+
+                      <!-- Level 5: Daily / Operational Activities -->
+                      <div class="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+                          Level 5 • Aktivitas Harian / Operasional Tim Kerja (PermenPANRB 6 & 7 Tahun 2022):
+                        </div>
+                        <ul class="space-y-1 text-xs text-slate-700">
+                          <template x-for="task in out.tasks" :key="task">
+                            <li class="flex items-start gap-2">
+                              <i data-lucide="corner-down-right" class="w-3.5 h-3.5 text-sky-600 shrink-0 mt-0.5"></i>
+                              <span x-text="task"></span>
+                            </li>
+                          </template>
+                        </ul>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: MATRIKS PERAN HASIL (MPH - PERMENPANRB 6/2022 & 7/2022) -->
+    <section id="matriks-peran-hasil" class="scroll-mt-24 print-break-before">
+      <div class="mb-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold mb-2">
+          <span>BAGIAN 4</span>
+          <span>•</span>
+          <span>PERMENPANRB NO. 6/2022 & NO. 7/2022</span>
+        </div>
+        <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">
+          4. Matriks Peran Hasil (MPH) Tim Kerja PST BPS Provinsi Jawa Barat
+        </h2>
+        <p class="text-sm text-slate-600 mt-1 max-w-3xl">
+          Dialog kinerja dan pembagian peran berbasis <em>agile squad / tim kerja</em> untuk menyelaraskan ekspektasi pimpinan (Kepala BPS Provinsi Jawa Barat) ke dalam <em>intermediate outcome</em> / output setiap peran kunci.
+        </p>
+      </div>
+
+      <!-- Top Anchor Card: Kepala BPS Provinsi Jawa Barat -->
+      <div class="bg-gradient-to-r from-blue-900 to-slate-900 text-white rounded-2xl p-5 mb-6 shadow-md border border-blue-800 print-avoid-break">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-start gap-3.5">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center shrink-0 text-amber-300">
+              <i data-lucide="crown" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-amber-300">Pimpinan Tinggi Pratama (JPT Pratama)</span>
+              <h3 class="font-display text-lg font-bold text-white">Kepala BPS Provinsi Jawa Barat</h3>
+              <p class="text-xs text-slate-300 mt-1">
+                <strong>Outcome Pimpinan:</strong> Terwujudnya pelayanan publik statistik di Provinsi Jawa Barat yang berpredikat Prima (IPP-PM ≥ 4,51), Indeks SKM ≥ 92,00, serta terjaganya Zona Integritas WBBM dan Keterbukaan Informasi Publik.
+              </p>
+            </div>
+          </div>
+          <div class="shrink-0 bg-white/10 px-4 py-2.5 rounded-xl border border-white/10 text-xs">
+            <span class="block text-slate-300 text-[10px] uppercase">Perjanjian Kinerja 2027</span>
+            <span class="font-bold text-emerald-300">100% Target IKU Diseminasi & Layanan</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 Operational Roles Grid in MPH -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <template x-for="role in mphRoles" :key="role.id">
+          <div class="print-avoid-break bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100 text-slate-800" x-text="role.code"></span>
+                <span class="text-[11px] font-semibold text-sky-700" x-text="role.jf"></span>
+              </div>
+              <h3 class="font-display font-bold text-base text-slate-900" x-text="role.title"></h3>
+              <p class="text-xs text-slate-500 mt-0.5" x-text="role.unit"></p>
+
+              <div class="mt-4">
+                <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 mb-2">
+                  Intermediate Outcome / Output yang Dihasilkan:
+                </div>
+                <ul class="space-y-2 text-xs text-slate-700">
+                  <template x-for="out in role.outcomes" :key="out">
+                    <li class="flex items-start gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                      <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
+                      <span x-text="out"></span>
+                    </li>
+                  </template>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500 font-medium">Indikator Kinerja Individu:</span>
+              <span class="font-bold text-slate-900" x-text="role.iki"></span>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <!-- SECTION 5: TIMELINE PELAKSANAAN 2027 (GANTT CHART INTERAKTIF) -->
+    <section id="timeline" class="scroll-mt-24 print-break-before">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 text-sky-700 text-xs font-bold mb-2">
+            <span>BAGIAN 5</span>
+            <span>•</span>
+            <span>JADWAL TERPADU JANUARI – DESEMBER 2027</span>
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">
+            5. Timeline Pelaksanaan Program PST 2027 (Gantt Chart)
+          </h2>
+          <p class="text-sm text-slate-600 mt-1 max-w-3xl">
+            Pemetaan jadwal bulanan seluruh rangkaian kegiatan PST BPS Provinsi Jawa Barat mulai dari Kaji Ulang Standar Pelayanan di Januari hingga Laporan Evaluasi Tahunan di Desember 2027. Klik baris kegiatan untuk melihat detail milestone.
+          </p>
+        </div>
+
+        <!-- Quarter Highlight Filter -->
+        <div class="no-print flex flex-wrap gap-1.5">
+          <button @click="selectedGanttQuarter = 'ALL'"
+                  :class="selectedGanttQuarter === 'ALL' ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 border border-slate-300'"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition">Semua Bulan</button>
+          <button @click="selectedGanttQuarter = 'Q1'"
+                  :class="selectedGanttQuarter === 'Q1' ? 'bg-sky-600 text-white' : 'bg-white text-slate-700 border border-slate-300'"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition">TW I (Jan–Mar)</button>
+          <button @click="selectedGanttQuarter = 'Q2'"
+                  :class="selectedGanttQuarter === 'Q2' ? 'bg-sky-600 text-white' : 'bg-white text-slate-700 border border-slate-300'"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition">TW II (Apr–Jun)</button>
+          <button @click="selectedGanttQuarter = 'Q3'"
+                  :class="selectedGanttQuarter === 'Q3' ? 'bg-sky-600 text-white' : 'bg-white text-slate-700 border border-slate-300'"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition">TW III (Jul–Sep)</button>
+          <button @click="selectedGanttQuarter = 'Q4'"
+                  :class="selectedGanttQuarter === 'Q4' ? 'bg-sky-600 text-white' : 'bg-white text-slate-700 border border-slate-300'"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition">TW IV (Okt–Des)</button>
+        </div>
+      </div>
+
+      <!-- Selected Milestone Detail Banner -->
+      <div x-show="activeGanttItem" x-transition class="mb-4 bg-sky-900 text-white rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md">
+        <div class="text-xs">
+          <span class="text-sky-300 font-bold uppercase tracking-wider" x-text="'Detail Milestone • ' + (activeGanttItem?.phase || '')"></span>
+          <h4 class="font-display font-bold text-sm sm:text-base mt-0.5" x-text="activeGanttItem?.name"></h4>
+          <p class="text-slate-200 mt-1" x-text="activeGanttItem?.detail"></p>
+        </div>
+        <button @click="activeGanttItem = null" class="no-print self-end sm:self-center px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold cursor-pointer shrink-0">
+          Tutup Info
+        </button>
+      </div>
+
+      <!-- Gantt Chart Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-900 text-white">
+                <th class="py-3 px-4 text-left font-bold min-w-[260px] sticky left-0 bg-slate-900 z-10">Program / Tahapan Kegiatan PST 2027</th>
+                <template x-for="(m, mIdx) in months" :key="m">
+                  <th class="py-3 px-2 text-center font-bold w-14 border-l border-slate-800"
+                      :class="isMonthHighlighted(mIdx + 1) ? 'bg-sky-900 text-sky-200' : ''"
+                      x-text="m"></th>
+                </template>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <template x-for="task in ganttTasks" :key="task.id">
+                <tr @click="activeGanttItem = task"
+                    class="hover:bg-sky-50/70 transition cursor-pointer group"
+                    :class="activeGanttItem?.id === task.id ? 'bg-sky-50' : ''">
+                  <td class="py-3 px-4 font-medium text-slate-800 sticky left-0 bg-white group-hover:bg-sky-50/90 z-10 border-r border-slate-200">
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="font-semibold text-slate-900" x-text="task.name"></span>
+                      <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-bold shrink-0" x-text="task.phase"></span>
+                    </div>
+                  </td>
+                  <template x-for="mNum in 12" :key="mNum">
+                    <td class="p-1.5 border-l border-slate-100 text-center"
+                        :class="isMonthHighlighted(mNum) ? 'bg-sky-50/40' : ''">
+                      <template x-if="task.months.includes(mNum)">
+                        <div class="h-6 rounded-md flex items-center justify-center text-[10px] font-bold text-white shadow-xs badge-print"
+                             :class="task.color"
+                             :title="task.name + ' (' + months[mNum-1] + ' 2027)'">
+                          <span x-text="task.badge || '●'"></span>
+                        </div>
+                      </template>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+        <!-- Legend -->
+        <div class="bg-slate-50 px-4 py-3 border-t border-slate-200 flex flex-wrap items-center gap-4 text-[11px] text-slate-600">
+          <span class="font-bold text-slate-800">Keterangan Warna Fase:</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-indigo-600"></span> Persiapan & Standar Pelayanan</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-sky-600"></span> Layanan Rutin & Pojok Statistik</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-500"></span> SKM, PEKPPP & Audit Mutu</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-600"></span> RTM, Inovasi & Pelaporan Akhir</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: MATRIKS RACI -->
+    <section id="matriks-raci" class="scroll-mt-24 print-break-before">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold mb-2">
+            <span>BAGIAN 6</span>
+            <span>•</span>
+            <span>TATA KELOLA TANGGUNG JAWAB (RACI)</span>
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">
+            6. Matriks RACI Tata Kelola Pelayanan Statistik Terpadu 2027
+          </h2>
+          <p class="text-sm text-slate-600 mt-1 max-w-3xl">
+            Kejelasan pembagian kewenangan pada setiap proses bisnis PST BPS Provinsi Jawa Barat agar tidak terjadi tumpang tindih maupun kekosongan tanggung jawab antar-tim kerja.
+          </p>
+        </div>
+
+        <!-- Filter RACI Domain -->
+        <div class="no-print">
+          <select x-model="raciFilter"
+                  class="px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option value="ALL">Semua Proses Bisnis PST (12 Aktivitas)</option>
+            <option value="STANDAR">Standar Pelayanan & Maklumat</option>
+            <option value="LAYANAN">Operasional 4 Layanan Utama</option>
+            <option value="DIGITAL">Sistem Digital, PPID & Pengaduan</option>
+            <option value="MUTU">SKM, PEKPPP, ISO 9001 & Pojok Statistik</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- RACI Legend Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+        <div class="bg-white border border-rose-200 rounded-xl p-3.5 flex items-start gap-3">
+          <span class="badge-print w-8 h-8 rounded-lg bg-rose-600 text-white font-display font-extrabold text-sm flex items-center justify-center shrink-0">R</span>
+          <div class="text-xs">
+            <strong class="text-slate-900 block">Responsible (Pelaksana)</strong>
+            <span class="text-slate-600">Pihak yang mengeksekusi langsung aktivitas atau menyusun output.</span>
+          </div>
+        </div>
+        <div class="bg-white border border-indigo-200 rounded-xl p-3.5 flex items-start gap-3">
+          <span class="badge-print w-8 h-8 rounded-lg bg-indigo-900 text-white font-display font-extrabold text-sm flex items-center justify-center shrink-0">A</span>
+          <div class="text-xs">
+            <strong class="text-slate-900 block">Accountable (Penanggung Jawab)</strong>
+            <span class="text-slate-600">Pemilik akuntabilitas akhir & pengambil keputusan/pengesahan (1 per aktivitas).</span>
+          </div>
+        </div>
+        <div class="bg-white border border-emerald-200 rounded-xl p-3.5 flex items-start gap-3">
+          <span class="badge-print w-8 h-8 rounded-lg bg-emerald-600 text-white font-display font-extrabold text-sm flex items-center justify-center shrink-0">C</span>
+          <div class="text-xs">
+            <strong class="text-slate-900 block">Consulted (Dikonsultasikan)</strong>
+            <span class="text-slate-600">Pihak yang memberikan masukan teknis, data sektoral, atau pertimbangan ahli.</span>
+          </div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-3.5 flex items-start gap-3">
+          <span class="badge-print w-8 h-8 rounded-lg bg-slate-500 text-white font-display font-extrabold text-sm flex items-center justify-center shrink-0">I</span>
+          <div class="text-xs">
+            <strong class="text-slate-900 block">Informed (Diinformasikan)</strong>
+            <span class="text-slate-600">Pihak yang menerima laporan hasil, notifikasi progres, atau keputusan final.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RACI Matrix Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-900 text-white text-[11px]">
+                <th class="py-3.5 px-4 text-left font-bold min-w-[250px] sticky left-0 bg-slate-900 z-10">Aktivitas Kunci Pelayanan Statistik Terpadu</th>
+                <th class="py-3.5 px-2.5 text-center font-bold min-w-[105px]">Kepala BPS Prov. Jabar</th>
+                <th class="py-3.5 px-2.5 text-center font-bold min-w-[105px]">Ketua Tim IPDS / PJ PST</th>
+                <th class="py-3.5 px-2.5 text-center font-bold min-w-[105px]">Koord. & Frontliner PST</th>
+                <th class="py-3.5 px-2.5 text-center font-bold min-w-[105px]">Prakom / Sistem Digital</th>
+                <th class="py-3.5 px-2.5 text-center font-bold min-w-[105px]">Tim Humas & PPID</th>
+                <th class="py-3.5 px-2.5 text-center font-bold min-w-[105px]">Tim Mutu ISO & ZI WBBM</th>
+                <th class="py-3.5 px-2.5 text-center font-bold min-w-[105px]">Pembina Pojok Statistik</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <template x-for="row in filteredRaciRows" :key="row.id">
+                <tr class="hover:bg-slate-50 transition">
+                  <td class="py-3 px-4 font-semibold text-slate-900 sticky left-0 bg-white z-10 border-r border-slate-200">
+                    <span class="text-[10px] font-bold text-sky-600 block uppercase" x-text="row.domainLabel"></span>
+                    <span x-text="row.activity"></span>
+                  </td>
+                  <template x-for="(val, idx) in row.roles" :key="idx">
+                    <td class="py-3 px-2.5 text-center">
+                      <span class="badge-print inline-flex items-center justify-center w-8 h-8 rounded-lg font-display font-extrabold text-xs shadow-2xs"
+                            :class="{
+                              'bg-rose-600 text-white': val === 'R',
+                              'bg-indigo-900 text-white': val === 'A',
+                              'bg-emerald-600 text-white': val === 'C',
+                              'bg-slate-200 text-slate-700': val === 'I',
+                              'bg-rose-100 text-rose-900 border border-rose-300': val === 'A/R'
+                            }"
+                            x-text="val"></span>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-8 px-4 sm:px-6 lg:px-8 mt-12">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+      <div>
+        <p class="font-display font-bold text-white text-sm">Badan Pusat Statistik Provinsi Jawa Barat</p>
+        <p class="mt-0.5">Jl. Penghulu H. Hasan Mustofa No. 43, Kota Bandung • Layanan Daring: pst.bps.go.id & jabar.bps.go.id</p>
+      </div>
+      <div class="text-center sm:text-right">
+        <p class="text-slate-300 font-medium">Dokumen Perencanaan Tata Kelola PST Tahun Anggaran 2027</p>
+        <p class="text-[11px] text-slate-500 mt-0.5">BerAkhlak • Bangga Melayani Bangsa • Zona Integritas WBBM</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL: DETAIL 8 REGULASI & PEDOMAN -->
+  <div x-show="showRegModal"
+       x-cloak
+       @keydown.escape.window="showRegModal = false"
+       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs no-print">
+    <div @click.outside="showRegModal = false"
+         class="bg-white rounded-2xl max-w-4xl w-full max-h-[85vh] overflow-hidden shadow-2xl border border-slate-200 flex flex-col">
+      <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="scale" class="w-5 h-5 text-amber-400"></i>
+          <h3 class="font-display font-bold text-base sm:text-lg">Referensi Regulasi, Buku Pedoman & SOP PST BPS</h3>
+        </div>
+        <button @click="showRegModal = false" class="p-1.5 rounded-lg hover:bg-slate-800 text-slate-300 cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="p-5 overflow-y-auto space-y-3 text-xs">
+        <template x-for="(reg, i) in regulations" :key="reg.id">
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-sky-700" x-text="(i+1) + '. ' + reg.title"></span>
+              <span class="px-2 py-0.5 rounded bg-white border border-slate-200 text-[10px] font-bold text-slate-600" x-text="reg.category"></span>
+            </div>
+            <p class="text-slate-600 leading-relaxed" x-text="reg.desc"></p>
+            <p class="text-emerald-700 font-semibold mt-1.5" x-text="'Implementasi PST Jabar 2027: ' + reg.implication"></p>
+          </div>
+        </template>
+      </div>
+      <div class="p-4 bg-slate-100 border-t border-slate-200 flex justify-end">
+        <button @click="showRegModal = false" class="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-semibold cursor-pointer">
+          Tutup Referensi
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALPINE.JS STATE & DATA -->
+  <script>
+    function pstApp() {
+      return {
+        activeSection: 'regulasi',
+        mobileMenuOpen: false,
+        showRegModal: false,
+        regExpanded: false,
+        workPlanSearch: '',
+        workPlanFilter: 'ALL',
+        pdcaFilter: 'ALL',
+        quarterFilter: 'ALL',
+        selectedGanttQuarter: 'ALL',
+        activeGanttItem: null,
+        raciFilter: 'ALL',
+
+        navItems: [
+          { id: 'regulasi', shortLabel: 'Regulasi', label: 'Dasar Regulasi' },
+          { id: 'rencana-kerja', shortLabel: '1. Rencana Kerja', label: '1. Rencana Kerja' },
+          { id: 'rencana-aksi', shortLabel: '2. Rencana Aksi', label: '2. Rencana Aksi (PDCA)' },
+          { id: 'pohon-kinerja', shortLabel: '3. Pohon Kinerja', label: '3. Pohon Kinerja' },
+          { id: 'matriks-peran-hasil', shortLabel: '4. Peran Hasil', label: '4. Matriks Peran Hasil' },
+          { id: 'timeline', shortLabel: '5. Timeline', label: '5. Timeline 2027' },
+          { id: 'matriks-raci', shortLabel: '6. Matriks RACI', label: '6. Matriks RACI' },
+        ],
+
+        regulations: [
+          {
+            id: 'reg1',
+            category: 'Statistik Nasional',
+            title: 'UU No. 16 Tahun 1997 tentang Statistik & PP No. 51 Tahun 1999',
+            desc: 'Mengatur penyelenggaraan statistik dasar oleh BPS, jaminan kerahasiaan data individu responden, serta koordinasi dan rekomendasi kegiatan statistik sektoral/khusus.',
+            implication: 'Menjamin kerahasiaan data mikro/individu dalam layanan penjualan data dan mewajibkan rekomendasi Romantik bagi OPD Pemprov Jabar.'
+          },
+          {
+            id: 'reg2',
+            category: 'Pelayanan Publik',
+            title: 'UU No. 25 Tahun 2009 tentang Pelayanan Publik & PP No. 96 Tahun 2012',
+            desc: 'Mewajibkan setiap penyelenggara pelayanan publik menetapkan Standar Pelayanan (SP), Maklumat Pelayanan, kompensasi keterlambatan layanan, dan sarana ramah kelompok rentan.',
+            implication: 'Penetapan SK Standar Pelayanan PST BPS Jabar 2027, Forum Konsultasi Publik (FKP), dan fasilitas difabel/lansia/ibu menyusui.'
+          },
+          {
+            id: 'reg3',
+            category: 'Keterbukaan Informasi',
+            title: 'UU No. 14 Tahun 2008 tentang KIP & PerKI No. 1 Tahun 2021 (SLIP)',
+            desc: 'Mengatur hak publik memperoleh informasi, klasifikasi informasi berkala/serta-merta/setiap saat, daftar informasi publik (DIP), dan uji konsekuensi informasi yang dikecualikan.',
+            implication: 'Integrasi front-desk PST dengan layanan PPID BPS Provinsi Jawa Barat dengan SLA penyelesaian permohonan informasi ≤ 10 hari kerja.'
+          },
+          {
+            id: 'reg4',
+            category: 'Tata Kelola Data',
+            title: 'Perpres No. 39 Tahun 2019 tentang Satu Data Indonesia (SDI)',
+            desc: 'Menetapkan BPS sebagai Pembina Data Statistik tingkat pusat dan daerah (Provinsi Jawa Barat) untuk mewujudkan standar data, metadata baku, dan interoperabilitas.',
+            implication: 'Layanan konsultasi statistik dan Romantik diarahkan untuk memperkuat Portal Satu Data Jabar (Open Data Jabar) dan metadata sektoral.'
+          },
+          {
+            id: 'reg5',
+            category: 'Evaluasi Kepuasan',
+            title: 'PermenPANRB No. 14 Tahun 2017 tentang Pedoman Penyusunan SKM',
+            desc: 'Mengatur metodologi pengukuran 9 unsur Survei Kepuasan Masyarakat (SKM) secara periodik pada unit penyelenggara pelayanan publik.',
+            implication: 'Pelaksanaan SKM PST BPS Jabar secara elektronik (QR Code & pst.bps.go.id) minimal 2 kali setahun (Semester I & II) dengan target IKM ≥ 92,00.'
+          },
+          {
+            id: 'reg6',
+            category: 'Pemantauan Kinerja',
+            title: 'PermenPANRB No. 4 Tahun 2023 tentang PEKPPP',
+            desc: 'Pedoman Pemantauan dan Evaluasi Kinerja Penyelenggaraan Pelayanan Publik berdasarkan 6 aspek: Kebijakan Pelayanan, Profesionalisme SDM, Sarpras, SIPP, Konsultasi/Pengaduan, dan Inovasi.',
+            implication: 'Pemenuhan 100% eviden PEKPPP & Penilaian Mandiri (IPP-PM) guna mempertahankan predikat Pelayanan Prima (Nilai ≥ 4,51).'
+          },
+          {
+            id: 'reg7',
+            category: 'Kinerja & Sistem Kerja',
+            title: 'PermenPANRB No. 6 Tahun 2022 & PermenPANRB No. 7 Tahun 2022',
+            desc: 'Mengatur pengelolaan kinerja ASN berbasis dialog kinerja, Matriks Peran Hasil (MPH), serta sistem kerja fleksibel dan kolaboratif lintas jabatan fungsional.',
+            implication: 'Pembentukan Tim Kerja PST lintas JF (Statistisi, Pranata Komputer, Pranata Humas) dengan pembagian output terukur pada MPH.'
+          },
+          {
+            id: 'reg8',
+            category: 'Standar Internal BPS',
+            title: 'Perban BPS No. 2/2021, Pedoman PST BPS, ISO 9001:2015 & GSBPM',
+            desc: 'Standar Pelayanan Publik di lingkungan BPS mencakup 4 layanan utama PST, penerapan SMM ISO 9001:2015, serta proses bisnis GSBPM Fase 7 (Disseminate) & Fase 8 (Evaluate).',
+            implication: 'Zero Major Non-Conformity pada audit surveillance ISO 9001:2015 dan pemeliharaan predikat Zona Integritas WBBM.'
+          }
+        ],
+
+        workPlans: [
+          {
+            code: 'LP-01',
+            type: 'UTAMA',
+            icon: 'book-open',
+            title: 'Layanan Perpustakaan Tercetak & Digital',
+            scope: 'Ruang Baca PST BPS Prov. Jabar (Luring) serta Portal jabar.bps.go.id & pst.bps.go.id (Daring).',
+            activities: [
+              'Pemutakhiran koleksi publikasi statistik provinsi dan 27 kabupaten/kota se-Jawa Barat secara real-time sesuai ARC.',
+              'Digitalisasi dan kurasi katalog publikasi tematik (Statistik Daerah, Jawa Barat Dalam Angka, Indikator Makro).',
+              'Penyediaan fasilitas baca ramah disabilitas (screen reader / publikasi aksesibel) dan kenyamanan ruang tunggu.'
+            ],
+            target: '100% publikasi dirilis tepat waktu; kepuasan akses pustaka ≥ 93%',
+            sop: 'Perban BPS 2/2021; SOP Perpustakaan PST; GSBPM 7.2'
+          },
+          {
+            code: 'LP-02',
+            type: 'UTAMA',
+            icon: 'message-square-text',
+            title: 'Layanan Konsultasi Statistik (Luring & Daring)',
+            scope: 'Konsultasi tatap muka di front-desk PST, Live Chat pst.bps.go.id, WhatsApp Halo PST Jabar, serta Zoom Konsultasi.',
+            activities: [
+              'Penjadwalan piket petugas frontliner dan narasumber teknis (Statistisi Ahli) untuk konsultasi metodologi & analisis data.',
+              'Pendampingan literasi data bagi akademisi, peneliti, media massa, dunia usaha, dan instansi pemerintah.',
+              'Pencatatan seluruh log konsultasi dan metadata permintaan data pada aplikasi manajemen layanan PST.'
+            ],
+            target: 'Waktu tunggu < 10 menit; 100% tiket konsultasi selesai sesuai SLA',
+            sop: 'SOP Konsultasi Statistik; ISO 9001:2015 Klausul 8.5'
+          },
+          {
+            code: 'LP-03',
+            type: 'UTAMA',
+            icon: 'shopping-bag',
+            title: 'Layanan Penjualan Produk Statistik (PNBP / Silastik)',
+            scope: 'Transaksi pembelian publikasi elektronik berbayar, data mikro survei/sensus, dan peta digital wilayah kerja statistik melalui silastik.bps.go.id.',
+            activities: [
+              'Pemrosesan permohonan data mikro dan peta digital dengan verifikasi perjanjian kerahasiaan data (NDA) sesuai UU Statistik.',
+              'Penerbitan kode billing SIMPONI (PNBP) secara transparan tanpa transaksi tunai di loket (Zero Cash / WBBM).',
+              'Pengendalian mutu file data mikro (anonymization) sebelum diserahkan kepada pengguna data.'
+            ],
+            target: '100% transaksi non-tunai (SIMPONI); 0 komplain keterlambatan data mikro',
+            sop: 'PP Tarif PNBP BPS; SOP Silastik; UU No. 16/1997'
+          },
+          {
+            code: 'LP-04',
+            type: 'UTAMA',
+            icon: 'file-check-2',
+            title: 'Layanan Rekomendasi Kegiatan Statistik (Romantik)',
+            scope: 'Pembinaan dan penerbitan surat rekomendasi penyelenggaraan statistik sektoral bagi Perangkat Daerah Provinsi Jawa Barat via romantik.bps.go.id.',
+            activities: [
+              'Pemeriksaan kelengkapan rancangan kegiatan statistik (FS3) dan metadata kegiatan/variabel/indikator dari OPD Pemprov Jabar.',
+              'Coaching clinic Romantik & Satu Data Indonesia bersama Diskominfo Provinsi Jawa Barat.',
+              'Monitoring tindak lanjut penyampaian hasil penyelenggaraan statistik sektoral ke BPS.'
+            ],
+            target: 'SLA verifikasi Romantik ≤ 5 hari kerja; ≥ 90% kegiatan sektoral OPD teregistrasi',
+            sop: 'PP No. 51/1999; Perpres 39/2019 (SDI); SOP Romantik'
+          },
+          {
+            code: 'LP-05',
+            type: 'PENDUKUNG',
+            icon: 'megaphone',
+            title: 'Pengelolaan Pengaduan & Layanan PPID (SP4N-LAPOR!)',
+            scope: 'Kanal SP4N-LAPOR!, Kotak Saran PST, Email pengaduan, dan meja layanan informasi publik PPID BPS Provinsi Jawa Barat.',
+            activities: [
+              'Pemutakhiran Daftar Informasi Publik (DIP) BPS Provinsi Jawa Barat Tahun 2027 dan dokumen uji konsekuensi.',
+              'Respon cepat atas pengaduan masyarakat maupun permohonan informasi publik melalui mekanisme satu pintu.',
+              'Publikasi rekapitulasi tindak lanjut pengaduan secara periodik di papan informasi dan website.'
+            ],
+            target: '100% pengaduan & permohonan PPID ditindaklanjuti tepat waktu',
+            sop: 'UU No. 14/2008 (KIP); PerKI 1/2021; SOP SP4N-LAPOR!'
+          },
+          {
+            code: 'LP-06',
+            type: 'PENDUKUNG',
+            icon: 'graduation-cap',
+            title: 'Pembinaan Pojok Statistik Kampus & Agen Pojok Statistik',
+            scope: 'Jejaring Pojok Statistik pada Perguruan Tinggi Mitra di Jawa Barat (UNPAD, ITB, UPI, IPB, Telkom University, dll.).',
+            activities: [
+              'Pelatihan dan sertifikasi kompetensi Agen Pojok Statistik (mahasiswa terpilih) sebagai perpanjangan tangan edukasi data.',
+              'Penyelenggaraan kelas literasi statistik, bedah data, dan klinik skripsi/tesis berbasis data BPS di kampus mitra.',
+              'Evaluasi kinerja dan pembaruan PKS (Perjanjian Kerja Sama) Pojok Statistik.'
+            ],
+            target: 'Minimal 12 kegiatan literasi/edukasi statistik kampus per tahun',
+            sop: 'Pedoman Pojok Statistik BPS; GSBPM Fase 7'
+          },
+          {
+            code: 'LP-07',
+            type: 'PENDUKUNG',
+            icon: 'shield-check',
+            title: 'Pemeliharaan SMM ISO 9001:2015, PEKPPP & ZI WBBM',
+            scope: 'Seluruh proses bisnis PST BPS Provinsi Jawa Barat dalam kerangka penjaminan mutu dan reformasi birokrasi.',
+            activities: [
+              'Pelaksanaan Forum Konsultasi Publik (FKP), Survei Kepuasan Masyarakat (SKM) Sem. I & II, serta evaluasi IPP-PM.',
+              'Pelaksanaan Audit Internal Mutu, Tinjauan Manajemen (RTM), dan pendampingan Audit Surveillance ISO 9001:2015.',
+              'Penguatan budaya pelayanan prima BerAKHLAK, anti-gratifikasi, dan inovasi inklusif pasca-predikat WBBM 2025.'
+            ],
+            target: 'IPP-PM ≥ 4,51 (Prima); SKM ≥ 92,00; Zero Major NC ISO 9001:2015',
+            sop: 'ISO 9001:2015; PermenPANRB 14/2017 & 4/2023; Pedoman ZI WBBM'
+          }
+        ],
+
+        actionPlans: [
+          {
+            code: 'AKSI-01',
+            pdca: 'PLAN',
+            activity: 'Kaji ulang dan penetapan SK Standar Pelayanan (SP), Maklumat Pelayanan, serta jadwal piket Frontliner & Narasumber PST Tahun 2027.',
+            pic: 'Ketua Tim IPDS & Tim Mutu',
+            regulation: 'UU 25/2009; Perban BPS 2/2021; ISO 9001:2015',
+            evidence: 'SK Kepala BPS Prov. Jabar tentang SP PST 2027, Dokumen Maklumat Pelayanan terpasang di lobi & web',
+            smart: '100% dokumen SP & SK Tim ditetapkan maksimal 22 Januari 2027',
+            schedule: 'TW I (Jan)',
+            status: 'Terjadwal'
+          },
+          {
+            code: 'AKSI-02',
+            pdca: 'PLAN',
+            activity: 'Penyelenggaraan Forum Konsultasi Publik (FKP) bersama perwakilan akademisi, OPD Pemprov Jabar, media, LSM, dan kelompok difabel.',
+            pic: 'Ketua Tim IPDS & Humas/PPID',
+            regulation: 'PermenPANRB 16/2017; PermenPANRB 4/2023 (PEKPPP)',
+            evidence: 'Undangan, Daftar Hadir, Notulensi FKP, Berita Acara Kesepakatan, Foto & Publikasi Berita FKP',
+            smart: 'Terlaksana 1 kali FKP dengan minimal 5 unsur stakeholder di Februari 2027',
+            schedule: 'TW I (Feb)',
+            status: 'Terjadwal'
+          },
+          {
+            code: 'AKSI-03',
+            pdca: 'PLAN',
+            activity: 'Pemutakhiran Daftar Informasi Publik (DIP) PPID BPS Prov. Jabar 2027 dan kalibrasi sistem antrean digital serta bot WhatsApp Halo PST.',
+            pic: 'Prakom & Tim Humas/PPID',
+            regulation: 'UU 14/2008 (KIP); PerKI 1/2021',
+            evidence: 'SK DIP 2027 terunggah di web PPID, Log uji coba sistem antrean & auto-responder WA Halo PST',
+            smart: '100% kategori informasi publik diperbarui & uptime sistem layanan ≥ 99,5%',
+            schedule: 'TW I (Jan–Feb)',
+            status: 'Terjadwal'
+          },
+          {
+            code: 'AKSI-04',
+            pdca: 'DO',
+            activity: 'Operasionalisasi 4 Layanan Utama PST (Perpustakaan, Konsultasi Luring/Daring, Penjualan PNBP Silastik, dan Rekomendasi Romantik) secara harian.',
+            pic: 'Koordinator & Frontliner PST',
+            regulation: 'Pedoman PST BPS; SOP 4 Layanan; GSBPM Fase 7',
+            evidence: 'Buku Tamu Digital, Tiket pst.bps.go.id, Bukti Billing SIMPONI, Surat Rekomendasi Romantik',
+            smart: 'Waktu tunggu < 10 menit; pemenuhan SLA layanan 100% sepanjang Jan–Des 2027',
+            schedule: 'TW I–IV',
+            status: 'Berjalan'
+          },
+          {
+            code: 'AKSI-05',
+            pdca: 'DO',
+            activity: 'Pelatihan Agen Pojok Statistik dan penyelenggaraan klinik konsultasi statistik sektoral OPD dalam mendukung Portal Satu Data Jabar.',
+            pic: 'Pembina Pojok Statistik & Tim Romantik',
+            regulation: 'Perpres 39/2019 (SDI); Pedoman Pojok Statistik',
+            evidence: 'Sertifikat Agen Pojok Statistik, Laporan Kegiatan Kampus (12 sesi), Rekap Rekomendasi OPD',
+            smart: 'Minimal 30 Agen terlatih & 12 kegiatan literasi kampus terlaksana hingga Nov 2027',
+            schedule: 'TW I–IV',
+            status: 'Berjalan'
+          },
+          {
+            code: 'AKSI-06',
+            pdca: 'DO',
+            activity: 'Pengelolaan kanal pengaduan SP4N-LAPOR! dan permohonan informasi PPID serta kampanye publikasi anti-gratifikasi & layanan inklusif WBBM.',
+            pic: 'Tim Humas/PPID & Agen Perubahan',
+            regulation: 'UU 25/2009; UU 14/2008; Pedoman ZI WBBM',
+            evidence: 'Dashboard SP4N-LAPOR! (100% tindak lanjut), Register PPID, Konten infografis layanan di medsos',
+            smart: 'Respon pengaduan awal ≤ 1x24 jam & penyelesaian PPID ≤ 10 hari kerja (100%)',
+            schedule: 'TW I–IV',
+            status: 'Berjalan'
+          },
+          {
+            code: 'AKSI-07',
+            pdca: 'CHECK',
+            activity: 'Pelaksanaan dan pengolahan Survei Kepuasan Masyarakat (SKM) Semester I & II serta Survei Kebutuhan Data (SKD) 2027.',
+            pic: 'Tim Mutu & Tim IPDS',
+            regulation: 'PermenPANRB 14/2017; GSBPM Fase 8 (Evaluate)',
+            evidence: 'Dataset responden SKM Sem I & II, Laporan Analisis IKM per 9 unsur layanan, Publikasi IKM',
+            smart: 'Minimal 150 responden/semester dengan capaian Nilai IKM ≥ 92,00 (Sangat Baik)',
+            schedule: 'TW II & TW IV',
+            status: 'Terjadwal'
+          },
+          {
+            code: 'AKSI-08',
+            pdca: 'CHECK',
+            activity: 'Audit Internal Mutu ISO 9001:2015, Pendampingan Audit Surveillance Eksternal, serta Penilaian Mandiri PEKPPP (IPP-PM) dan Monev KIP.',
+            pic: 'Tim Manajemen Mutu & Seluruh Tim',
+            regulation: 'ISO 9001:2015 Klausul 9.2; PermenPANRB 4/2023',
+            evidence: 'Laporan Audit Internal, Sertifikat Surveillance ISO 9001:2015, Kertas Kerja F-01/F-02 PEKPPP',
+            smart: 'Zero Major Non-Conformity ISO 9001:2015 & skor IPP-PM ≥ 4,51 (Kategori Prima)',
+            schedule: 'TW II & TW III',
+            status: 'Terjadwal'
+          },
+          {
+            code: 'AKSI-09',
+            pdca: 'ACT',
+            activity: 'Rapat Tinjauan Manajemen (RTM), penyusunan tindakan korektif/pencegahan (CAPA) atas temuan audit & masukan SKM/FKP, serta inovasi layanan.',
+            pic: 'Kepala BPS Prov. Jabar & Ketua Tim IPDS',
+            regulation: 'ISO 9001:2015 Klausul 9.3 & 10; PermenPANRB 6/2022',
+            evidence: 'Notulensi RTM, Matriks Tindak Lanjut CAPA 100% close, Dokumen Replikasi Inovasi PST',
+            smart: '100% temuan audit & saran perbaikan SKM ditindaklanjuti dalam ≤ 30 hari kerja',
+            schedule: 'TW III & TW IV',
+            status: 'Terjadwal'
+          },
+          {
+            code: 'AKSI-10',
+            pdca: 'ACT',
+            activity: 'Penyusunan Laporan Tahunan Penyelenggaraan PST, PPID, dan Evaluasi Kinerja Layanan 2027 sebagai baseline perencanaan 2028.',
+            pic: 'Ketua Tim IPDS & Koordinator PST',
+            regulation: 'UU 25/2009; UU 14/2008; PermenPANRB 6/2022',
+            evidence: 'Buku Laporan Tahunan PST & PPID BPS Provinsi Jawa Barat Tahun 2027 (Cetak & Digital)',
+            smart: 'Laporan final disahkan Kepala BPS Prov. Jabar paling lambat 22 Desember 2027',
+            schedule: 'TW IV (Des)',
+            status: 'Terjadwal'
+          }
+        ],
+
+        performanceTree: [
+          {
+            id: 'pillar1',
+            open: true,
+            immediateOutcome: 'Terwujudnya Layanan Akses Data, Publikasi, dan Produk Statistik (Perpustakaan & PNBP) yang Cepat, Akurat, dan Transparan',
+            indicator: 'Indikator: 100% Pemenuhan SLA Produk & 0% Kesalahan Billing PNBP',
+            outputs: [
+              {
+                code: 'OUT-1.1',
+                title: 'Ketersediaan Koleksi Publikasi Statistik Tercetak & Digital Jawa Barat yang Mutakhir',
+                role: 'Koordinator & Frontliner PST + Prakom',
+                tasks: [
+                  'Mengunggah dan memvalidasi tautan unduh gratis publikasi terbaru di jabar.bps.go.id tepat pada hari rilis (ARC).',
+                  'Menata katalog perpustakaan fisik, menyediakan sudut baca nyaman, dan perangkat bantu disabilitas netra/tuli.'
+                ]
+              },
+              {
+                code: 'OUT-1.2',
+                title: 'Layanan Penjualan Data Mikro dan Peta Digital (Silastik) Berbasis Non-Tunai (SIMPONI)',
+                role: 'Frontliner PST & Bendahara Penerimaan PNBP',
+                tasks: [
+                  'Memverifikasi surat permohonan data mikro dan dokumen NDA pengguna data sesuai kaidah kerahasiaan UU 16/1997.',
+                  'Memproses billing SIMPONI dan menyerahkan paket data mikro tervalidasi maksimal H+3 setelah pembayaran terkonfirmasi.'
+                ]
+              }
+            ]
+          },
+          {
+            id: 'pillar2',
+            open: true,
+            immediateOutcome: 'Meningkatnya Kualitas Konsultasi Statistik, Literasi Data Publik, dan Pembinaan Statistik Sektoral (Romantik & Pojok Statistik)',
+            indicator: 'Indikator: Waktu Tunggu < 10 Menit & ≥ 90% Rekomendasi OPD Terbit Tepat Waktu',
+            outputs: [
+              {
+                code: 'OUT-2.1',
+                title: 'Penyelesaian Konsultasi Statistik Luring dan Daring (pst.bps.go.id & WhatsApp Halo PST)',
+                role: 'Frontliner PST & Statistisi Narasumber Teknis',
+                tasks: [
+                  'Merespon sapaan awal konsultasi luring maupun chat daring dalam waktu kurang dari 10 menit.',
+                  'Menghubungkan konsultasi metodologi lanjutan kepada Statistisi Ahli sesuai subjek (Sosial, Produksi, Distribusi, Neraca).'
+                ]
+              },
+              {
+                code: 'OUT-2.2',
+                title: 'Penerbitan Rekomendasi Kegiatan Statistik Sektoral (Romantik) & Edukasi Pojok Statistik Kampus',
+                role: 'Tim Pembina Statistik Sektoral & Pembina Pojok Statistik',
+                tasks: [
+                  'Melakukan asistensi pengisian formulir FS3 dan metadata statistik OPD Pemprov Jabar untuk mendukung Satu Data Jabar.',
+                  'Membina Agen Pojok Statistik di perguruan tinggi mitra dalam penyelenggaraan klinik data dan literasi statistik.'
+                ]
+              }
+            ]
+          },
+          {
+            id: 'pillar3',
+            open: true,
+            immediateOutcome: 'Terjaminnya Tata Kelola Mutu Pelayanan Publik (ISO 9001:2015, PEKPPP, SKM, PPID & ZI WBBM) yang Akuntabel dan Berkelanjutan',
+            indicator: 'Indikator: IPP-PM ≥ 4,51 | SKM ≥ 92,00 | Zero Major NC ISO 9001:2015',
+            outputs: [
+              {
+                code: 'OUT-3.1',
+                title: 'Kepatuhan Standar Pelayanan, Keterbukaan Informasi Publik (PPID), dan Pengelolaan Pengaduan (SP4N-LAPOR!)',
+                role: 'Tim Humas/PPID & Ketua Tim IPDS',
+                tasks: [
+                  'Menyelenggarakan Forum Konsultasi Publik (FKP), memperbarui Daftar Informasi Publik (DIP), dan mempublikasikan Maklumat Pelayanan.',
+                  'Memantau dan menindaklanjuti 100% pengaduan pada kanal SP4N-LAPOR! maupun kotak saran secara transparan.'
+                ]
+              },
+              {
+                code: 'OUT-3.2',
+                title: 'Evaluasi Berkala SKM, Audit Internal Mutu ISO 9001:2015, dan Rapat Tinjauan Manajemen (RTM)',
+                role: 'Tim Manajemen Mutu & Agen Perubahan ZI WBBM',
+                tasks: [
+                  'Melaksanakan survei SKM Semester I & II serta menyusun rencana tindak lanjut perbaikan pada unsur layanan terendah.',
+                  'Mengawal pelaksanaan Audit Internal Mutu, Audit Surveillance ISO 9001:2015, dan pemenuhan bukti dukung PEKPPP.'
+                ]
+              }
+            ]
+          }
+        ],
+
+        mphRoles: [
+          {
+            id: 'mph1',
+            code: 'PERAN-01',
+            jf: 'Statistisi Ahli Madya / Ketua Tim',
+            title: 'Ketua Tim IPDS / Penanggung Jawab PST',
+            unit: 'Fungsi Integrasi Pengolahan & Diseminasi Statistik',
+            outcomes: [
+              'Tersusunnya rencana kerja, SOP, Standar Pelayanan PST 2027, dan jadwal piket pelayanan yang efektif.',
+              'Tercapainya target IKU Indeks Pelayanan Publik (IPP-PM ≥ 4,51) dan Indeks SKM (≥ 92,00).',
+              'Terlaksananya koordinasi lintas fungsi (Sosial, Produksi, Distribusi, Neraca) dalam pemenuhan konsultasi & Romantik.'
+            ],
+            iki: 'Nilai IPP-PM ≥ 4,51 & IKM ≥ 92,00'
+          },
+          {
+            id: 'mph2',
+            code: 'PERAN-02',
+            jf: 'Statistisi Ahli Muda / Pertama',
+            title: 'Koordinator Layanan & Frontliner PST',
+            unit: 'Garda Terdepan Pelayanan Luring & Daring',
+            outcomes: [
+              'Terlayaninya seluruh pengguna data pada 4 layanan utama PST dengan waktu tunggu < 10 menit dan SLA 100%.',
+              'Terkelolanya administrasi transaksi PNBP Silastik (SIMPONI) secara tertib, non-tunai, dan bebas gratifikasi.',
+              'Terdokumentasinya seluruh log layanan, buku tamu digital, dan tingkat pengisian survei SKM oleh pengguna.'
+            ],
+            iki: '100% Pemenuhan SLA Layanan Harian'
+          },
+          {
+            id: 'mph3',
+            code: 'PERAN-03',
+            jf: 'Pranata Komputer Ahli Muda / Pertama',
+            title: 'Pengelola Sistem Digital & Infrastruktur TI PST',
+            unit: 'Dukungan Aplikasi Web, Silastik & Romantik',
+            outcomes: [
+              'Terjaminnya keandalan (uptime ≥ 99,5%) portal jabar.bps.go.id, sistem antrean digital, dan perangkat self-service PST.',
+              'Tersedia dan tervalidasinya paket data mikro/peta digital pesanan pengguna pada aplikasi Silastik.',
+              'Terintegrasinya dashboard monitoring trafik layanan daring dan rekapitulasi otomatis respon SKM.'
+            ],
+            iki: 'Uptime Sistem ≥ 99,5% & 0 Error Data'
+          },
+          {
+            id: 'mph4',
+            code: 'PERAN-04',
+            jf: 'Pranata Humas Ahli Muda / Pertama',
+            title: 'Tim Humas & PPID BPS Provinsi Jawa Barat',
+            unit: 'Keterbukaan Informasi Publik & Pengaduan',
+            outcomes: [
+              'Tersusunnya Daftar Informasi Publik (DIP) 2027 dan penyelesaian 100% permohonan informasi PPID sesuai PerKI 1/2021.',
+              'Terkelolanya kanal pengaduan SP4N-LAPOR! dan publikasi informasi jadwal/maklumat pelayanan pada media sosial resmi.',
+              'Terlaksananya Forum Konsultasi Publik (FKP) dan komunikasi publik terkait rilis data strategis Jawa Barat.'
+            ],
+            iki: '100% Respon PPID & SP4N-LAPOR!'
+          },
+          {
+            id: 'mph5',
+            code: 'PERAN-05',
+            jf: 'Tim Auditor Internal & Agen Perubahan',
+            title: 'Tim Manajemen Mutu (ISO 9001:2015 & ZI WBBM)',
+            unit: 'Penjaminan Mutu & Reformasi Birokrasi',
+            outcomes: [
+              'Terlaksananya Audit Internal Mutu, Rapat Tinjauan Manajemen (RTM), dan pendampingan Surveillance ISO 9001:2015 tanpa temuan Major.',
+              'Terkumpul dan terverifikasinya 100% eviden penilaian mandiri PEKPPP dan pemeliharaan Zona Integritas WBBM.',
+              'Terwujudnya minimal 1 inovasi pelayanan publik inklusif/ramah kelompok rentan di Tahun 2027.'
+            ],
+            iki: 'Zero Major NC ISO & Eviden PEKPPP 100%'
+          },
+          {
+            id: 'mph6',
+            code: 'PERAN-06',
+            jf: 'Statistisi Ahli Muda / Pertama',
+            title: 'Pembina Pojok Statistik & Agen Pojok Statistik',
+            unit: 'Kemitraan Akademik & Literasi Statistik',
+            outcomes: [
+              'Terbinanya operasional Pojok Statistik pada perguruan tinggi mitra di Jawa Barat beserta sertifikasi Agen Pojok Statistik.',
+              'Terlaksananya minimal 12 kegiatan edukasi/literasi data dan klinik konsultasi penelitian mahasiswa/dosen.',
+              'Meningkatnya pemanfaatan data statistik BPS dalam karya ilmiah dan riset kebijakan daerah di Jawa Barat.'
+            ],
+            iki: '12 Kegiatan Literasi & ≥ 30 Agen Aktif'
+          }
+        ],
+
+        months: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+
+        ganttTasks: [
+          {
+            id: 'g1',
+            name: 'Kaji Ulang Standar Pelayanan, Maklumat & SK Tim PST',
+            phase: 'PLAN',
+            months: [1],
+            badge: 'SP',
+            color: 'bg-indigo-600',
+            detail: 'Penetapan SK Standar Pelayanan PST 2027, pembaruan Maklumat Pelayanan, dan jadwal piket Frontliner serta Narasumber.'
+          },
+          {
+            id: 'g2',
+            name: 'Forum Konsultasi Publik (FKP) & Pemutakhiran DIP PPID',
+            phase: 'PLAN',
+            months: [1, 2],
+            badge: 'FKP',
+            color: 'bg-indigo-600',
+            detail: 'Dialog dengan 5 unsur pengguna layanan (FKP) serta penetapan Daftar Informasi Publik (DIP) PPID BPS Provinsi Jawa Barat 2027.'
+          },
+          {
+            id: 'g3',
+            name: 'Operasional 4 Layanan Utama PST (Luring & Daring)',
+            phase: 'DO',
+            months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            badge: 'PST',
+            color: 'bg-sky-600',
+            detail: 'Pelayanan harian Perpustakaan, Konsultasi Statistik, Penjualan Data Mikro/PNBP (Silastik), dan Rekomendasi Romantik dengan SLA 100%.'
+          },
+          {
+            id: 'g4',
+            name: 'Pengelolaan Pengaduan SP4N-LAPOR! & Layanan PPID',
+            phase: 'DO',
+            months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            badge: 'PPID',
+            color: 'bg-sky-600',
+            detail: 'Monitoring dan penyelesaian pengaduan masyarakat serta permohonan informasi publik secara berkala setiap bulan.'
+          },
+          {
+            id: 'g5',
+            name: 'Pembinaan & Klinik Literasi Pojok Statistik Kampus',
+            phase: 'DO',
+            months: [2, 3, 4, 5, 6, 8, 9, 10, 11],
+            badge: 'PJS',
+            color: 'bg-sky-600',
+            detail: 'Pelatihan Agen Pojok Statistik, bedah publikasi, dan klinik konsultasi olah data pada kampus mitra di Jawa Barat.'
+          },
+          {
+            id: 'g6',
+            name: 'Survei Kepuasan Masyarakat (SKM) Semester I & II',
+            phase: 'CHECK',
+            months: [5, 6, 10, 11],
+            badge: 'SKM',
+            color: 'bg-amber-500',
+            detail: 'Pengumpulan dan pengolahan kuesioner SKM 9 unsur pelayanan (PermenPANRB 14/2017) Semester I (Mei–Jun) dan Semester II (Okt–Nov).'
+          },
+          {
+            id: 'g7',
+            name: 'Audit Internal Mutu & Surveillance ISO 9001:2015',
+            phase: 'CHECK',
+            months: [6, 7, 8],
+            badge: 'ISO',
+            color: 'bg-amber-500',
+            detail: 'Audit internal kesiapan SMM PST pada Juni–Juli diikuti Audit Surveillance eksternal ISO 9001:2015 pada Agustus 2027.'
+          },
+          {
+            id: 'g8',
+            name: 'Penilaian Mandiri PEKPPP (IPP-PM) & Monev KIP',
+            phase: 'CHECK',
+            months: [7, 8, 9],
+            badge: 'IPP',
+            color: 'bg-amber-500',
+            detail: 'Pengisian kertas kerja evaluasi pelayanan publik (PEKPPP) dan monitoring keterbukaan informasi publik menuju kategori Prima.'
+          },
+          {
+            id: 'g9',
+            name: 'Rapat Tinjauan Manajemen (RTM) & Tindak Lanjut CAPA',
+            phase: 'ACT',
+            months: [9, 10],
+            badge: 'RTM',
+            color: 'bg-emerald-600',
+            detail: 'Evaluasi menyeluruh capaian kinerja mutu, penutupan temuan audit (CAPA), serta implementasi inovasi perbaikan layanan.'
+          },
+          {
+            id: 'g10',
+            name: 'Penyusunan Laporan Tahunan PST & PPID 2027',
+            phase: 'ACT',
+            months: [12],
+            badge: 'LAP',
+            color: 'bg-emerald-600',
+            detail: 'Kompilasi statistik pengunjung, rekapitulasi PNBP, hasil SKM/PEKPPP, dan rekomendasi kebijakan layanan Tahun 2028.'
+          }
+        ],
+
+        raciRows: [
+          {
+            id: 'r1',
+            domain: 'STANDAR',
+            domainLabel: 'Standar Pelayanan',
+            activity: 'Penetapan SK Standar Pelayanan, Maklumat Pelayanan & Jadwal Piket PST 2027',
+            roles: ['A', 'R', 'C', 'I', 'C', 'C', 'I']
+          },
+          {
+            id: 'r2',
+            domain: 'STANDAR',
+            domainLabel: 'Standar Pelayanan',
+            activity: 'Penyelenggaraan Forum Konsultasi Publik (FKP) & Penandatanganan Berita Acara',
+            roles: ['A', 'R', 'C', 'I', 'R', 'C', 'I']
+          },
+          {
+            id: 'r3',
+            domain: 'LAYANAN',
+            domainLabel: '4 Layanan Utama',
+            activity: 'Operasional Layanan Perpustakaan Tercetak & Kurasi Publikasi Digital',
+            roles: ['I', 'A', 'R', 'R', 'I', 'I', 'C']
+          },
+          {
+            id: 'r4',
+            domain: 'LAYANAN',
+            domainLabel: '4 Layanan Utama',
+            activity: 'Pelayanan Konsultasi Statistik Luring & Daring (pst.bps.go.id / WA Halo PST)',
+            roles: ['I', 'A', 'R', 'C', 'I', 'I', 'I']
+          },
+          {
+            id: 'r5',
+            domain: 'LAYANAN',
+            domainLabel: '4 Layanan Utama',
+            activity: 'Pemrosesan Penjualan Produk Statistik / Data Mikro & Billing PNBP (Silastik)',
+            roles: ['I', 'A', 'R', 'R', 'I', 'C', 'I']
+          },
+          {
+            id: 'r6',
+            domain: 'LAYANAN',
+            domainLabel: '4 Layanan Utama',
+            activity: 'Verifikasi & Penerbitan Rekomendasi Kegiatan Statistik Sektoral (Romantik)',
+            roles: ['A', 'R', 'C', 'C', 'I', 'I', 'I']
+          },
+          {
+            id: 'r7',
+            domain: 'DIGITAL',
+            domainLabel: 'Sistem Digital & PPID',
+            activity: 'Pemeliharaan Infrastruktur Web jabar.bps.go.id, Antrean Digital & Sarpras Difabel',
+            roles: ['I', 'A', 'C', 'R', 'I', 'C', 'I']
+          },
+          {
+            id: 'r8',
+            domain: 'DIGITAL',
+            domainLabel: 'Sistem Digital & PPID',
+            activity: 'Pengelolaan Permohonan Informasi Publik (PPID) & Pengaduan SP4N-LAPOR!',
+            roles: ['A', 'C', 'C', 'I', 'R', 'I', 'I']
+          },
+          {
+            id: 'r9',
+            domain: 'MUTU',
+            domainLabel: 'Mutu, SKM & Kampus',
+            activity: 'Pelaksanaan & Analisis Survei Kepuasan Masyarakat (SKM) Semester I & II',
+            roles: ['I', 'A', 'C', 'C', 'I', 'R', 'I']
+          },
+          {
+            id: 'r10',
+            domain: 'MUTU',
+            domainLabel: 'Mutu, SKM & Kampus',
+            activity: 'Audit Internal Mutu, Surveillance ISO 9001:2015 & Penilaian Mandiri PEKPPP',
+            roles: ['I', 'A', 'C', 'C', 'C', 'R', 'I']
+          },
+          {
+            id: 'r11',
+            domain: 'MUTU',
+            domainLabel: 'Mutu, SKM & Kampus',
+            activity: 'Pembinaan Pojok Statistik Kampus & Sertifikasi Agen Pojok Statistik',
+            roles: ['I', 'A', 'C', 'I', 'C', 'I', 'R']
+          },
+          {
+            id: 'r12',
+            domain: 'MUTU',
+            domainLabel: 'Mutu, SKM & Kampus',
+            activity: 'Rapat Tinjauan Manajemen (RTM) & Pengesahan Laporan Tahunan PST 2027',
+            roles: ['A', 'R', 'C', 'C', 'C', 'R', 'C']
+          }
+        ],
+
+        get filteredWorkPlans() {
+          return this.workPlans.filter(wp => {
+            const matchesType = this.workPlanFilter === 'ALL' || wp.type === this.workPlanFilter;
+            const q = this.workPlanSearch.toLowerCase().trim();
+            if (!q) return matchesType;
+            const textBlob = [wp.code, wp.title, wp.scope, wp.sop, wp.target, ...wp.activities].join(' ').toLowerCase();
+            return matchesType && textBlob.includes(q);
+          });
+        },
+
+        get filteredActionPlans() {
+          return this.actionPlans.filter(item => {
+            const matchPdca = this.pdcaFilter === 'ALL' || item.pdca === this.pdcaFilter;
+            const matchQuarter = this.quarterFilter === 'ALL' || item.schedule.includes(this.quarterFilter) || item.schedule === 'TW I–IV';
+            return matchPdca && matchQuarter;
+          });
+        },
+
+        get filteredRaciRows() {
+          if (this.raciFilter === 'ALL') return this.raciRows;
+          return this.raciRows.filter(row => row.domain === this.raciFilter);
+        },
+
+        cycleActionStatus(item) {
+          const order = ['Terjadwal', 'Berjalan', 'Tercapai'];
+          const nextIdx = (order.indexOf(item.status) + 1) % order.length;
+          item.status = order[nextIdx];
+        },
+
+        toggleAllTree(state) {
+          this.performanceTree.forEach(branch => {
+            branch.open = state;
+          });
+          this.$nextTick(() => {
+            if (window.lucide) window.lucide.createIcons();
+          });
+        },
+
+        isMonthHighlighted(monthNum) {
+          if (this.selectedGanttQuarter === 'ALL') return false;
+          if (this.selectedGanttQuarter === 'Q1') return monthNum >= 1 && monthNum <= 3;
+          if (this.selectedGanttQuarter === 'Q2') return monthNum >= 4 && monthNum <= 6;
+          if (this.selectedGanttQuarter === 'Q3') return monthNum >= 7 && monthNum <= 9;
+          if (this.selectedGanttQuarter === 'Q4') return monthNum >= 10 && monthNum <= 12;
+          return false;
+        },
+
+        printDocument() {
+          // Ensure all collapsible sections are expanded before printing
+          this.regExpanded = true;
+          this.performanceTree.forEach(b => b.open = true);
+          this.$nextTick(() => {
+            window.print();
+          });
+        },
+
+        initApp() {
+          this.$nextTick(() => {
+            if (window.lucide) {
+              window.lucide.createIcons();
+            }
+          });
+          // Re-render icons whenever dynamic filters change
+          this.$watch('workPlanFilter', () => this.$nextTick(() => window.lucide && window.lucide.createIcons()));
+          this.$watch('workPlanSearch', () => this.$nextTick(() => window.lucide && window.lucide.createIcons()));
+          this.$watch('regExpanded', () => this.$nextTick(() => window.lucide && window.lucide.createIcons()));
+          this.$watch('showRegModal', () => this.$nextTick(() => window.lucide && window.lucide.createIcons()));
+        }
+      }
+    }
+  </script>
+</body>
+</html>

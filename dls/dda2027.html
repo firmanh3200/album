@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perencanaan Penyusunan Daerah Dalam Angka (DDA) 2027 - BPS Provinsi Jawa Barat</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        bps: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            300: '#7cc8fb',
+                            400: '#36adf6',
+                            500: '#0c93e7',
+                            600: '#0074c5',
+                            700: '#015da0',
+                            800: '#064f84',
+                            900: '#0b426e',
+                            950: '#072a49',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Alpine cloak */
+        [x-cloak] { display: none !important; }
+
+        /* Print Stylesheet untuk Ekspor PDF / Cetak Rapi */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 12mm;
+            }
+            body {
+                background: #ffffff !important;
+                color: #0f172a !important;
+                font-size: 10pt !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .print-break-inside-avoid {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .print-shadow-none {
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+            }
+            header {
+                position: static !important;
+                box-shadow: none !important;
+            }
+            /* Saat cetak, pastikan konten tab aktif tampil jelas tanpa potong overflow */
+            .overflow-x-auto {
+                overflow: visible !important;
+            }
+            table {
+                width: 100% !important;
+                font-size: 8.5pt !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-bps-600 selection:text-white" x-data="ddaPlannerApp()">
+
+    <!-- ==================== STICKY HEADER ==================== -->
+    <header class="sticky top-0 z-40 bg-gradient-to-r from-bps-950 via-bps-900 to-slate-900 text-white shadow-lg border-b border-bps-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between py-3.5 gap-3">
+                <!-- Brand & Title -->
+                <div class="flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-bps-500 to-emerald-500 flex items-center justify-center shadow-inner shrink-0 border border-white/20">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider bg-bps-500/30 text-bps-200 border border-bps-400/30 rounded-md">
+                                BPS Provinsi Jawa Barat
+                            </span>
+                            <span class="px-2 py-0.5 text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-md">
+                                TA 2026 / 2027
+                            </span>
+                        </div>
+                        <h1 class="text-base sm:text-lg md:text-xl font-bold tracking-tight text-white mt-0.5">
+                            Perencanaan Penyusunan Daerah Dalam Angka (DDA) 2027
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Header Quick Stats & Print Action -->
+                <div class="flex items-center justify-between md:justify-end gap-3 no-print">
+                    <!-- Mini Readiness Badge -->
+                    <div class="flex items-center gap-2.5 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-white/15">
+                        <div class="text-right">
+                            <div class="text-[10px] uppercase tracking-wider text-bps-200 font-medium">Kesiapan Aksi</div>
+                            <div class="text-sm font-bold text-white" x-text="completionPercentage + '% (' + completedCount + '/' + actionPlans.length + ')'"></div>
+                        </div>
+                        <div class="w-9 h-9 relative flex items-center justify-center">
+                            <svg class="w-9 h-9 -rotate-90" viewBox="0 0 36 36">
+                                <path class="text-white/20" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="text-emerald-400 transition-all duration-500" :stroke-dasharray="completionPercentage + ', 100'" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Print / Export PDF Button -->
+                    <button @click="printDocument()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white text-bps-900 hover:bg-bps-50 font-semibold text-xs sm:text-sm shadow-sm transition-all active:scale-95 cursor-pointer">
+                        <i data-lucide="printer" class="w-4 h-4 text-bps-700"></i>
+                        <span>Cetak / PDF</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="flex overflow-x-auto no-scrollbar gap-1.5 pb-2.5 pt-1 no-print" aria-label="Navigasi Komponen Perencanaan">
+                <template x-for="tab in tabs" :key="tab.id">
+                    <button
+                        @click="switchTab(tab.id)"
+                        :class="activeTab === tab.id 
+                            ? 'bg-white text-bps-950 font-bold shadow-sm' 
+                            : 'text-bps-100 hover:bg-white/10 hover:text-white font-medium'"
+                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm whitespace-nowrap transition-all cursor-pointer">
+                        <i :data-lucide="tab.icon" class="w-4 h-4" :class="activeTab === tab.id ? 'text-bps-600' : 'text-bps-300'"></i>
+                        <span x-text="tab.label"></span>
+                        <span x-show="tab.badge" x-text="tab.badge"
+                            :class="activeTab === tab.id ? 'bg-bps-100 text-bps-800' : 'bg-bps-800 text-bps-200'"
+                            class="px-1.5 py-0.2 rounded-full text-[10px] font-bold"></span>
+                    </button>
+                </template>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTAINER ==================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- 1. LANDASAN HUKUM, PEDOMAN & SOP (EXPANDABLE INFO PANEL) -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden print-shadow-none print-break-inside-avoid">
+            <div @click="showRegulasi = !showRegulasi" class="p-4 sm:px-6 flex items-center justify-between cursor-pointer bg-gradient-to-r from-slate-50 to-bps-50/40 hover:bg-slate-100/70 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-bps-100 text-bps-700 flex items-center justify-center shrink-0">
+                        <i data-lucide="scale" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm sm:text-base font-bold text-slate-900">
+                            Landasan Hukum, Buku Pedoman & Standar Operasional Prosedur (SOP) BPS
+                        </h2>
+                        <p class="text-xs text-slate-500">
+                            Acuan regulasi perstatistikan nasional, Satu Data Indonesia (SDI), GSBPM, dan tenggat rilis nasional DDA 2027
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="inline-flex items-center gap-1.5 text-xs font-semibold text-bps-700 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs no-print">
+                    <span x-text="showRegulasi ? 'Tutup Rincian' : 'Lihat Rincian'"></span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200" :class="showRegulasi ? 'rotate-180' : ''"></i>
+                </button>
+            </div>
+
+            <div x-show="showRegulasi" x-transition class="p-4 sm:p-6 border-t border-slate-200 bg-white space-y-5">
+                <!-- Grid Regulasi & Pedoman -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <div class="flex items-center gap-2 text-bps-700 font-bold text-xs uppercase tracking-wide mb-1">
+                            <i data-lucide="book-open" class="w-3.5 h-3.5"></i> UU No. 16 Tahun 1997
+                        </div>
+                        <p class="text-xs font-semibold text-slate-800">Tentang Statistik</p>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Mandat penyelenggaraan statistik dasar oleh BPS, koordinasi statistik sektoral, serta kewajiban penyebarluasan hasil statistik kepada masyarakat.</p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <div class="flex items-center gap-2 text-bps-700 font-bold text-xs uppercase tracking-wide mb-1">
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> PP No. 51 Tahun 1999
+                        </div>
+                        <p class="text-xs font-semibold text-slate-800">Tentang Penyelenggaraan Statistik</p>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Pengaturan kompilasi produk administrasi (Kompromin) dari instansi pemerintah/OPD serta jaminan kerahasiaan data individu responden.</p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <div class="flex items-center gap-2 text-bps-700 font-bold text-xs uppercase tracking-wide mb-1">
+                            <i data-lucide="database" class="w-3.5 h-3.5"></i> Perpres No. 39 Tahun 2019
+                        </div>
+                        <p class="text-xs font-semibold text-slate-800">Tentang Satu Data Indonesia (SDI)</p>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">BPS sebagai Pembina Data Statistik memastikan publikasi DDA memenuhi Standar Data, Metadata Baku, Interoperabilitas, dan Kode Referensi.</p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <div class="flex items-center gap-2 text-bps-700 font-bold text-xs uppercase tracking-wide mb-1">
+                            <i data-lucide="file-check-2" class="w-3.5 h-3.5"></i> Perban BPS No. 4 Tahun 2019
+                        </div>
+                        <p class="text-xs font-semibold text-slate-800">NSPK Penyelenggaraan Statistik Sektoral</p>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Norma, Standar, Prosedur, dan Kriteria penjaminan kualitas kompilasi data sektoral dari Perangkat Daerah dan Instansi Vertikal di Jawa Barat.</p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <div class="flex items-center gap-2 text-bps-700 font-bold text-xs uppercase tracking-wide mb-1">
+                            <i data-lucide="bookmark" class="w-3.5 h-3.5"></i> Pedoman & Kepka BPS Pembakuan DDA
+                        </div>
+                        <p class="text-xs font-semibold text-slate-800">Buku Pedoman Penyusunan Publikasi DDA</p>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Standarisasi struktur 13 Bab baku, nomor dan judul tabel standar nasional, konvensi simbol/tanda baca statistik, tata letak (layout), dan ARC.</p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-bps-50 border border-bps-200">
+                        <div class="flex items-center gap-2 text-bps-800 font-bold text-xs uppercase tracking-wide mb-1">
+                            <i data-lucide="calendar-clock" class="w-3.5 h-3.5"></i> SOP GSBPM & Tenggat Rilis Nasional
+                        </div>
+                        <p class="text-xs font-semibold text-bps-950">Jadwal Rilis Serentak (ARC)</p>
+                        <ul class="text-xs text-bps-900 mt-1 space-y-0.5 list-disc list-inside">
+                            <li><strong>DDA Provinsi & Kab/Kota 2027:</strong> Rilis serentak <strong>28 Februari 2027</strong>.</li>
+                            <li><strong>Kecamatan Dalam Angka (KCDA) 2027:</strong> Rilis serentak <strong>26 September 2027</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Alur 8 Fase GSBPM Strip -->
+                <div class="bg-slate-900 text-white rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-2.5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-bps-300 flex items-center gap-1.5">
+                            <i data-lucide="workflow" class="w-4 h-4"></i> Alur Bisnis Proses Statistik (GSBPM - Generic Statistical Business Process Model)
+                        </span>
+                        <span class="text-[11px] text-slate-400 hidden sm:inline">Standar SOP Penyusunan Publikasi BPS</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 text-center">
+                        <template x-for="(phase, idx) in gsbpmPhases" :key="phase.code">
+                            <div class="bg-white/10 border border-white/10 rounded-lg p-2">
+                                <div class="text-[10px] font-bold text-emerald-300" x-text="'Fase ' + phase.code"></div>
+                                <div class="text-xs font-semibold text-white mt-0.5" x-text="phase.en"></div>
+                                <div class="text-[10px] text-slate-300 mt-0.5 leading-tight" x-text="phase.id"></div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 1: RENCANA KERJA (WORK PLAN 2027) ==================== -->
+        <section x-show="activeTab === 'rencana-kerja'" x-transition.opacity class="space-y-6">
+            <!-- Ringkasan Strategis & IKU/IKK -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 print-break-inside-avoid">
+                <!-- Tujuan & Ruang Lingkup -->
+                <div class="lg:col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-slate-200/90 space-y-4">
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-bps-600">Kerangka Acuan Kerja (KAK)</span>
+                            <h3 class="text-lg font-bold text-slate-900 mt-0.5">Tujuan Strategis, Sasaran & Ruang Lingkup DDA 2027</h3>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-lg bg-bps-50 text-bps-700 text-xs font-semibold border border-bps-200 shrink-0">
+                            27 Kab/Kota + 1 Provinsi
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Menyediakan publikasi kompendium statistik tahunan yang komprehensif, akurat, mutakhir, dan terstandar untuk mendukung perencanaan, pemantauan, dan evaluasi pembangunan daerah di Provinsi Jawa Barat serta 27 Kabupaten/Kota dan 627 Kecamatan.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                            <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                                <i data-lucide="book" class="w-4 h-4 text-bps-600"></i> Publikasi DDA Provinsi & Kab/Kota 2027
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1">13 Bab Standar (Geografi & Iklim, Pemerintahan, Penduduk & Ketenagakerjaan, Sosial & Kesejahteraan Rakyat, Pertanian, Industri & Energi, Pariwisata, Transportasi & Komunikasi, Perbankan & Harga, Pengeluaran Penduduk, Perdagangan, Sistem Neraca Regional, Perbandingan Antar-Wilayah). Rilis: <strong>28 Feb 2027</strong>.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                            <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-emerald-600"></i> Kecamatan Dalam Angka (KCDA) 2027
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1">Kompilasi data statistik mikro-wilayah tingkat kecamatan/desa/kelurahan se-Jawa Barat (627 publikasi KCDA oleh BPS Kab/Kota dengan supervisi BPS Provinsi). Rilis: <strong>26 Sep 2027</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Indikator Kinerja Utama (IKU / IKK) -->
+                <div class="bg-gradient-to-br from-bps-900 to-slate-900 text-white rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                            <i data-lucide="target" class="w-4 h-4"></i> Indikator Kinerja Utama (IKU/IKK)
+                        </div>
+                        <h3 class="text-base font-bold text-white mt-1">Target Kualitas & Ketepatan Waktu</h3>
+                        <ul class="mt-3.5 space-y-2.5 text-xs">
+                            <li class="flex items-start gap-2.5 bg-white/10 p-2.5 rounded-xl">
+                                <span class="px-1.5 py-0.5 rounded bg-emerald-500 text-slate-950 font-extrabold text-[11px] shrink-0">100%</span>
+                                <span><strong>Ketepatan Waktu Rilis (ARC):</strong> Tayang di portal <code>jabar.bps.go.id</code> pada 28 Feb 2027 pukul 10.00 WIB.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5 bg-white/10 p-2.5 rounded-xl">
+                                <span class="px-1.5 py-0.5 rounded bg-bps-400 text-slate-950 font-extrabold text-[11px] shrink-0">100%</span>
+                                <span><strong>Kelengkapan Tabel Standar:</strong> Seluruh tabel wajib sesuai Katalog Tabel Baku DDA 2027 terisi lengkap.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5 bg-white/10 p-2.5 rounded-xl">
+                                <span class="px-1.5 py-0.5 rounded bg-amber-400 text-slate-950 font-extrabold text-[11px] shrink-0">0 Error</span>
+                                <span><strong>Zero Inconsistency:</strong> Bebas kesalahan penjumlahan baris/kolom serta konsisten lintas bab dan antar-tahun.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5 bg-white/10 p-2.5 rounded-xl">
+                                <span class="px-1.5 py-0.5 rounded bg-purple-400 text-slate-950 font-extrabold text-[11px] shrink-0">100%</span>
+                                <span><strong>Metadata & Standar Data SDI:</strong> Terdaftar di Romantik / Indah BPS dan dilengkapi file Excel/CSV terbuka.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabel Rencana Kerja Berbasis 8 Tahapan GSBPM -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+                <div class="p-4 sm:p-5 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-900">Matriks Rencana Kerja Tahapan GSBPM (2026–2027)</h3>
+                        <p class="text-xs text-slate-500">Rincian program kerja, rincian kegiatan, indikator keberhasilan, sumber data/anggaran, dan jadwal pelaksanaan</p>
+                    </div>
+
+                    <!-- Filter & Search Controls -->
+                    <div class="flex flex-col sm:flex-row gap-2.5 no-print">
+                        <div class="relative">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                            <input type="text" x-model="workPlanSearch" placeholder="Cari kegiatan / output..."
+                                class="pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-bps-500 w-full sm:w-56">
+                        </div>
+                        <select x-model="workPlanPhaseFilter" class="px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-bps-500 font-medium text-slate-700">
+                            <option value="ALL">Semua Fase GSBPM (1 - 8)</option>
+                            <template x-for="p in gsbpmPhases" :key="p.code">
+                                <option :value="p.code" x-text="'Fase ' + p.code + ': ' + p.id"></option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100/80 text-slate-700 text-[11px] uppercase tracking-wider border-b border-slate-200">
+                                <th class="py-3 px-4 font-bold w-44">Tahapan GSBPM</th>
+                                <th class="py-3 px-4 font-bold">Uraian Kegiatan & Ruang Lingkup</th>
+                                <th class="py-3 px-4 font-bold">Target Output & Indikator Kinerja</th>
+                                <th class="py-3 px-4 font-bold w-40">Sumber Data / Basis</th>
+                                <th class="py-3 px-4 font-bold w-36">Periode</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs">
+                            <template x-for="item in filteredWorkPlans" :key="item.id">
+                                <tr class="hover:bg-bps-50/40 transition-colors align-top">
+                                    <td class="py-3.5 px-4">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-bps-100 text-bps-800 border border-bps-200" x-text="'Fase ' + item.phaseCode"></span>
+                                        <div class="font-bold text-slate-900 mt-1" x-text="item.phaseName"></div>
+                                        <div class="text-[11px] text-slate-500 italic" x-text="item.phaseEn"></div>
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <div class="font-bold text-slate-800 text-sm" x-text="item.activity"></div>
+                                        <p class="text-slate-600 mt-1 leading-relaxed" x-text="item.description"></p>
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <div class="font-semibold text-bps-800 flex items-start gap-1.5">
+                                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
+                                            <span x-text="item.output"></span>
+                                        </div>
+                                        <div class="mt-1.5 inline-block px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-[11px] font-medium" x-text="'KPI: ' + item.kpi"></div>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-slate-600 font-medium" x-text="item.source"></td>
+                                    <td class="py-3.5 px-4">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-800 font-semibold text-[11px]" x-text="item.period"></span>
+                                    </td>
+                                </tr>
+                            </template>
+                            <tr x-show="filteredWorkPlans.length === 0">
+                                <td colspan="5" class="py-8 text-center text-slate-500 text-sm">
+                                    Tidak ditemukan rencana kerja yang sesuai dengan filter pencarian.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: RENCANA AKSI & CHECKLIST INTERAKTIF ==================== -->
+        <section x-show="activeTab === 'rencana-aksi'" x-transition.opacity class="space-y-5">
+            <!-- Progress Dashboard Card -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/90 print-break-inside-avoid">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">Tracker Real-Time</span>
+                            <span class="text-xs text-slate-500">Tersimpan otomatis di browser (LocalStorage)</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900">Progres Kesiapan Rilis Daerah Dalam Angka 2027</h3>
+                        <p class="text-xs text-slate-600">Centang setiap langkah operasional yang telah selesai dilaksanakan oleh Tim Penyusun DDA BPS Provinsi Jawa Barat.</p>
+                    </div>
+
+                    <div class="flex items-center gap-3 no-print">
+                        <button @click="markAllDemo()" class="px-3 py-2 rounded-xl text-xs font-semibold bg-bps-50 text-bps-700 hover:bg-bps-100 border border-bps-200 transition-colors cursor-pointer">
+                            Simulasi Fase Awal
+                        </button>
+                        <button @click="confirmResetModal = true" class="px-3 py-2 rounded-xl text-xs font-semibold bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 transition-colors inline-flex items-center gap-1.5 cursor-pointer">
+                            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset Progres
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Progress Bar -->
+                <div class="mt-4 space-y-2">
+                    <div class="flex justify-between items-end text-xs">
+                        <span class="font-semibold text-slate-700">
+                            Selesai: <strong class="text-bps-700" x-text="completedCount"></strong> dari <strong x-text="actionPlans.length"></strong> Langkah Operasional
+                        </span>
+                        <span class="text-base font-extrabold text-bps-700" x-text="completionPercentage + '%'"></span>
+                    </div>
+                    <div class="w-full h-3.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200/80 p-0.5">
+                        <div class="h-full rounded-full bg-gradient-to-r from-bps-600 via-bps-500 to-emerald-500 transition-all duration-500"
+                             :style="'width: ' + completionPercentage + '%'"></div>
+                    </div>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 no-print">
+                    <div class="flex flex-wrap gap-1.5">
+                        <button @click="actionStatusFilter = 'ALL'"
+                            :class="actionStatusFilter === 'ALL' ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer">
+                            Semua (<span x-text="actionPlans.length"></span>)
+                        </button>
+                        <button @click="actionStatusFilter = 'PENDING'"
+                            :class="actionStatusFilter === 'PENDING' ? 'bg-amber-600 text-white' : 'bg-amber-50 text-amber-800 hover:bg-amber-100'"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer">
+                            Belum Selesai (<span x-text="actionPlans.length - completedCount"></span>)
+                        </button>
+                        <button @click="actionStatusFilter = 'DONE'"
+                            :class="actionStatusFilter === 'DONE' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100'"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer">
+                            Selesai (<span x-text="completedCount"></span>)
+                        </button>
+                    </div>
+
+                    <select x-model="actionScopeFilter" class="px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg font-medium text-slate-700">
+                        <option value="ALL">Semua Ruang Lingkup (DDA & KCDA)</option>
+                        <option value="DDA">Fokus DDA Prov/Kab/Kota (Nov 2026 – Feb 2027)</option>
+                        <option value="KCDA">Fokus KCDA & Evaluasi (Mar – Sep 2027)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Action Plan Table / Checklist -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100/80 text-slate-700 text-[11px] uppercase tracking-wider border-b border-slate-200">
+                                <th class="py-3 px-4 font-bold w-12 text-center">Status</th>
+                                <th class="py-3 px-4 font-bold w-32">Target Tanggal</th>
+                                <th class="py-3 px-4 font-bold">Langkah Operasional & Rincian Aksi</th>
+                                <th class="py-3 px-4 font-bold">Output / Deliverable Nyata</th>
+                                <th class="py-3 px-4 font-bold w-44">Penanggung Jawab</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs">
+                            <template x-for="act in filteredActionPlans" :key="act.id">
+                                <tr @click="toggleAction(act.id)"
+                                    :class="act.completed ? 'bg-emerald-50/40' : 'hover:bg-slate-50'"
+                                    class="transition-colors cursor-pointer align-top">
+                                    <td class="py-3.5 px-4 text-center">
+                                        <input type="checkbox" :checked="act.completed" @click.stop="toggleAction(act.id)"
+                                            class="w-4 h-4 rounded border-slate-300 text-bps-600 focus:ring-bps-500 cursor-pointer">
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <div class="font-bold text-slate-900" x-text="act.targetDate"></div>
+                                        <span :class="act.scope === 'DDA' ? 'bg-bps-100 text-bps-800' : 'bg-purple-100 text-purple-800'"
+                                            class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold" x-text="act.scope"></span>
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-slate-200/70 text-slate-700" x-text="act.phase"></span>
+                                            <span x-show="act.critical" class="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-rose-100 text-rose-700">Milestone Kritis</span>
+                                        </div>
+                                        <div class="font-bold text-sm mt-1 transition-all"
+                                             :class="act.completed ? 'line-through text-slate-400' : 'text-slate-900'"
+                                             x-text="act.title"></div>
+                                        <p class="text-slate-600 mt-0.5 leading-relaxed" x-text="act.detail"></p>
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <div class="inline-flex items-start gap-1.5 text-slate-800 font-medium bg-slate-100/80 px-2.5 py-1.5 rounded-lg border border-slate-200/60">
+                                            <i data-lucide="file-output" class="w-3.5 h-3.5 text-bps-600 shrink-0 mt-0.5"></i>
+                                            <span x-text="act.deliverable"></span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <div class="font-semibold text-slate-800" x-text="act.pic"></div>
+                                        <div class="text-[11px] text-slate-500 mt-0.5" x-text="act.support"></div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: POHON KINERJA (PERFORMANCE CASCADING TREE) ==================== -->
+        <section x-show="activeTab === 'pohon-kinerja'" x-transition.opacity class="space-y-6">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/90">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-bps-600">Arsitektur Kinerja (SAKIP & PermenPANRB 89/2021)</span>
+                        <h3 class="text-lg font-bold text-slate-900">Pohon Kinerja Penyusunan Daerah Dalam Angka 2027</h3>
+                        <p class="text-xs text-slate-500">Klik pada pilar output untuk membuka/menutup rincian indikator kinerja individu (IKI) dan aktivitas kunci.</p>
+                    </div>
+                    <div class="flex gap-2 no-print">
+                        <button @click="toggleAllPillars(true)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-bps-50 text-bps-700 hover:bg-bps-100 border border-bps-200 cursor-pointer">
+                            Buka Semua Pilar
+                        </button>
+                        <button @click="toggleAllPillars(false)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                            Tutup Semua
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cascading Visual Tree -->
+                <div class="space-y-4">
+                    <!-- Level 1: Ultimate Outcome -->
+                    <div class="max-w-3xl mx-auto bg-gradient-to-r from-bps-950 to-bps-800 text-white rounded-2xl p-4 sm:p-5 shadow-md border-2 border-bps-600 relative print-break-inside-avoid">
+                        <div class="flex items-center justify-between gap-2 mb-1.5">
+                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-amber-400 text-slate-950">
+                                Ultimate Outcome (Tujuan Instansi / Sasaran Strategis BPS)
+                            </span>
+                            <i data-lucide="award" class="w-5 h-5 text-amber-300"></i>
+                        </div>
+                        <p class="text-sm sm:text-base font-bold leading-snug">
+                            Terwujudnya Data Statistik Dasar dan Sektoral yang Berkualitas, Terstandar, dan Mudah Diakses untuk Perencanaan Pembangunan Daerah (Satu Data Indonesia).
+                        </p>
+                        <div class="mt-2 text-xs text-bps-200 flex flex-wrap gap-3">
+                            <span>• Indikator: Indeks Pembangunan Statistik (IPS) & Tingkat Kepuasan Pengguna Data (SKD)</span>
+                        </div>
+                    </div>
+
+                    <!-- Connector Arrow -->
+                    <div class="flex justify-center">
+                        <div class="w-0.5 h-6 bg-bps-400"></div>
+                    </div>
+
+                    <!-- Level 2: Intermediate Outcome -->
+                    <div class="max-w-3xl mx-auto bg-bps-50 border-2 border-bps-500 rounded-2xl p-4 sm:p-5 shadow-xs print-break-inside-avoid">
+                        <div class="flex items-center justify-between gap-2 mb-1">
+                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-bps-600 text-white">
+                                Intermediate Outcome (Sasaran Program / Tim Kerja)
+                            </span>
+                            <i data-lucide="trending-up" class="w-5 h-5 text-bps-700"></i>
+                        </div>
+                        <p class="text-sm sm:text-base font-bold text-bps-950">
+                            Meningkatnya Kualitas, Akurasi, dan Ketepatan Waktu Rilis Publikasi Daerah Dalam Angka (DDA) Tahun 2027 di Wilayah Provinsi Jawa Barat.
+                        </p>
+                        <div class="mt-2 text-xs text-bps-800 font-medium">
+                            • Indikator Program: Persentase Publikasi Statistik Daerah yang Rilis Sesuai ARC dan Memenuhi Standar Penjaminan Kualitas (100%).
+                        </div>
+                    </div>
+
+                    <!-- Connector Arrow -->
+                    <div class="flex justify-center">
+                        <div class="w-0.5 h-6 bg-emerald-500"></div>
+                    </div>
+
+                    <!-- Level 3: Immediate Outcome -->
+                    <div class="max-w-4xl mx-auto bg-emerald-50/80 border-2 border-emerald-500 rounded-2xl p-4 sm:p-5 shadow-xs print-break-inside-avoid">
+                        <div class="flex items-center justify-between gap-2 mb-1">
+                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-emerald-600 text-white">
+                                Immediate Outcome (Sasaran Kegiatan)
+                            </span>
+                            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-700"></i>
+                        </div>
+                        <p class="text-sm sm:text-base font-bold text-emerald-950">
+                            Tersedianya Publikasi DDA 2027 yang 100% Konsisten, Lengkap Sesuai Katalog Tabel Baku, Dilengkapi Metadata Statistik, dan Rilis Tepat Waktu (28 Februari 2027).
+                        </p>
+                        <div class="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-emerald-900">
+                            <div class="bg-white/80 px-2.5 py-1.5 rounded-lg border border-emerald-200 font-medium">✓ 100% Katalog Tabel Terpenuhi</div>
+                            <div class="bg-white/80 px-2.5 py-1.5 rounded-lg border border-emerald-200 font-medium">✓ 0 Inkonsistensi Lintas Bab</div>
+                            <div class="bg-white/80 px-2.5 py-1.5 rounded-lg border border-emerald-200 font-medium">✓ Rilis 28 Feb 2027 (ARC)</div>
+                        </div>
+                    </div>
+
+                    <!-- Connector Branch Line -->
+                    <div class="flex justify-center">
+                        <div class="w-0.5 h-6 bg-slate-300"></div>
+                    </div>
+
+                    <!-- Level 4 & 5: 4 Output Pillars + Key Activities / IKI -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <template x-for="pillar in performancePillars" :key="pillar.id">
+                            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden print-break-inside-avoid">
+                                <div @click="pillar.open = !pillar.open"
+                                     class="p-4 bg-slate-50 hover:bg-slate-100/80 border-b border-slate-200 flex items-start justify-between gap-3 cursor-pointer transition-colors">
+                                    <div>
+                                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider"
+                                              :class="pillar.badgeClass" x-text="'Output Pilar ' + pillar.id"></span>
+                                        <h4 class="text-sm font-bold text-slate-900 mt-1" x-text="pillar.title"></h4>
+                                        <p class="text-xs text-slate-600 mt-0.5" x-text="'Target Output: ' + pillar.target"></p>
+                                    </div>
+                                    <button type="button" class="p-1.5 rounded-lg bg-white border border-slate-200 text-slate-500 no-print">
+                                        <i data-lucide="chevron-down" class="w-4 h-4 transition-transform" :class="pillar.open ? 'rotate-180' : ''"></i>
+                                    </button>
+                                </div>
+
+                                <div x-show="pillar.open" x-transition class="p-4 space-y-2.5 bg-white">
+                                    <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                                        Aktivitas Kunci & Indikator Kinerja Individu (IKI):
+                                    </div>
+                                    <template x-for="(act, idx) in pillar.activities" :key="idx">
+                                        <div class="p-3 rounded-xl bg-slate-50/90 border border-slate-200/70 text-xs space-y-1">
+                                            <div class="font-bold text-slate-800 flex items-start gap-2">
+                                                <span class="w-5 h-5 rounded-full bg-bps-100 text-bps-800 flex items-center justify-center text-[10px] font-extrabold shrink-0" x-text="pillar.id + '.' + (idx+1)"></span>
+                                                <span x-text="act.name"></span>
+                                            </div>
+                                            <div class="pl-7 text-slate-600">
+                                                <span class="font-semibold text-emerald-700">IKI:</span> <span x-text="act.iki"></span>
+                                            </div>
+                                            <div class="pl-7 text-[11px] text-slate-500">
+                                                <span class="font-semibold">Pelaksana:</span> <span x-text="act.actor"></span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: MATRIKS PERAN HASIL (MPH) ==================== -->
+        <section x-show="activeTab === 'mph'" x-transition.opacity class="space-y-5">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/90">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-bps-600">PermenPANRB No. 6/2022 & No. 7/2022 (Sistem Kerja Berbasis Tim)</span>
+                        <h3 class="text-lg font-bold text-slate-900">Matriks Peran Hasil (MPH) Tim Penyusun DDA 2027</h3>
+                        <p class="text-xs text-slate-500">Penyelarasan peran pejabat/fungsional dengan Intermediate Outcome dan Rencana Hasil Kerja (RHK) di BPS Provinsi Jawa Barat.</p>
+                    </div>
+                    <div class="relative no-print">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" x-model="mphSearch" placeholder="Cari peran atau RHK..."
+                            class="pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-bps-500 w-full sm:w-64">
+                    </div>
+                </div>
+
+                <!-- Intermediate Outcome Banner -->
+                <div class="p-3.5 rounded-xl bg-bps-900 text-white text-xs mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <span class="uppercase font-bold text-emerald-300 tracking-wider block text-[10px]">Intermediate Outcome Tim Kerja DDA 2027:</span>
+                        <span class="font-semibold text-sm">Tersusunnya Publikasi Provinsi/Kabupaten/Kota Dalam Angka 2027 dan Kecamatan Dalam Angka 2027 yang Akurat, Konsisten, dan Rilis Tepat Waktu.</span>
+                    </div>
+                    <span class="px-3 py-1 rounded-lg bg-white/15 font-bold shrink-0">7 Peran Utama</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 text-[11px] uppercase tracking-wider border-b border-slate-200">
+                                <th class="py-3 px-4 font-bold w-56">Jabatan / Peran Tim Kerja</th>
+                                <th class="py-3 px-4 font-bold w-52">Peran Utama dalam Tim</th>
+                                <th class="py-3 px-4 font-bold">Rencana Hasil Kerja (RHK) / Output Konkret</th>
+                                <th class="py-3 px-4 font-bold w-56">Indikator Kinerja Individu (IKI)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs">
+                            <template x-for="row in filteredMph" :key="row.role">
+                                <tr class="hover:bg-bps-50/40 transition-colors align-top">
+                                    <td class="py-3.5 px-4">
+                                        <div class="font-bold text-slate-900 text-sm" x-text="row.role"></div>
+                                        <span class="inline-block mt-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-bps-100 text-bps-800" x-text="row.unit"></span>
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <div class="font-semibold text-bps-800" x-text="row.mainRole"></div>
+                                        <p class="text-slate-500 mt-1 text-[11px]" x-text="row.focus"></p>
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <ul class="space-y-1.5">
+                                            <template x-for="(rhk, i) in row.rhkList" :key="i">
+                                                <li class="flex items-start gap-2 text-slate-700">
+                                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5" x-text="i+1"></span>
+                                                    <span x-text="rhk"></span>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200/80 text-slate-700 font-medium leading-relaxed" x-text="row.iki"></div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 5: TIMELINE PELAKSANAAN (NOV 2026 - SEP 2027) ==================== -->
+        <section x-show="activeTab === 'timeline'" x-transition.opacity class="space-y-5">
+            <!-- Milestone Highlights -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 print-break-inside-avoid">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
+                    <div class="text-[10px] font-bold uppercase text-bps-600">Milestone 1</div>
+                    <div class="text-sm font-extrabold text-slate-900 mt-0.5">15 Jan 2027</div>
+                    <div class="text-xs text-slate-600 mt-1">Cutoff Pengumpulan Data OPD & Instansi Eksternal</div>
+                </div>
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
+                    <div class="text-[10px] font-bold uppercase text-amber-600">Milestone 2</div>
+                    <div class="text-sm font-extrabold text-slate-900 mt-0.5">05 Feb 2027</div>
+                    <div class="text-xs text-slate-600 mt-1">Rekonsiliasi & Konsistensi Lintas Wilayah (Prov-Kab/Kota)</div>
+                </div>
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
+                    <div class="text-[10px] font-bold uppercase text-purple-600">Milestone 3</div>
+                    <div class="text-sm font-extrabold text-slate-900 mt-0.5">22 Feb 2027</div>
+                    <div class="text-xs text-slate-600 mt-1">Batas Akhir QA, Proofreading & Pengesahan Kepala BPS</div>
+                </div>
+                <div class="bg-gradient-to-br from-rose-600 to-rose-700 text-white p-3.5 rounded-xl shadow-sm ring-2 ring-rose-300">
+                    <div class="text-[10px] font-extrabold uppercase text-rose-100 flex items-center gap-1">
+                        <i data-lucide="flag" class="w-3 h-3"></i> Milestone Utama
+                    </div>
+                    <div class="text-sm font-extrabold mt-0.5">28 Feb 2027</div>
+                    <div class="text-xs text-rose-50 mt-1">Rilis Serentak Nasional DDA Provinsi & Kab/Kota 2027</div>
+                </div>
+                <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-3.5 rounded-xl shadow-xs">
+                    <div class="text-[10px] font-extrabold uppercase text-emerald-100">Milestone 5</div>
+                    <div class="text-sm font-extrabold mt-0.5">26 Sep 2027</div>
+                    <div class="text-xs text-emerald-50 mt-1">Rilis Serentak Kecamatan Dalam Angka (KCDA) 2027</div>
+                </div>
+            </div>
+
+            <!-- Gantt Chart Container -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+                <div class="p-4 sm:p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-900">Jadwal Terpadu Penyusunan DDA & KCDA 2027 (Nov 2026 – Sep 2027)</h3>
+                        <p class="text-xs text-slate-500">Visualisasi linimasa kegiatan lintas fase dan penanggung jawab utama</p>
+                    </div>
+                    <div class="flex items-center gap-2 no-print">
+                        <select x-model="timelineTeamFilter" class="px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-700">
+                            <option value="ALL">Semua Tim Pelaksana</option>
+                            <option value="Tim IPDS">Tim IPDS / Diseminasi</option>
+                            <option value="Tim Sektoral">Tim Pembinaan Sektoral</option>
+                            <option value="Tim Teknis">Tim Teknis / Subject Matter</option>
+                            <option value="Tim QA & Humas">Tim QA, Pimpinan & Humas</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[850px]">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 text-[11px] uppercase tracking-wider border-b border-slate-200">
+                                <th class="py-3 px-4 font-bold w-64">Tahapan / Paket Kegiatan</th>
+                                <th class="py-3 px-2 font-bold w-32">Tim Utama</th>
+                                <template x-for="m in timelineMonths" :key="m.key">
+                                    <th class="py-3 px-1.5 font-bold text-center border-l border-slate-200"
+                                        :class="m.highlight ? 'bg-rose-100/80 text-rose-900' : ''"
+                                        x-text="m.label"></th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs">
+                            <template x-for="item in filteredTimeline" :key="item.id">
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-3 px-4">
+                                        <div class="font-bold text-slate-900" x-text="item.task"></div>
+                                        <div class="text-[11px] text-slate-500" x-text="item.dateRange"></div>
+                                    </td>
+                                    <td class="py-3 px-2">
+                                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200" x-text="item.team"></span>
+                                    </td>
+                                    <template x-for="(m, idx) in timelineMonths" :key="m.key">
+                                        <td class="py-3 px-1 border-l border-slate-100 text-center relative"
+                                            :class="m.highlight ? 'bg-rose-50/40' : ''">
+                                            <div x-show="idx >= item.startIdx && idx <= item.endIdx"
+                                                 :class="item.barColor"
+                                                 class="h-6 rounded-md flex items-center justify-center text-[10px] font-bold text-white shadow-2xs px-1">
+                                                <span x-show="idx === item.milestoneIdx" title="Milestone Kritis">★</span>
+                                            </div>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Legend -->
+                <div class="p-3.5 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center gap-4 text-xs text-slate-600">
+                    <span class="font-bold text-slate-800">Keterangan:</span>
+                    <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-bps-600 inline-block"></span> Persiapan & Kompilasi</span>
+                    <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-500 inline-block"></span> Pengolahan, Validasi & Rekonsiliasi</span>
+                    <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-rose-600 inline-block"></span> QA & Rilis DDA (28 Feb 2027)</span>
+                    <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-600 inline-block"></span> Penyusunan & Rilis KCDA (26 Sep 2027)</span>
+                    <span class="inline-flex items-center gap-1 font-semibold text-rose-700">★ Titik Milestone Kritis</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 6: MATRIKS RACI ==================== -->
+        <section x-show="activeTab === 'raci'" x-transition.opacity class="space-y-5">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+                <div class="p-4 sm:p-5 border-b border-slate-200 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-bps-600">Tata Kelola & Pembagian Tanggung Jawab</span>
+                        <h3 class="text-lg font-bold text-slate-900">Matriks RACI Penyusunan Daerah Dalam Angka 2027</h3>
+                        <p class="text-xs text-slate-500">Pemetaan peran 7 aktor utama pada 14 aktivitas kunci siklus penyusunan DDA & KCDA 2027.</p>
+                    </div>
+
+                    <!-- Role Highlight Filter -->
+                    <div class="flex flex-wrap items-center gap-2 no-print">
+                        <label class="text-xs font-semibold text-slate-700">Sorot Peran Aktor:</label>
+                        <select x-model="raciRoleFilter" class="px-3 py-2 text-xs bg-bps-50 border border-bps-200 rounded-xl font-semibold text-bps-900 focus:outline-none focus:ring-2 focus:ring-bps-500">
+                            <option value="ALL">Tampilkan Semua (Normal)</option>
+                            <template x-for="actor in raciActors" :key="actor.key">
+                                <option :value="actor.key" x-text="'Sorot Tugas: ' + actor.shortName + ' (R / A)'"></option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- RACI Legend -->
+                <div class="px-4 sm:px-5 py-3 bg-slate-50 border-b border-slate-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-rose-600 text-white font-extrabold flex items-center justify-center shrink-0">R</span>
+                        <div><strong>Responsible:</strong> Pelaksana langsung aktivitas</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-amber-500 text-slate-950 font-extrabold flex items-center justify-center shrink-0">A</span>
+                        <div><strong>Accountable:</strong> Pemegang otoritas & pengesah akhir</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-bps-600 text-white font-extrabold flex items-center justify-center shrink-0">C</span>
+                        <div><strong>Consulted:</strong> Dimintai masukan teknis/substansi</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-slate-200 text-slate-700 font-extrabold flex items-center justify-center shrink-0">I</span>
+                        <div><strong>Informed:</strong> Diinformasikan hasil/progresnya</div>
+                    </div>
+                </div>
+
+                <!-- RACI Matrix Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[900px]">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-800 text-[11px] uppercase tracking-wider border-b border-slate-200">
+                                <th class="py-3 px-4 font-bold w-12 text-center">No</th>
+                                <th class="py-3 px-4 font-bold">Aktivitas Kunci Penyusunan DDA 2027</th>
+                                <template x-for="actor in raciActors" :key="actor.key">
+                                    <th class="py-3 px-2 font-bold text-center w-28 border-l border-slate-200 transition-colors"
+                                        :class="raciRoleFilter === actor.key ? 'bg-bps-200 text-bps-950' : ''">
+                                        <div x-text="actor.shortName"></div>
+                                        <div class="text-[9px] font-normal text-slate-500 normal-case mt-0.5" x-text="actor.sub"></div>
+                                    </th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs">
+                            <template x-for="(row, idx) in raciMatrix" :key="row.id">
+                                <tr :class="isRaciRowHighlighted(row) ? 'bg-amber-50/70' : 'hover:bg-slate-50'"
+                                    class="transition-colors">
+                                    <td class="py-3 px-4 text-center font-bold text-slate-500" x-text="idx + 1"></td>
+                                    <td class="py-3 px-4">
+                                        <span class="text-[10px] font-bold text-bps-700 uppercase" x-text="row.phase"></span>
+                                        <div class="font-semibold text-slate-900" x-text="row.activity"></div>
+                                    </td>
+                                    <template x-for="actor in raciActors" :key="actor.key">
+                                        <td class="py-3 px-2 text-center border-l border-slate-100"
+                                            :class="raciRoleFilter === actor.key ? 'bg-bps-100/50' : ''">
+                                            <span :class="getRaciBadgeClass(row.roles[actor.key])"
+                                                  class="inline-flex items-center justify-center w-7 h-7 rounded-lg font-extrabold text-xs shadow-2xs"
+                                                  x-text="row.roles[actor.key]"></span>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 border-t border-slate-200 mt-8 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div>
+            <strong>Badan Pusat Statistik Provinsi Jawa Barat</strong> • Jl. PHH. Mustofa No. 43 Bandung
+        </div>
+        <div>
+            Dokumen Perencanaan Penyusunan Publikasi Daerah Dalam Angka (DDA) Tahun 2027 • Berbasis SOP GSBPM & Satu Data Indonesia
+        </div>
+    </footer>
+
+    <!-- ==================== CUSTOM CONFIRM MODAL (RESET PROGRES) ==================== -->
+    <div x-show="confirmResetModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 no-print">
+        <div @click.away="confirmResetModal = false" class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200 space-y-4">
+            <div class="flex items-center gap-3 text-rose-600">
+                <div class="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center shrink-0">
+                    <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                </div>
+                <h4 class="text-base font-bold text-slate-900">Reset Progres Rencana Aksi?</h4>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Seluruh status centang penyelesaian pada Rencana Aksi DDA 2027 akan dikembalikan ke status belum selesai (0%). Tindakan ini tidak dapat dibatalkan.
+            </p>
+            <div class="flex justify-end gap-2.5 pt-2">
+                <button @click="confirmResetModal = false" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                    Batal
+                </button>
+                <button @click="resetProgress()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-rose-600 text-white hover:bg-rose-700 cursor-pointer">
+                    Ya, Reset Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ALPINE.JS APPLICATION STATE & LOGIC ==================== -->
+    <script>
+        function ddaPlannerApp() {
+            return {
+                activeTab: 'rencana-kerja',
+                showRegulasi: true,
+                confirmResetModal: false,
+
+                // Filter States
+                workPlanSearch: '',
+                workPlanPhaseFilter: 'ALL',
+                actionStatusFilter: 'ALL',
+                actionScopeFilter: 'ALL',
+                mphSearch: '',
+                timelineTeamFilter: 'ALL',
+                raciRoleFilter: 'ALL',
+
+                // Navigation Tabs
+                tabs: [
+                    { id: 'rencana-kerja', label: '1. Rencana Kerja', icon: 'clipboard-list', badge: '8 Fase' },
+                    { id: 'rencana-aksi', label: '2. Rencana Aksi', icon: 'check-square', badge: 'Checklist' },
+                    { id: 'pohon-kinerja', label: '3. Pohon Kinerja', icon: 'git-fork', badge: 'SAKIP' },
+                    { id: 'mph', label: '4. Matriks Peran Hasil', icon: 'users', badge: '7 Peran' },
+                    { id: 'timeline', label: '5. Timeline', icon: 'calendar-range', badge: 'Nov 26–Sep 27' },
+                    { id: 'raci', label: '6. Matriks RACI', icon: 'table-2', badge: '14 Aktivitas' }
+                ],
+
+                // 8 Fase GSBPM
+                gsbpmPhases: [
+                    { code: '1', en: 'Specify Needs', id: 'Identifikasi Kebutuhan' },
+                    { code: '2', en: 'Design', id: 'Perancangan' },
+                    { code: '3', en: 'Build', id: 'Pembangunan Sistem' },
+                    { code: '4', en: 'Collect', id: 'Pengumpulan Data' },
+                    { code: '5', en: 'Process', id: 'Pengolahan & Validasi' },
+                    { code: '6', en: 'Analyse', id: 'Analisis & Layout' },
+                    { code: '7', en: 'Disseminate', id: 'QA & Diseminasi' },
+                    { code: '8', en: 'Evaluate', id: 'Evaluasi Pasca-Rilis' }
+                ],
+
+                // DATA 1: RENCANA KERJA (BERBASIS GSBPM)
+                workPlans: [
+                    {
+                        id: 1,
+                        phaseCode: '1',
+                        phaseName: 'Identifikasi Kebutuhan & Katalog Tabel',
+                        phaseEn: 'Specify Needs',
+                        activity: 'Reviu Katalog Tabel Baku DDA 2027 & Evaluasi Kebutuhan Pengguna',
+                        description: 'Mengkaji SK Kepala BPS tentang Pembakuan Publikasi DDA 2027, mengevaluasi umpan balik Survei Kebutuhan Data (SKD) 2026, dan memetakan ketersediaan variabel lintas 13 bab bersama Walidata Provinsi Jawa Barat (Diskominfo/Bappeda).',
+                        output: 'Katalog Tabel Baku DDA Provinsi & Kab/Kota 2027 serta Daftar Inventarisasi Data (DID) OPD',
+                        kpi: '100% tabel wajib terpetakan ke sumber data',
+                        source: 'Pedoman DDA BPS RI, SKD 2026, Forum Satu Data Jabar',
+                        period: 'Nov 2026 (M1–M2)'
+                    },
+                    {
+                        id: 2,
+                        phaseCode: '2',
+                        phaseName: 'Perancangan Template & Surat Permintaan Data',
+                        phaseEn: 'Design',
+                        activity: 'Penyusunan Template Tabel Standar, Petunjuk Teknis & Surat Dinas',
+                        description: 'Merancang template lembar kerja (Excel/Form Online) berstandar SDI lengkap dengan aturan validasi, menyusun surat permohonan data Kepala BPS kepada OPD/Instansi Vertikal, serta merancang desain sampul dan tata letak baku.',
+                        output: 'Paket Template Excel Baku 13 Bab, Surat Permintaan Data resmi, dan Master Desain Layout DDA 2027',
+                        kpi: '100% instansi eksternal menerima surat permintaan data tepat waktu',
+                        source: 'Standar Layout Publikasi BPS & Kode Referensi Wilayah',
+                        period: 'Nov 2026 (M3–M4)'
+                    },
+                    {
+                        id: 3,
+                        phaseCode: '3',
+                        phaseName: 'Persiapan Aplikasi Kompilasi & Metadata',
+                        phaseEn: 'Build',
+                        activity: 'Konfigurasi Sistem Kompilasi Data, Skrip Validasi & Metadata Statistik',
+                        description: 'Menyiapkan repositori kolaboratif cloud/lokal, membangun rule validasi otomatis (konsistensi vertikal/horizontal dan series 5 tahun), serta menyiapkan entri Metadata Kegiatan/Variabel/Indikator pada sistem Indah/Romantik BPS.',
+                        output: 'Sistem Repositori Terintegrasi, Rule Validasi Otomatis, dan Draft Metadata Statistik DDA 2027',
+                        kpi: 'Sistem siap pakai 100% sebelum pengumpulan data dimulai',
+                        source: 'Sistem Informasi BPS (Indah, Simdasi/Portal Kompilasi)',
+                        period: 'Des 2026 (M1–M2)'
+                    },
+                    {
+                        id: 4,
+                        phaseCode: '4',
+                        phaseName: 'Pengumpulan Data Eksternal & Internal BPS',
+                        phaseEn: 'Collect',
+                        activity: 'Kompilasi Data Sektoral OPD/Instansi & Data Statistik Dasar Internal BPS',
+                        description: 'Melaksanakan pengumpulan data sekunder dari ±65 OPD Provinsi dan Instansi Vertikal di Jawa Barat serta menarik data hasil sensus/survei BPS (Susenas, Sakernas, PDRB, Sensus Pertanian, dll) melalui Tim Subject Matter.',
+                        output: 'Raw Dataset Lengkap 13 Bab (Data Sektoral OPD + Data Statistik Dasar BPS) & Berita Acara Serah Terima Data',
+                        kpi: '≥ 95% data terkumpul sebelum tanggal cutoff (15 Jan 2027)',
+                        source: 'OPD Pemprov Jabar, Instansi Vertikal, Tim Teknis BPS',
+                        period: 'Des 2026 – Jan 2027'
+                    },
+                    {
+                        id: 5,
+                        phaseCode: '5',
+                        phaseName: 'Pengolahan, Validasi & Rekonsiliasi Data',
+                        phaseEn: 'Process',
+                        activity: 'Tabulasi, Pembersihan Data, Konversi Satuan & Rekonsiliasi Provinsi–Kab/Kota',
+                        description: 'Melakukan entri/impor ke template baku, penyeragaman notasi tanda baca statistik (…, -, 0, NA), pengecekan anomali series tahunan, serta rekonsiliasi angka agregat Provinsi Jawa Barat dengan 27 BPS Kabupaten/Kota.',
+                        output: 'Clean Master Tables 13 Bab yang telah tervalidasi dan Berita Acara Rekonsiliasi Provinsi–Kab/Kota',
+                        kpi: '0 sel anomali/inkonsistensi lintas tabel dan antar-wilayah',
+                        source: 'Tim IPDS, Tim Subject Matter, 27 BPS Kab/Kota',
+                        period: 'Jan 2027 – Feb 2027 (M1)'
+                    },
+                    {
+                        id: 6,
+                        phaseCode: '6',
+                        phaseName: 'Analisis Deskriptif, Infografis & Layouting',
+                        phaseEn: 'Analyse',
+                        activity: 'Penyusunan Ulasan Ringkas per Bab, Visualisasi Grafik/Infografis & Tata Letak Buku',
+                        description: 'Menyusun narasi analisis deskriptif yang informatif pada setiap awal bab, membuat grafik/peta tematik/infografis modern, serta melakukan layouting naskah publikasi sesuai pedoman tipografi BPS.',
+                        output: 'Naskah Lengkap Publikasi DDA 2027 (PDF Siap Reviu) & Paket Infografis Ringkasan Eksekutif',
+                        kpi: '100% bab memiliki narasi analisis & infografis yang sinkron dengan tabel',
+                        source: 'Statistisi/Editor & Pranata Komputer/Layouter',
+                        period: 'Feb 2027 (M1–M3)'
+                    },
+                    {
+                        id: 7,
+                        phaseCode: '7',
+                        phaseName: 'Reviu QA, Pengesahan & Diseminasi Rilis',
+                        phaseEn: 'Disseminate',
+                        activity: 'Penjaminan Kualitas (QA) Berlapis, Pengesahan Pimpinan & Publikasi Portal BPS',
+                        description: 'Melaksanakan proofreading menyeluruh menggunakan lembar kendali QA, pengajuan ISBN/Nomor Katalog/Nomor Publikasi, penandatanganan lembar pengesahan Kepala BPS, serta unggah PDF, tabel dinamis/Excel, dan promosi rilis serentak 28 Februari 2027.',
+                        output: 'Publikasi Resmi "Provinsi Jawa Barat Dalam Angka 2027" & 27 DDA Kab/Kota Tayang di Portal BPS',
+                        kpi: 'Rilis 100% tepat waktu pada 28 Februari 2027 pukul 10.00 WIB',
+                        source: 'Tim QA, Kepala BPS, Tim Humas & Admin Website',
+                        period: 'Feb 2027 (M3–M4)'
+                    },
+                    {
+                        id: 8,
+                        phaseCode: '8',
+                        phaseName: 'Evaluasi Pasca-Rilis & Penyusunan KCDA 2027',
+                        phaseEn: 'Evaluate',
+                        activity: 'Evaluasi Kinerja DDA, Supervisi Kecamatan Dalam Angka (KCDA) & Dokumentasi',
+                        description: 'Melakukan evaluasi pasca-rilis DDA (ketepatan waktu, kendala OPD, unduhan pengguna), dilanjutkan pembinaan & supervisi penyusunan 627 publikasi Kecamatan Dalam Angka (KCDA) oleh BPS Kab/Kota hingga rilis 26 September 2027.',
+                        output: 'Laporan Evaluasi Penyusunan DDA 2027 & 627 Publikasi KCDA 2027 se-Jawa Barat',
+                        kpi: '100% publikasi KCDA rilis tepat waktu (26 Sep 2027) & Laporan Evaluasi tersusun',
+                        source: 'Seluruh Tim Penyusun BPS Provinsi & BPS Kab/Kota',
+                        period: 'Mar 2027 – Sep 2027'
+                    }
+                ],
+
+                // DATA 2: RENCANA AKSI (CHECKLIST INTERAKTIF)
+                actionPlans: [
+                    {
+                        id: 'act-1',
+                        targetDate: '16 Nov 2026',
+                        scope: 'DDA',
+                        phase: 'Fase 1: Specify Needs',
+                        critical: false,
+                        title: 'Pembentukan Tim Kerja & Penerbitan SK Tim Penyusun DDA 2027',
+                        detail: 'Menetapkan susunan Tim Penyusun DDA 2027 (Koordinator, Subject Matter, Pengolah, Editor/QA, Layouter, Humas) di lingkungan BPS Provinsi Jawa Barat.',
+                        deliverable: 'SK Kepala BPS Provinsi Jawa Barat tentang Tim Penyusun DDA 2027',
+                        pic: 'Ketua Tim IPDS / Diseminasi',
+                        support: 'Bagian Umum & Kepala BPS',
+                        completed: false
+                    },
+                    {
+                        id: 'act-2',
+                        targetDate: '25 Nov 2026',
+                        scope: 'DDA',
+                        phase: 'Fase 1: Specify Needs',
+                        critical: false,
+                        title: 'Finalisasi Katalog Tabel Baku & Pemetaan Sumber Data OPD/Internal',
+                        detail: 'Menyelaraskan daftar tabel 13 bab dengan Kepka Pembakuan DDA 2027 serta mengidentifikasi perubahan nomenklatur instansi penyedia data.',
+                        deliverable: 'Matriks Katalog Tabel Baku 2027 & Daftar Target Responden OPD',
+                        pic: 'Ketua Tim IPDS & Tim Sektoral',
+                        support: 'Ketua Tim Subject Matter',
+                        completed: false
+                    },
+                    {
+                        id: 'act-3',
+                        targetDate: '04 Des 2026',
+                        scope: 'DDA',
+                        phase: 'Fase 2: Design',
+                        critical: false,
+                        title: 'Distribusi Surat Permintaan Data & Template Baku ke OPD/Instansi',
+                        detail: 'Mengirimkan surat resmi Kepala BPS beserta softfile template Excel berstandar SDI kepada seluruh OPD Pemprov Jabar dan Instansi Vertikal.',
+                        deliverable: 'Tanda Terima Pengiriman Surat & Paket Template ke ±65 Instansi',
+                        pic: 'Tim Pembinaan Sektoral',
+                        support: 'Bagian Umum & Tim IPDS',
+                        completed: false
+                    },
+                    {
+                        id: 'act-4',
+                        targetDate: '15 Des 2026',
+                        scope: 'DDA',
+                        phase: 'Fase 3: Build',
+                        critical: false,
+                        title: 'Penyiapan Repositori Kompilasi, Template Layout & Metadata Indah',
+                        detail: 'Membangun struktur folder kerja terpusat, menguji rumus validasi konsistensi otomatis, serta menginput metadata kegiatan pada sistem Indah BPS.',
+                        deliverable: 'Workspace Kompilasi Cloud & ID Metadata Statistik Terdaftar',
+                        pic: 'Pranata Komputer',
+                        support: 'Statistisi / Editor Metadata',
+                        completed: false
+                    },
+                    {
+                        id: 'act-5',
+                        targetDate: '22 Des 2026',
+                        scope: 'DDA',
+                        phase: 'Fase 4: Collect',
+                        critical: false,
+                        title: 'Rapat Koordinasi Teknis (Rakortek) Pengumpulan Data dengan Walidata & OPD',
+                        detail: 'Menggelar desk koordinasi bersama Diskominfo, Bappeda, dan OPD Provinsi Jawa Barat untuk mempercepat pemenuhan data sektoral tahun 2026.',
+                        deliverable: 'Notulensi Rakortek & Komitmen Jadwal Penyerahan Data OPD',
+                        pic: 'Tim Pembinaan Sektoral',
+                        support: 'Ketua Tim IPDS & Pimpinan',
+                        completed: false
+                    },
+                    {
+                        id: 'act-6',
+                        targetDate: '15 Jan 2027',
+                        scope: 'DDA',
+                        phase: 'Fase 4: Collect',
+                        critical: true,
+                        title: 'Batas Akhir (Cutoff) Pengumpulan Data OPD & Data Internal BPS',
+                        detail: 'Menutup tahapan pengumpulan data utama; melakukan eskalasi surat susulan/jemput bola bagi instansi yang belum menyampaikan data.',
+                        deliverable: 'Logbook Kelengkapan Data (≥95% Terkumpul) & Arsip Raw Data',
+                        pic: 'Ketua Tim IPDS & Subject Matter',
+                        support: 'Tim Pembinaan Sektoral',
+                        completed: false
+                    },
+                    {
+                        id: 'act-7',
+                        targetDate: '29 Jan 2027',
+                        scope: 'DDA',
+                        phase: 'Fase 5: Process',
+                        critical: false,
+                        title: 'Pengolahan, Tabulasi Standar & Pemeriksaan Konsistensi Internal',
+                        detail: 'Mengonversi seluruh data ke format tabel baku, memeriksa penjumlahan vertikal/horizontal, satuan, tanda baca statistik, serta series 5 tahun.',
+                        deliverable: 'Draft Tabel Bersih (Clean Tables) Bab 1 s.d. Bab 13',
+                        pic: 'Pranata Komputer & Subject Matter',
+                        support: 'Statistisi / Editor',
+                        completed: false
+                    },
+                    {
+                        id: 'act-8',
+                        targetDate: '05 Feb 2027',
+                        scope: 'DDA',
+                        phase: 'Fase 5: Process',
+                        critical: true,
+                        title: 'Rekonsiliasi Data Tingkat Nasional & Provinsi–Kabupaten/Kota',
+                        detail: 'Menyelaraskan angka makro (PDRB, Kemiskinan, IPM, Ketenagakerjaan, Pertanian) antara BPS RI, BPS Provinsi Jabar, dan 27 BPS Kab/Kota.',
+                        deliverable: 'Berita Acara Rekonsiliasi Konsistensi Data Lintas Wilayah',
+                        pic: 'Ketua Tim IPDS & Subject Matter',
+                        support: 'Tim IPDS 27 BPS Kab/Kota',
+                        completed: false
+                    },
+                    {
+                        id: 'act-9',
+                        targetDate: '15 Feb 2027',
+                        scope: 'DDA',
+                        phase: 'Fase 6: Analyse',
+                        critical: false,
+                        title: 'Penyusunan Narasi Analisis, Infografis & Layouting Naskah Lengkap',
+                        detail: 'Menulis ulasan deskriptif per bab, membuat infografis sorotan utama Jawa Barat 2027, dan menyusun tata letak buku utuh siap cetak/digital.',
+                        deliverable: 'Draft Lengkap Publikasi DDA 2027 (Format PDF) & Infografis',
+                        pic: 'Statistisi/Editor & Layouter',
+                        support: 'Ketua Tim Subject Matter',
+                        completed: false
+                    },
+                    {
+                        id: 'act-10',
+                        targetDate: '22 Feb 2027',
+                        scope: 'DDA',
+                        phase: 'Fase 7: Disseminate',
+                        critical: true,
+                        title: 'Penjaminan Kualitas (QA) Final, Proofreading & Pengesahan Kepala BPS',
+                        detail: 'Verifikasi akhir menggunakan Checklist QA BPS RI, pendaftaran ISBN/Nomor Katalog, dan penandatanganan lembar pengesahan oleh Kepala BPS.',
+                        deliverable: 'Master PDF Final Tervalidasi QA & Lembar Pengesahan Kepala BPS',
+                        pic: 'Statistisi QA & Ketua Tim IPDS',
+                        support: 'Kepala BPS Provinsi Jawa Barat',
+                        completed: false
+                    },
+                    {
+                        id: 'act-11',
+                        targetDate: '28 Feb 2027',
+                        scope: 'DDA',
+                        phase: 'Fase 7: Disseminate',
+                        critical: true,
+                        title: 'RILIS SERENTAK NASIONAL: Publikasi DDA Provinsi & Kab/Kota 2027',
+                        detail: 'Unggah naskah PDF, tabel format Excel/CSV terbuka di website BPS, publikasi infografis media sosial, dan diseminasi ke Pemerintah Daerah.',
+                        deliverable: 'Publikasi Tayang di Portal BPS (28 Feb 2027 Pukul 10.00 WIB)',
+                        pic: 'Tim Humas & Admin Website',
+                        support: 'Ketua Tim IPDS & Kepala BPS',
+                        completed: false
+                    },
+                    {
+                        id: 'act-12',
+                        targetDate: '26 Mar 2027',
+                        scope: 'KCDA',
+                        phase: 'Fase 8: Evaluate',
+                        critical: false,
+                        title: 'Evaluasi Pasca-Rilis DDA 2027 & Kick-off Kecamatan Dalam Angka (KCDA)',
+                        detail: 'Menyusun laporan evaluasi proses & kualitas DDA 2027 serta menerbitkan pedoman teknis penyusunan 627 KCDA bagi BPS Kabupaten/Kota.',
+                        deliverable: 'Laporan Evaluasi DDA 2027 & Juknis Supervisi KCDA 2027',
+                        pic: 'Ketua Tim IPDS',
+                        support: 'Seluruh Tim Penyusun',
+                        completed: false
+                    },
+                    {
+                        id: 'act-13',
+                        targetDate: '25 Agu 2027',
+                        scope: 'KCDA',
+                        phase: 'Fase 8: Evaluate',
+                        critical: false,
+                        title: 'Supervisi & Quality Assurance Naskah KCDA 27 Kabupaten/Kota',
+                        detail: 'Melakukan monitoring progres, pemeriksaan konsistensi agregat kecamatan terhadap kabupaten/kota, serta reviu kualitas sampel naskah KCDA.',
+                        deliverable: 'Lembar Monitoring & Hasil Reviu QA 627 KCDA se-Jawa Barat',
+                        pic: 'Tim IPDS & Subject Matter Prov',
+                        support: 'Tim IPDS 27 BPS Kab/Kota',
+                        completed: false
+                    },
+                    {
+                        id: 'act-14',
+                        targetDate: '26 Sep 2027',
+                        scope: 'KCDA',
+                        phase: 'Fase 8: Evaluate',
+                        critical: true,
+                        title: 'RILIS SERENTAK: Kecamatan Dalam Angka (KCDA) Tahun 2027',
+                        detail: 'Memastikan seluruh 627 publikasi Kecamatan Dalam Angka di 27 Kabupaten/Kota se-Jawa Barat rilis tepat waktu sesuai ARC nasional.',
+                        deliverable: '100% Publikasi KCDA 2027 Tayang di Portal BPS Kab/Kota',
+                        pic: 'Tim IPDS Prov & 27 BPS Kab/Kota',
+                        support: 'Tim Humas & Admin Website',
+                        completed: false
+                    }
+                ],
+
+                // DATA 3: POHON KINERJA (4 PILAR OUTPUT + AKTIVITAS/IKI)
+                performancePillars: [
+                    {
+                        id: 1,
+                        open: true,
+                        badgeClass: 'bg-bps-100 text-bps-800',
+                        title: 'Koordinasi & Kompilasi Data Lintas OPD/Instansi Terintegrasi',
+                        target: '100% data sektoral OPD dan data internal BPS terkumpul sesuai jadwal cutoff',
+                        activities: [
+                            {
+                                name: 'Pemetaan Katalog Tabel Baku & Inventarisasi Sumber Data SDI',
+                                iki: 'Persentase kesesuaian katalog tabel dengan standar pembakuan BPS RI (100%)',
+                                actor: 'Ketua Tim IPDS & Tim Pembinaan Sektoral'
+                            },
+                            {
+                                name: 'Koordinasi Eksternal dengan Walidata & Perangkat Daerah Jawa Barat',
+                                iki: 'Persentase OPD/Instansi penyedia data yang menyerahkan data sebelum cutoff (≥ 95%)',
+                                actor: 'Tim Pembinaan Sektoral'
+                            },
+                            {
+                                name: 'Kompilasi Data Statistik Dasar dari Tim Teknis Internal BPS',
+                                iki: 'Ketepatan waktu penyerahan data internal lintas fungsi/tim teknis (100%)',
+                                actor: 'Ketua Tim Subject Matter'
+                            }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        open: true,
+                        badgeClass: 'bg-amber-100 text-amber-800',
+                        title: 'Pengolahan, Validasi & Rekonsiliasi Konsistensi Antar-Tabel/Tahun',
+                        target: 'Zero error pada perhitungan matematis, satuan, dan konsistensi wilayah',
+                        activities: [
+                            {
+                                name: 'Standardisasi Format Tabel, Konversi Satuan & Penyeragaman Simbol Statistik',
+                                iki: 'Persentase tabel yang memenuhi standar format dan notasi tanda baca BPS (100%)',
+                                actor: 'Pranata Komputer / Pengolah Data'
+                            },
+                            {
+                                name: 'Validasi Konsistensi Vertikal, Horizontal & Kewajaran Series 5 Tahun',
+                                iki: 'Jumlah kesalahan penjumlahan atau anomali tidak wajar yang lolos (0 error)',
+                                actor: 'Statistisi / Editor & Subject Matter'
+                            },
+                            {
+                                name: 'Rekonsiliasi Angka Agregat Provinsi dengan 27 Kabupaten/Kota',
+                                iki: 'Terlaksananya rekonsiliasi 100% indikator makro lintas wilayah sebelum 5 Feb 2027',
+                                actor: 'Ketua Tim IPDS & Subject Matter'
+                            }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        open: true,
+                        badgeClass: 'bg-purple-100 text-purple-800',
+                        title: 'Penyusunan Narasi Analisis, Infografis & Tata Letak Publikasi Baku',
+                        target: 'Naskah publikasi informatif, estetis, dan sesuai standar tipografi BPS',
+                        activities: [
+                            {
+                                name: 'Penulisan Ulasan Deskriptif & Sorotan Statistik per Bab (13 Bab)',
+                                iki: 'Persentase kesesuaian angka dalam narasi ulasan terhadap isi tabel (100%)',
+                                actor: 'Statistisi / Editor'
+                            },
+                            {
+                                name: 'Perancangan Grafik, Peta Tematik & Infografis Eksekutif',
+                                iki: 'Jumlah infografis/visualisasi berkualitas tinggi yang dihasilkan (Min. 13 infografis)',
+                                actor: 'Pranata Komputer / Layouter'
+                            },
+                            {
+                                name: 'Tata Letak (Layouting) Naskah Utuh Publikasi DDA & KCDA 2027',
+                                iki: 'Ketepatan waktu penyelesaian master layout sesuai pedoman pembakuan (100%)',
+                                actor: 'Pranata Komputer / Layouter'
+                            }
+                        ]
+                    },
+                    {
+                        id: 4,
+                        open: true,
+                        badgeClass: 'bg-emerald-100 text-emerald-800',
+                        title: 'Penjaminan Kualitas (QA), Pengesahan & Diseminasi Digital Terbuka',
+                        target: 'Publikasi rilis tepat waktu (ARC) disertai metadata dan format data terbuka',
+                        activities: [
+                            {
+                                name: 'Audit Kualitas Berlapis (Quality Assurance) & Proofreading Final',
+                                iki: 'Persentase pemenuhan seluruh item pada Lembar Kendali QA BPS RI (100%)',
+                                actor: 'Statistisi QA & Ketua Tim IPDS'
+                            },
+                            {
+                                name: 'Registrasi Metadata Statistik SDI & Pengesahan Publikasi oleh Pimpinan',
+                                iki: 'Terbitnya metadata pada sistem Indah/Romantik dan Lembar Pengesahan Kepala BPS',
+                                actor: 'Kepala BPS & Statistisi Metadata'
+                            },
+                            {
+                                name: 'Publikasi Portal BPS (PDF & Excel Terbuka) serta Promosi Diseminasi',
+                                iki: 'Ketepatan waktu rilis serentak pada 28 Feb 2027 pukul 10.00 WIB (100%)',
+                                actor: 'Tim Humas / PPID & Admin Website'
+                            }
+                        ]
+                    }
+                ],
+
+                // DATA 4: MATRIKS PERAN HASIL (MPH)
+                mphData: [
+                    {
+                        role: 'Kepala BPS Provinsi Jawa Barat',
+                        unit: 'Pimpinan / Penanggung Jawab',
+                        mainRole: 'Pengarah Kebijakan, Pembina Eksternal & Pengesah Publikasi',
+                        focus: 'Menjamin dukungan kebijakan lintas OPD Pemprov Jabar dan legitimasi rilis.',
+                        rhkList: [
+                            'Terbitnya kebijakan/SK Tim Penyusun DDA 2027 dan surat permohonan data kepada Kepala OPD/Instansi Vertikal.',
+                            'Terlaksananya pengesahan akhir (sign-off) naskah publikasi DDA 2027 sesuai standar kualitas BPS.',
+                            'Terdiseminasikannya hasil DDA 2027 kepada Gubernur/Pemda dan pemangku kepentingan utama.'
+                        ],
+                        iki: '100% publikasi DDA 2027 disahkan dan dirilis tepat waktu sesuai ARC nasional (28 Feb 2027).'
+                    },
+                    {
+                        role: 'Ketua Tim IPDS / Diseminasi & Layanan Statistik',
+                        unit: 'Koordinator Utama DDA',
+                        mainRole: 'Project Manager, Pengendali Jadwal & Koordinator Rekonsiliasi',
+                        focus: 'Mengorkestrasi seluruh siklus GSBPM dari perencanaan hingga rilis DDA & KCDA.',
+                        rhkList: [
+                            'Tersusunnya rencana kerja, jadwal detail, dan katalog tabel baku DDA 2027.',
+                            'Terlaksananya monitoring progres kompilasi harian dan rekonsiliasi data Provinsi–27 Kab/Kota.',
+                            'Terkendalinya proses penjaminan kualitas (QA) hingga publikasi siap tayang.'
+                        ],
+                        iki: 'Tingkat penyelesaian tahapan tepat waktu (100%) dan 0 keterlambatan rilis di Provinsi maupun Kab/Kota.'
+                    },
+                    {
+                        role: 'Ketua Tim Teknis / Subject Matter',
+                        unit: 'Statistik Sosial, Produksi, Distribusi & Nerwilis',
+                        mainRole: 'Penyedia Data Statistik Dasar & Validator Substansi Sektoral',
+                        focus: 'Menjamin keakuratan metodologi, definisi operasional, dan konsistensi indikator.',
+                        rhkList: [
+                            'Tersedianya tabel-tabel statistik dasar hasil survei/sensus BPS yang mutakhir dan tervalidasi.',
+                            'Terlaksananya reviu kewajaran angka dan konsistensi indikator sektoral sesuai bidangnya.',
+                            'Tersusunnya catatan teknis/penjelasan metodologi pada bab terkait.'
+                        ],
+                        iki: '100% tabel bidang teknis diserahkan sesuai jadwal dengan 0 inkonsistensi metodologis.'
+                    },
+                    {
+                        role: 'Pranata Komputer / Pengolah Data & Layouter',
+                        unit: 'Fungsional Pranata Komputer',
+                        mainRole: 'Pengelola Sistem Kompilasi, Validasi Teknis & Tata Letak Publikasi',
+                        focus: 'Automasi pengolahan tabel, visualisasi grafik, dan layouting publikasi baku.',
+                        rhkList: [
+                            'Terbangunnya sistem repositori dan skrip validasi otomatis konsistensi vertikal/horizontal.',
+                            'Terolahnya seluruh tabel 13 bab ke format template baku dan file Excel terbuka.',
+                            'Tersusunnya desain sampul, infografis, dan layout PDF publikasi DDA 2027.'
+                        ],
+                        iki: '100% file publikasi (PDF & Excel) bebas kesalahan format dan memenuhi pedoman tata letak BPS.'
+                    },
+                    {
+                        role: 'Statistisi / Editor & Penjamin Kualitas (QA)',
+                        unit: 'Fungsional Statistisi',
+                        mainRole: 'Penyusun Analisis Deskriptif, Pemeriksa Konsistensi & Metadata',
+                        focus: 'Menjaga kualitas narasi, akurasi angka lintas bab, dan kelengkapan metadata SDI.',
+                        rhkList: [
+                            'Tersusunnya narasi ulasan deskriptif yang akurat dan mudah dipahami pada setiap bab.',
+                            'Terlaksananya audit kualitas (proofreading) menggunakan Lembar Kendali QA BPS.',
+                            'Terinputnya metadata kegiatan, variabel, dan indikator pada sistem Indah/Romantik.'
+                        ],
+                        iki: '0 kesalahan tulis/hitung pada naskah final dan 100% kelengkapan metadata statistik.'
+                    },
+                    {
+                        role: 'Tim Humas / PPID & Admin Website',
+                        unit: 'Fungsi Diseminasi & Layanan PST',
+                        mainRole: 'Pengelola Portal Publikasi, Infografis Media Sosial & Layanan Pengguna',
+                        focus: 'Memastikan aksesibilitas publikasi digital dan diseminasi luas kepada masyarakat.',
+                        rhkList: [
+                            'Terunggahnya file publikasi DDA 2027 (PDF & Tabel Excel/Dinamis) pada portal jabar.bps.go.id tepat pukul 10.00 WIB.',
+                            'Terpublikasinya konten infografis/siaran pers DDA 2027 di kanal media sosial resmi BPS.',
+                            'Tersedia dan terlayaninya permintaan data DDA melalui Pelayanan Statistik Terpadu (PST).'
+                        ],
+                        iki: '100% keterbukaan akses unduhan pada hari rilis dan meningkatnya jumlah unduhan publikasi.'
+                    },
+                    {
+                        role: 'Tim Pembinaan Statistik Sektoral / Walidata',
+                        unit: 'Tim Kerja Statistik Sektoral',
+                        mainRole: 'Penghubung & Akselerator Kompilasi Data Eksternal OPD/Instansi',
+                        focus: 'Koordinasi dengan Bappeda, Diskominfo, dan OPD dalam kerangka Satu Data Indonesia.',
+                        rhkList: [
+                            'Terdistribusinya surat permohonan data dan pendampingan pengisian template bagi OPD.',
+                            'Terkumpulnya dataset sektoral dari seluruh OPD Pemprov Jabar dan Instansi Vertikal sebelum cutoff.',
+                            'Terdokumentasikannya standar data dan metadata sektoral hasil kompilasi.'
+                        ],
+                        iki: 'Tingkat respons (response rate) OPD/Instansi eksternal mencapai ≥ 95% sebelum cutoff.'
+                    }
+                ],
+
+                // DATA 5: TIMELINE (NOV 2026 - SEP 2027)
+                timelineMonths: [
+                    { key: 'nov26', label: 'Nov 26', highlight: false },
+                    { key: 'des26', label: 'Des 26', highlight: false },
+                    { key: 'jan27', label: 'Jan 27', highlight: false },
+                    { key: 'feb27', label: 'Feb 27 (DDA)', highlight: true },
+                    { key: 'mar27', label: 'Mar 27', highlight: false },
+                    { key: 'apr27', label: 'Apr–Mei 27', highlight: false },
+                    { key: 'jun27', label: 'Jun–Jul 27', highlight: false },
+                    { key: 'agu27', label: 'Agu 27', highlight: false },
+                    { key: 'sep27', label: 'Sep 27 (KCDA)', highlight: true }
+                ],
+
+                timelineItems: [
+                    {
+                        id: 1,
+                        task: '1. Pembentukan Tim & Reviu Katalog Tabel Baku 2027',
+                        dateRange: '02 Nov – 25 Nov 2026',
+                        team: 'Tim IPDS',
+                        startIdx: 0,
+                        endIdx: 0,
+                        milestoneIdx: -1,
+                        barColor: 'bg-bps-600'
+                    },
+                    {
+                        id: 2,
+                        task: '2. Desain Template SDI & Pengiriman Surat ke OPD/Instansi',
+                        dateRange: '20 Nov – 10 Des 2026',
+                        team: 'Tim Sektoral',
+                        startIdx: 0,
+                        endIdx: 1,
+                        milestoneIdx: -1,
+                        barColor: 'bg-bps-600'
+                    },
+                    {
+                        id: 3,
+                        task: '3. Konfigurasi Repositori Kompilasi, Validasi & Metadata Indah',
+                        dateRange: '01 Des – 20 Des 2026',
+                        team: 'Tim IPDS',
+                        startIdx: 1,
+                        endIdx: 1,
+                        milestoneIdx: -1,
+                        barColor: 'bg-bps-600'
+                    },
+                    {
+                        id: 4,
+                        task: '4. Kompilasi Data Eksternal OPD & Data Internal BPS (Cutoff 15 Jan)',
+                        dateRange: '10 Des 2026 – 15 Jan 2027',
+                        team: 'Tim Sektoral',
+                        startIdx: 1,
+                        endIdx: 2,
+                        milestoneIdx: 2,
+                        barColor: 'bg-bps-600'
+                    },
+                    {
+                        id: 5,
+                        task: '5. Pengolahan, Validasi & Rekonsiliasi Prov–Kab/Kota (5 Feb)',
+                        dateRange: '16 Jan – 05 Feb 2027',
+                        team: 'Tim Teknis',
+                        startIdx: 2,
+                        endIdx: 3,
+                        milestoneIdx: 3,
+                        barColor: 'bg-amber-500'
+                    },
+                    {
+                        id: 6,
+                        task: '6. Penyusunan Analisis Deskriptif, Infografis & Layouting',
+                        dateRange: '01 Feb – 18 Feb 2027',
+                        team: 'Tim IPDS',
+                        startIdx: 3,
+                        endIdx: 3,
+                        milestoneIdx: -1,
+                        barColor: 'bg-amber-500'
+                    },
+                    {
+                        id: 7,
+                        task: '7. QA Final, Pengesahan & RILIS SERENTAK DDA (28 Feb 2027)',
+                        dateRange: '19 Feb – 28 Feb 2027',
+                        team: 'Tim QA & Humas',
+                        startIdx: 3,
+                        endIdx: 3,
+                        milestoneIdx: 3,
+                        barColor: 'bg-rose-600'
+                    },
+                    {
+                        id: 8,
+                        task: '8. Evaluasi Pasca-Rilis DDA & Juknis Kecamatan Dalam Angka',
+                        dateRange: '01 Mar – 31 Mar 2027',
+                        team: 'Tim IPDS',
+                        startIdx: 4,
+                        endIdx: 4,
+                        milestoneIdx: -1,
+                        barColor: 'bg-emerald-600'
+                    },
+                    {
+                        id: 9,
+                        task: '9. Kompilasi & Pengolahan 627 KCDA oleh BPS Kab/Kota',
+                        dateRange: '01 Apr – 31 Jul 2027',
+                        team: 'Tim Teknis',
+                        startIdx: 5,
+                        endIdx: 6,
+                        milestoneIdx: -1,
+                        barColor: 'bg-emerald-600'
+                    },
+                    {
+                        id: 10,
+                        task: '10. Supervisi QA Provinsi & RILIS SERENTAK KCDA (26 Sep 2027)',
+                        dateRange: '01 Agu – 26 Sep 2027',
+                        team: 'Tim QA & Humas',
+                        startIdx: 7,
+                        endIdx: 8,
+                        milestoneIdx: 8,
+                        barColor: 'bg-emerald-600'
+                    }
+                ],
+
+                // DATA 6: MATRIKS RACI
+                raciActors: [
+                    { key: 'kepala', shortName: 'Kepala BPS', sub: 'Pengarah/Pengesah' },
+                    { key: 'ipds', shortName: 'Ketua Tim IPDS', sub: 'Koordinator Utama' },
+                    { key: 'sm', shortName: 'Tim Teknis (SM)', sub: 'Subject Matter' },
+                    { key: 'statistisi', shortName: 'Statistisi/Editor', sub: 'Analisis & QA' },
+                    { key: 'prakom', shortName: 'Pranata Komputer', sub: 'Pengolah & Layout' },
+                    { key: 'sektoral', shortName: 'Tim Sektoral', sub: 'Hubungan OPD' },
+                    { key: 'humas', shortName: 'Tim Humas/Web', sub: 'Diseminasi' }
+                ],
+
+                raciMatrix: [
+                    {
+                        id: 1,
+                        phase: 'Fase 1: Specify Needs',
+                        activity: 'Penetapan SK Tim Penyusun & Kebijakan Strategis DDA 2027',
+                        roles: { kepala: 'A', ipds: 'R', sm: 'C', statistisi: 'I', prakom: 'I', sektoral: 'C', humas: 'I' }
+                    },
+                    {
+                        id: 2,
+                        phase: 'Fase 1: Specify Needs',
+                        activity: 'Reviu Katalog Tabel Baku 13 Bab & Pemetaan Sumber Data',
+                        roles: { kepala: 'I', ipds: 'A', sm: 'R', statistisi: 'R', prakom: 'C', sektoral: 'R', humas: 'I' }
+                    },
+                    {
+                        id: 3,
+                        phase: 'Fase 2: Design',
+                        activity: 'Perancangan Template Tabel Standar SDI & Surat Permintaan Data',
+                        roles: { kepala: 'A', ipds: 'R', sm: 'C', statistisi: 'C', prakom: 'R', sektoral: 'R', humas: 'I' }
+                    },
+                    {
+                        id: 4,
+                        phase: 'Fase 3: Build',
+                        activity: 'Pembangunan Sistem Repositori Kompilasi & Skrip Validasi',
+                        roles: { kepala: 'I', ipds: 'A', sm: 'I', statistisi: 'C', prakom: 'R', sektoral: 'I', humas: 'I' }
+                    },
+                    {
+                        id: 5,
+                        phase: 'Fase 3: Build',
+                        activity: 'Registrasi Metadata Kegiatan/Variabel pada Sistem Indah BPS',
+                        roles: { kepala: 'I', ipds: 'A', sm: 'C', statistisi: 'R', prakom: 'C', sektoral: 'R', humas: 'I' }
+                    },
+                    {
+                        id: 6,
+                        phase: 'Fase 4: Collect',
+                        activity: 'Koordinasi & Pengumpulan Data Sektoral OPD/Instansi Eksternal',
+                        roles: { kepala: 'I', ipds: 'A', sm: 'C', statistisi: 'I', prakom: 'I', sektoral: 'R', humas: 'I' }
+                    },
+                    {
+                        id: 7,
+                        phase: 'Fase 4: Collect',
+                        activity: 'Kompilasi Data Statistik Dasar dari Survei/Sensus Internal BPS',
+                        roles: { kepala: 'I', ipds: 'A', sm: 'R', statistisi: 'C', prakom: 'I', sektoral: 'I', humas: 'I' }
+                    },
+                    {
+                        id: 8,
+                        phase: 'Fase 5: Process',
+                        activity: 'Pengolahan Tabel Baku, Pembersihan Data & Konversi Satuan',
+                        roles: { kepala: 'I', ipds: 'A', sm: 'C', statistisi: 'C', prakom: 'R', sektoral: 'I', humas: 'I' }
+                    },
+                    {
+                        id: 9,
+                        phase: 'Fase 5: Process',
+                        activity: 'Rekonsiliasi Konsistensi Data Tingkat Provinsi & 27 Kab/Kota',
+                        roles: { kepala: 'I', ipds: 'A', sm: 'R', statistisi: 'R', prakom: 'C', sektoral: 'C', humas: 'I' }
+                    },
+                    {
+                        id: 10,
+                        phase: 'Fase 6: Analyse',
+                        activity: 'Penyusunan Narasi Analisis Deskriptif & Sorotan per Bab',
+                        roles: { kepala: 'I', ipds: 'A', sm: 'C', statistisi: 'R', prakom: 'I', sektoral: 'I', humas: 'I' }
+                    },
+                    {
+                        id: 11,
+                        phase: 'Fase 6: Analyse',
+                        activity: 'Desain Sampul, Infografis Eksekutif & Tata Letak (Layout) Buku',
+                        roles: { kepala: 'I', ipds: 'A', sm: 'I', statistisi: 'C', prakom: 'R', sektoral: 'I', humas: 'C' }
+                    },
+                    {
+                        id: 12,
+                        phase: 'Fase 7: Disseminate',
+                        activity: 'Penjaminan Kualitas (QA) Berlapis, Proofreading & Pengesahan Final',
+                        roles: { kepala: 'A', ipds: 'R', sm: 'C', statistisi: 'R', prakom: 'C', sektoral: 'I', humas: 'I' }
+                    },
+                    {
+                        id: 13,
+                        phase: 'Fase 7: Disseminate',
+                        activity: 'Publikasi Serentak di Portal BPS (28 Feb 2027) & Promosi Medsos',
+                        roles: { kepala: 'I', ipds: 'A', sm: 'I', statistisi: 'I', prakom: 'C', sektoral: 'I', humas: 'R' }
+                    },
+                    {
+                        id: 14,
+                        phase: 'Fase 8: Evaluate',
+                        activity: 'Evaluasi Pasca-Rilis DDA & Supervisi Kecamatan Dalam Angka (KCDA)',
+                        roles: { kepala: 'A', ipds: 'R', sm: 'C', statistisi: 'R', prakom: 'C', sektoral: 'C', humas: 'I' }
+                    }
+                ],
+
+                // Lifecycle Initialization
+                init() {
+                    this.loadProgress();
+                    this.$nextTick(() => {
+                        if (window.lucide) lucide.createIcons();
+                    });
+                },
+
+                // Switch tab & refresh Lucide icons
+                switchTab(tabId) {
+                    this.activeTab = tabId;
+                    this.$nextTick(() => {
+                        if (window.lucide) lucide.createIcons();
+                    });
+                },
+
+                // LocalStorage Persistence for Action Plan Checklist
+                loadProgress() {
+                    try {
+                        const saved = localStorage.getItem('bps_jabar_dda_2027_progress');
+                        if (saved) {
+                            const completedIds = JSON.parse(saved);
+                            this.actionPlans.forEach(item => {
+                                item.completed = completedIds.includes(item.id);
+                            });
+                        }
+                    } catch (e) {
+                        console.error('Gagal memuat progres dari localStorage:', e);
+                    }
+                },
+
+                saveProgress() {
+                    try {
+                        const completedIds = this.actionPlans
+                            .filter(item => item.completed)
+                            .map(item => item.id);
+                        localStorage.setItem('bps_jabar_dda_2027_progress', JSON.stringify(completedIds));
+                    } catch (e) {
+                        console.error('Gagal menyimpan progres:', e);
+                    }
+                },
+
+                toggleAction(id) {
+                    const target = this.actionPlans.find(a => a.id === id);
+                    if (target) {
+                        target.completed = !target.completed;
+                        this.saveProgress();
+                    }
+                },
+
+                markAllDemo() {
+                    // Centang 4 langkah awal (Nov - Des 2026) sebagai simulasi kesiapan awal
+                    this.actionPlans.forEach((item, index) => {
+                        item.completed = index < 4;
+                    });
+                    this.saveProgress();
+                },
+
+                resetProgress() {
+                    this.actionPlans.forEach(item => item.completed = false);
+                    this.saveProgress();
+                    this.confirmResetModal = false;
+                },
+
+                // Computed Properties
+                get completedCount() {
+                    return this.actionPlans.filter(a => a.completed).length;
+                },
+
+                get completionPercentage() {
+                    if (this.actionPlans.length === 0) return 0;
+                    return Math.round((this.completedCount / this.actionPlans.length) * 100);
+                },
+
+                get filteredWorkPlans() {
+                    return this.workPlans.filter(item => {
+                        const matchPhase = this.workPlanPhaseFilter === 'ALL' || item.phaseCode === this.workPlanPhaseFilter;
+                        const q = this.workPlanSearch.toLowerCase().trim();
+                        const matchQuery = !q ||
+                            item.activity.toLowerCase().includes(q) ||
+                            item.description.toLowerCase().includes(q) ||
+                            item.output.toLowerCase().includes(q) ||
+                            item.phaseName.toLowerCase().includes(q);
+                        return matchPhase && matchQuery;
+                    });
+                },
+
+                get filteredActionPlans() {
+                    return this.actionPlans.filter(item => {
+                        const matchStatus = this.actionStatusFilter === 'ALL' ||
+                            (this.actionStatusFilter === 'DONE' && item.completed) ||
+                            (this.actionStatusFilter === 'PENDING' && !item.completed);
+                        const matchScope = this.actionScopeFilter === 'ALL' || item.scope === this.actionScopeFilter;
+                        return matchStatus && matchScope;
+                    });
+                },
+
+                get filteredMph() {
+                    const q = this.mphSearch.toLowerCase().trim();
+                    if (!q) return this.mphData;
+                    return this.mphData.filter(row =>
+                        row.role.toLowerCase().includes(q) ||
+                        row.mainRole.toLowerCase().includes(q) ||
+                        row.rhkList.some(r => r.toLowerCase().includes(q))
+                    );
+                },
+
+                get filteredTimeline() {
+                    if (this.timelineTeamFilter === 'ALL') return this.timelineItems;
+                    return this.timelineItems.filter(t => t.team === this.timelineTeamFilter);
+                },
+
+                // RACI Helpers
+                getRaciBadgeClass(code) {
+                    switch (code) {
+                        case 'R': return 'bg-rose-600 text-white';
+                        case 'A': return 'bg-amber-500 text-slate-950';
+                        case 'C': return 'bg-bps-600 text-white';
+                        default: return 'bg-slate-200 text-slate-700';
+                    }
+                },
+
+                isRaciRowHighlighted(row) {
+                    if (this.raciRoleFilter === 'ALL') return false;
+                    const val = row.roles[this.raciRoleFilter];
+                    return val === 'R' || val === 'A';
+                },
+
+                // Print / PDF Export
+                printDocument() {
+                    window.print();
+                }
+            };
+        }
+    </script>
+</body>
+</html>

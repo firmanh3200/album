@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perencanaan Surveilans 2 ISO 9001:2015 | BPS Provinsi Jawa Barat 2027</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        bps: {
+                            navy: '#003366',
+                            blue: '#0055A5',
+                            sky: '#0284c7',
+                            light: '#e0f2fe',
+                            emerald: '#059669',
+                            amber: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Tab Transition */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tree Connectors for Pohon Kinerja */
+        .tree-line-v {
+            width: 2px;
+            background-color: #cbd5e1;
+            margin: 0 auto;
+        }
+
+        /* Print Media Styles for Rapat Pimpinan */
+        @media print {
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                font-size: 11pt;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .tab-content {
+                display: block !important;
+                page-break-after: always;
+                margin-bottom: 2rem;
+            }
+            .shadow-sm, .shadow-md, .shadow-lg {
+                box-shadow: none !important;
+            }
+            .border {
+                border-color: #cbd5e1 !important;
+            }
+            table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+            }
+            th, td {
+                border: 1px solid #cbd5e1 !important;
+                padding: 6px !important;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Top Institutional Header -->
+    <header class="bg-gradient-to-r from-[#002855] via-[#003366] to-[#004b8d] text-white shadow-lg sticky top-0 z-40 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between py-3.5 gap-3">
+                <!-- Logo & Title -->
+                <div class="flex items-center gap-3.5">
+                    <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl border border-white/20 flex items-center justify-center shrink-0">
+                        <!-- Custom SVG Emblem BPS-style -->
+                        <svg class="w-8 h-8 text-sky-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 3v18h18" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 16l4-4 4 4 6-6" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400"/>
+                            <circle cx="19" cy="10" r="2" fill="currentColor" class="text-amber-400"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-500/20 text-sky-200 border border-sky-400/30">
+                                Sistem Manajemen Mutu SNI ISO 9001:2015
+                            </span>
+                            <span class="text-xs font-medium text-emerald-300 flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                Target: Awal September 2027
+                            </span>
+                        </div>
+                        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white mt-0.5">
+                            Dokumen Perencanaan Audit Surveilans 2 Tahun 2027
+                        </h1>
+                        <p class="text-xs text-slate-200">Badan Pusat Statistik Provinsi Jawa Barat • Jl. PHH. Mustofa No. 43 Bandung</p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-2 self-start md:self-center">
+                    <button onclick="showToast('Mode Ringkasan Eksekutif diperbarui berdasarkan regulasi ASN & ISO terbaru.')" class="px-3 py-2 text-xs font-medium rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/15 transition flex items-center gap-1.5">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-300"></i>
+                        <span class="hidden sm:inline">Status Kepatuhan</span>
+                    </button>
+                    <button onclick="window.print()" class="px-3.5 py-2 text-xs font-semibold rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition flex items-center gap-1.5">
+                        <i data-lucide="printer" class="w-4 h-4"></i>
+                        <span>Cetak / Export PDF</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="flex overflow-x-auto pb-0 pt-1 gap-1 no-scrollbar border-t border-white/10" aria-label="Navigasi Dokumen">
+                <button type="button" data-tab="dashboard" onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn active px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl whitespace-nowrap transition flex items-center gap-1.5 bg-slate-50 text-[#003366]">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                    <span>Ringkasan</span>
+                </button>
+                <button type="button" data-tab="rencana-kerja" onclick="switchTab('rencana-kerja')" id="nav-rencana-kerja" class="nav-btn px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-t-xl whitespace-nowrap transition flex items-center gap-1.5 text-slate-200 hover:bg-white/10">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span>1. Rencana Kerja</span>
+                </button>
+                <button type="button" data-tab="rencana-aksi" onclick="switchTab('rencana-aksi')" id="nav-rencana-aksi" class="nav-btn px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-t-xl whitespace-nowrap transition flex items-center gap-1.5 text-slate-200 hover:bg-white/10">
+                    <i data-lucide="list-checks" class="w-4 h-4"></i>
+                    <span>2. Rencana Aksi</span>
+                </button>
+                <button type="button" data-tab="pohon-kinerja" onclick="switchTab('pohon-kinerja')" id="nav-pohon-kinerja" class="nav-btn px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-t-xl whitespace-nowrap transition flex items-center gap-1.5 text-slate-200 hover:bg-white/10">
+                    <i data-lucide="network" class="w-4 h-4"></i>
+                    <span>3. Pohon Kinerja</span>
+                </button>
+                <button type="button" data-tab="mph" onclick="switchTab('mph')" id="nav-mph" class="nav-btn px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-t-xl whitespace-nowrap transition flex items-center gap-1.5 text-slate-200 hover:bg-white/10">
+                    <i data-lucide="users" class="w-4 h-4"></i>
+                    <span>4. Matriks Peran Hasil</span>
+                </button>
+                <button type="button" data-tab="timeline" onclick="switchTab('timeline')" id="nav-timeline" class="nav-btn px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-t-xl whitespace-nowrap transition flex items-center gap-1.5 text-slate-200 hover:bg-white/10">
+                    <i data-lucide="calendar-range" class="w-4 h-4"></i>
+                    <span>5. Timeline 2027</span>
+                </button>
+                <button type="button" data-tab="raci" onclick="switchTab('raci')" id="nav-raci" class="nav-btn px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-t-xl whitespace-nowrap transition flex items-center gap-1.5 text-slate-200 hover:bg-white/10">
+                    <i data-lucide="grid" class="w-4 h-4"></i>
+                    <span>6. Matriks RACI</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Print-Only Official Header -->
+    <div class="hidden print-only border-b-2 border-[#003366] pb-4 mb-6 px-6 pt-4">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold text-[#003366]">BADAN PUSAT STATISTIK PROVINSI JAWA BARAT</h1>
+                <p class="text-sm font-semibold">DOKUMEN PERENCANAAN TERPADU: AUDIT SURVEILANS 2 ISO 9001:2015 TAHUN 2027</p>
+            </div>
+            <div class="text-right text-xs text-slate-600">
+                <p>Kode Dokumen: SMM-BPS32-2027-S2</p>
+                <p>Target Audit Eksternal: Awal September 2027</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- =================================================================== -->
+        <!-- TAB 0: DASHBOARD / RINGKASAN EKSEKUTIF                              -->
+        <!-- =================================================================== -->
+        <section id="tab-dashboard" class="tab-content active space-y-6">
+            <!-- Hero Banner -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 relative overflow-hidden">
+                <div class="absolute right-0 top-0 w-64 h-64 bg-sky-50 rounded-full -mr-20 -mt-20 opacity-70 pointer-events-none"></div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+                    <div class="lg:col-span-2 space-y-3">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#003366] text-xs font-semibold border border-blue-100">
+                            <i data-lucide="award" class="w-4 h-4 text-sky-600"></i>
+                            <span>Komitmen Mutu Layanan Statistik Resmi & Kepatuhan Regulasi Terkini (Nov 2026)</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+                            Kesiapan Surveilans 2 ISO 9001:2015 BPS Provinsi Jawa Barat
+                        </h2>
+                        <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+                            Dokumen perencanaan komprehensif ini menyelaraskan standar <strong>SNI ISO 9001:2015 + Amd 1:2024 (Climate Action Changes)</strong>, kesiapan transisi <strong>ISO 9001:2026</strong> (terbit 16 Sept 2026), <strong>Perpres No. 39/2023 (MRPN)</strong>, serta tata kelola kinerja ASN (<strong>PermenPANRB No. 89/2021, No. 6/2022, & No. 7/2022</strong>) menuju Audit Eksternal <strong>Awal September 2027</strong>.
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-2.5 no-print">
+                            <button onclick="switchTab('rencana-aksi')" class="px-4 py-2.5 rounded-xl bg-[#003366] hover:bg-[#004b8d] text-white text-xs sm:text-sm font-semibold shadow-sm transition flex items-center gap-2">
+                                <span>Lihat Rencana Aksi (16 Kegiatan)</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="switchTab('timeline')" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-semibold transition flex items-center gap-2">
+                                <i data-lucide="calendar" class="w-4 h-4 text-sky-600"></i>
+                                <span>Jadwal Jan – Okt 2027</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Countdown & Target Card -->
+                    <div class="bg-gradient-to-br from-[#003366] to-[#0284c7] text-white rounded-2xl p-5 shadow-md space-y-4">
+                        <div class="flex items-center justify-between border-b border-white/15 pb-3">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-sky-200">Target Audit Eksternal</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-200 text-xs font-bold border border-amber-300/30">
+                                Minggu I / II Sept 2027
+                            </span>
+                        </div>
+                        <div>
+                            <div class="text-xs text-sky-100 mb-1">Estimasi Jadwal Pelaksanaan:</div>
+                            <div class="text-xl sm:text-2xl font-extrabold">6 – 8 September 2027</div>
+                            <div id="countdown-display" class="mt-2 text-xs font-medium bg-black/20 rounded-xl px-3 py-2 text-sky-100 flex items-center gap-2">
+                                <i data-lucide="clock" class="w-4 h-4 text-amber-300 shrink-0"></i>
+                                <span>Menghitung waktu menuju hari-H audit...</span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-1 text-center">
+                            <div class="bg-white/10 rounded-xl p-2.5">
+                                <div class="text-lg font-extrabold text-emerald-300">0</div>
+                                <div class="text-[11px] text-sky-100">Target Temuan Mayor</div>
+                            </div>
+                            <div class="bg-white/10 rounded-xl p-2.5">
+                                <div class="text-lg font-extrabold text-white">100%</div>
+                                <div class="text-[11px] text-sky-100">Tindak Lanjut PTKP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regulatory Update Status Cards (Nov 2026) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div class="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-5 shadow-sm flex items-start gap-4">
+                    <div class="p-3 rounded-xl bg-emerald-600 text-white shrink-0 shadow-sm">
+                        <i data-lucide="cloud-rain-wind" class="w-6 h-6"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="px-2 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-wider">Wajib Diaudit (Mandatory)</span>
+                            <span class="text-xs font-bold text-emerald-900">ISO 9001:2015 / Amd 1:2024</span>
+                        </div>
+                        <h3 class="text-sm sm:text-base font-extrabold text-slate-900">Amendment 1: Climate Action Changes</h3>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            Wajib diintegrasikan dalam <strong>Klausul 4.1</strong> (relevansi isu perubahan iklim/cuaca ekstrem terhadap infrastruktur server IPDS, operasional PST, & survei lapangan) dan <strong>Klausul 4.2</strong> (ekspektasi pemangku kepentingan terkait keberlanjutan/<em>green office</em>).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-indigo-50 to-sky-50 border border-indigo-200 rounded-2xl p-5 shadow-sm flex items-start gap-4">
+                    <div class="p-3 rounded-xl bg-indigo-600 text-white shrink-0 shadow-sm">
+                        <i data-lucide="sparkles" class="w-6 h-6"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="px-2 py-0.5 rounded bg-indigo-600 text-white text-[10px] font-bold uppercase tracking-wider">Transition Readiness</span>
+                            <span class="text-xs font-bold text-indigo-900">Terbit 16 Sept 2026 • Transisi s.d. 30 Sept 2029</span>
+                        </div>
+                        <h3 class="text-sm sm:text-base font-extrabold text-slate-900">Kesiapan Transisi ISO 9001:2026 (Gap Analysis)</h3>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            Menyiapkan pemetaan awal menuju <strong>ISO 9001:2026</strong>: penguatan budaya mutu & perilaku etis (Klausul 5.1.1 & 7.3), pemisahan identifikasi risiko vs peluang (Klausul 6.1), serta integrasi digitalisasi/TI dalam proses bisnis statistik.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Summary Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-4">
+                    <div class="p-3 rounded-xl bg-blue-50 text-[#003366]">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Ruang Lingkup Unit</p>
+                        <h3 class="text-2xl font-extrabold text-slate-900 mt-0.5">6 Fungsi Utama</h3>
+                        <p class="text-xs text-slate-600 mt-1">Bag. Umum & 5 Tim Teknis Statistik</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-4">
+                    <div class="p-3 rounded-xl bg-emerald-50 text-emerald-600">
+                        <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Rencana Aksi</p>
+                        <h3 class="text-2xl font-extrabold text-slate-900 mt-0.5">16 Aktivitas</h3>
+                        <p class="text-xs text-slate-600 mt-1">Termasuk Amd 1:2024 & Gap 2026</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-4">
+                    <div class="p-3 rounded-xl bg-sky-50 text-sky-600">
+                        <i data-lucide="git-fork" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Pohon Kinerja</p>
+                        <h3 class="text-2xl font-extrabold text-slate-900 mt-0.5">4 Pilar Output</h3>
+                        <p class="text-xs text-slate-600 mt-1">Selaras PermenPANRB 89/2021</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-4">
+                    <div class="p-3 rounded-xl bg-amber-50 text-amber-600">
+                        <i data-lucide="user-check" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Pemetaan Peran</p>
+                        <h3 class="text-2xl font-extrabold text-slate-900 mt-0.5">7 Entitas Aktor</h3>
+                        <p class="text-xs text-slate-600 mt-1">MPH & RACI Terintegrasi</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Navigation Cards to 6 Modules -->
+            <div>
+                <h3 class="text-base font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i data-lucide="compass" class="w-5 h-5 text-[#003366]"></i>
+                    <span>Navigasi Modul Perencanaan Surveilans 2</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Card 1 -->
+                    <div onclick="switchTab('rencana-kerja')" class="cursor-pointer group bg-white hover:border-sky-400 p-5 rounded-2xl border border-slate-200 shadow-sm transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-[#003366] text-xs font-bold">Modul 01</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-400 group-hover:text-sky-600 transition"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 group-hover:text-[#003366]">Rencana Kerja (Work Plan)</h4>
+                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                            Latar belakang, dasar hukum lengkap, ruang lingkup unit kerja BPS Jabar, sasaran mutu, serta estimasi komponen anggaran.
+                        </p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div onclick="switchTab('rencana-aksi')" class="cursor-pointer group bg-white hover:border-sky-400 p-5 rounded-2xl border border-slate-200 shadow-sm transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold">Modul 02</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-400 group-hover:text-emerald-600 transition"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 group-hover:text-emerald-700">Rencana Aksi (Action Plan)</h4>
+                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                            Rincian 16 aktivitas operasional Q1–Q4 2027 termasuk kajian iklim Amd 1:2024 & gap analysis ISO 9001:2026.
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div onclick="switchTab('pohon-kinerja')" class="cursor-pointer group bg-white hover:border-sky-400 p-5 rounded-2xl border border-slate-200 shadow-sm transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-sky-50 text-sky-700 text-xs font-bold">Modul 03</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-400 group-hover:text-sky-600 transition"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 group-hover:text-sky-700">Pohon Kinerja (Cascading)</h4>
+                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                            Penjenjangan kinerja interaktif berbasis PermenPANRB No. 89/2021 dari Ultimate Outcome hingga Sub-Output teknis.
+                        </p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div onclick="switchTab('mph')" class="cursor-pointer group bg-white hover:border-sky-400 p-5 rounded-2xl border border-slate-200 shadow-sm transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-bold">Modul 04</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600 transition"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 group-hover:text-indigo-700">Matriks Peran Hasil (MPH)</h4>
+                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                            Pembagian peran dan ekspektasi hasil ASN berbasis tim kerja sesuai PermenPANRB No. 6/2022 & No. 7/2022.
+                        </p>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div onclick="switchTab('timeline')" class="cursor-pointer group bg-white hover:border-sky-400 p-5 rounded-2xl border border-slate-200 shadow-sm transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 text-xs font-bold">Modul 05</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-400 group-hover:text-amber-600 transition"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 group-hover:text-amber-700">Timeline & Roadmap 2027</h4>
+                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                            Gantt chart bulanan Januari – Oktober 2027 menyoroti AMI (Juni), RTM (Awal Agustus), dan Audit Eksternal (Awal Sept).
+                        </p>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div onclick="switchTab('raci')" class="cursor-pointer group bg-white hover:border-sky-400 p-5 rounded-2xl border border-slate-200 shadow-sm transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 text-xs font-bold">Modul 06</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-400 group-hover:text-rose-600 transition"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 group-hover:text-rose-700">Matriks RACI</h4>
+                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                            Pemetaan akuntabilitas (Responsible, Accountable, Consulted, Informed) untuk 14 tahapan utama kegiatan surveilans.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 1: RENCANA KERJA (WORK PLAN)                                    -->
+        <!-- =================================================================== -->
+        <section id="tab-rencana-kerja" class="tab-content space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+                <div class="border-b border-slate-200 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Bagian 1 • Dokumen Induk</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Rencana Kerja Audit Surveilans 2 ISO 9001:2015</h2>
+                        <p class="text-sm text-slate-600">BPS Provinsi Jawa Barat • Tahun Anggaran 2027</p>
+                    </div>
+                    <span class="px-3 py-1.5 rounded-xl bg-blue-50 text-[#003366] text-xs font-semibold border border-blue-100 self-start">
+                        Siklus Sertifikasi Tahun ke-3
+                    </span>
+                </div>
+
+                <!-- 1.1 Latar Belakang & Tujuan -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80 space-y-3">
+                        <h3 class="text-base font-bold text-[#003366] flex items-center gap-2">
+                            <i data-lucide="file-text" class="w-5 h-5 text-sky-600"></i>
+                            <span>1.1 Latar Belakang</span>
+                        </h3>
+                        <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                            Badan Pusat Statistik (BPS) Provinsi Jawa Barat berkomitmen penuh menyelenggarakan pelayanan publik statistik yang berkualitas, transparan, dan akuntabel sesuai standar internasional <strong>SNI ISO 9001:2015</strong> beserta pemutakhiran wajib <strong>ISO 9001:2015/Amd 1:2024 (Climate Action Changes)</strong>. Setelah berhasil melalui Audit Sertifikasi dan Surveilans 1, BPS Provinsi Jawa Barat wajib menjalani <strong>Audit Surveilans 2</strong> oleh Lembaga Sertifikasi Eksternal terakreditasi KAN pada <strong>awal September 2027</strong>.
+                        </p>
+                        <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                            Selain memverifikasi konsistensi penerapan SMM, pengendalian risiko selaras <strong>Perpres No. 39 Tahun 2023 (MRPN)</strong>, dan efektivitas tindakan korektif, kegiatan Surveilans 2 tahun 2027 juga mengintegrasikan <em>Gap Analysis</em> awal terhadap <strong>ISO 9001:2026</strong> (resmi terbit 16 September 2026 dengan masa transisi hingga 30 September 2029) sebagai langkah antisipatif menuju resertifikasi berikutnya.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80 space-y-3">
+                        <h3 class="text-base font-bold text-[#003366] flex items-center gap-2">
+                            <i data-lucide="target" class="w-5 h-5 text-emerald-600"></i>
+                            <span>1.2 Tujuan & Sasaran Mutu Kegiatan</span>
+                        </h3>
+                        <ul class="space-y-2.5 text-sm text-slate-700">
+                            <li class="flex items-start gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
+                                <span><strong>Mempertahankan Sertifikat ISO 9001:2015</strong> dengan target <strong>0 (nol) temuan ketidaksesuaian Mayor</strong> dan penyelesaian 100% temuan Minor/Observasi tepat waktu.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
+                                <span><strong>100% Pemenuhan ISO 9001:2015/Amd 1:2024</strong> melalui analisis isu perubahan iklim pada Klausul 4.1 (ketahanan server IPDS, operasional PST, survei lapangan) dan Klausul 4.2 (ekspektasi keberlanjutan/<em>green office</em>).</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
+                                <span><strong>Kesiapan Transisi ISO 9001:2026</strong> melalui penyusunan dokumen <em>Gap Analysis</em> (budaya mutu & etika Klausul 5.1.1/7.3, pemisahan risiko vs peluang Klausul 6.1, dan digitalisasi proses).</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
+                                <span><strong>Mengevaluasi Pencapaian Sasaran Mutu</strong> Semester I & Triwulan III 2027, termasuk Indeks Kepuasan Masyarakat (IKM) pada Pelayanan Statistik Terpadu (PST) minimal <strong>3,75 (skala 4,00)</strong> serta integrasi manajemen risiko sesuai Perpres No. 39/2023.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 1.3 Dasar Hukum & Referensi -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-[#003366] flex items-center gap-2">
+                        <i data-lucide="scale" class="w-5 h-5 text-sky-600"></i>
+                        <span>1.3 Dasar Hukum, Regulasi Nasional & Standar ISO Terkini</span>
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                        <div class="p-4 rounded-xl border-2 border-emerald-300 bg-emerald-50/40 shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[11px] font-bold uppercase text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">Update Wajib ISO</span>
+                                <span class="text-[10px] font-bold text-emerald-700">Mandatory</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm mt-1.5">ISO 9001:2015/Amd 1:2024</h4>
+                            <p class="text-xs text-slate-700 mt-1"><em>Climate Action Changes</em>: Penambahan pertimbangan perubahan iklim pada Klausul 4.1 (Konteks Organisasi) & catatan pada Klausul 4.2 (Pihak Berkepentingan).</p>
+                        </div>
+                        <div class="p-4 rounded-xl border-2 border-indigo-300 bg-indigo-50/40 shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[11px] font-bold uppercase text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded">Terbit 16 Sept 2026</span>
+                                <span class="text-[10px] font-bold text-indigo-700">Transisi 2026–2029</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm mt-1.5">ISO 9001:2026 (Edisi ke-6)</h4>
+                            <p class="text-xs text-slate-700 mt-1">Acuan <em>Gap Analysis</em> masa transisi (s.d. 30 Sept 2029): penguatan budaya mutu & etika (5.1.1 & 7.3), pemisahan risiko vs peluang (6.1), & transformasi digital.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                            <span class="text-[11px] font-bold uppercase text-sky-700 bg-sky-50 px-2 py-0.5 rounded">Standar Induk & Audit</span>
+                            <h4 class="font-bold text-slate-900 text-sm mt-1.5">SNI ISO 9001:2015 & ISO 19011:2018</h4>
+                            <p class="text-xs text-slate-600 mt-1">Standar Nasional Indonesia Sistem Manajemen Mutu (BSN) serta Pedoman Audit Sistem Manajemen.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border-2 border-amber-200 bg-amber-50/30 shadow-sm">
+                            <span class="text-[11px] font-bold uppercase text-amber-800 bg-amber-100 px-2 py-0.5 rounded">Manajemen Risiko Nasional</span>
+                            <h4 class="font-bold text-slate-900 text-sm mt-1.5">Perpres No. 39 Tahun 2023</h4>
+                            <p class="text-xs text-slate-700 mt-1">Manajemen Risiko Pembangunan Nasional (MRPN) yang diselaraskan dengan <em>Risk-Based Thinking</em> (Klausul 6.1) pada proses bisnis BPS.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                            <span class="text-[11px] font-bold uppercase text-teal-700 bg-teal-50 px-2 py-0.5 rounded">Penjenjangan & Kinerja ASN</span>
+                            <h4 class="font-bold text-slate-900 text-sm mt-1.5">PermenPANRB No. 89/2021 & No. 6/2022</h4>
+                            <p class="text-xs text-slate-600 mt-1">Pedoman Penjenjangan Kinerja Instansi Pemerintah (Pohon Kinerja) & Pengelolaan Kinerja Pegawai ASN (MPH).</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                            <span class="text-[11px] font-bold uppercase text-blue-700 bg-blue-50 px-2 py-0.5 rounded">Sistem Kerja & OTK BPS</span>
+                            <h4 class="font-bold text-slate-900 text-sm mt-1.5">PermenPANRB No. 7/2022 & PerBPS No. 5/2023</h4>
+                            <p class="text-xs text-slate-600 mt-1">Sistem Kerja berbasis Tim Kerja, OTK BPS Provinsi/Kab/Kota, serta Manual Mutu & SOP BPS Provinsi Jawa Barat.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1.4 Ruang Lingkup Unit & Proses Bisnis -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-[#003366] flex items-center gap-2">
+                        <i data-lucide="building-2" class="w-5 h-5 text-sky-600"></i>
+                        <span>1.4 Ruang Lingkup Penerapan SMM (BPS Provinsi Jawa Barat)</span>
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="font-bold text-sm text-[#003366]">1. Bagian Umum (Proses Pendukung)</div>
+                            <p class="text-xs text-slate-600 mt-1">Perencanaan & Anggaran, Keuangan, SDM & Hukum, Pengadaan Barang/Jasa (PBJ), Kearsipan, dan Rumah Tangga/BMN.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="font-bold text-sm text-[#003366]">2. Fungsi Statistik Sosial</div>
+                            <p class="text-xs text-slate-600 mt-1">Pelaksanaan survei/pendataan kependudukan, ketenagakerjaan (Sakernas), kesejahteraan rakyat (Susenas), dan ketahanan sosial.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="font-bold text-sm text-[#003366]">3. Fungsi Statistik Produksi</div>
+                            <p class="text-xs text-slate-600 mt-1">Pengumpulan dan validasi data statistik pertanian, industri manufaktur (IBS/IMK), pertambangan, energi, dan konstruksi.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="font-bold text-sm text-[#003366]">4. Fungsi Statistik Distribusi</div>
+                            <p class="text-xs text-slate-600 mt-1">Survei harga konsumen (IHK/Inflasi), harga produsen, statistik perdagangan, transportasi, pariwisata, dan keuangan.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="font-bold text-sm text-[#003366]">5. Fungsi Neraca Wilayah & Analisis</div>
+                            <p class="text-xs text-slate-600 mt-1">Penyusunan PDRB Lapangan Usaha & Pengeluaran Provinsi Jawa Barat, neraca arus dana, dan analisis lintas sektor.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="font-bold text-sm text-[#003366]">6. Fungsi IPDS & Layanan PST</div>
+                            <p class="text-xs text-slate-600 mt-1">Integrasi pengolahan data, pengelolaan infrastruktur TI, diseminasi publikasi, dan Pelayanan Statistik Terpadu (PST).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1.5 Kebutuhan Sumber Daya & Komponen Pembiayaan -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-[#003366] flex items-center gap-2">
+                        <i data-lucide="wallet" class="w-5 h-5 text-emerald-600"></i>
+                        <span>1.5 Kebutuhan Sumber Daya & Estimasi Pembiayaan (DIPA BPS Prov. Jabar TA 2027)</span>
+                    </h3>
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-[#003366] text-white">
+                                    <th class="p-3 font-semibold">No</th>
+                                    <th class="p-3 font-semibold">Komponen Kegiatan / Kebutuhan</th>
+                                    <th class="p-3 font-semibold">Volume / Satuan</th>
+                                    <th class="p-3 font-semibold">Sumber Daya / Akun</th>
+                                    <th class="p-3 font-semibold text-right">Estimasi Pagu (Rp)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-medium">1</td>
+                                    <td class="p-3 font-medium text-slate-900">Jasa Audit Eksternal Surveilans 2 ISO 9001:2015</td>
+                                    <td class="p-3">1 Paket (2 Auditor x 2-3 Hari)</td>
+                                    <td class="p-3 text-slate-600">522191 (Belanja Jasa Lainnya)</td>
+                                    <td class="p-3 text-right font-semibold">28.500.000</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-medium">2</td>
+                                    <td class="p-3 font-medium text-slate-900">Bimtek / Penyegaran Auditor Mutu Internal (AMI)</td>
+                                    <td class="p-3">20 Orang x 2 Hari</td>
+                                    <td class="p-3 text-slate-600">521211 / 522151 (Jasa Profesi)</td>
+                                    <td class="p-3 text-right font-semibold">14.000.000</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-medium">3</td>
+                                    <td class="p-3 font-medium text-slate-900">Rapat Konsinyering Reviu Dokumen & Manajemen Risiko</td>
+                                    <td class="p-3">30 Orang x 2 Kegiatan</td>
+                                    <td class="p-3 text-slate-600">521211 (Belanja Bahan/Konsumsi)</td>
+                                    <td class="p-3 text-right font-semibold">6.600.000</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-medium">4</td>
+                                    <td class="p-3 font-medium text-slate-900">Pelaksanaan Audit Mutu Internal & Rapat Tinjauan Manajemen</td>
+                                    <td class="p-3">35 Orang x 3 Kegiatan</td>
+                                    <td class="p-3 text-slate-600">521211 (Konsumsi Rapat Biasa)</td>
+                                    <td class="p-3 text-right font-semibold">8.925.000</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-medium">5</td>
+                                    <td class="p-3 font-medium text-slate-900">Penggandaan Dokumen Mutu, Banner & Perlengkapan Audit</td>
+                                    <td class="p-3">1 Paket</td>
+                                    <td class="p-3 text-slate-600">521811 (Belanja Barang Persediaan)</td>
+                                    <td class="p-3 text-right font-semibold">3.500.000</td>
+                                </tr>
+                                <tr class="bg-slate-100 font-bold text-[#003366]">
+                                    <td colspan="4" class="p-3 text-right">Total Estimasi Kebutuhan Anggaran Surveilans 2 (TA 2027)</td>
+                                    <td class="p-3 text-right">Rp 61.525.000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 2: RENCANA AKSI (ACTION PLAN)                                   -->
+        <!-- =================================================================== -->
+        <section id="tab-rencana-aksi" class="tab-content space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-5">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-slate-200 pb-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Bagian 2 • Operasionalisasi Kegiatan</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Rencana Aksi (Action Plan) Tahun 2027</h2>
+                        <p class="text-sm text-slate-600">Rincian langkah kerja terukur dari Kuartal I hingga Kuartal IV 2027</p>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="flex flex-wrap items-center gap-2 no-print">
+                        <div class="relative">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                            <input type="text" id="search-aksi" onkeyup="filterActionPlan()" placeholder="Cari kegiatan / PIC / klausul..." class="pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-300 focus:outline-none focus:border-sky-500 w-48 sm:w-56">
+                        </div>
+                        <select id="filter-kuartal" onchange="filterActionPlan()" class="px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+                            <option value="ALL">Semua Kuartal (Q1–Q4)</option>
+                            <option value="Q1">Kuartal I (Jan–Mar)</option>
+                            <option value="Q2">Kuartal II (Apr–Jun)</option>
+                            <option value="Q3">Kuartal III (Jul–Sep)</option>
+                            <option value="Q4">Kuartal IV (Okt–Des)</option>
+                        </select>
+                        <select id="filter-status-aksi" onchange="filterActionPlan()" class="px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+                            <option value="ALL">Semua Kategori / Status</option>
+                            <option value="Terjadwal">Terjadwal</option>
+                            <option value="Prioritas Regulasi">Prioritas Regulasi Baru (Amd 1 & 2026)</option>
+                            <option value="Milestone Utama">Milestone Utama Audit</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Action Plan Table -->
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm" id="table-aksi">
+                        <thead>
+                            <tr class="bg-[#003366] text-white">
+                                <th class="p-3 font-semibold w-10">No</th>
+                                <th class="p-3 font-semibold w-24">Kuartal</th>
+                                <th class="p-3 font-semibold">Uraian Kegiatan / Rencana Aksi</th>
+                                <th class="p-3 font-semibold">Indikator Keberhasilan (Output)</th>
+                                <th class="p-3 font-semibold">Target</th>
+                                <th class="p-3 font-semibold">Jadwal</th>
+                                <th class="p-3 font-semibold">Penanggung Jawab (PIC)</th>
+                                <th class="p-3 font-semibold">Status & Klausul</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-aksi" class="divide-y divide-slate-200 bg-white">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 3: POHON KINERJA (PERMENPANRB 89/2021)                          -->
+        <!-- =================================================================== -->
+        <section id="tab-pohon-kinerja" class="tab-content space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+                <div class="border-b border-slate-200 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Bagian 3 • Penjenjangan Kinerja (PermenPANRB No. 89 Tahun 2021)</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Pohon Kinerja Surveilans 2 ISO 9001:2015</h2>
+                        <p class="text-sm text-slate-600">Keselarasan sasaran strategis instansi hingga output operasional tim kerja</p>
+                    </div>
+                    <div class="flex items-center gap-2 no-print">
+                        <button onclick="toggleAllBranches(true)" class="px-3 py-1.5 text-xs font-semibold rounded-xl bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200 transition">
+                            Buka Semua Cabang
+                        </button>
+                        <button onclick="toggleAllBranches(false)" class="px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                            Tutup Sub-Output
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Visual Cascading Hierarchy -->
+                <div class="space-y-4">
+                    <!-- Level 1: Ultimate Outcome -->
+                    <div class="max-w-3xl mx-auto">
+                        <div class="bg-gradient-to-r from-[#002855] to-[#004b8d] text-white rounded-2xl p-5 shadow-md border-2 border-sky-400/40 text-center">
+                            <span class="inline-block px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-200 text-[11px] font-bold uppercase tracking-wider mb-1">
+                                Ultimate Outcome (Tujuan Instansi)
+                            </span>
+                            <h3 class="text-base sm:text-lg font-extrabold">
+                                Terwujudnya Tata Kelola Pemerintahan yang Bersih, Akuntabel, dan Pelayanan Publik Statistik yang Prima di BPS Provinsi Jawa Barat
+                            </h3>
+                            <p class="text-xs text-sky-200 mt-1.5">
+                                IKU: Nilai SAKIP (Predikat A/AA) & Indeks Pelayanan Publik (IPP) Kategori Pelayanan Prima
+                            </p>
+                        </div>
+                        <div class="h-6 tree-line-v"></div>
+                    </div>
+
+                    <!-- Level 2: Intermediate Outcome -->
+                    <div class="max-w-2xl mx-auto">
+                        <div class="bg-sky-50 border-2 border-sky-500 rounded-2xl p-4 shadow-sm text-center">
+                            <span class="inline-block px-2.5 py-0.5 rounded-full bg-sky-600 text-white text-[11px] font-bold uppercase tracking-wider mb-1">
+                                Intermediate Outcome (Sasaran Strategis)
+                            </span>
+                            <h4 class="text-sm sm:text-base font-bold text-[#003366]">
+                                Meningkatnya Kualitas Penerapan Sistem Manajemen Mutu (SMM) ISO 9001:2015 yang Berkelanjutan
+                            </h4>
+                            <p class="text-xs text-slate-600 mt-1">
+                                Indikator: Tingkat Kematangan Penerapan SMM & Indeks Kepuasan Masyarakat (IKM) PST ≥ 3,75
+                            </p>
+                        </div>
+                        <div class="h-6 tree-line-v"></div>
+                    </div>
+
+                    <!-- Level 3: Immediate Outcome -->
+                    <div class="max-w-xl mx-auto">
+                        <div class="bg-emerald-50 border-2 border-emerald-600 rounded-2xl p-4 shadow-sm text-center">
+                            <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-600 text-white text-[11px] font-bold uppercase tracking-wider mb-1">
+                                Immediate Outcome (Sasaran Kegiatan 2027)
+                            </span>
+                            <h4 class="text-sm sm:text-base font-bold text-emerald-950">
+                                Dipertahankannya Sertifikat SNI ISO 9001:2015 + Amd 1:2024 tanpa Temuan Mayor & Terpetakannya Kesiapan Transisi ISO 9001:2026
+                            </h4>
+                            <p class="text-xs text-emerald-800 mt-1">
+                                Indikator: Rekomendasi Perpanjangan Sertifikat (0 Temuan Mayor) & Laporan Gap Analysis ISO 9001:2026
+                            </p>
+                        </div>
+                        <div class="h-6 tree-line-v"></div>
+                    </div>
+
+                    <!-- Level 4: 4 Output Branches -->
+                    <div class="border-t-2 border-slate-300 pt-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="pokin-branches">
+                            <!-- Branch 1 -->
+                            <div class="bg-white rounded-2xl border-2 border-blue-200 shadow-sm overflow-hidden flex flex-col">
+                                <div onclick="toggleBranch('branch-1')" class="cursor-pointer bg-blue-50 p-4 border-b border-blue-200 hover:bg-blue-100/70 transition">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[11px] font-bold uppercase text-blue-800">Output 1</span>
+                                        <i data-lucide="chevron-down" id="icon-branch-1" class="w-4 h-4 text-blue-700 transition-transform"></i>
+                                    </div>
+                                    <h5 class="font-bold text-sm text-slate-900 mt-1">Kepatuhan Dokumentasi SMM & Amd 1:2024</h5>
+                                    <p class="text-[11px] text-slate-600 mt-1">IK: 100% dokumen mutu & konteks iklim mutakhir</p>
+                                </div>
+                                <div id="branch-1" class="p-3.5 space-y-2.5 bg-slate-50/50 flex-grow text-xs">
+                                    <div class="p-2.5 rounded-xl bg-white border border-slate-200">
+                                        <span class="font-bold text-[#003366] block">Sub-Output 1.1:</span>
+                                        Penetapan SK Tim Pengendali Mutu / SMM BPS Prov. Jabar Tahun 2027 (Januari 2027).
+                                    </div>
+                                    <div class="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200">
+                                        <span class="font-bold text-emerald-900 block">Sub-Output 1.2 (Amd 1:2024):</span>
+                                        Dokumen Kajian Konteks Organisasi (Klausul 4.1) & Ekspektasi Pemangku Kepentingan (Klausul 4.2) terkait isu perubahan iklim & <em>green office</em>.
+                                    </div>
+                                    <div class="p-2.5 rounded-xl bg-white border border-slate-200">
+                                        <span class="font-bold text-[#003366] block">Sub-Output 1.3:</span>
+                                        Pembaruan Manual Mutu, SOP/IK, serta Daftar Induk Dokumen & Rekaman Mutu pada repositori digital BPS Jabar.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Branch 2 -->
+                            <div class="bg-white rounded-2xl border-2 border-emerald-200 shadow-sm overflow-hidden flex flex-col">
+                                <div onclick="toggleBranch('branch-2')" class="cursor-pointer bg-emerald-50 p-4 border-b border-emerald-200 hover:bg-emerald-100/70 transition">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[11px] font-bold uppercase text-emerald-800">Output 2</span>
+                                        <i data-lucide="chevron-down" id="icon-branch-2" class="w-4 h-4 text-emerald-700 transition-transform"></i>
+                                    </div>
+                                    <h5 class="font-bold text-sm text-slate-900 mt-1">Manajemen Risiko (MRPN) & Sasaran Mutu</h5>
+                                    <p class="text-[11px] text-slate-600 mt-1">IK: ≥95% Sasaran Mutu tercapai & mitigasi risiko iklim</p>
+                                </div>
+                                <div id="branch-2" class="p-3.5 space-y-2.5 bg-slate-50/50 flex-grow text-xs">
+                                    <div class="p-2.5 rounded-xl bg-white border border-slate-200">
+                                        <span class="font-bold text-emerald-800 block">Sub-Output 2.1:</span>
+                                        Pemutakhiran Register Risiko & Peluang (Klausul 6.1 & Perpres 39/2023) mencakup risiko bencana hidrometeorologi pada server IPDS, PST, & lapangan.
+                                    </div>
+                                    <div class="p-2.5 rounded-xl bg-white border border-slate-200">
+                                        <span class="font-bold text-emerald-800 block">Sub-Output 2.2:</span>
+                                        Laporan Monitoring & Evaluasi Pencapaian Sasaran Mutu Semester I & Triwulan III 2027.
+                                    </div>
+                                    <div class="p-2.5 rounded-xl bg-white border border-slate-200">
+                                        <span class="font-bold text-emerald-800 block">Sub-Output 2.3:</span>
+                                        Laporan Survei Kepuasan Masyarakat (SKM) & penanganan pengaduan layanan PST.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Branch 3 -->
+                            <div class="bg-white rounded-2xl border-2 border-indigo-200 shadow-sm overflow-hidden flex flex-col">
+                                <div onclick="toggleBranch('branch-3')" class="cursor-pointer bg-indigo-50 p-4 border-b border-indigo-200 hover:bg-indigo-100/70 transition">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[11px] font-bold uppercase text-indigo-800">Output 3</span>
+                                        <i data-lucide="chevron-down" id="icon-branch-3" class="w-4 h-4 text-indigo-700 transition-transform"></i>
+                                    </div>
+                                    <h5 class="font-bold text-sm text-slate-900 mt-1">Audit Internal, RTM & Transisi ISO 9001:2026</h5>
+                                    <p class="text-[11px] text-slate-600 mt-1">IK: 100% PTKP AMI ditutup & Dokumen Gap Analysis 2026</p>
+                                </div>
+                                <div id="branch-3" class="p-3.5 space-y-2.5 bg-slate-50/50 flex-grow text-xs">
+                                    <div class="p-2.5 rounded-xl bg-white border border-slate-200">
+                                        <span class="font-bold text-indigo-800 block">Sub-Output 3.1:</span>
+                                        Penyegaran Auditor Mutu Internal (AMI) berbasis ISO 19011:2018 & audit Klausul Perubahan Iklim (Amd 1:2024).
+                                    </div>
+                                    <div class="p-2.5 rounded-xl bg-white border border-slate-200">
+                                        <span class="font-bold text-indigo-800 block">Sub-Output 3.2:</span>
+                                        Pelaksanaan AMI menyeluruh (Juni 2027) & verifikasi penutupan PTKP (Juli 2027).
+                                    </div>
+                                    <div class="p-2.5 rounded-xl bg-indigo-50/70 border border-indigo-200">
+                                        <span class="font-bold text-indigo-900 block">Sub-Output 3.3 (RTM & ISO 9001:2026):</span>
+                                        Penyelenggaraan RTM (Awal Agustus 2027) sekaligus pembahasan <em>Gap Analysis</em> transisi ISO 9001:2026 (budaya mutu, etika, & digitalisasi).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Branch 4 -->
+                            <div class="bg-white rounded-2xl border-2 border-amber-200 shadow-sm overflow-hidden flex flex-col">
+                                <div onclick="toggleBranch('branch-4')" class="cursor-pointer bg-amber-50 p-4 border-b border-amber-200 hover:bg-amber-100/70 transition">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[11px] font-bold uppercase text-amber-800">Output 4</span>
+                                        <i data-lucide="chevron-down" id="icon-branch-4" class="w-4 h-4 text-amber-700 transition-transform"></i>
+                                    </div>
+                                    <h5 class="font-bold text-sm text-slate-900 mt-1">Kesiapan & Kelancaran Audit Surveilans 2</h5>
+                                    <p class="text-[11px] text-slate-600 mt-1">IK: Audit terlaksana lancar & 0 Temuan Mayor</p>
+                                </div>
+                                <div id="branch-4" class="p-3.5 space-y-2.5 bg-slate-50/50 flex-grow text-xs">
+                                    <div class="p-2.5 rounded-xl bg-white border border-slate-200">
+                                        <span class="font-bold text-amber-800 block">Sub-Output 4.1:</span>
+                                        Koordinasi jadwal, audit plan, & administrasi kontrak dengan Lembaga Sertifikasi.
+                                    </div>
+                                    <div class="p-2.5 rounded-xl bg-white border border-slate-200">
+                                        <span class="font-bold text-amber-800 block">Sub-Output 4.2:</span>
+                                        Gladi bersih / Simulasi audit & kesiapan bukti objektif (evidence) tiap unit kerja (Akhir Agustus 2027).
+                                    </div>
+                                    <div class="p-2.5 rounded-xl bg-white border border-slate-200">
+                                        <span class="font-bold text-amber-800 block">Sub-Output 4.3:</span>
+                                        Pendampingan Audit Eksternal (Awal September 2027) & tindak lanjut pasca-audit (September–Oktober 2027).
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 4: MATRIKS PERAN HASIL (PERMENPANRB 6/2022 & 7/2022)            -->
+        <!-- =================================================================== -->
+        <section id="tab-mph" class="tab-content space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-5">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-slate-200 pb-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Bagian 4 • PermenPANRB No. 6/2022 & No. 7/2022</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Matriks Peran Hasil (MPH) Tim Kerja SMM</h2>
+                        <p class="text-sm text-slate-600">Penjabaran peran individu/jabatan dan ekspektasi kinerja dalam sistem kerja berbasis tim</p>
+                    </div>
+
+                    <div class="no-print">
+                        <select id="filter-mph" onchange="filterMPH()" class="px-3.5 py-2 text-xs font-medium rounded-xl border border-slate-300 bg-white focus:outline-none focus:border-indigo-500">
+                            <option value="ALL">Semua Jabatan / Peran Tim Kerja (7 Peran)</option>
+                            <option value="Pimpinan">Kepala BPS Provinsi Jawa Barat (Top Management)</option>
+                            <option value="KetuaSMM">Ketua Tim Pengendali Mutu / Wakil Manajemen (WMM)</option>
+                            <option value="KetuaIPDS">Ketua Tim IPDS & Pelayanan Statistik Terpadu (PST)</option>
+                            <option value="KetuaTeknis">Ketua Tim Teknis (Sosial, Produksi, Distribusi, Nerwilis)</option>
+                            <option value="KetuaUmum">Ketua Tim Bagian Umum / SDMO / Keuangan</option>
+                            <option value="Auditor">Koordinator & Tim Auditor Mutu Internal (AMI)</option>
+                            <option value="PrakomDoc">Pranata Komputer & Admin Dokumen Mutu</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- MPH Cards / Table -->
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm" id="table-mph">
+                        <thead>
+                            <tr class="bg-[#003366] text-white">
+                                <th class="p-3.5 font-semibold w-1/5">Jabatan / Peran dalam Tim</th>
+                                <th class="p-3.5 font-semibold w-1/5">Peran Strategis (ISO 9001:2015)</th>
+                                <th class="p-3.5 font-semibold w-2/5">Ekspektasi Hasil (Intermediate / Immediate Output)</th>
+                                <th class="p-3.5 font-semibold w-1/5">Indikator Kinerja Individu (IKI)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-mph" class="divide-y divide-slate-200 bg-white">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 5: TIMELINE & ROADMAP 2027                                      -->
+        <!-- =================================================================== -->
+        <section id="tab-timeline" class="tab-content space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+                <div class="border-b border-slate-200 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Bagian 5 • Jadwal Terpadu</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Timeline & Roadmap Pelaksanaan Tahun 2027</h2>
+                        <p class="text-sm text-slate-600">Periode Januari – Oktober 2027 menuju Audit Eksternal Awal September 2027</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="px-2.5 py-1 rounded-lg bg-sky-100 text-sky-800 font-semibold">Persiapan</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-800 font-semibold">Audit Internal & RTM</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 font-bold border border-amber-300">Audit Eksternal (Sept)</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-semibold">Pasca-Audit</span>
+                    </div>
+                </div>
+
+                <!-- Key Milestones Highlight Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                    <div class="p-4 rounded-xl bg-sky-50 border border-sky-200">
+                        <div class="text-xs font-bold text-sky-700">Tonggak 1 • Februari & Juni 2027</div>
+                        <div class="font-bold text-slate-900 text-sm mt-0.5">Kajian Amd 1:2024 & AMI</div>
+                        <p class="text-xs text-slate-600 mt-1">Kajian konteks perubahan iklim (Feb) & Audit Mutu Internal seluruh unit (Juni).</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-200">
+                        <div class="text-xs font-bold text-indigo-700">Tonggak 2 • Awal Agustus 2027</div>
+                        <div class="font-bold text-slate-900 text-sm mt-0.5">RTM & Gap Analysis ISO 2026</div>
+                        <p class="text-xs text-slate-600 mt-1">Rapat Tinjauan Manajemen & evaluasi kesiapan transisi ISO 9001:2026.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-amber-50 border-2 border-amber-400 shadow-sm">
+                        <div class="text-xs font-extrabold text-amber-800 uppercase">Tonggak Utama • Awal Sept 2027</div>
+                        <div class="font-extrabold text-slate-900 text-sm mt-0.5">Audit Eksternal Surveilans 2</div>
+                        <p class="text-xs text-slate-700 mt-1">Asesmen lapangan & dokumen oleh Lembaga Sertifikasi Eksternal.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+                        <div class="text-xs font-bold text-emerald-700">Tonggak 4 • Sept – Okt 2027</div>
+                        <div class="font-bold text-slate-900 text-sm mt-0.5">Tindak Lanjut & Sertifikat</div>
+                        <p class="text-xs text-slate-600 mt-1">Penutupan temuan (jika ada) & penerbitan surat keputusan sertifikasi.</p>
+                    </div>
+                </div>
+
+                <!-- Interactive Gantt Chart Table -->
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-[#003366] text-white">
+                                <th class="p-3 font-semibold min-w-[230px] sticky left-0 bg-[#003366] z-10">Tahapan / Aktivitas Kunci</th>
+                                <th class="p-2.5 text-center font-semibold w-14">Jan</th>
+                                <th class="p-2.5 text-center font-semibold w-14">Feb</th>
+                                <th class="p-2.5 text-center font-semibold w-14">Mar</th>
+                                <th class="p-2.5 text-center font-semibold w-14">Apr</th>
+                                <th class="p-2.5 text-center font-semibold w-14">Mei</th>
+                                <th class="p-2.5 text-center font-semibold w-14">Jun</th>
+                                <th class="p-2.5 text-center font-semibold w-14">Jul</th>
+                                <th class="p-2.5 text-center font-semibold w-14">Agu</th>
+                                <th class="p-2.5 text-center font-bold w-16 bg-amber-500 text-slate-950">Sep ★</th>
+                                <th class="p-2.5 text-center font-semibold w-14">Okt</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-timeline" class="divide-y divide-slate-200 bg-white">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 6: MATRIKS RACI                                                 -->
+        <!-- =================================================================== -->
+        <section id="tab-raci" class="tab-content space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-slate-200 pb-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Bagian 6 • Tata Kelola Peran (15 Aktivitas Kunci)</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Matriks RACI Kegiatan Surveilans 2</h2>
+                        <p class="text-sm text-slate-600">Pemetaan tanggung jawab dan otoritas pengambilan keputusan antar unit/peran</p>
+                    </div>
+
+                    <!-- RACI Filter & Legend -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <select id="filter-raci-role" onchange="filterRACI()" class="no-print px-3 py-1.5 text-xs font-medium rounded-xl border border-slate-300 bg-white focus:outline-none focus:border-rose-500">
+                            <option value="ALL">Sorot Semua Peran (7 Entitas)</option>
+                            <option value="0">Fokus: Kepala BPS Provinsi</option>
+                            <option value="1">Fokus: Ketua Tim SMM / WMM</option>
+                            <option value="2">Fokus: Ketua Tim IPDS & PST</option>
+                            <option value="3">Fokus: Ketua Tim Teknis</option>
+                            <option value="4">Fokus: Ketua Tim Umum/SDMO/Keu</option>
+                            <option value="5">Fokus: Tim Auditor Internal (AMI)</option>
+                            <option value="6">Fokus: Prakom & Doc. Control</option>
+                        </select>
+                        <div class="flex flex-wrap gap-1.5 text-xs">
+                            <span class="px-2 py-1 rounded-lg bg-emerald-100 text-emerald-900 font-bold border border-emerald-300">
+                                <strong>R</strong> = Responsible
+                            </span>
+                            <span class="px-2 py-1 rounded-lg bg-rose-100 text-rose-900 font-bold border border-rose-300">
+                                <strong>A</strong> = Accountable
+                            </span>
+                            <span class="px-2 py-1 rounded-lg bg-amber-100 text-amber-900 font-bold border border-amber-300">
+                                <strong>C</strong> = Consulted
+                            </span>
+                            <span class="px-2 py-1 rounded-lg bg-sky-100 text-sky-900 font-bold border border-sky-300">
+                                <strong>I</strong> = Informed
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RACI Table -->
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-[#003366] text-white">
+                                <th class="p-3 font-semibold w-10">No</th>
+                                <th class="p-3 font-semibold min-w-[240px]">Tahapan Aktivitas Surveilans 2</th>
+                                <th class="p-3 text-center font-semibold raci-col-0">Kepala BPS Prov.</th>
+                                <th class="p-3 text-center font-semibold raci-col-1">Ketua SMM / WMM</th>
+                                <th class="p-3 text-center font-semibold raci-col-2">Ketua Tim IPDS & PST</th>
+                                <th class="p-3 text-center font-semibold raci-col-3">Ketua Tim Teknis</th>
+                                <th class="p-3 text-center font-semibold raci-col-4">Ketua Tim Umum/SDMO</th>
+                                <th class="p-3 text-center font-semibold raci-col-5">Tim Auditor (AMI)</th>
+                                <th class="p-3 text-center font-semibold raci-col-6">Prakom & Doc. Control</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-raci" class="divide-y divide-slate-200 bg-white">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 text-xs text-slate-600 flex items-start gap-2.5">
+                    <i data-lucide="info" class="w-4 h-4 text-sky-600 shrink-0 mt-0.5"></i>
+                    <p>
+                        <strong>Catatan Tata Kelola:</strong> Setiap baris aktivitas memiliki tepat satu pemegang otoritas <strong>Accountable (A)</strong> sesuai prinsip pemisahan kewenangan dan independensi audit pada ISO 19011:2018 (Auditor Internal tidak mengaudit pekerjaannya sendiri).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-5 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+            <div>
+                © 2027 <strong>Badan Pusat Statistik Provinsi Jawa Barat</strong> • Tim Sistem Manajemen Mutu (SMM) ISO 9001:2015
+            </div>
+            <div>
+                Disusun berdasarkan SNI ISO 9001:2015 + Amd 1:2024, ISO 9001:2026 (Transisi), Perpres 39/2023, & PermenPANRB 89/2021, 6/2022, 7/2022
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-box" class="fixed bottom-5 right-5 z-50 hidden transform transition-all duration-300 no-print">
+        <div class="bg-[#003366] text-white px-4 py-3 rounded-xl shadow-lg border border-sky-400/30 flex items-center gap-2.5 text-xs font-medium">
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+            <span id="toast-msg">Pesan notifikasi</span>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // =========================================================================
+        // DATA SOURCE: RENCANA AKSI (16 KEGIATAN Q1 - Q4 2027)
+        // =========================================================================
+        const actionPlanData = [
+            {
+                no: 1,
+                kuartal: "Q1",
+                status: "Terjadwal",
+                kegiatan: "Penyusunan & Penetapan SK Tim Pengendali Mutu / SMM BPS Provinsi Jawa Barat Tahun 2027",
+                output: "SK Kepala BPS Provinsi Jawa Barat tentang Tim SMM & Auditor Internal",
+                target: "1 Dokumen SK (100% unit terwakili)",
+                jadwal: "Minggu II – III Jan 2027",
+                pic: "Ketua SMM & Ketua Tim Umum/SDMO",
+                klausul: "Klausul 5.3"
+            },
+            {
+                no: 2,
+                kuartal: "Q1",
+                status: "Prioritas Regulasi",
+                kegiatan: "Rapat Kick-Off, Sosialisasi Kebijakan Mutu, Penguatan Budaya Mutu & Perilaku Etis (Selaras ISO 9001:2026)",
+                output: "Notula, Daftar Hadir, Pakta Integritas Budaya Mutu & Dokumentasi",
+                target: "≥ 95% pegawai hadir & memahami",
+                jadwal: "Minggu IV Jan 2027",
+                pic: "Kepala BPS Prov. & Ketua SMM",
+                klausul: "Klausul 5.1.1, 5.2 & 7.3"
+            },
+            {
+                no: 3,
+                kuartal: "Q1",
+                status: "Prioritas Regulasi",
+                kegiatan: "Kajian & Pemutakhiran Konteks Organisasi dan Ekspektasi Pihak Berkepentingan terkait Perubahan Iklim (ISO 9001:2015/Amd 1:2024)",
+                output: "Dokumen Analisis Isu Iklim (Infrastruktur Server IPDS, PST, Survei Lapangan) & Matriks Stakeholder Green Office",
+                target: "100% relevan dianalisis pada Klausul 4.1 & 4.2",
+                jadwal: "Februari 2027",
+                pic: "Ketua SMM, Ketua Tim IPDS & Ketua Tim Teknis",
+                klausul: "Klausul 4.1 & 4.2 (Amd 1:2024)"
+            },
+            {
+                no: 4,
+                kuartal: "Q1",
+                status: "Terjadwal",
+                kegiatan: "Reviu & Pemutakhiran Informasi Terdokumentasi (Manual Mutu, SOP Teknis/Umum, Instruksi Kerja, Formulir Digital)",
+                output: "Dokumen Mutu Terkendali & Daftar Induk Dokumen Terbaru pada Repositori Digital",
+                target: "100% SOP/IK sesuai struktur tim kerja",
+                jadwal: "Februari – Maret 2027",
+                pic: "Prakom/Doc. Control & Ketua Tim Fungsi",
+                klausul: "Klausul 7.5"
+            },
+            {
+                no: 5,
+                kuartal: "Q1",
+                status: "Prioritas Regulasi",
+                kegiatan: "Pembaruan Register Risiko & Peluang secara Terpisah (Klausul 6.1, Perpres No. 39/2023 MRPN & Kesiapan ISO 9001:2026) termasuk Mitigasi Bencana Hidrometeorologi",
+                output: "Dokumen Register Risiko & Register Peluang Tahun 2027 (6 Fungsi Unit Kerja)",
+                target: "6 Register Risiko & Peluang tervalidasi",
+                jadwal: "Maret 2027",
+                pic: "Ketua Tim Fungsi & Ketua SMM",
+                klausul: "Klausul 6.1 & Perpres 39/2023"
+            },
+            {
+                no: 6,
+                kuartal: "Q2",
+                status: "Terjadwal",
+                kegiatan: "Pelaksanaan Pengendalian Operasional Layanan Statistik, Keamanan Infrastruktur TI/Server IPDS, & Evaluasi Penyedia Eksternal",
+                output: "Rekaman Bukti Kerja (Evidence), Log Backup Server, & Evaluasi Kinerja Penyedia PBJ",
+                target: "100% proses bisnis terdokumentasi",
+                jadwal: "April – Juni 2027",
+                pic: "Seluruh Tim Kerja & Tim Umum/PBJ",
+                klausul: "Klausul 7.1.3 & 8.1 – 8.5"
+            },
+            {
+                no: 7,
+                kuartal: "Q2",
+                status: "Prioritas Regulasi",
+                kegiatan: "Bimbingan Teknis / Penyegaran Auditor Mutu Internal (AMI) berbasis ISO 19011:2018, Audit Amd 1:2024, & Pengenalan ISO 9001:2026",
+                output: "Sertifikat / Laporan Penyegaran & Daftar Auditor Internal Kompeten",
+                target: "Min. 16 Auditor Internal aktif",
+                jadwal: "Mei 2027",
+                pic: "Koordinator AMI & Ketua Tim Umum/SDMO",
+                klausul: "Klausul 7.2 & 9.2"
+            },
+            {
+                no: 8,
+                kuartal: "Q2",
+                status: "Terjadwal",
+                kegiatan: "Pemantauan & Pengukuran Pencapaian Sasaran Mutu Semester I serta Survei Kepuasan Masyarakat (SKM) PST",
+                output: "Laporan Capaian Sasaran Mutu Sem. I & Laporan SKM PST",
+                target: "IKM ≥ 3,75 & ≥ 95% Sasaran tercapai",
+                jadwal: "Juni 2027",
+                pic: "Ketua Tim Fungsi & Ketua Tim IPDS/PST",
+                klausul: "Klausul 9.1"
+            },
+            {
+                no: 9,
+                kuartal: "Q2",
+                status: "Milestone Utama",
+                kegiatan: "Pelaksanaan Audit Mutu Internal (AMI) Siklus Tahun 2027 pada seluruh fungsi & manajemen (termasuk verifikasi Amd 1:2024)",
+                output: "Program Audit, Daftar Periksa (Checklist), LHA, & Form PTKP",
+                target: "100% unit kerja diaudit sesuai jadwal",
+                jadwal: "Minggu II – III Juni 2027",
+                pic: "Koordinator & Tim Auditor Internal",
+                klausul: "Klausul 9.2 & Amd 1:2024"
+            },
+            {
+                no: 10,
+                kuartal: "Q3",
+                status: "Terjadwal",
+                kegiatan: "Tindak Lanjut Temuan AMI (Analisis Akar Masalah / RCA & Tindakan Korektif) serta Verifikasi Efektivitas Penutupan",
+                output: "Laporan Penutupan PTKP (Closed) yang telah diverifikasi Auditor",
+                target: "100% temuan AMI Closed",
+                jadwal: "Juli 2027",
+                pic: "Auditee (Tim Kerja) & Tim AMI",
+                klausul: "Klausul 10.2"
+            },
+            {
+                no: 11,
+                kuartal: "Q3",
+                status: "Prioritas Regulasi",
+                kegiatan: "Penyusunan Dokumen Gap Analysis Awal Transisi ISO 9001:2026 (Evaluasi Budaya Mutu, Etika, Risiko/Peluang, & Digitalisasi Layanan)",
+                output: "Laporan Gap Analysis & Peta Jalan Transisi ISO 9001:2026 (2027–2029)",
+                target: "1 Dokumen Gap Analysis terverifikasi",
+                jadwal: "Akhir Juli 2027",
+                pic: "Ketua SMM, Prakom/Doc. Control & Tim AMI",
+                klausul: "ISO 9001:2026 Readiness"
+            },
+            {
+                no: 12,
+                kuartal: "Q3",
+                status: "Milestone Utama",
+                kegiatan: "Penyelenggaraan Rapat Tinjauan Manajemen (RTM) membahas 11 Agenda Input Klausul 9.3, Isu Iklim Amd 1:2024, & Hasil Gap Analysis ISO 9001:2026",
+                output: "Risalah / Notula RTM, Daftar Hadir, & Keputusan Tindak Lanjut Strategis",
+                target: "100% input Klausul 9.3 & Amd 1 dibahas",
+                jadwal: "Minggu I Agustus 2027",
+                pic: "Kepala BPS Prov. & Ketua SMM",
+                klausul: "Klausul 9.3"
+            },
+            {
+                no: 13,
+                kuartal: "Q3",
+                status: "Terjadwal",
+                kegiatan: "Koordinasi Administrasi & Teknis dengan Lembaga Sertifikasi serta Penyusunan Audit Plan Surveilans 2",
+                output: "Kontrak/SPK, Konfirmasi Jadwal, & Rundown Audit Eksternal",
+                target: "Audit Plan disepakati H-14",
+                jadwal: "Pertengahan Agustus 2027",
+                pic: "Ketua SMM & Ketua Tim Umum/Keuangan",
+                klausul: "Klausul 9.1 / Eksternal"
+            },
+            {
+                no: 14,
+                kuartal: "Q3",
+                status: "Terjadwal",
+                kegiatan: "Gladi Bersih (Pre-Assessment / Simulasi Audit) & Pengecekan Akhir Kelengkapan Bukti Objektif",
+                output: "Checklist Kesiapan Akhir Seluruh Unit & Ruang Audit",
+                target: "100% unit siap diaudit",
+                jadwal: "Minggu IV Agustus 2027",
+                pic: "Ketua SMM, Prakom/Doc. Control & Tim AMI",
+                klausul: "Seluruh Klausul"
+            },
+            {
+                no: 15,
+                kuartal: "Q3",
+                status: "Milestone Utama",
+                kegiatan: "PELAKSANAAN AUDIT EKSTERNAL SURVEILANS 2 ISO 9001:2015 + Amd 1:2024 oleh Badan Sertifikasi Terakreditasi",
+                output: "Laporan Hasil Audit Surveilans 2 & Berita Acara Closing Meeting",
+                target: "0 Temuan Mayor (Lulus Surveilans 2)",
+                jadwal: "Awal September 2027 (Mg I/II)",
+                pic: "Seluruh Pimpinan & Pegawai BPS Jabar",
+                klausul: "Klausul 4 – 10 + Amd 1"
+            },
+            {
+                no: 16,
+                kuartal: "Q4",
+                status: "Terjadwal",
+                kegiatan: "Penyelesaian Tindakan Korektif Pasca-Surveilans (jika ada Minor/OFI), Pengarsipan Sertifikat, & Pemutakhiran Roadmap Transisi ISO 9001:2026",
+                output: "Bukti Tindak Lanjut Diterima Auditor & Surat Keberlanjutan Sertifikat",
+                target: "100% selesai < 30 hari pasca-audit",
+                jadwal: "September – Oktober 2027",
+                pic: "Ketua SMM & Ketua Tim Terkait",
+                klausul: "Klausul 10.2 & 10.3"
+            }
+        ];
+
+        // =========================================================================
+        // DATA SOURCE: MATRIKS PERAN HASIL (PERMENPANRB 6/2022 & 7/2022 - 7 PERAN)
+        // =========================================================================
+        const mphData = [
+            {
+                kategori: "Pimpinan",
+                jabatan: "Kepala BPS Provinsi Jawa Barat",
+                peranISO: "Top Management (Manajemen Puncak - Klausul 5)",
+                hasil: "Terwujudnya kepemimpinan mutu & perilaku etis (Klausul 5.1.1), penetapan Kebijakan Mutu, dukungan sumber daya, serta terselenggaranya RTM yang mencakup kajian iklim Amd 1:2024 dan kesiapan transisi ISO 9001:2026 guna menjamin kelulusan Audit Surveilans 2 tanpa temuan mayor.",
+                iki: "1. Terselenggaranya RTM tepat waktu; 2. Dipertahankannya Sertifikat ISO 9001:2015 (0 Temuan Mayor)."
+            },
+            {
+                kategori: "KetuaSMM",
+                jabatan: "Ketua Tim Pengendali Mutu / Wakil Manajemen (WMM)",
+                peranISO: "Management Representative & Koordinator SMM",
+                hasil: "Terkelolanya perencanaan, koordinasi lintas tim kerja, penyusunan kajian konteks Amd 1:2024 & Gap Analysis ISO 9001:2026, serta kesiapan menyeluruh penyelenggaraan Audit Mutu Internal dan Audit Eksternal Surveilans 2.",
+                iki: "1. Terlaksananya 100% Rencana Aksi Surveilans 2; 2. Tersedianya Dokumen Gap Analysis ISO 9001:2026."
+            },
+            {
+                kategori: "KetuaIPDS",
+                jabatan: "Ketua Tim IPDS & Pelayanan Statistik Terpadu (PST)",
+                peranISO: "Process Owner Layanan Publik, TI & Ketahanan Infrastruktur",
+                hasil: "Terjaminnya keandalan infrastruktur server/TI dari risiko perubahan iklim/cuaca ekstrem (Amd 1:2024), terselenggaranya layanan PST prima dengan IKM ≥ 3,75, serta terintegrasinya digitalisasi proses bisnis selaras ISO 9001:2026.",
+                iki: "1. Nilai IKM PST ≥ 3,75; 2. Zero downtime kritis server akibat gangguan cuaca/lingkungan; 3. Laporan SKM & pengaduan tepat waktu."
+            },
+            {
+                kategori: "KetuaTeknis",
+                jabatan: "Ketua Tim Teknis (Statistik Sosial, Produksi, Distribusi, & Nerwilis)",
+                peranISO: "Process Owner Produksi Data Statistik",
+                hasil: "Terlaksananya seluruh tahapan survei/pendataan dan penyusunan neraca sesuai SOP/IK, termitigasinya risiko cuaca ekstrem pada pendataan lapangan (Amd 1:2024 & Perpres 39/2023), serta tercapainya Sasaran Mutu teknis.",
+                iki: "1. SOP/IK & Register Risiko/Peluang unit mutakhir; 2. Capaian Sasaran Mutu teknis ≥ 95%; 3. 100% PTKP ditutup tepat waktu."
+            },
+            {
+                kategori: "KetuaUmum",
+                jabatan: "Ketua Tim Bagian Umum / SDMO / Keuangan",
+                peranISO: "Process Owner Sumber Daya, Kompetensi, PBJ & Green Office",
+                hasil: "Tersedianya dukungan anggaran DIPA, SDM kompeten (termasuk pelatihan AMI & penguatan budaya etis), pengendalian penyedia eksternal (PBJ), serta implementasi pengelolaan sarana/prasarana ramah lingkungan (green office - Klausul 4.2).",
+                iki: "1. Realisasi anggaran SMM akuntabel; 2. Evaluasi kinerja penyedia 100%; 3. Dokumen kompetensi & budaya mutu terdokumentasi."
+            },
+            {
+                kategori: "Auditor",
+                jabatan: "Koordinator & Tim Auditor Mutu Internal (AMI)",
+                peranISO: "Internal Quality Auditor (Klausul 9.2 & ISO 19011:2018)",
+                hasil: "Terlaksananya Audit Mutu Internal secara objektif dan independen mencakup seluruh klausul ISO 9001:2015 serta pemenuhan Amd 1:2024, dan terverifikasinya efektivitas penutupan PTKP sebelum Audit Eksternal.",
+                iki: "1. Laporan Hasil Audit Internal (LHA) & checklist Amd 1:2024 lengkap; 2. 100% temuan AMI diverifikasi penutupannya."
+            },
+            {
+                kategori: "PrakomDoc",
+                jabatan: "Pranata Komputer & Admin Dokumen Mutu (Document Control)",
+                peranISO: "Document Controller & Pengelola Repositori Digital (Klausul 7.5)",
+                hasil: "Terkendalinya seluruh informasi terdokumentasi (Manual Mutu, SOP, IK, Register Risiko/Peluang, Rekaman Mutu) secara digital, mutakhir, dan mudah diakses saat audit internal maupun eksternal.",
+                iki: "1. Daftar Induk Dokumen mutakhir 100%; 2. Zero temuan dokumen kedaluwarsa saat audit."
+            }
+        ];
+
+        // =========================================================================
+        // DATA SOURCE: TIMELINE / GANTT CHART (JAN - OKT 2027)
+        // =========================================================================
+        const timelineData = [
+            { task: "1. Penetapan SK Tim SMM & Kick-Off Budaya Mutu (ISO 2026)", months: [1,0,0,0,0,0,0,0,0,0], type: "prep" },
+            { task: "2. Kajian Konteks & Isu Perubahan Iklim (Amd 1:2024 - Kl. 4.1 & 4.2)", months: [0,1,0,0,0,0,0,0,0,0], type: "reg" },
+            { task: "3. Reviu & Pemutakhiran Manual Mutu, SOP, IK, & Repositori Digital", months: [0,1,1,0,0,0,0,0,0,0], type: "prep" },
+            { task: "4. Pembaruan Register Risiko & Peluang (Kl. 6.1 & Perpres 39/2023)", months: [0,0,1,0,0,0,0,0,0,0], type: "reg" },
+            { task: "5. Implementasi Proses Bisnis, Ketahanan Server & Evidence", months: [0,1,1,1,1,1,1,1,0,0], type: "prep" },
+            { task: "6. Penyegaran Auditor Mutu Internal (ISO 19011 & Amd 1:2024)", months: [0,0,0,0,1,0,0,0,0,0], type: "audit" },
+            { task: "7. Pengukuran Sasaran Mutu Semester I & SKM PST", months: [0,0,0,0,0,1,0,0,0,0], type: "prep" },
+            { task: "8. Pelaksanaan Audit Mutu Internal (AMI) Siklus 2027", months: [0,0,0,0,0,1,0,0,0,0], type: "audit" },
+            { task: "9. Tindak Lanjut Temuan AMI (PTKP) & Verifikasi Auditor", months: [0,0,0,0,0,0,1,0,0,0], type: "audit" },
+            { task: "10. Penyusunan Gap Analysis Transisi ISO 9001:2026", months: [0,0,0,0,0,0,1,0,0,0], type: "reg" },
+            { task: "11. Rapat Tinjauan Manajemen (RTM) - Awal Agustus 2027", months: [0,0,0,0,0,0,0,1,0,0], type: "audit" },
+            { task: "12. Koordinasi Badan Sertifikasi & Gladi Bersih Akhir Agu", months: [0,0,0,0,0,0,0,1,0,0], type: "prep" },
+            { task: "13. AUDIT EKSTERNAL SURVEILANS 2 (Awal September 2027)", months: [0,0,0,0,0,0,0,0,1,0], type: "main" },
+            { task: "14. Tindak Lanjut Pasca-Audit & Keputusan Keberlanjutan Sertifikat", months: [0,0,0,0,0,0,0,0,1,1], type: "post" }
+        ];
+
+        // =========================================================================
+        // DATA SOURCE: MATRIKS RACI (15 TAHAPAN UTAMA - 7 PERAN)
+        // Roles order: [Kepala BPS, Ketua SMM/WMM, Ketua IPDS/PST, Ketua Teknis, Ketua Umum/SDMO, Tim AMI, Prakom/DocControl]
+        // =========================================================================
+        const raciData = [
+            { no: 1, task: "Penetapan SK Tim SMM & Kebijakan Mutu 2027", roles: ["A", "R", "C", "C", "R", "I", "I"] },
+            { no: 2, task: "Sosialisasi Budaya Mutu & Perilaku Etis (ISO 9001:2026)", roles: ["A", "R", "R", "R", "R", "I", "I"] },
+            { no: 3, task: "Kajian Konteks & Isu Perubahan Iklim (Amd 1:2024 - Kl. 4.1 & 4.2)", roles: ["I", "A", "R", "R", "R", "C", "I"] },
+            { no: 4, task: "Reviu & Pemutakhiran SOP, IK, dan Formulir Mutu", roles: ["I", "A", "R", "R", "R", "C", "R"] },
+            { no: 5, task: "Pengendalian Dokumen Digital & Daftar Induk Dokumen", roles: ["I", "A", "C", "C", "C", "I", "R"] },
+            { no: 6, task: "Pembaruan Register Risiko & Peluang (Kl. 6.1 & Perpres 39/2023)", roles: ["I", "A", "R", "R", "R", "C", "I"] },
+            { no: 7, task: "Pengendalian Infrastruktur Server IPDS & Operasional PST", roles: ["I", "I", "A", "I", "C", "I", "R"] },
+            { no: 8, task: "Pelaksanaan Proses Bisnis Teknis & Pengumpulan Evidence", roles: ["I", "I", "R", "A", "R", "I", "I"] },
+            { no: 9, task: "Pemantauan Sasaran Mutu & Survei Kepuasan Masyarakat (SKM)", roles: ["I", "A", "R", "R", "R", "I", "C"] },
+            { no: 10, task: "Penyegaran Auditor Mutu Internal (ISO 19011 & Amd 1:2024)", roles: ["I", "A", "I", "I", "R", "R", "I"] },
+            { no: 11, task: "Pelaksanaan Audit Mutu Internal (AMI) Siklus 2027", roles: ["I", "A", "C", "C", "C", "R", "C"] },
+            { no: 12, task: "Tindak Lanjut Temuan AMI (CAPA / PTKP) & Verifikasi", roles: ["I", "A", "R", "R", "R", "R", "C"] },
+            { no: 13, task: "Penyusunan Gap Analysis Transisi ISO 9001:2026", roles: ["I", "A", "C", "C", "C", "R", "R"] },
+            { no: 14, task: "Penyelenggaraan Rapat Tinjauan Manajemen (RTM)", roles: ["A", "R", "R", "R", "R", "R", "C"] },
+            { no: 15, task: "Pelaksanaan Audit Eksternal Surveilans 2 & Tindak Lanjut", roles: ["A", "R", "R", "R", "R", "C", "R"] }
+        ];
+
+        // =========================================================================
+        // RENDER FUNCTIONS
+        // =========================================================================
+        function renderActionPlan(data) {
+            const tbody = document.getElementById('tbody-aksi');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-500">Tidak ada kegiatan yang sesuai dengan filter pencarian.</td></tr>`;
+                return;
+            }
+
+            data.forEach(item => {
+                const badgeColor = {
+                    'Q1': 'bg-sky-100 text-sky-800 border-sky-200',
+                    'Q2': 'bg-indigo-100 text-indigo-800 border-indigo-200',
+                    'Q3': 'bg-amber-100 text-amber-800 border-amber-200',
+                    'Q4': 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                }[item.kuartal] || 'bg-slate-100 text-slate-800';
+
+                const statusBadge = {
+                    'Terjadwal': 'bg-slate-100 text-slate-700',
+                    'Prioritas Regulasi': 'bg-emerald-100 text-emerald-800 border border-emerald-200',
+                    'Milestone Utama': 'bg-amber-100 text-amber-900 border border-amber-300'
+                }[item.status] || 'bg-slate-100 text-slate-700';
+
+                const isMainAudit = item.no === 15;
+                const rowClass = isMainAudit ? 'bg-amber-50/70 hover:bg-amber-50' : 'hover:bg-slate-50';
+
+                tbody.innerHTML += `
+                    <tr class="${rowClass} transition">
+                        <td class="p-3 font-semibold text-slate-700">${item.no}</td>
+                        <td class="p-3">
+                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${badgeColor}">
+                                ${item.kuartal} 2027
+                            </span>
+                        </td>
+                        <td class="p-3 font-semibold text-slate-900">${item.kegiatan}</td>
+                        <td class="p-3 text-slate-700">${item.output}</td>
+                        <td class="p-3 font-medium text-emerald-700">${item.target}</td>
+                        <td class="p-3 whitespace-nowrap text-slate-700 font-medium">${item.jadwal}</td>
+                        <td class="p-3 text-slate-700">${item.pic}</td>
+                        <td class="p-3 space-y-1">
+                            <span class="block w-fit px-2 py-0.5 rounded text-[10px] font-bold ${statusBadge}">${item.status}</span>
+                            <span class="block w-fit px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[11px]">${item.klausul}</span>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterActionPlan() {
+            const keyword = document.getElementById('search-aksi').value.toLowerCase();
+            const kuartal = document.getElementById('filter-kuartal').value;
+            const status = document.getElementById('filter-status-aksi').value;
+
+            const filtered = actionPlanData.filter(item => {
+                const matchKuartal = (kuartal === 'ALL') || (item.kuartal === kuartal);
+                const matchStatus = (status === 'ALL') || (item.status === status);
+                const matchKeyword = item.kegiatan.toLowerCase().includes(keyword) ||
+                                     item.pic.toLowerCase().includes(keyword) ||
+                                     item.output.toLowerCase().includes(keyword) ||
+                                     item.klausul.toLowerCase().includes(keyword);
+                return matchKuartal && matchStatus && matchKeyword;
+            });
+
+            renderActionPlan(filtered);
+        }
+
+        function renderMPH(data) {
+            const tbody = document.getElementById('tbody-mph');
+            tbody.innerHTML = '';
+
+            data.forEach(item => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition align-top">
+                        <td class="p-3.5 font-bold text-[#003366]">${item.jabatan}</td>
+                        <td class="p-3.5">
+                            <span class="inline-block px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-800 text-xs font-semibold border border-indigo-100">
+                                ${item.peranISO}
+                            </span>
+                        </td>
+                        <td class="p-3.5 text-slate-700 leading-relaxed">${item.hasil}</td>
+                        <td class="p-3.5 text-xs text-slate-700 font-medium bg-slate-50/60">${item.iki}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterMPH() {
+            const val = document.getElementById('filter-mph').value;
+            if (val === 'ALL') {
+                renderMPH(mphData);
+            } else {
+                renderMPH(mphData.filter(d => d.kategori === val));
+            }
+        }
+
+        function renderTimeline() {
+            const tbody = document.getElementById('tbody-timeline');
+            tbody.innerHTML = '';
+
+            timelineData.forEach(row => {
+                let cells = '';
+                row.months.forEach((active, idx) => {
+                    if (active === 1) {
+                        let barStyle = 'bg-sky-500';
+                        let label = '●';
+                        if (row.type === 'reg') {
+                            barStyle = 'bg-teal-600';
+                            label = 'REG';
+                        }
+                        if (row.type === 'audit') barStyle = 'bg-indigo-600';
+                        if (row.type === 'main') {
+                            barStyle = 'bg-amber-500 text-slate-950 font-extrabold shadow-sm';
+                            label = 'AUDIT';
+                        }
+                        if (row.type === 'post') barStyle = 'bg-emerald-600';
+
+                        cells += `
+                            <td class="p-1.5 text-center">
+                                <div class="${barStyle} text-white rounded-lg py-1 text-[10px] font-bold">
+                                    ${label}
+                                </div>
+                            </td>
+                        `;
+                    } else {
+                        const isSeptCol = idx === 8 ? 'bg-amber-50/40' : '';
+                        cells += `<td class="p-1.5 text-center text-slate-300 ${isSeptCol}">·</td>`;
+                    }
+                });
+
+                const rowHighlight = row.type === 'main' ? 'bg-amber-50 font-bold text-slate-900' : 'hover:bg-slate-50 text-slate-800';
+                tbody.innerHTML += `
+                    <tr class="${rowHighlight}">
+                        <td class="p-3 font-medium sticky left-0 bg-inherit border-r border-slate-200">${row.task}</td>
+                        ${cells}
+                    </tr>
+                `;
+            });
+        }
+
+        function renderRACI(highlightCol = 'ALL') {
+            const tbody = document.getElementById('tbody-raci');
+            tbody.innerHTML = '';
+
+            const badgeMap = {
+                'R': 'bg-emerald-100 text-emerald-900 border-emerald-300',
+                'A': 'bg-rose-100 text-rose-900 border-rose-300',
+                'C': 'bg-amber-100 text-amber-900 border-amber-300',
+                'I': 'bg-sky-100 text-sky-900 border-sky-300'
+            };
+
+            raciData.forEach(row => {
+                let roleCells = '';
+                row.roles.forEach((code, colIdx) => {
+                    const isFocused = highlightCol !== 'ALL' && parseInt(highlightCol) === colIdx;
+                    const isDimmed = highlightCol !== 'ALL' && parseInt(highlightCol) !== colIdx;
+                    const cellBg = isFocused ? 'bg-amber-50/80' : '';
+                    const opacityClass = isDimmed ? 'opacity-30' : 'opacity-100';
+
+                    roleCells += `
+                        <td class="p-2.5 text-center transition ${cellBg}">
+                            <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg text-xs font-extrabold border transition ${badgeMap[code]} ${opacityClass}">
+                                ${code}
+                            </span>
+                        </td>
+                    `;
+                });
+
+                const isAuditRow = row.no === 15 ? 'bg-amber-50/60 font-semibold' : 'hover:bg-slate-50';
+                tbody.innerHTML += `
+                    <tr class="${isAuditRow}">
+                        <td class="p-3 font-semibold text-slate-600">${row.no}</td>
+                        <td class="p-3 font-medium text-slate-900">${row.task}</td>
+                        ${roleCells}
+                    </tr>
+                `;
+            });
+        }
+
+        function filterRACI() {
+            const selectedCol = document.getElementById('filter-raci-role').value;
+            renderRACI(selectedCol);
+        }
+
+        // =========================================================================
+        // INTERACTIVE NAVIGATION & TREE CONTROLS
+        // =========================================================================
+        window.switchTab = function(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Reset all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-slate-50', 'text-[#003366]', 'font-semibold');
+                btn.classList.add('text-slate-200', 'hover:bg-white/10', 'font-medium');
+            });
+
+            // Activate selected tab
+            const targetTab = document.getElementById('tab-' + tabId);
+            const targetBtn = document.getElementById('nav-' + tabId);
+            if (targetTab) targetTab.classList.add('active');
+            if (targetBtn) {
+                targetBtn.classList.remove('text-slate-200', 'hover:bg-white/10', 'font-medium');
+                targetBtn.classList.add('active', 'bg-slate-50', 'text-[#003366]', 'font-semibold');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        function toggleBranch(branchId) {
+            const el = document.getElementById(branchId);
+            const icon = document.getElementById('icon-' + branchId);
+            if (!el || !icon) return;
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                el.classList.add('hidden');
+                icon.style.transform = 'rotate(-90deg)';
+            }
+        }
+
+        function toggleAllBranches(expand) {
+            ['branch-1', 'branch-2', 'branch-3', 'branch-4'].forEach(id => {
+                const el = document.getElementById(id);
+                const icon = document.getElementById('icon-' + id);
+                if (!el || !icon) return;
+                if (expand) {
+                    el.classList.remove('hidden');
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    el.classList.add('hidden');
+                    icon.style.transform = 'rotate(-90deg)';
+                }
+            });
+        }
+
+        function showToast(message) {
+            const box = document.getElementById('toast-box');
+            const msg = document.getElementById('toast-msg');
+            if (!box || !msg) return;
+            msg.textContent = message;
+            box.classList.remove('hidden');
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 3500);
+        }
+
+        function updateCountdown() {
+            const targetDate = new Date('2027-09-06T08:00:00+07:00');
+            const now = new Date();
+            const diffTime = targetDate - now;
+            const display = document.getElementById('countdown-display');
+            if (!display) return;
+
+            if (diffTime > 0) {
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const months = Math.floor(diffDays / 30);
+                const days = diffDays % 30;
+                display.innerHTML = `
+                    <i data-lucide="clock" class="w-4 h-4 text-amber-300 shrink-0"></i>
+                    <span>Sisa waktu persiapan: <strong>± ${months} Bulan ${days} Hari</strong> (${diffDays} hari)</span>
+                `;
+            } else {
+                display.innerHTML = `
+                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-300 shrink-0"></i>
+                    <span>Periode Pelaksanaan Audit Surveilans 2 Tahun 2027</span>
+                `;
+            }
+        }
+
+        // =========================================================================
+        // INITIALIZATION
+        // =========================================================================
+        function initApp() {
+            // Bind click listeners defensively to all header nav buttons
+            document.querySelectorAll('.nav-btn[data-tab]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tabId = btn.getAttribute('data-tab');
+                    if (tabId) window.switchTab(tabId);
+                });
+            });
+
+            renderActionPlan(actionPlanData);
+            renderMPH(mphData);
+            renderTimeline();
+            renderRACI();
+            updateCountdown();
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                window.lucide.createIcons();
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+    </script>
+</body>
+</html>

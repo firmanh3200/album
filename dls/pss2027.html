@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perencanaan & Tata Kelola Pembinaan Statistik Sektoral 2027</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            bps: {
+              navy: '#0B2545',
+              blue: '#134074',
+              cerulean: '#1D63B8',
+              teal: '#0D9488',
+              cyan: '#06B6D4',
+              amber: '#D97706',
+              gold: '#F59E0B',
+              light: '#F8FAFC'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbar & print utilities */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Tree Diagram Connectors */
+    .tree-line-v {
+      width: 2px;
+      background-color: #cbd5e1;
+      margin: 0 auto;
+    }
+    .tree-branch-top {
+      border-top: 2px solid #cbd5e1;
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #ffffff !important; color: #000 !important; }
+      .print-section { display: block !important; page-break-inside: avoid; margin-bottom: 2rem; }
+      .shadow-sm, .shadow-md, .shadow-lg { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-bps-cerulean selection:text-white">
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-40 bg-bps-navy text-white shadow-lg border-b border-white/10 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between py-3.5 gap-3">
+        <!-- Brand / Title -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-bps-teal to-bps-cerulean flex items-center justify-center shadow-inner shrink-0 border border-white/20">
+            <i class="fa-solid fa-chart-network text-lg text-white"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30">Tahun Anggaran 2027</span>
+              <span class="text-xs text-slate-300 hidden sm:inline">• Pembinaan Statistik Sektoral</span>
+            </div>
+            <h1 class="font-display font-bold text-base sm:text-lg leading-tight tracking-tight text-white mt-0.5">
+              Dokumen Perencanaan & Tata Kelola EPSS – SDI
+            </h1>
+          </div>
+        </div>
+
+        <!-- Global Search & Action Buttons -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <div class="relative flex-1 md:w-64">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <input type="text" id="globalSearch" placeholder="Cari kegiatan, domain, peran..." 
+              class="w-full pl-8 pr-3 py-1.5 text-xs sm:text-sm bg-white/10 border border-white/15 rounded-xl text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-bps-cyan focus:bg-white/15 transition">
+          </div>
+          <button onclick="openRegulasiModal()" title="Dasar Hukum & SOP"
+            class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-medium text-white border border-white/15 transition flex items-center gap-1.5 shrink-0">
+            <i class="fa-solid fa-scale-balanced text-amber-400"></i>
+            <span class="hidden sm:inline">Regulasi</span>
+          </button>
+          <button onclick="printAllDocuments()" title="Cetak / Simpan PDF"
+            class="px-3 py-1.5 rounded-xl bg-bps-teal hover:bg-teal-500 text-xs font-semibold text-white shadow-sm transition flex items-center gap-1.5 shrink-0">
+            <i class="fa-solid fa-print"></i>
+            <span class="hidden sm:inline">Cetak</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav aria-label="Navigasi Dokumen" class="flex overflow-x-auto gap-1 pb-2 pt-1 no-scrollbar">
+        <button data-tab="rencana-kerja" class="nav-tab active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 bg-white text-bps-navy shadow-sm">
+          <i class="fa-solid fa-compass text-bps-cerulean"></i> 1. Rencana Kerja
+        </button>
+        <button data-tab="rencana-aksi" class="nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition flex items-center gap-2 text-slate-300 hover:text-white hover:bg-white/10">
+          <i class="fa-solid fa-list-check text-bps-cyan"></i> 2. Rencana Aksi
+        </button>
+        <button data-tab="pohon-kinerja" class="nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition flex items-center gap-2 text-slate-300 hover:text-white hover:bg-white/10">
+          <i class="fa-solid fa-sitemap text-emerald-400"></i> 3. Pohon Kinerja
+        </button>
+        <button data-tab="matriks-peran" class="nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition flex items-center gap-2 text-slate-300 hover:text-white hover:bg-white/10">
+          <i class="fa-solid fa-users-gear text-amber-400"></i> 4. Matriks Peran Hasil
+        </button>
+        <button data-tab="timeline" class="nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition flex items-center gap-2 text-slate-300 hover:text-white hover:bg-white/10">
+          <i class="fa-solid fa-calendar-days text-sky-400"></i> 5. Timeline 2027
+        </button>
+        <button data-tab="matriks-raci" class="nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition flex items-center gap-2 text-slate-300 hover:text-white hover:bg-white/10">
+          <i class="fa-solid fa-table-cells text-rose-400"></i> 6. Matriks RACI
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    <!-- Executive KPI Summary Banner -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Target IPS 2027</span>
+          <span class="w-8 h-8 rounded-lg bg-blue-50 text-bps-cerulean flex items-center justify-center">
+            <i class="fa-solid fa-arrow-trend-up text-sm"></i>
+          </span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="font-display font-extrabold text-2xl sm:text-3xl text-bps-navy">≥ 3,10</span>
+          <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Predikat Baik</span>
+        </div>
+        <p class="text-xs text-slate-500 mt-1.5">Skala 1–5 (Peraturan BPS No. 3/2022)</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Lokus Pembinaan</span>
+          <span class="w-8 h-8 rounded-lg bg-teal-50 text-bps-teal flex items-center justify-center">
+            <i class="fa-solid fa-building-columns text-sm"></i>
+          </span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="font-display font-extrabold text-2xl sm:text-3xl text-bps-navy">100%</span>
+          <span class="text-xs font-semibold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full">OPD / K/L</span>
+        </div>
+        <p class="text-xs text-slate-500 mt-1.5">Seluruh Produsen Data & Walidata</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Cakupan EPSS</span>
+          <span class="w-8 h-8 rounded-lg bg-amber-50 text-bps-amber flex items-center justify-center">
+            <i class="fa-solid fa-layer-group text-sm"></i>
+          </span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="font-display font-extrabold text-2xl sm:text-3xl text-bps-navy">5 Domain</span>
+          <span class="text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">19 Aspek • 38 Indikator</span>
+        </div>
+        <p class="text-xs text-slate-500 mt-1.5">Standar Penilaian Maturitas Statistik</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Kepatuhan Romantik</span>
+          <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <i class="fa-solid fa-file-circle-check text-sm"></i>
+          </span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="font-display font-extrabold text-2xl sm:text-3xl text-bps-navy">≥ 90%</span>
+          <span class="text-xs font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full">Rekomendasi & Metadata</span>
+        </div>
+        <p class="text-xs text-slate-500 mt-1.5">Terdaftar di INDAH & Romantik BPS</p>
+      </div>
+    </section>
+
+    <!-- Search Filter Notification -->
+    <div id="searchBanner" class="hidden mb-6 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2.5 text-sm text-amber-900">
+        <i class="fa-solid fa-filter text-amber-600"></i>
+        <span>Menampilkan hasil pencarian untuk: <strong id="searchTermDisplay"></strong></span>
+      </div>
+      <button onclick="clearSearch()" class="text-xs font-semibold text-amber-800 hover:text-amber-950 underline">Reset Pencarian</button>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 1: RENCANA KERJA (WORK PLAN)                                  -->
+    <!-- ===================================================================== -->
+    <section id="sec-rencana-kerja" class="tab-section print-section space-y-6">
+      <div class="bg-gradient-to-r from-bps-navy via-bps-blue to-bps-cerulean rounded-2xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
+        <div class="relative z-10 max-w-3xl">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-white/15 text-cyan-200 mb-3">
+            <i class="fa-solid fa-compass"></i> Bagian 01 • Rencana Kerja Tahun 2027
+          </span>
+          <h2 class="font-display font-bold text-2xl sm:text-3xl mb-2">Rencana Kerja Pembinaan Statistik Sektoral</h2>
+          <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+            Kerangka acuan strategis pelaksanaan pembinaan penyelenggaraan statistik sektoral kepada Instansi Pemerintah (K/L/OPD) dan Walidata guna mewujudkan ekosistem Satu Data Indonesia (SDI) yang berkualitas, terstandar, dan berdaya guna.
+          </p>
+        </div>
+        <i class="fa-solid fa-chart-pie absolute -right-6 -bottom-8 text-[160px] text-white/5 pointer-events-none"></i>
+      </div>
+
+      <!-- Grid: Ruang Lingkup & Tujuan Strategis -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Ruang Lingkup & Dasar Hukum -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
+          <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-50 text-bps-cerulean flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-lg text-bps-navy">Ruang Lingkup & Tujuan Strategis</h3>
+              <p class="text-xs text-slate-500">Mandat UU No. 16/1997, Perpres No. 39/2019 & PerBPS No. 3/2022</p>
+            </div>
+          </div>
+          <ul class="space-y-3 text-sm text-slate-700">
+            <li class="flex items-start gap-2.5 searchable-item">
+              <i class="fa-solid fa-circle-check text-bps-teal mt-1 shrink-0"></i>
+              <div>
+                <strong class="text-slate-900">Peningkatan Kualitas Tata Kelola Data:</strong> Mendorong penerapan 4 Prinsip Satu Data Indonesia (Standar Data, Metadata, Interoperabilitas, dan Kode Referensi/Data Induk) pada seluruh kegiatan statistik sektoral.
+              </div>
+            </li>
+            <li class="flex items-start gap-2.5 searchable-item">
+              <i class="fa-solid fa-circle-check text-bps-teal mt-1 shrink-0"></i>
+              <div>
+                <strong class="text-slate-900">Penguatan Kapasitas SDM & Kelembagaan:</strong> Meningkatkan kompetensi teknis aparatur Walidata dan Produsen Data melalui bimbingan teknis (bimtek), <em>coaching clinic</em>, dan pendampingan berkelanjutan.
+              </div>
+            </li>
+            <li class="flex items-start gap-2.5 searchable-item">
+              <i class="fa-solid fa-circle-check text-bps-teal mt-1 shrink-0"></i>
+              <div>
+                <strong class="text-slate-900">Kepatuhan Penyelenggaraan Statistik:</strong> Memastikan pengajuan Rekomendasi Kegiatan Statistik (Romantik) sebelum pelaksanaan survei/kompilasi produk administrasi serta pelaporan metadata ke sistem INDAH BPS.
+              </div>
+            </li>
+            <li class="flex items-start gap-2.5 searchable-item">
+              <i class="fa-solid fa-circle-check text-bps-teal mt-1 shrink-0"></i>
+              <div>
+                <strong class="text-slate-900">Optimalisasi Capaian EPSS:</strong> Mengawal kesiapan dokumen bukti dukung (<em>evidence</em>) pada 5 Domain dan 38 Indikator Evaluasi Penyelenggaraan Statistik Sektoral (EPSS) Tahun 2027.
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Sasaran Lokus & Target Output 2027 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
+          <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-50 text-bps-amber flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-crosshairs"></i>
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-lg text-bps-navy">Target Lokus & Indikator Kinerja Utama (IKU)</h3>
+              <p class="text-xs text-slate-500">Sasaran pembinaan instansi pemerintah tahun 2027</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 searchable-item">
+              <span class="text-xs font-semibold text-bps-cerulean">Lokus Prioritas EPSS</span>
+              <p class="font-display font-bold text-base text-slate-900 mt-0.5">2–4 OPD / Lokus Utama</p>
+              <p class="text-xs text-slate-600 mt-1">OPD sampel penilaian EPSS 2027 dengan pendampingan intensif (<em>deep-dive</em>).</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 searchable-item">
+              <span class="text-xs font-semibold text-bps-teal">Lokus Pembinaan Umum</span>
+              <p class="font-display font-bold text-base text-slate-900 mt-0.5">Seluruh OPD & Walidata</p>
+              <p class="text-xs text-slate-600 mt-1">Pembinaan reguler prinsip SDI, Romantik, dan penyusunan metadata statistik.</p>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                  <th class="py-2 px-3 rounded-tl-lg font-semibold">Indikator Kinerja (IKU)</th>
+                  <th class="py-2 px-3 rounded-tr-lg font-semibold text-right">Target 2027</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="searchable-item">
+                  <td class="py-2.5 px-3 text-slate-700">Nilai Indeks Pembangunan Statistik (IPS) Instansi Pemerintah</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-bps-navy">≥ 3,10 (Baik)</td>
+                </tr>
+                <tr class="searchable-item">
+                  <td class="py-2.5 px-3 text-slate-700">Persentase Instansi Pemerintah yang mendapat pembinaan statistik</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-bps-teal">100%</td>
+                </tr>
+                <tr class="searchable-item">
+                  <td class="py-2.5 px-3 text-slate-700">Kegiatan statistik prioritas memiliki Rekomendasi & Metadata</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-bps-cerulean">≥ 90%</td>
+                </tr>
+                <tr class="searchable-item">
+                  <td class="py-2.5 px-3 text-slate-700">Tingkat kepuasan pengguna layanan pembinaan & konsultasi statistik</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-amber-600">≥ 92%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 Metode & Strategi Pembinaan (SOP Pembinaan) -->
+      <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm">
+        <div class="mb-4">
+          <h3 class="font-display font-bold text-lg text-bps-navy">5 Strategi & Metode Operasional Pembinaan</h3>
+          <p class="text-xs sm:text-sm text-slate-500">Berdasarkan Pedoman & SOP Pembinaan Statistik Sektoral BPS</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="p-4 rounded-xl bg-gradient-to-b from-blue-50/70 to-white border border-blue-100 searchable-item">
+            <div class="w-8 h-8 rounded-lg bg-bps-cerulean text-white flex items-center justify-center font-bold text-sm mb-3">1</div>
+            <h4 class="font-bold text-sm text-bps-navy mb-1">Sosialisasi & Edukasi</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">Diseminasi regulasi SDI, EPSS, mekanisme Romantik, dan literasi statistik kepada pimpinan & staf OPD.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-gradient-to-b from-teal-50/70 to-white border border-teal-100 searchable-item">
+            <div class="w-8 h-8 rounded-lg bg-bps-teal text-white flex items-center justify-center font-bold text-sm mb-3">2</div>
+            <h4 class="font-bold text-sm text-bps-navy mb-1">Bimbingan Teknis</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">Pelatihan terstruktur penyusunan metadata (MS-Keg, MS-Var, MS-Ind), standar data, serta pengolahan data.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-gradient-to-b from-cyan-50/70 to-white border border-cyan-100 searchable-item">
+            <div class="w-8 h-8 rounded-lg bg-cyan-600 text-white flex items-center justify-center font-bold text-sm mb-3">3</div>
+            <h4 class="font-bold text-sm text-bps-navy mb-1">Coaching Clinic</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">Klinik konsultasi tatap muka/daring terjadwal untuk penyelesaian kendala teknis pengisian bukti dukung EPSS.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-gradient-to-b from-amber-50/70 to-white border border-amber-100 searchable-item">
+            <div class="w-8 h-8 rounded-lg bg-bps-amber text-white flex items-center justify-center font-bold text-sm mb-3">4</div>
+            <h4 class="font-bold text-sm text-bps-navy mb-1">Pendampingan Intensif</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">Asistensi <em>one-on-one</em> oleh Tim Pembina (Statistisi) terhadap OPD lokus EPSS pada seluruh siklus GSBPM.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-gradient-to-b from-indigo-50/70 to-white border border-indigo-100 searchable-item">
+            <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-sm mb-3">5</div>
+            <h4 class="font-bold text-sm text-bps-navy mb-1">Forum Satu Data</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">Sinergi bersama Bappeda (Koordinator) & Diskominfo (Walidata) dalam penetapan daftar data prioritas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 2: RENCANA AKSI (ACTION PLAN)                                 -->
+    <!-- ===================================================================== -->
+    <section id="sec-rencana-aksi" class="tab-section print-section hidden space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-bps-teal">Bagian 02 • Operasionalisasi Kegiatan</span>
+          <h2 class="font-display font-bold text-2xl text-bps-navy mt-0.5">Rencana Aksi Pembinaan Statistik Sektoral 2027</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Rincian tahapan operasional mulai dari persiapan, asesmen awal, pembinaan 5 domain EPSS, hingga pelaporan.</p>
+        </div>
+        <!-- Filter Fase -->
+        <div class="flex flex-wrap gap-1.5 no-print">
+          <button onclick="filterActionPlan('ALL')" class="ap-filter active px-3 py-1.5 rounded-xl text-xs font-semibold bg-bps-navy text-white transition">Semua Fase</button>
+          <button onclick="filterActionPlan('Persiapan')" class="ap-filter px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Persiapan</button>
+          <button onclick="filterActionPlan('Domain EPSS')" class="ap-filter px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">5 Domain EPSS</button>
+          <button onclick="filterActionPlan('Evaluasi')" class="ap-filter px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Penilaian & Laporan</button>
+        </div>
+      </div>
+
+      <!-- Action Plan Interactive Cards/Table -->
+      <div id="actionPlanContainer" class="grid grid-cols-1 gap-4">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 3: POHON KINERJA (PERFORMANCE TREE / CASCADING)               -->
+    <!-- ===================================================================== -->
+    <section id="sec-pohon-kinerja" class="tab-section print-section hidden space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Bagian 03 • Arsitektur Kinerja (Cascading)</span>
+          <h2 class="font-display font-bold text-2xl text-bps-navy mt-0.5">Pohon Kinerja Pembinaan Statistik Sektoral</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Penyelarasan logika kinerja dari <em>Ultimate Outcome</em> hingga aktivitas teknis (klik simpul untuk detail indikator).</p>
+        </div>
+        <div class="flex items-center gap-2 no-print">
+          <button onclick="zoomTree(-0.1)" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold" title="Perkecil"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+          <span id="treeZoomLabel" class="text-xs font-bold text-slate-600 px-2">100%</span>
+          <button onclick="zoomTree(0.1)" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold" title="Perbesar"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+          <button onclick="resetTreeZoom()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">Reset</button>
+        </div>
+      </div>
+
+      <!-- Interactive Tree Canvas -->
+      <div class="bg-white rounded-2xl p-4 sm:p-8 border border-slate-200/80 shadow-sm overflow-x-auto">
+        <div id="performanceTreeCanvas" class="min-w-[920px] transition-transform origin-top-left">
+          
+          <!-- Level 1: ULTIMATE OUTCOME -->
+          <div class="flex justify-center">
+            <div onclick="showNodeDetail('Ultimate Outcome', 'Terwujudnya Satu Data Indonesia & Tata Kelola Statistik Sektoral Berkualitas', 'Meningkatnya nilai Indeks Pembangunan Statistik (IPS) Nasional/Daerah dengan target minimal kategori Baik (≥ 3,10) serta pemanfaatan data statistik sektoral yang akurat dalam perencanaan pembangunan.', 'IKU: Nilai Indeks Pembangunan Statistik (IPS) & Indeks Sistem Pemerintahan Berbasis Elektronik (SPBE) Domain Data.')" 
+                 class="cursor-pointer max-w-xl w-full bg-gradient-to-r from-bps-navy to-bps-blue text-white rounded-2xl p-5 shadow-md border-2 border-amber-400 hover:scale-[1.01] transition text-center">
+              <span class="inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-amber-400 text-bps-navy mb-2">Ultimate Outcome (Sasaran Strategis)</span>
+              <h3 class="font-display font-bold text-base sm:text-lg">Terwujudnya Satu Data Indonesia & Tata Kelola Statistik Sektoral Berkualitas</h3>
+              <p class="text-xs text-cyan-200 mt-1">Target IPS 2027: ≥ 3,10 (Predikat Baik) • Klik untuk detail indikator</p>
+            </div>
+          </div>
+
+          <div class="tree-line-v h-7"></div>
+
+          <!-- Level 2: INTERMEDIATE OUTCOME -->
+          <div class="flex justify-center">
+            <div onclick="showNodeDetail('Intermediate Outcome', 'Meningkatnya Kapabilitas Penyelenggaraan Statistik Sektoral pada 5 Domain EPSS', 'Seluruh Produsen Data (OPD) dan Walidata mampu menyelenggarakan kegiatan statistik secara mandiri sesuai standar teknis BPS dan prinsip Satu Data Indonesia.', 'Indikator: Persentase OPD/Instansi Pemerintah yang mencapai tingkat kematangan (maturity level) ≥ 3 pada 5 Domain EPSS.')"
+                 class="cursor-pointer max-w-lg w-full bg-bps-teal text-white rounded-2xl p-4 shadow-sm border border-teal-300 hover:scale-[1.01] transition text-center">
+              <span class="inline-block text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/20 text-white mb-1.5">Intermediate Outcome (Sasaran Program)</span>
+              <h4 class="font-display font-bold text-sm sm:text-base">Meningkatnya Kapabilitas 5 Domain EPSS pada Produsen Data & Walidata</h4>
+            </div>
+          </div>
+
+          <div class="tree-line-v h-7"></div>
+
+          <!-- Horizontal Branch Line for 5 Immediate Outcomes -->
+          <div class="grid grid-cols-5 gap-3 relative">
+            <!-- Top connector bar spanning centers of col 1 to col 5 -->
+            <div class="col-span-5 relative h-4">
+              <div class="absolute top-0 left-[10%] right-[10%] h-0.5 bg-slate-300"></div>
+              <div class="absolute top-0 left-[10%] w-0.5 h-4 bg-slate-300"></div>
+              <div class="absolute top-0 left-[30%] w-0.5 h-4 bg-slate-300"></div>
+              <div class="absolute top-0 left-[50%] w-0.5 h-4 bg-slate-300"></div>
+              <div class="absolute top-0 left-[70%] w-0.5 h-4 bg-slate-300"></div>
+              <div class="absolute top-0 left-[90%] w-0.5 h-4 bg-slate-300"></div>
+            </div>
+
+            <!-- Branch 1: Domain 1 -->
+            <div class="flex flex-col items-center">
+              <div onclick="showNodeDetail('Immediate Outcome • Domain 1', 'Terpenuhinya Prinsip Satu Data Indonesia (SDI)', 'Standar data, metadata baku, aturan interoperabilitas, dan kode referensi diterapkan pada seluruh daftar data prioritas OPD.', 'Output: 100% Daftar Data Prioritas memiliki Metadata (MS-Keg, MS-Var, MS-Ind) tervalidasi di INDAH.')"
+                   class="cursor-pointer w-full bg-blue-50 border border-blue-200 rounded-xl p-3 text-center hover:border-bps-cerulean transition shadow-xs">
+                <span class="text-[10px] font-bold text-bps-cerulean uppercase">Domain 1 EPSS</span>
+                <h5 class="font-bold text-xs text-bps-navy mt-1">Penerapan Prinsip Satu Data Indonesia</h5>
+              </div>
+              <div class="tree-line-v h-5"></div>
+              <div class="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-[11px] text-slate-600 space-y-1.5">
+                <div class="font-semibold text-slate-800 border-b border-slate-100 pb-1">Output & Aktivitas:</div>
+                <p>• Desk Metadata & Standar Data</p>
+                <p>• Pendampingan Portal Satu Data & INDAH</p>
+              </div>
+            </div>
+
+            <!-- Branch 2: Domain 2 -->
+            <div class="flex flex-col items-center">
+              <div onclick="showNodeDetail('Immediate Outcome • Domain 2', 'Meningkatnya Kualitas Data Statistik Sektoral', 'Data yang dihasilkan OPD memenuhi dimensi relevansi, akurasi, aktualitas, aksesibilitas, komparabilitas, dan konsistensi.', 'Output: Dokumen penjaminan kualitas (quality assurance) dan rilis tepat waktu pada OPD lokus.')"
+                   class="cursor-pointer w-full bg-teal-50 border border-teal-200 rounded-xl p-3 text-center hover:border-bps-teal transition shadow-xs">
+                <span class="text-[10px] font-bold text-bps-teal uppercase">Domain 2 EPSS</span>
+                <h5 class="font-bold text-xs text-bps-navy mt-1">Penjaminan Kualitas Data Statistik</h5>
+              </div>
+              <div class="tree-line-v h-5"></div>
+              <div class="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-[11px] text-slate-600 space-y-1.5">
+                <div class="font-semibold text-slate-800 border-b border-slate-100 pb-1">Output & Aktivitas:</div>
+                <p>• Bimtek Metodologi & Validasi Data</p>
+                <p>• Penyusunan SOP Penjaminan Kualitas</p>
+              </div>
+            </div>
+
+            <!-- Branch 3: Domain 3 -->
+            <div class="flex flex-col items-center">
+              <div onclick="showNodeDetail('Immediate Outcome • Domain 3', 'Terstandarnya Proses Bisnis Statistik (GSBPM)', 'Penyelenggaraan statistik mengikuti 8 fase Generic Statistical Business Process Model dari identifikasi kebutuhan hingga evaluasi.', 'Output: Dokumen rancangan kegiatan statistik (Romantik) dan dokumentasi tahapan GSBPM.')"
+                   class="cursor-pointer w-full bg-cyan-50 border border-cyan-200 rounded-xl p-3 text-center hover:border-cyan-600 transition shadow-xs">
+                <span class="text-[10px] font-bold text-cyan-700 uppercase">Domain 3 EPSS</span>
+                <h5 class="font-bold text-xs text-bps-navy mt-1">Standardisasi Proses Bisnis (GSBPM)</h5>
+              </div>
+              <div class="tree-line-v h-5"></div>
+              <div class="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-[11px] text-slate-600 space-y-1.5">
+                <div class="font-semibold text-slate-800 border-b border-slate-100 pb-1">Output & Aktivitas:</div>
+                <p>• Asistensi Pengajuan Romantik BPS</p>
+                <p>• Pemetaan Proses Bisnis Survei/Kompromin</p>
+              </div>
+            </div>
+
+            <!-- Branch 4: Domain 4 -->
+            <div class="flex flex-col items-center">
+              <div onclick="showNodeDetail('Immediate Outcome • Domain 4', 'Menguatnya Kelembagaan Penyelenggara Statistik', 'Tersedianya regulasi internal, struktur tata kelola Walidata-Produsen Data, serta SDM fungsional statistik yang memadai.', 'Output: SK Tim SDI/Statistik Sektoral, Perda/Perkada SDI, dan peta kompetensi SDM.')"
+                   class="cursor-pointer w-full bg-amber-50 border border-amber-200 rounded-xl p-3 text-center hover:border-bps-amber transition shadow-xs">
+                <span class="text-[10px] font-bold text-bps-amber uppercase">Domain 4 EPSS</span>
+                <h5 class="font-bold text-xs text-bps-navy mt-1">Penguatan Kelembagaan & SDM</h5>
+              </div>
+              <div class="tree-line-v h-5"></div>
+              <div class="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-[11px] text-slate-600 space-y-1.5">
+                <div class="font-semibold text-slate-800 border-b border-slate-100 pb-1">Output & Aktivitas:</div>
+                <p>• Penguatan Peran Walidata (Diskominfo)</p>
+                <p>• Sosialisasi & Literasi Statistik ASN</p>
+              </div>
+            </div>
+
+            <!-- Branch 5: Domain 5 -->
+            <div class="flex flex-col items-center">
+              <div onclick="showNodeDetail('Immediate Outcome • Domain 5', 'Terintegrasinya Sistem Statistik Nasional (SSN)', 'Pemanfaatan data administrasi untuk statistik, literasi statistik publik, dan sinergi aktif dalam Forum Satu Data.', 'Output: Berita Acara Forum Satu Data dan publikasi statistik sektoral terintegrasi.')"
+                   class="cursor-pointer w-full bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-center hover:border-indigo-600 transition shadow-xs">
+                <span class="text-[10px] font-bold text-indigo-700 uppercase">Domain 5 EPSS</span>
+                <h5 class="font-bold text-xs text-bps-navy mt-1">Sinergi Sistem Statistik Nasional</h5>
+              </div>
+              <div class="tree-line-v h-5"></div>
+              <div class="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-[11px] text-slate-600 space-y-1.5">
+                <div class="font-semibold text-slate-800 border-b border-slate-100 pb-1">Output & Aktivitas:</div>
+                <p>• Koordinasi Forum Satu Data</p>
+                <p>• Simulasi & Penilaian Mandiri EPSS</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 4: MATRIKS PERAN HASIL (ROLE & RESULT MATRIX)                 -->
+    <!-- ===================================================================== -->
+    <section id="sec-matriks-peran" class="tab-section print-section hidden space-y-6">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Bagian 04 • Dialog Kinerja (PermenPANRB No. 6/2022)</span>
+        <h2 class="font-display font-bold text-2xl text-bps-navy mt-0.5">Matriks Pembagian Peran dan Hasil (MPH) Tahun 2027</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">Penjabaran ekspektasi kinerja dari Pimpinan/Ketua Tim kepada anggota tim pembina statistik dan pemangku kepentingan terkait.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-bps-navy text-white">
+                <th class="py-3.5 px-4 font-semibold w-1/4">Jabatan / Peran Tim</th>
+                <th class="py-3.5 px-4 font-semibold w-1/3">Intermediate Outcome / Peran Strategis</th>
+                <th class="py-3.5 px-4 font-semibold">Output / Hasil Kinerja (Deliverables) Tahun 2027</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr class="hover:bg-slate-50/80 searchable-item">
+                <td class="py-4 px-4 align-top">
+                  <div class="font-bold text-bps-navy">Kepala BPS / Pimpinan Instansi Pembina</div>
+                  <span class="inline-block mt-1 text-[11px] font-medium px-2 py-0.5 rounded bg-blue-50 text-bps-cerulean">Penanggung Jawab Utama</span>
+                </td>
+                <td class="py-4 px-4 align-top text-slate-700 font-medium">
+                  Terwujudnya tata kelola pembinaan statistik sektoral yang efektif dan meningkatnya Indeks Pembangunan Statistik (IPS) ≥ 3,10.
+                </td>
+                <td class="py-4 px-4 align-top text-slate-600 space-y-1.5">
+                  <p>• Keputusan Kepala BPS tentang Tim Pembinaan Statistik Sektoral & EPSS 2027.</p>
+                  <p>• Komitmen kebijakan tingkat pimpinan bersama Kepala Daerah/Pimpinan K/L.</p>
+                  <p>• Laporan Hasil Evaluasi Penyelenggaraan Statistik Sektoral (EPSS) 2027.</p>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-slate-50/80 searchable-item">
+                <td class="py-4 px-4 align-top">
+                  <div class="font-bold text-bps-navy">Ketua Tim Pembinaan Statistik Sektoral</div>
+                  <span class="inline-block mt-1 text-[11px] font-medium px-2 py-0.5 rounded bg-teal-50 text-bps-teal">Koordinator Operasional</span>
+                </td>
+                <td class="py-4 px-4 align-top text-slate-700 font-medium">
+                  Terkendalinya pelaksanaan rencana kerja, peta jalan pembinaan 5 domain EPSS, dan koordinasi lintas OPD/Walidata.
+                </td>
+                <td class="py-4 px-4 align-top text-slate-600 space-y-1.5">
+                  <p>• Dokumen Rencana Kerja, Rencana Aksi, dan Jadwal Pembinaan 2027.</p>
+                  <p>• Notula & Berita Acara koordinasi Forum Satu Data bersama Bappeda & Diskominfo.</p>
+                  <p>• Rekapitulasi capaian kematangan 38 indikator EPSS hasil penilaian mandiri (PM).</p>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-slate-50/80 searchable-item">
+                <td class="py-4 px-4 align-top">
+                  <div class="font-bold text-bps-navy">Statistisi Ahli & Terampil (Tim Pembina Domain 1–5)</div>
+                  <span class="inline-block mt-1 text-[11px] font-medium px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">Tenaga Fungsional Pembina</span>
+                </td>
+                <td class="py-4 px-4 align-top text-slate-700 font-medium">
+                  Terlaksananya asistensi teknis, <em>coaching clinic</em>, verifikasi metadata, dan pendampingan bukti dukung EPSS pada setiap OPD lokus.
+                </td>
+                <td class="py-4 px-4 align-top text-slate-600 space-y-1.5">
+                  <p>• Laporan hasil asesmen awal (<em>baseline</em>) kesiapan statistik sektoral per OPD.</p>
+                  <p>• Rekomendasi Kegiatan Statistik (Romantik) yang terverifikasi secara metodologis.</p>
+                  <p>• Matriks kelengkapan bukti dukung (<em>evidence</em>) 5 Domain EPSS yang tervalidasi.</p>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-slate-50/80 searchable-item">
+                <td class="py-4 px-4 align-top">
+                  <div class="font-bold text-bps-navy">Pranata Komputer / Tim Infrastruktur Data</div>
+                  <span class="inline-block mt-1 text-[11px] font-medium px-2 py-0.5 rounded bg-cyan-50 text-cyan-700">Dukungan Sistem & Interoperabilitas</span>
+                </td>
+                <td class="py-4 px-4 align-top text-slate-700 font-medium">
+                  Terselenggaranya pembinaan teknis interoperabilitas data, pengelolaan portal Satu Data, dan pemanfaatan aplikasi INDAH & Simbatik.
+                </td>
+                <td class="py-4 px-4 align-top text-slate-600 space-y-1.5">
+                  <p>• Panduan teknis standar interoperabilitas & pertukaran metadata (API/format baku).</p>
+                  <p>• Pendampingan teknis input metadata ke aplikasi INDAH dan Simbatik EPSS.</p>
+                  <p>• Dashboard monitoring progres pembinaan dan kepatuhan pelaporan data OPD.</p>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-slate-50/80 searchable-item">
+                <td class="py-4 px-4 align-top">
+                  <div class="font-bold text-bps-navy">Walidata (Diskominfo) & Produsen Data (OPD)</div>
+                  <span class="inline-block mt-1 text-[11px] font-medium px-2 py-0.5 rounded bg-amber-50 text-amber-700">Mitra Pelaksana & Lokus</span>
+                </td>
+                <td class="py-4 px-4 align-top text-slate-700 font-medium">
+                  Terimplementasinya prinsip SDI dan tata kelola statistik sesuai standar BPS dalam siklus produksi data instansi.
+                </td>
+                <td class="py-4 px-4 align-top text-slate-600 space-y-1.5">
+                  <p>• Walidata: Pemeriksaan kesesuaian data, pengelolaan Portal SDI, & pembinaan internal OPD.</p>
+                  <p>• Produsen Data: Pengajuan Romantik, penyusunan metadata baku, SOP kualitas data, & unggah bukti dukung EPSS.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 5: TIMELINE PELAKSANAAN 2027 (GANTT CHART)                    -->
+    <!-- ===================================================================== -->
+    <section id="sec-timeline" class="tab-section print-section hidden space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Bagian 05 • Peta Jalan (Roadmap) 12 Bulan</span>
+          <h2 class="font-display font-bold text-2xl text-bps-navy mt-0.5">Timeline Pelaksanaan Pembinaan Statistik Sektoral 2027</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Jadwal pelaksanaan kegiatan per bulan (Januari – Desember 2027) terbagi dalam 4 Triwulan.</p>
+        </div>
+        <!-- Filter Triwulan -->
+        <div class="flex flex-wrap gap-1.5 no-print">
+          <button onclick="filterTimeline('ALL')" class="tl-filter active px-3 py-1.5 rounded-xl text-xs font-semibold bg-bps-navy text-white transition">Semua (TW I–IV)</button>
+          <button onclick="filterTimeline('TW1')" class="tl-filter px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">TW I (Jan–Mar)</button>
+          <button onclick="filterTimeline('TW2')" class="tl-filter px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">TW II (Apr–Jun)</button>
+          <button onclick="filterTimeline('TW3')" class="tl-filter px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">TW III (Jul–Sep)</button>
+          <button onclick="filterTimeline('TW4')" class="tl-filter px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">TW IV (Okt–Des)</button>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="flex flex-wrap items-center gap-4 text-xs text-slate-600 bg-white px-5 py-3 rounded-xl border border-slate-200/80">
+        <span class="font-semibold text-slate-800">Keterangan Fase:</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-bps-cerulean inline-block"></span> Persiapan & Perencanaan</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-bps-teal inline-block"></span> Pembinaan Teknis & Domain 1–5</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-bps-amber inline-block"></span> Penilaian Mandiri & EPSS</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-indigo-600 inline-block"></span> Evaluasi & Pelaporan Akhir</span>
+      </div>
+
+      <!-- Gantt Chart Table -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[900px] text-xs">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                <th rowspan="2" class="py-3 px-4 font-bold w-72 border-r border-slate-200 bg-slate-100 sticky left-0 z-10">Tahapan / Kegiatan Utama</th>
+                <th colspan="3" class="py-1.5 px-2 text-center font-bold border-r border-slate-200 bg-blue-50/70 text-bps-navy">Triwulan I</th>
+                <th colspan="3" class="py-1.5 px-2 text-center font-bold border-r border-slate-200 bg-teal-50/70 text-bps-teal">Triwulan II</th>
+                <th colspan="3" class="py-1.5 px-2 text-center font-bold border-r border-slate-200 bg-amber-50/70 text-bps-amber">Triwulan III</th>
+                <th colspan="3" class="py-1.5 px-2 text-center font-bold bg-indigo-50/70 text-indigo-800">Triwulan IV</th>
+              </tr>
+              <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 text-center font-semibold">
+                <th class="py-2 px-1 w-12 border-r border-slate-100">Jan</th>
+                <th class="py-2 px-1 w-12 border-r border-slate-100">Feb</th>
+                <th class="py-2 px-1 w-12 border-r border-slate-200">Mar</th>
+                <th class="py-2 px-1 w-12 border-r border-slate-100">Apr</th>
+                <th class="py-2 px-1 w-12 border-r border-slate-100">Mei</th>
+                <th class="py-2 px-1 w-12 border-r border-slate-200">Jun</th>
+                <th class="py-2 px-1 w-12 border-r border-slate-100">Jul</th>
+                <th class="py-2 px-1 w-12 border-r border-slate-100">Ags</th>
+                <th class="py-2 px-1 w-12 border-r border-slate-200">Sep</th>
+                <th class="py-2 px-1 w-12 border-r border-slate-100">Okt</th>
+                <th class="py-2 px-1 w-12 border-r border-slate-100">Nov</th>
+                <th class="py-2 px-1 w-12">Des</th>
+              </tr>
+            </thead>
+            <tbody id="timelineBody" class="divide-y divide-slate-100">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 6: MATRIKS RACI                                               -->
+    <!-- ===================================================================== -->
+    <section id="sec-matriks-raci" class="tab-section print-section hidden space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Bagian 06 • Tata Kelola Tanggung Jawab</span>
+          <h2 class="font-display font-bold text-2xl text-bps-navy mt-0.5">Matriks RACI Pembinaan Statistik Sektoral 2027</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Pemetaan akuntabilitas lintas aktor pada setiap tahapan kegiatan pembinaan dan evaluasi statistik sektoral.</p>
+        </div>
+        <!-- RACI Legend Badges -->
+        <div class="flex flex-wrap gap-2">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 text-xs font-bold">
+            <span class="w-5 h-5 rounded bg-blue-600 text-white flex items-center justify-center text-[11px]">R</span> Responsible (Pelaksana)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold">
+            <span class="w-5 h-5 rounded bg-rose-600 text-white flex items-center justify-center text-[11px]">A</span> Accountable (Penanggung Jawab)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 text-xs font-bold">
+            <span class="w-5 h-5 rounded bg-amber-500 text-white flex items-center justify-center text-[11px]">C</span> Consulted (Konsultasi)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold">
+            <span class="w-5 h-5 rounded bg-slate-500 text-white flex items-center justify-center text-[11px]">I</span> Informed (Diinformasikan)
+          </span>
+        </div>
+      </div>
+
+      <!-- RACI Table -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[850px] text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-bps-navy text-white text-center">
+                <th class="py-3.5 px-4 text-left font-semibold w-80 sticky left-0 bg-bps-navy z-10">Tahapan Aktivitas Pembinaan</th>
+                <th class="py-3.5 px-3 font-semibold">Kepala BPS / Pimpinan</th>
+                <th class="py-3.5 px-3 font-semibold">Ketua Tim Pembinaan</th>
+                <th class="py-3.5 px-3 font-semibold">Statistisi / Tim Pembina</th>
+                <th class="py-3.5 px-3 font-semibold">Walidata (Diskominfo)</th>
+                <th class="py-3.5 px-3 font-semibold">Pembina Pusat / Prov</th>
+                <th class="py-3.5 px-3 font-semibold">Produsen Data (OPD)</th>
+              </tr>
+            </thead>
+            <tbody id="raciBody" class="divide-y divide-slate-200">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-12 py-6 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <div>
+        <strong class="text-slate-700">Dokumen Perencanaan Pembinaan Statistik Sektoral Tahun 2027</strong> • Mengacu pada UU No. 16/1997, Perpres No. 39/2019 (SDI), dan Peraturan BPS No. 3/2022 (EPSS).
+      </div>
+      <div class="flex items-center gap-4">
+        <button onclick="openRegulasiModal()" class="text-bps-cerulean hover:underline font-medium">Referensi Regulasi & SOP</button>
+        <span>•</span>
+        <span>BPS Republik Indonesia</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Modal for Node / Detail / Regulasi -->
+  <div id="detailModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden animate-fadeIn">
+      <div class="bg-bps-navy text-white px-6 py-4 flex items-center justify-between">
+        <div>
+          <span id="modalCategory" class="text-[11px] font-bold uppercase tracking-wider text-cyan-300">Detail Informasi</span>
+          <h3 id="modalTitle" class="font-display font-bold text-lg mt-0.5">Judul Detail</h3>
+        </div>
+        <button onclick="closeModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="modalBody" class="p-6 text-sm text-slate-700 space-y-4 max-h-[75vh] overflow-y-auto">
+        <!-- Dynamic content -->
+      </div>
+      <div class="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex justify-end">
+        <button onclick="closeModal()" class="px-4 py-2 rounded-xl bg-bps-navy hover:bg-bps-blue text-white text-xs font-semibold transition">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastMsg" class="fixed bottom-5 right-5 z-50 hidden bg-bps-navy text-white px-4 py-3 rounded-xl shadow-lg border border-white/15 text-xs font-medium items-center gap-2.5">
+    <i class="fa-solid fa-circle-info text-cyan-400"></i>
+    <span id="toastText">Pesan notifikasi</span>
+  </div>
+
+  <!-- JavaScript Application Logic -->
+  <script>
+    // =========================================================================
+    // DATA REPOSITORY (Mengacu pada Regulasi & SOP Pembinaan Statistik Sektoral)
+    // =========================================================================
+    const actionPlanData = [
+      {
+        id: 'AP-01',
+        fase: 'Persiapan',
+        triwulan: 'TW I',
+        kegiatan: 'Pembentukan Tim Pembinaan, Pemetaan Lokus, & Penyusunan Rencana Kerja',
+        pj: 'Kepala BPS & Ketua Tim Pembinaan',
+        metode: 'Rapat Koordinasi Internal & Desk Identifikasi',
+        output: 'SK Tim Pembinaan Statistik Sektoral 2027, Peta Lokus OPD Prioritas EPSS, & Dokumen Rencana Kerja.',
+        indikator: '100% Tim & SK ditetapkan pada Januari 2027'
+      },
+      {
+        id: 'AP-02',
+        fase: 'Persiapan',
+        triwulan: 'TW I',
+        kegiatan: 'Asesmen Awal (Baseline) & Sosialisasi Pembinaan Statistik Sektoral serta EPSS',
+        pj: 'Ketua Tim & Statistisi Ahli',
+        metode: 'Sosialisasi Tatap Muka/Hybrid & Kuesioner Asesmen Mandiri Awal',
+        output: 'Profil kesiapan statistik sektoral per OPD, catatan kendala awal, & komitmen pimpinan OPD/Walidata.',
+        indikator: 'Minimal 95% OPD & Walidata hadir dan mengisi baseline'
+      },
+      {
+        id: 'AP-03',
+        fase: 'Domain EPSS',
+        triwulan: 'TW I – TW II',
+        kegiatan: 'Pembinaan Domain 1 (Prinsip Satu Data Indonesia): Standar Data, Metadata, Interoperabilitas, Kode Referensi',
+        pj: 'Tim Pembina Domain 1 & Pranata Komputer',
+        metode: 'Bimbingan Teknis & Desk Verifikasi Aplikasi INDAH',
+        output: 'Metadata Kegiatan (MS-Keg), Variabel (MS-Var), dan Indikator (MS-Ind) terstandar serta terunggah di Portal SDI & INDAH.',
+        indikator: '≥ 90% Daftar Data Prioritas memiliki metadata baku tervalidasi'
+      },
+      {
+        id: 'AP-04',
+        fase: 'Domain EPSS',
+        triwulan: 'TW II',
+        kegiatan: 'Pembinaan Domain 2 (Kualitas Data): Dimensi Relevansi, Akurasi, Aktualitas, & Penjaminan Kualitas',
+        pj: 'Tim Pembina Domain 2 (Statistisi)',
+        metode: 'Coaching Clinic & Pendampingan Penyusunan SOP Kualitas Data',
+        output: 'Dokumen kerangka penjaminan kualitas (Quality Assurance), jadwal rilis data, dan laporan validasi data sektoral OPD.',
+        indikator: '100% OPD lokus EPSS memiliki SOP penjaminan kualitas data'
+      },
+      {
+        id: 'AP-05',
+        fase: 'Domain EPSS',
+        triwulan: 'TW II – TW III',
+        kegiatan: 'Pembinaan Domain 3 (Proses Bisnis Statistik / GSBPM) & Pengajuan Rekomendasi (Romantik)',
+        pj: 'Tim Pembina Domain 3 (Statistisi)',
+        metode: 'Asistensi One-on-One & Review Rancangan Survei/Kompromin',
+        output: 'Surat Rekomendasi Kegiatan Statistik (Romantik) terbit sebelum pengumpulan data & dokumentasi 8 fase GSBPM.',
+        indikator: '100% survei/kompromin baru mengajukan Romantik'
+      },
+      {
+        id: 'AP-06',
+        fase: 'Domain EPSS',
+        triwulan: 'TW II – TW III',
+        kegiatan: 'Pembinaan Domain 4 (Kelembagaan) & Domain 5 (Statistik Nasional)',
+        pj: 'Ketua Tim, Tim Pembina Domain 4 & 5',
+        metode: 'Sinergi Forum Satu Data bersama Bappeda & Diskominfo (Walidata)',
+        output: 'Penguatan regulasi internal SDI, penguatan peran Walidata, pemanfaatan data administrasi, dan literasi statistik.',
+        indikator: 'Terselenggaranya minimal 2x Forum Satu Data & bukti dukung Domain 4–5 lengkap'
+      },
+      {
+        id: 'AP-07',
+        fase: 'Evaluasi',
+        triwulan: 'TW III',
+        kegiatan: 'Pendampingan Penilaian Mandiri (PM), Simulasi EPSS, & Verifikasi Bukti Dukung (Simbatik)',
+        pj: 'Seluruh Tim Pembina & Tim Penilai Internal OPD',
+        metode: 'Desk Review Evidence 38 Indikator & Simulasi Wawancara/Visitasi',
+        output: 'Kertas kerja Penilaian Mandiri (PM) EPSS dan tautan bukti dukung terverifikasi pada aplikasi Simbatik BPS.',
+        indikator: '100% OPD lokus menuntaskan submit PM EPSS tepat waktu'
+      },
+      {
+        id: 'AP-08',
+        fase: 'Evaluasi',
+        triwulan: 'TW IV',
+        kegiatan: 'Pendampingan Penilaian Dokumen/Interviu/Visitasi Tim Penilai Badan (TPB), Monitoring & Laporan Akhir',
+        pj: 'Kepala BPS, Ketua Tim & Tim Pembina',
+        metode: 'Pendampingan Penilaian Eksternal & Evaluasi Akhir Tahun',
+        output: 'Pencapaian Nilai IPS 2027 ≥ 3,10 (Baik), Rencana Tindak Lanjut (RTL) 2028, & Laporan Akhir Pembinaan 2027.',
+        indikator: 'Laporan Akhir & Rekomendasi Perbaikan IPS tersusun Desember 2027'
+      }
+    ];
+
+    const timelineData = [
+      { task: 'Penyusunan SK Tim & Rencana Kerja 2027', tw: 'TW1', color: 'bg-bps-cerulean', months: [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+      { task: 'Pemetaan Lokus OPD & Asesmen Awal (Baseline)', tw: 'TW1', color: 'bg-bps-cerulean', months: [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+      { task: 'Sosialisasi Regulasi SDI, Romantik & EPSS 2027', tw: 'TW1', color: 'bg-bps-cerulean', months: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+      { task: 'Pembinaan Domain 1: Prinsip SDI & Metadata (INDAH)', tw: 'TW2', color: 'bg-bps-teal', months: [0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0] },
+      { task: 'Pembinaan Domain 2 & 3: Kualitas Data & GSBPM/Romantik', tw: 'TW2', color: 'bg-bps-teal', months: [0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0] },
+      { task: 'Pembinaan Domain 4 & 5: Kelembagaan & Forum Satu Data', tw: 'TW2', color: 'bg-bps-teal', months: [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0] },
+      { task: 'Coaching Clinic Intensif & Pengumpulan Bukti Dukung', tw: 'TW3', color: 'bg-bps-amber', months: [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0] },
+      { task: 'Pendampingan Penilaian Mandiri (PM) & Simulasi EPSS', tw: 'TW3', color: 'bg-bps-amber', months: [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0] },
+      { task: 'Penilaian Dokumen, Interviu & Visitasi EPSS (TPB)', tw: 'TW4', color: 'bg-bps-amber', months: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0] },
+      { task: 'Diseminasi Hasil IPS 2027, RTL & Laporan Akhir Pembinaan', tw: 'TW4', color: 'bg-indigo-600', months: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1] }
+    ];
+
+    const raciData = [
+      { activity: 'Penetapan SK Tim & Kebijakan Pembinaan Statistik Sektoral 2027', roles: ['A', 'R', 'C', 'I', 'I', 'I'] },
+      { activity: 'Penyusunan Rencana Kerja, Rencana Aksi & Peta Jalan Pembinaan', roles: ['A', 'R', 'R', 'C', 'C', 'I'] },
+      { activity: 'Identifikasi Lokus OPD & Asesmen Awal (Baseline) Kesiapan Statistik', roles: ['I', 'A', 'R', 'C', 'I', 'R'] },
+      { activity: 'Sosialisasi SDI, EPSS, dan Mekanisme Rekomendasi (Romantik)', roles: ['A', 'R', 'R', 'R', 'C', 'I'] },
+      { activity: 'Pendampingan Penyusunan Standar Data & Metadata (MS-Keg/Var/Ind)', roles: ['I', 'A', 'R', 'C', 'C', 'R'] },
+      { activity: 'Verifikasi Pengajuan Rekomendasi Kegiatan Statistik (Romantik)', roles: ['A', 'C', 'R', 'I', 'C', 'R'] },
+      { activity: 'Coaching Clinic & Pendampingan 5 Domain EPSS (38 Indikator)', roles: ['I', 'A', 'R', 'C', 'C', 'R'] },
+      { activity: 'Penyelenggaraan Forum Satu Data (Penetapan Daftar Data Prioritas)', roles: ['C', 'R', 'C', 'R', 'I', 'R'] },
+      { activity: 'Pendampingan Penilaian Mandiri (PM) & Unggah Bukti Dukung Simbatik', roles: ['I', 'A', 'R', 'C', 'C', 'R'] },
+      { activity: 'Penjaminan Kualitas & Penilaian Eksternal EPSS (TPB / TPI)', roles: ['I', 'C', 'C', 'C', 'A/R', 'R'] },
+      { activity: 'Evaluasi Capaian IPS 2027 & Penyusunan Laporan Akhir Pembinaan', roles: ['A', 'R', 'R', 'I', 'I', 'I'] }
+    ];
+
+    // =========================================================================
+    // RENDER FUNCTIONS
+    // =========================================================================
+    function renderActionPlan(filter = 'ALL') {
+      const container = document.getElementById('actionPlanContainer');
+      container.innerHTML = '';
+
+      const filtered = filter === 'ALL' ? actionPlanData : actionPlanData.filter(item => item.fase === filter);
+
+      filtered.forEach(item => {
+        let badgeColor = 'bg-blue-50 text-bps-cerulean border-blue-200';
+        if (item.fase === 'Domain EPSS') badgeColor = 'bg-teal-50 text-bps-teal border-teal-200';
+        if (item.fase === 'Evaluasi') badgeColor = 'bg-amber-50 text-bps-amber border-amber-200';
+
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm hover:shadow-md transition searchable-item';
+        card.innerHTML = `
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-100 pb-3.5 mb-3.5">
+            <div class="flex items-start sm:items-center gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-bps-navy text-white font-display font-bold text-xs shrink-0">${item.id}</span>
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${badgeColor}">${item.fase}</span>
+                  <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700"><i class="fa-regular fa-clock mr-1"></i>${item.triwulan}</span>
+                </div>
+                <h3 class="font-display font-bold text-base text-bps-navy">${item.kegiatan}</h3>
+              </div>
+            </div>
+            <div class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/70 px-3 py-1.5 rounded-xl shrink-0">
+              <i class="fa-solid fa-bullseye mr-1"></i> ${item.indikator}
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+            <div class="bg-slate-50/80 p-3 rounded-xl">
+              <span class="text-[11px] font-bold uppercase text-slate-400 block mb-1">Penanggung Jawab</span>
+              <p class="font-medium text-slate-800">${item.pj}</p>
+            </div>
+            <div class="bg-slate-50/80 p-3 rounded-xl">
+              <span class="text-[11px] font-bold uppercase text-slate-400 block mb-1">Metode Pelaksanaan</span>
+              <p class="font-medium text-slate-800">${item.metode}</p>
+            </div>
+            <div class="bg-blue-50/40 p-3 rounded-xl border border-blue-100/60">
+              <span class="text-[11px] font-bold uppercase text-bps-cerulean block mb-1">Output / Deliverable</span>
+              <p class="font-medium text-slate-800">${item.output}</p>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderTimeline(filter = 'ALL') {
+      const tbody = document.getElementById('timelineBody');
+      tbody.innerHTML = '';
+
+      const filtered = filter === 'ALL' ? timelineData : timelineData.filter(item => item.tw === filter);
+
+      filtered.forEach((row, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition searchable-item';
+
+        let monthCells = '';
+        row.months.forEach((active, mIdx) => {
+          const borderClass = (mIdx === 2 || mIdx === 5 || mIdx === 8) ? 'border-r border-slate-200' : 'border-r border-slate-100';
+          if (active) {
+            monthCells += `
+              <td class="p-1.5 ${borderClass} text-center">
+                <div class="h-6 rounded-md ${row.color} shadow-xs flex items-center justify-center text-white text-[10px] font-bold" title="Aktif">
+                  <i class="fa-solid fa-check"></i>
+                </div>
+              </td>`;
+          } else {
+            monthCells += `<td class="p-1.5 ${borderClass}"></td>`;
+          }
+        });
+
+        tr.innerHTML = `
+          <td class="py-3 px-4 font-medium text-slate-800 border-r border-slate-200 sticky left-0 bg-white z-10">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">${idx + 1}</span>
+              <span>${row.task}</span>
+            </div>
+          </td>
+          ${monthCells}
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderRaci() {
+      const tbody = document.getElementById('raciBody');
+      tbody.innerHTML = '';
+
+      const badgeMap = {
+        'R': { bg: 'bg-blue-600 text-white', label: 'Responsible' },
+        'A': { bg: 'bg-rose-600 text-white', label: 'Accountable' },
+        'C': { bg: 'bg-amber-500 text-white', label: 'Consulted' },
+        'I': { bg: 'bg-slate-200 text-slate-700', label: 'Informed' },
+        'A/R': { bg: 'bg-purple-600 text-white', label: 'Accountable & Responsible' }
+      };
+
+      raciData.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition searchable-item';
+
+        let roleCells = '';
+        item.roles.forEach(code => {
+          const style = badgeMap[code] || badgeMap['I'];
+          roleCells += `
+            <td class="py-3 px-3 text-center">
+              <span title="${style.label}" class="inline-flex items-center justify-center min-w-[32px] h-7 px-2 rounded-lg font-display font-bold text-xs shadow-2xs ${style.bg}">
+                ${code}
+              </span>
+            </td>
+          `;
+        });
+
+        tr.innerHTML = `
+          <td class="py-3.5 px-4 font-medium text-slate-800 sticky left-0 bg-white z-10 border-r border-slate-100">
+            <span class="text-xs font-bold text-slate-400 mr-1.5">${String(idx + 1).padStart(2, '0')}.</span>
+            ${item.activity}
+          </td>
+          ${roleCells}
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // =========================================================================
+    // NAVIGATION & INTERACTIVITY
+    // =========================================================================
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const tabSections = document.querySelectorAll('.tab-section');
+
+    navTabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-tab');
+
+        // Update Tab UI
+        navTabs.forEach(t => {
+          t.classList.remove('active', 'bg-white', 'text-bps-navy', 'font-semibold', 'shadow-sm');
+          t.classList.add('text-slate-300', 'font-medium');
+        });
+        btn.classList.add('active', 'bg-white', 'text-bps-navy', 'font-semibold', 'shadow-sm');
+        btn.classList.remove('text-slate-300', 'font-medium');
+
+        // Show target section
+        tabSections.forEach(sec => {
+          if (sec.id === `sec-${target}`) {
+            sec.classList.remove('hidden');
+          } else {
+            sec.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    function filterActionPlan(fase) {
+      document.querySelectorAll('.ap-filter').forEach(btn => {
+        btn.classList.remove('active', 'bg-bps-navy', 'text-white');
+        btn.classList.add('bg-slate-100', 'text-slate-600');
+      });
+      event.target.classList.add('active', 'bg-bps-navy', 'text-white');
+      event.target.classList.remove('bg-slate-100', 'text-slate-600');
+      renderActionPlan(fase);
+    }
+
+    function filterTimeline(tw) {
+      document.querySelectorAll('.tl-filter').forEach(btn => {
+        btn.classList.remove('active', 'bg-bps-navy', 'text-white');
+        btn.classList.add('bg-slate-100', 'text-slate-600');
+      });
+      event.target.classList.add('active', 'bg-bps-navy', 'text-white');
+      event.target.classList.remove('bg-slate-100', 'text-slate-600');
+      renderTimeline(tw);
+    }
+
+    // Tree Zoom Controls
+    let currentZoom = 1;
+    function zoomTree(delta) {
+      currentZoom = Math.min(1.3, Math.max(0.7, +(currentZoom + delta).toFixed(1)));
+      document.getElementById('performanceTreeCanvas').style.transform = `scale(${currentZoom})`;
+      document.getElementById('treeZoomLabel').textContent = `${Math.round(currentZoom * 100)}%`;
+    }
+    function resetTreeZoom() {
+      currentZoom = 1;
+      document.getElementById('performanceTreeCanvas').style.transform = 'scale(1)';
+      document.getElementById('treeZoomLabel').textContent = '100%';
+    }
+
+    // Global Search Filter
+    const searchInput = document.getElementById('globalSearch');
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.trim().toLowerCase();
+      const banner = document.getElementById('searchBanner');
+      const termDisplay = document.getElementById('searchTermDisplay');
+
+      if (!term) {
+        banner.classList.add('hidden');
+        document.querySelectorAll('.searchable-item').forEach(el => el.classList.remove('hidden'));
+        return;
+      }
+
+      // Show all sections when searching so matches across tabs are visible
+      tabSections.forEach(sec => sec.classList.remove('hidden'));
+      banner.classList.remove('hidden');
+      termDisplay.textContent = `"${e.target.value}"`;
+
+      document.querySelectorAll('.searchable-item').forEach(el => {
+        const text = el.textContent.toLowerCase();
+        if (text.includes(term)) {
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+    });
+
+    function clearSearch() {
+      searchInput.value = '';
+      document.getElementById('searchBanner').classList.add('hidden');
+      document.querySelectorAll('.searchable-item').forEach(el => el.classList.remove('hidden'));
+      // Restore active tab view
+      const activeTab = document.querySelector('.nav-tab.active').getAttribute('data-tab');
+      tabSections.forEach(sec => {
+        sec.classList.toggle('hidden', sec.id !== `sec-${activeTab}`);
+      });
+    }
+
+    // Modal Functions
+    function showNodeDetail(category, title, desc, indicator) {
+      document.getElementById('modalCategory').textContent = category;
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalBody').innerHTML = `
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+          <h4 class="text-xs font-bold uppercase text-slate-400 mb-1">Deskripsi Kinerja</h4>
+          <p class="text-slate-700 leading-relaxed">${desc}</p>
+        </div>
+        <div class="p-4 rounded-xl bg-teal-50/70 border border-teal-200/80">
+          <h4 class="text-xs font-bold uppercase text-bps-teal mb-1">Indikator & Ukuran Keberhasilan</h4>
+          <p class="font-medium text-bps-navy">${indicator}</p>
+        </div>
+      `;
+      const modal = document.getElementById('detailModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function openRegulasiModal() {
+      document.getElementById('modalCategory').textContent = 'Landasan Yuridis & Standar Operasional';
+      document.getElementById('modalTitle').textContent = 'Dasar Hukum & Pedoman Pembinaan Statistik Sektoral';
+      document.getElementById('modalBody').innerHTML = `
+        <ul class="space-y-3 text-xs sm:text-sm">
+          <li class="p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+            <strong class="text-bps-navy block">1. Undang-Undang Nomor 16 Tahun 1997 tentang Statistik</strong>
+            <span class="text-slate-600">Mengamanatkan BPS sebagai pembina penyelenggaraan kegiatan statistik sektoral dan khusus guna mewujudkan Sistem Statistik Nasional (SSN).</span>
+          </li>
+          <li class="p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+            <strong class="text-bps-navy block">2. Peraturan Pemerintah Nomor 51 Tahun 1999 tentang Penyelenggaraan Statistik</strong>
+            <span class="text-slate-600">Mengatur kewajiban pemberitahuan rancangan survei dan penyampaian hasil penyelenggaraan statistik sektoral kepada BPS.</span>
+          </li>
+          <li class="p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+            <strong class="text-bps-navy block">3. Peraturan Presiden Nomor 39 Tahun 2019 tentang Satu Data Indonesia (SDI)</strong>
+            <span class="text-slate-600">Menetapkan BPS sebagai Pembina Data Tingkat Pusat/Daerah yang membina penerapan Standar Data dan Metadata Statistik.</span>
+          </li>
+          <li class="p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+            <strong class="text-bps-navy block">4. Peraturan BPS Nomor 3 Tahun 2022 tentang Evaluasi Penyelenggaraan Statistik Sektoral (EPSS)</strong>
+            <span class="text-slate-600">Pedoman pengukuran tingkat kematangan (maturity level) pada 5 Domain, 19 Aspek, dan 38 Indikator untuk menghasilkan Indeks Pembangunan Statistik (IPS).</span>
+          </li>
+          <li class="p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+            <strong class="text-bps-navy block">5. PermenPANRB Nomor 6 Tahun 2022 tentang Pengelolaan Kinerja Pegawai ASN</strong>
+            <span class="text-slate-600">Dasar penyusunan Pohon Kinerja (Cascading) dan Matriks Pembagian Peran dan Hasil (MPH) Tim Pembina.</span>
+          </li>
+        </ul>
+      `;
+      const modal = document.getElementById('detailModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('detailModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function printAllDocuments() {
+      // Reveal all sections temporarily for printing
+      tabSections.forEach(sec => sec.classList.remove('hidden'));
+      window.print();
+      // Restore active tab after print dialog
+      setTimeout(() => {
+        const activeTab = document.querySelector('.nav-tab.active').getAttribute('data-tab');
+        tabSections.forEach(sec => {
+          sec.classList.toggle('hidden', sec.id !== `sec-${activeTab}`);
+        });
+      }, 500);
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('detailModal').addEventListener('click', (e) => {
+      if (e.target.id === 'detailModal') closeModal();
+    });
+
+    // Initialize Application
+    window.addEventListener('DOMContentLoaded', () => {
+      renderActionPlan('ALL');
+      renderTimeline('ALL');
+      renderRaci();
+    });
+  </script>
+</body>
+</html>
