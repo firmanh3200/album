@@ -1,0 +1,2352 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Lengkap Pembuatan Infografis — Dari Konsep Hingga Publikasi</title>
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar & utility animations */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.4);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.7);
+        }
+        .card-hover {
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+        }
+        .fade-in {
+            animation: fadeIn 0.35s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Toast Notification untuk Salin Warna HEX & Feedback -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-medium border border-slate-700 dark:border-slate-200">
+            <svg class="w-5 h-5 text-emerald-400 dark:text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span id="toast-message">Kode warna disalin!</span>
+        </div>
+    </div>
+
+    <!-- STICKY HEADER & READING PROGRESS BAR -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/85 dark:bg-slate-900/85 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
+        <!-- Reading Progress Bar -->
+        <div class="w-full h-1 bg-slate-200 dark:bg-slate-800 overflow-hidden">
+            <div id="reading-progress" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-amber-500 w-0 transition-all duration-150"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2.5 group">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-display font-bold text-lg tracking-tight text-slate-900 dark:text-white">Info<span class="text-indigo-600 dark:text-indigo-400">Grafis</span>101</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center gap-1 text-sm font-medium">
+                    <a href="#pengertian" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition">Konsep Dasar</a>
+                    <a href="#jenis" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition">9 Jenis</a>
+                    <a href="#prinsip" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition">Prinsip Desain</a>
+                    <a href="#langkah" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition">6 Langkah</a>
+                    <a href="#contoh-jabar" class="px-3 py-2 rounded-lg text-emerald-700 dark:text-emerald-300 bg-emerald-50/80 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition font-semibold">Contoh Jabar</a>
+                    <a href="#gemini-notebook" class="px-3 py-2 rounded-lg text-sky-700 dark:text-sky-300 bg-sky-50/90 dark:bg-sky-950/60 hover:bg-sky-100 dark:hover:bg-sky-900/50 transition font-semibold flex items-center gap-1">
+                        <span>✨ Gemini Notebook</span>
+                    </a>
+                    <a href="#kesalahan" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition">Do's & Don'ts</a>
+                    <a href="#tools" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition">Tools</a>
+                    <a href="#interaktif" class="px-3 py-2 rounded-lg text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition font-semibold">Checklist & Kuis</a>
+                </nav>
+
+                <!-- Action Buttons: Theme Toggle & Mobile Menu -->
+                <div class="flex items-center gap-2">
+                    <button id="theme-toggle" aria-label="Ubah Mode Gelap atau Terang" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <!-- Sun Icon (shown in dark mode) -->
+                        <svg id="icon-sun" class="w-5 h-5 hidden text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <!-- Moon Icon (shown in light mode) -->
+                        <svg id="icon-moon" class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" aria-label="Menu Navigasi" class="lg:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-4 space-y-1">
+            <a href="#pengertian" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">1. Konsep Dasar & Mengapa Penting</a>
+            <a href="#jenis" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">2. 9 Jenis Infografis & Contoh</a>
+            <a href="#prinsip" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">3. Anatomi & Prinsip Desain</a>
+            <a href="#langkah" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">4. 6 Langkah Praktis Pembuatan</a>
+            <a href="#contoh-jabar" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60">★ Contoh Nyata: Statistik Jawa Barat</a>
+            <a href="#gemini-notebook" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-semibold text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-950/60">✨ Panduan Gemini Notebook (AI)</a>
+            <a href="#kesalahan" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">5. Kesalahan Umum (Do's & Don'ts)</a>
+            <a href="#tools" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">6. Rekomendasi Tools & Aset</a>
+            <a href="#interaktif" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60">7. Checklist Kualitas & Kuis Mini</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
+        <!-- Decorative Background Glow -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-gradient-to-tr from-indigo-500/15 via-purple-500/10 to-amber-500/15 dark:from-indigo-500/20 dark:via-purple-500/10 dark:to-amber-500/10 blur-3xl -z-10 rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Column: Copy -->
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200/80 dark:border-indigo-800/80 text-indigo-700 dark:text-indigo-300 text-xs font-semibold mb-6">
+                        <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+                        Panduan Praktis & Interaktif untuk Pemula hingga Mahir
+                    </div>
+
+                    <h1 class="font-display text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15] mb-6">
+                        Ubah Data Rumit Menjadi <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-amber-500 dark:from-indigo-400 dark:via-purple-400 dark:to-amber-400">Cerita Visual</span> yang Mudah Dipahami
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
+                        Pelajari cara merancang infografis yang menarik, akurat, dan efektif—mulai dari meriset data, menyusun alur cerita, memilih grafik, hingga siap dipublikasikan dengan contoh kehidupan sehari-hari.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
+                        <a href="#pengertian" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-lg shadow-indigo-600/25 transition flex items-center justify-center gap-2">
+                            <span>Mulai Belajar Sekarang</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
+                        <a href="#interaktif" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold border border-slate-200 dark:border-slate-700 transition flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Uji Pemahaman (Kuis)</span>
+                        </a>
+                    </div>
+
+                    <!-- Mini Fakta Sains Visual -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-200/80 dark:border-slate-800">
+                        <div>
+                            <div class="font-display text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">60.000x</div>
+                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Otak memproses gambar lebih cepat dari teks</p>
+                        </div>
+                        <div>
+                            <div class="font-display text-2xl sm:text-3xl font-extrabold text-purple-600 dark:text-purple-400">65%</div>
+                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Informasi bertahan 3 hari jika disertai visual</p>
+                        </div>
+                        <div>
+                            <div class="font-display text-2xl sm:text-3xl font-extrabold text-amber-500">3x Lipat</div>
+                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Lebih sering dibagikan di media sosial</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Visual Illustration Card -->
+                <div class="lg:col-span-5">
+                    <div class="relative bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-200/50 dark:shadow-black/50">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                            </div>
+                            <span class="text-xs font-medium px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Anatomi Visual</span>
+                        </div>
+
+                        <!-- Mini Mock Infographic inside Hero -->
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                                <div class="text-xs uppercase tracking-wider opacity-80 font-semibold">Formula Infografis Sukses</div>
+                                <div class="font-display font-bold text-lg mt-0.5">Data Akurat + Cerita Jelas + Desain Rapi</div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-100 dark:border-slate-700/60">
+                                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-2">Daya Tarik Baca</div>
+                                    <div class="flex items-end gap-1.5 h-16">
+                                        <div class="w-1/4 bg-slate-300 dark:bg-slate-600 h-1/3 rounded-t"></div>
+                                        <div class="w-1/4 bg-indigo-400 h-2/4 rounded-t"></div>
+                                        <div class="w-1/4 bg-indigo-500 h-3/4 rounded-t"></div>
+                                        <div class="w-1/4 bg-amber-500 h-full rounded-t"></div>
+                                    </div>
+                                    <div class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 mt-2">+80% Minat Pembaca</div>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-100 dark:border-slate-700/60 flex flex-col justify-between">
+                                    <div class="text-xs text-slate-500 dark:text-slate-400">Komposisi Ideal</div>
+                                    <div class="my-2 flex items-center gap-3">
+                                        <svg class="w-12 h-12 shrink-0" viewBox="0 0 36 36">
+                                            <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e2e8f0" stroke-width="4" class="dark:stroke-slate-700"></circle>
+                                            <circle cx="18" cy="18" r="15.9" fill="none" stroke="#6366f1" stroke-width="4" stroke-dasharray="65, 100" stroke-linecap="round"></circle>
+                                        </svg>
+                                        <div class="text-xs leading-tight">
+                                            <span class="font-bold text-slate-900 dark:text-white block">65% Visual</span>
+                                            <span class="text-slate-500 dark:text-slate-400">35% Teks Singkat</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-[11px] text-indigo-600 dark:text-indigo-400 font-medium">Mudah dipindai dalam 5 detik</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 1: APA ITU INFOGRAFIS & MENGAPA PENTING? -->
+    <section id="pengertian" class="py-16 lg:py-24 bg-white dark:bg-slate-900/60 border-y border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-14">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Bagian 01 • Konsep Dasar</span>
+                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2 mb-4">Apa Itu Infografis & Mengapa Penting?</h2>
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed">
+                    <strong>Infografis</strong> (<em>Informasi + Grafis</em>) adalah penyajian informasi, data, atau pengetahuan secara visual agar dapat dipahami dengan cepat dan jelas oleh siapa saja, tanpa harus membaca paragraf yang panjang dan melelahkan.
+                </p>
+            </div>
+
+            <!-- 3 Pilar Utama Infografis -->
+            <div class="grid md:grid-cols-3 gap-6 mb-16">
+                <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/70 card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">1. Informasi (Isi & Data)</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Inti pesan atau fakta yang valid. Tanpa informasi yang bermanfaat dan akurat, gambar secantik apa pun hanyalah hiasan kosong.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/70 card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">2. Visual (Grafik & Ikon)</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Elemen warna, ikon, ilustrasi, dan diagram yang menerjemahkan angka atau langkah rumit menjadi bentuk yang langsung ditangkap mata.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/70 card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">3. Cerita (Alur Logis)</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Susunan informasi dari atas ke bawah (atau kiri ke kanan) yang membimbing pembaca dari masalah menuju kesimpulan atau tindakan nyata.
+                    </p>
+                </div>
+            </div>
+
+            <!-- SIMULASI INTERAKTIF: TEKS BIASA VS INFOGRAFIS -->
+            <div class="bg-slate-50 dark:bg-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-200 dark:border-slate-800 shadow-lg">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+                    <div>
+                        <span class="inline-block px-2.5 py-1 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-xs font-bold mb-1">Simulasi Perbandingan Langsung</span>
+                        <h3 class="font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Lihat Bedanya: Teks Paragraf vs Infografis</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">Contoh sehari-hari: <strong>Cara Menyeduh Kopi Tubruk yang Nikmat</strong></p>
+                    </div>
+
+                    <!-- Interactive Switch Buttons -->
+                    <div class="inline-flex p-1.5 rounded-xl bg-slate-200/80 dark:bg-slate-800 self-start">
+                        <button id="btn-mode-text" onclick="toggleComparison('text')" class="px-4 py-2 rounded-lg text-sm font-semibold transition bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm">
+                            📄 Mode Teks Biasa
+                        </button>
+                        <button id="btn-mode-visual" onclick="toggleComparison('visual')" class="px-4 py-2 rounded-lg text-sm font-semibold transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
+                            ✨ Mode Infografis
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content Container -->
+                <div class="mt-6">
+                    <!-- View 1: Teks Biasa -->
+                    <div id="view-text" class="fade-in p-6 rounded-2xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center gap-2 text-rose-600 dark:text-rose-400 text-xs font-semibold mb-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Sulit dipindai cepat — pembaca harus membaca seluruh kalimat untuk tahu takarannya</span>
+                        </div>
+                        <p class="text-slate-700 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+                            Untuk membuat kopi tubruk yang nikmat di rumah, pertama-tama siapkan bubuk kopi giling medium sekitar 10 hingga 12 gram atau setara dengan 2 sendok makan. Masukkan bubuk kopi ke dalam cangkir keramik yang sudah dihangatkan. Selanjutnya, panaskan air bersih hingga mendidih, lalu diamkan sebentar selama sekitar 30 detik agar suhunya turun menjadi sekitar 90-93 derajat Celcius supaya kopi tidak terasa gosong. Tuangkan 150 ml air panas secara melingkar hingga semua bubuk kopi terendam rata. Diamkan kopi selama 4 menit agar sari kopi terekstraksi sempurna dan ampasnya turun ke dasar cangkir. Terakhir, aduk perlahan permukaan kopi sebelum dinikmati selagi hangat.
+                        </p>
+                    </div>
+
+                    <!-- View 2: Infografis Visual -->
+                    <div id="view-visual" class="hidden fade-in p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/60 to-yellow-50 dark:from-slate-800 dark:via-slate-800/90 dark:to-slate-900 border border-amber-200/80 dark:border-amber-900/50">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-6">
+                            <div>
+                                <h4 class="font-display font-extrabold text-lg sm:text-xl text-amber-950 dark:text-amber-300">☕ RESEP SEDUH KOPI TUBRUK PAS</h4>
+                                <p class="text-xs text-amber-800/80 dark:text-slate-400">Rasio Ideal 1 : 15 • Total Waktu ± 4,5 Menit</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
+                                ⚡ Terbaca dalam 4 Detik!
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <!-- Step 1 -->
+                            <div class="bg-white dark:bg-slate-900/90 p-4 rounded-2xl border border-amber-200/70 dark:border-slate-700 text-center">
+                                <div class="w-10 h-10 mx-auto rounded-full bg-amber-500 text-white font-display font-bold flex items-center justify-center mb-2">1</div>
+                                <div class="text-2xl mb-1">🥄</div>
+                                <div class="font-display font-bold text-slate-900 dark:text-white text-base">10–12 Gram</div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">± 2 sdm bubuk kopi giling medium</p>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="bg-white dark:bg-slate-900/90 p-4 rounded-2xl border border-amber-200/70 dark:border-slate-700 text-center">
+                                <div class="w-10 h-10 mx-auto rounded-full bg-amber-500 text-white font-display font-bold flex items-center justify-center mb-2">2</div>
+                                <div class="text-2xl mb-1">🌡️</div>
+                                <div class="font-display font-bold text-slate-900 dark:text-white text-base">150 ml • 92°C</div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Diamkan air mendidih 30 detik lalu tuang</p>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="bg-white dark:bg-slate-900/90 p-4 rounded-2xl border border-amber-200/70 dark:border-slate-700 text-center">
+                                <div class="w-10 h-10 mx-auto rounded-full bg-amber-500 text-white font-display font-bold flex items-center justify-center mb-2">3</div>
+                                <div class="text-2xl mb-1">⏳</div>
+                                <div class="font-display font-bold text-slate-900 dark:text-white text-base">Tunggu 4 Menit</div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Biarkan ampas mengendap alami</p>
+                            </div>
+                            <!-- Step 4 -->
+                            <div class="bg-white dark:bg-slate-900/90 p-4 rounded-2xl border border-amber-200/70 dark:border-slate-700 text-center">
+                                <div class="w-10 h-10 mx-auto rounded-full bg-emerald-600 text-white font-display font-bold flex items-center justify-center mb-2">4</div>
+                                <div class="text-2xl mb-1">☕</div>
+                                <div class="font-display font-bold text-slate-900 dark:text-white text-base">Aduk & Nikmati</div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Aduk pelan permukaan, siap diminum</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 2: 9 JENIS INFOGRAFIS & CONTOH SEHARI-HARI -->
+    <section id="jenis" class="py-16 lg:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-10">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Bagian 02 • Klasifikasi & Format</span>
+                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2 mb-4">9 Jenis Infografis & Contoh Sehari-hari</h2>
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg">
+                    Setiap jenis informasi membutuhkan wadah visual yang berbeda. Klik kategori di bawah ini untuk memfilter dan melihat contoh penerapannya!
+                </p>
+            </div>
+
+            <!-- Interactive Category Filter Tabs -->
+            <div id="category-filters" class="flex flex-wrap items-center justify-center gap-2 mb-10">
+                <button onclick="filterInfographics('all')" data-filter="all" class="filter-btn active px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white shadow-sm transition">
+                    Semua (9)
+                </button>
+                <button onclick="filterInfographics('data')" data-filter="data" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition">
+                    📊 Data & Angka
+                </button>
+                <button onclick="filterInfographics('alur')" data-filter="alur" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition">
+                    🔄 Alur & Waktu
+                </button>
+                <button onclick="filterInfographics('edukasi')" data-filter="edukasi" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition">
+                    💡 Edukasi & Daftar
+                </button>
+                <button onclick="filterInfographics('profil')" data-filter="profil" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition">
+                    👤 Lokasi & Profil
+                </button>
+            </div>
+
+            <!-- Grid of 9 Infographic Types (Rendered via JS for clean maintainability) -->
+            <div id="infographic-types-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards injected by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 3: ANATOMI & PRINSIP DESAIN INFOGRAFIS -->
+    <section id="prinsip" class="py-16 lg:py-24 bg-white dark:bg-slate-900/60 border-y border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-14">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Bagian 03 • Aturan Emas Desain</span>
+                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2 mb-4">Anatomi & Prinsip Desain Infografis</h2>
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg">
+                    Anda tidak harus menjadi desainer grafis profesional. Cukup ikuti 5 aturan dasar berikut agar infografis terlihat bersih, modern, dan enak dibaca.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <!-- Prinsip 1: Hierarki Visual -->
+                <div class="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 rounded-xl bg-indigo-600 text-white font-display font-bold flex items-center justify-center text-sm">01</span>
+                        <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white">Hierarki Visual (Urutan Mata)</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 mb-5 leading-relaxed">
+                        Arahkan pandangan pembaca dari yang paling penting ke detail pendukung menggunakan perbedaan <strong>ukuran, ketebalan huruf, dan kontras warna</strong>.
+                    </p>
+                    <!-- Visual Demo Hierarki -->
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 space-y-2">
+                        <div class="text-lg font-display font-extrabold text-slate-900 dark:text-white">1. Judul Utama (Paling Besar & Tebal)</div>
+                        <div class="text-sm font-bold text-indigo-600 dark:text-indigo-400">2. Subjudul Bagian (Sedang & Berwarna)</div>
+                        <div class="text-xs text-slate-600 dark:text-slate-300">3. Penjelasan singkat (Ukuran standar, nyaman dibaca)</div>
+                        <div class="text-[11px] text-slate-400">4. Sumber data di bagian paling bawah (Kecil & halus)</div>
+                    </div>
+                </div>
+
+                <!-- Prinsip 2: Aturan Warna 60-30-10 (Interaktif Klik Salin HEX) -->
+                <div class="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 rounded-xl bg-indigo-600 text-white font-display font-bold flex items-center justify-center text-sm">02</span>
+                        <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white">Aturan Warna 60 - 30 - 10</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 mb-5 leading-relaxed">
+                        Batasi maksimal 3 warna utama agar tidak norak. <strong>Klik kotak warna</strong> di bawah ini untuk menyalin kode HEX siap pakai!
+                    </p>
+                    <!-- Interactive Palette Bar -->
+                    <div class="grid grid-cols-12 gap-2 h-28 rounded-2xl overflow-hidden">
+                        <button onclick="copyHex('#F8FAFC')" class="col-span-7 bg-[#F8FAFC] hover:brightness-95 border border-slate-300 text-slate-800 p-3 flex flex-col justify-between text-left transition group rounded-l-2xl">
+                            <span class="text-xs font-extrabold">60% Dominan</span>
+                            <div>
+                                <span class="text-[11px] block text-slate-500">Latar Belakang</span>
+                                <span class="text-xs font-mono font-bold group-hover:underline">#F8FAFC 📋</span>
+                            </div>
+                        </button>
+                        <button onclick="copyHex('#4F46E5')" class="col-span-3 bg-[#4F46E5] hover:brightness-110 text-white p-3 flex flex-col justify-between text-left transition group">
+                            <span class="text-xs font-extrabold">30%</span>
+                            <div>
+                                <span class="text-[11px] block text-indigo-200">Sekunder</span>
+                                <span class="text-xs font-mono font-bold group-hover:underline">#4F46E5</span>
+                            </div>
+                        </button>
+                        <button onclick="copyHex('#F59E0B')" class="col-span-2 bg-[#F59E0B] hover:brightness-110 text-slate-950 p-2.5 flex flex-col justify-between text-left transition group rounded-r-2xl">
+                            <span class="text-xs font-extrabold">10%</span>
+                            <div>
+                                <span class="text-[10px] block font-semibold">Aksen</span>
+                                <span class="text-[11px] font-mono font-bold group-hover:underline">#F59E0B</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Prinsip 3: Tipografi -->
+                <div class="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 rounded-xl bg-indigo-600 text-white font-display font-bold flex items-center justify-center text-sm">03</span>
+                        <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white">Tipografi: Maksimal 2 Jenis Font</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                        Gunakan jenis huruf tanpa kait (<em>Sans-Serif</em>) seperti <strong>Plus Jakarta Sans, Inter, Montserrat, atau Poppins</strong> agar mudah dibaca di layar ponsel maupun dicetak.
+                    </p>
+                    <ul class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+                        <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> <strong>Font 1 (Judul & Angka Besar):</strong> Tebal (Bold/ExtraBold) untuk menarik perhatian.</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> <strong>Font 2 (Isi & Keterangan):</strong> Reguler/Medium dengan jarak baris lega (1.4x–1.5x).</li>
+                        <li class="flex items-center gap-2"><span class="text-rose-500 font-bold">✕</span> Hindari font sambung/kaligrafi rumit untuk teks penjelasan panjang.</li>
+                    </ul>
+                </div>
+
+                <!-- Prinsip 4: Whitespace (Ruang Kosong) -->
+                <div class="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 rounded-xl bg-indigo-600 text-white font-display font-bold flex items-center justify-center text-sm">04</span>
+                        <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white">Whitespace (Ruang Napas Visual)</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                        Ruang kosong bukan berarti area yang terbuang. Sisakan minimal <strong>25%–30% ruang kosong</strong> di sekitar teks dan ikon agar mata pembaca tidak lelah dan tiap poin terasa terpisah rapi.
+                    </p>
+                    <div class="p-4 rounded-2xl bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/70 dark:border-indigo-800/50 text-xs sm:text-sm text-indigo-900 dark:text-indigo-200">
+                        💡 <strong>Tips Praktis:</strong> Beri jarak pinggir (<em>margin</em>) minimal 40–60 px dari tepi kanvas, dan beri jarak antar bagian (<em>padding</em>) yang konsisten.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prinsip 5: Panduan Memilih Grafik yang Tepat -->
+            <div class="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="w-9 h-9 rounded-xl bg-indigo-600 text-white font-display font-bold flex items-center justify-center text-sm">05</span>
+                    <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white">Cara Memilih Grafik Data yang Tepat</h3>
+                </div>
+                <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">Jangan salah pilih diagram! Sesuaikan jenis grafik dengan pesan data Anda:</p>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Bar Chart -->
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                        <div class="h-16 flex items-end gap-2 mb-3 px-2">
+                            <div class="w-1/4 bg-indigo-500 h-3/5 rounded-t"></div>
+                            <div class="w-1/4 bg-indigo-600 h-full rounded-t"></div>
+                            <div class="w-1/4 bg-indigo-400 h-2/5 rounded-t"></div>
+                            <div class="w-1/4 bg-indigo-500 h-4/5 rounded-t"></div>
+                        </div>
+                        <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm">Diagram Batang (Bar)</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1"><strong>Untuk:</strong> Membandingkan jumlah antar kategori.</p>
+                        <p class="text-[11px] text-indigo-600 dark:text-indigo-400 mt-1.5 font-medium">Contoh: Pengeluaran bulanan (Makan, Kos, Transport).</p>
+                    </div>
+
+                    <!-- Line Chart -->
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                        <div class="h-16 flex items-center justify-center mb-3">
+                            <svg class="w-full h-14 text-emerald-500" viewBox="0 0 120 50" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="5,40 35,28 65,33 95,12 115,8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="35" cy="28" r="3" fill="currentColor"/>
+                                <circle cx="65" cy="33" r="3" fill="currentColor"/>
+                                <circle cx="95" cy="12" r="3" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm">Diagram Garis (Line)</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1"><strong>Untuk:</strong> Melihat perubahan atau tren dari waktu ke waktu.</p>
+                        <p class="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1.5 font-medium">Contoh: Kenaikan berat badan bayi tiap bulan.</p>
+                    </div>
+
+                    <!-- Pie / Donut Chart -->
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                        <div class="h-16 flex items-center justify-center mb-3">
+                            <svg class="w-14 h-14" viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="14" fill="none" stroke="#e2e8f0" stroke-width="6" class="dark:stroke-slate-700"/>
+                                <circle cx="18" cy="18" r="14" fill="none" stroke="#f59e0b" stroke-width="6" stroke-dasharray="60, 100"/>
+                            </svg>
+                        </div>
+                        <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm">Diagram Lingkaran (Pie)</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1"><strong>Untuk:</strong> Proporsi/persentase dari total 100% (maks. 4 bagian).</p>
+                        <p class="text-[11px] text-amber-600 dark:text-amber-400 mt-1.5 font-medium">Contoh: Pembagian gaji 50% kebutuhan, 30% keinginan, 20% tabungan.</p>
+                    </div>
+
+                    <!-- Pictogram -->
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                        <div class="h-16 flex items-center justify-center gap-1 text-lg mb-3">
+                            <span>🧑</span><span>🧑</span><span>🧑</span><span>🧑</span><span class="opacity-30">🧑</span>
+                        </div>
+                        <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm">Piktogram (Ikon Hitung)</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1"><strong>Untuk:</strong> Membuat data survei terasa lebih manusiawi & relatable.</p>
+                        <p class="text-[11px] text-purple-600 dark:text-purple-400 mt-1.5 font-medium">Contoh: 4 dari 5 orang mengecek HP saat bangun tidur.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 4: 6 LANGKAH PRAKTIS MEMBUAT INFOGRAFIS (WORKFLOW INTERAKTIF) -->
+    <section id="langkah" class="py-16 lg:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Bagian 04 • Alur Kerja Langkah demi Langkah</span>
+                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2 mb-4">6 Langkah Praktis Membuat Infografis</h2>
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg">
+                    Ikuti proses kerja terstruktur ini beserta studi kasus nyata: <strong>Membuat Infografis "Tips Hemat Listrik di Rumah"</strong>. Klik setiap langkah untuk melihat detailnya!
+                </p>
+            </div>
+
+            <!-- Interactive Stepper Layout -->
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- Left: Step Selector Buttons -->
+                <div class="lg:col-span-5 space-y-2.5" id="workflow-steps-list">
+                    <!-- Injected by JS -->
+                </div>
+
+                <!-- Right: Step Detail Panel -->
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-black/40 sticky top-24" id="workflow-detail-panel">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN BARU: CONTOH INFOGRAFIS STATISTIK NYATA (JAWA BARAT) -->
+    <section id="contoh-jabar" class="py-16 lg:py-24 bg-gradient-to-b from-emerald-50/50 via-slate-50 to-white dark:from-emerald-950/20 dark:via-slate-950 dark:to-slate-900/60 border-t border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Heading -->
+            <div class="max-w-3xl mx-auto text-center mb-10">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3">
+                    <span>★ Studi Kasus Visual Nyata</span>
+                </span>
+                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                    Contoh Infografis Statistik: Profil Demografi Jawa Barat
+                </h2>
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed">
+                    Lihat bagaimana teori hierarki visual, <em>Big Number</em>, warna 60-30-10, dan pemilihan grafik diterapkan secara nyata untuk menyajikan data kependudukan Jawa Barat.
+                </p>
+            </div>
+
+            <!-- Interactive Control Bar di Atas Poster -->
+            <div class="max-w-5xl mx-auto mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <div class="flex items-center gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                    <span>Aktifkan <strong>Bedah Anatomi</strong> untuk melihat alasan desain di balik tiap elemen poster:</span>
+                </div>
+                <button id="toggle-jabar-anatomy" onclick="toggleJabarAnatomy()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-display font-bold text-xs sm:text-sm shadow-md shadow-amber-500/20 transition flex items-center justify-center gap-2 shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                    <span id="anatomy-btn-text">Bedah Anatomi Desain Infografis Ini</span>
+                </button>
+            </div>
+
+            <!-- POSTER INFOGRAFIS STATISTIK JAWA BARAT -->
+            <article class="max-w-5xl mx-auto rounded-[2rem] overflow-hidden bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 shadow-2xl shadow-slate-300/40 dark:shadow-black/60">
+                
+                <!-- 1. POSTER HEADER -->
+                <div class="relative bg-gradient-to-br from-emerald-900 via-teal-800 to-sky-900 text-white p-6 sm:p-10 overflow-hidden">
+                    <!-- Decorative Geometric Pattern -->
+                    <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-amber-400/15 blur-2xl pointer-events-none"></div>
+                    <div class="absolute left-1/3 -bottom-20 w-72 h-72 rounded-full bg-emerald-400/10 blur-2xl pointer-events-none"></div>
+
+                    <!-- Anatomy Callout #1 -->
+                    <div class="jabar-anatomy hidden mb-4 p-3 rounded-xl bg-amber-400 text-slate-950 text-xs font-semibold shadow-lg border border-amber-300 fade-in">
+                        🔍 <strong>Anatomi #1 — Header & Hook Kuat:</strong> Menggunakan judul kontras tinggi + lencana sumber resmi di atas agar pembaca langsung percaya kredibilitas data dalam 2 detik pertama.
+                    </div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div class="max-w-2xl">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-emerald-100 text-xs font-semibold mb-4">
+                                <span>📊 Sumber: Proyeksi Penduduk & IPM BPS 2026</span>
+                            </div>
+                            <h3 class="font-display text-2xl sm:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight leading-tight">
+                                JAWA BARAT DALAM ANGKA
+                            </h3>
+                            <p class="text-emerald-100/90 text-sm sm:text-lg font-medium mt-2">
+                                Provinsi Berpenduduk Terbesar di Indonesia & Pusat Pertumbuhan Ekonomi Nasional
+                            </p>
+                        </div>
+
+                        <!-- Mini Badge Wilayah -->
+                        <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/15 px-4 py-3 rounded-2xl shrink-0">
+                            <div class="text-3xl">🗺️</div>
+                            <div class="text-xs leading-snug">
+                                <span class="block text-emerald-200 uppercase font-bold tracking-wider text-[10px]">Ibu Kota Provinsi</span>
+                                <span class="font-display font-bold text-base text-white">Kota Bandung</span>
+                                <span class="block text-emerald-100/80">27 Daerah Administratif</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. BIG NUMBER / KPI CARDS (4 KARTU SOROTAN UTAMA) -->
+                <div class="p-6 sm:p-8 lg:p-10 bg-slate-50/70 dark:bg-slate-900">
+                    <!-- Anatomy Callout #2 -->
+                    <div class="jabar-anatomy hidden mb-4 p-3 rounded-xl bg-amber-400 text-slate-950 text-xs font-semibold shadow-lg border border-amber-300 fade-in">
+                        🔍 <strong>Anatomi #2 — Teknik "Big Number":</strong> Angka kunci (51,16 Juta & 76,62) dibuat 3x lebih besar dan tebal dari teks keterangan agar mata langsung menangkap skala utama tanpa membaca kalimat panjang.
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        <!-- KPI 1 -->
+                        <div class="p-5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 shadow-sm relative overflow-hidden">
+                            <div class="w-1.5 h-full bg-emerald-600 absolute left-0 top-0"></div>
+                            <div class="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">
+                                <span>TOTAL PENDUDUK</span>
+                                <span class="text-base">👥</span>
+                            </div>
+                            <div class="font-display text-3xl font-extrabold text-emerald-700 dark:text-emerald-400 tracking-tight">51,16 Juta</div>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 mt-1.5 font-medium">Terbesar #1 di Indonesia (±18% penduduk nasional)</p>
+                        </div>
+
+                        <!-- KPI 2 -->
+                        <div class="p-5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 shadow-sm relative overflow-hidden">
+                            <div class="w-1.5 h-full bg-sky-600 absolute left-0 top-0"></div>
+                            <div class="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">
+                                <span>LUAS WILAYAH</span>
+                                <span class="text-base">📐</span>
+                            </div>
+                            <div class="font-display text-3xl font-extrabold text-sky-700 dark:text-sky-400 tracking-tight">35.377,76</div>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 mt-1.5 font-medium">km² • Terdiri dari <strong>18 Kabupaten</strong> & <strong>9 Kota</strong></p>
+                        </div>
+
+                        <!-- KPI 3 -->
+                        <div class="p-5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 shadow-sm relative overflow-hidden">
+                            <div class="w-1.5 h-full bg-amber-500 absolute left-0 top-0"></div>
+                            <div class="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">
+                                <span>INDEKS PEMBANGUNAN (IPM)</span>
+                                <span class="text-base">📈</span>
+                            </div>
+                            <div class="font-display text-3xl font-extrabold text-amber-600 dark:text-amber-400 tracking-tight">76,62</div>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 mt-1.5 font-medium">Kategori <strong>Tinggi</strong> (Tren meningkat konsisten)</p>
+                        </div>
+
+                        <!-- KPI 4 -->
+                        <div class="p-5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 shadow-sm relative overflow-hidden">
+                            <div class="w-1.5 h-full bg-indigo-600 absolute left-0 top-0"></div>
+                            <div class="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">
+                                <span>KONSENTRASI POPULASI</span>
+                                <span class="text-base">🏘️</span>
+                            </div>
+                            <div class="font-display text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 tracking-tight">~36%</div>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 mt-1.5 font-medium">Terkonsentrasi di <strong>5 Kabupaten Terbesar</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- 3. VISUALISASI INTERAKTIF / TAB DATA DI DALAM POSTER -->
+                    <div class="bg-white dark:bg-slate-800/60 rounded-3xl p-5 sm:p-7 border border-slate-200/90 dark:border-slate-700/80">
+                        <!-- Anatomy Callout #3 -->
+                        <div class="jabar-anatomy hidden mb-4 p-3 rounded-xl bg-amber-400 text-slate-950 text-xs font-semibold shadow-lg border border-amber-300 fade-in">
+                            🔍 <strong>Anatomi #3 — Pemilihan Grafik Tepat:</strong> Menggunakan <em>Horizontal Bar Chart</em> karena nama daerah ("Kabupaten Bogor", "Kabupaten Sukabumi") cukup panjang—jika memakai grafik vertikal, teks labelnya akan miring dan sulit dibaca.
+                        </div>
+
+                        <!-- Sub-Header + Interactive View Tabs -->
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 mb-6 border-b border-slate-200 dark:border-slate-700">
+                            <div>
+                                <h4 class="font-display text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+                                    Eksplorasi Sebaran & Kepadatan Wilayah
+                                </h4>
+                                <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                                    Pilih tampilan grafik atau lihat seluruh perbandingan data Jawa Barat
+                                </p>
+                            </div>
+
+                            <div class="inline-flex flex-wrap p-1 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700 self-start">
+                                <button onclick="switchJabarChart('all')" data-jabar-tab="all" class="jabar-tab-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white shadow-sm transition">
+                                    Semua Grafik
+                                </button>
+                                <button onclick="switchJabarChart('populasi')" data-jabar-tab="populasi" class="jabar-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition">
+                                    👥 Populasi Terbanyak
+                                </button>
+                                <button onclick="switchJabarChart('kepadatan')" data-jabar-tab="kepadatan" class="jabar-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition">
+                                    🏙️ Kota Terpadat
+                                </button>
+                                <button onclick="switchJabarChart('komposisi')" data-jabar-tab="komposisi" class="jabar-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition">
+                                    🍩 Komposisi Wilayah
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Grid Visualisasi Data -->
+                        <div id="jabar-charts-grid" class="grid lg:grid-cols-12 gap-6 items-stretch">
+                            
+                            <!-- CHART A: 5 Daerah Penduduk Terbanyak (Horizontal Bar Chart) -->
+                            <div id="jabar-panel-populasi" class="lg:col-span-7 p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-700/70 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between gap-2 mb-1">
+                                        <h5 class="font-display font-bold text-base text-slate-900 dark:text-white">5 Daerah Penduduk Terbanyak di Jabar</h5>
+                                        <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">Juta Jiwa</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-5">Perbandingan 5 kabupaten berpenduduk terbesar vs Kota Bandung (2,57 Jt)</p>
+
+                                    <div class="space-y-3.5">
+                                        <!-- Bar 1: Kab. Bogor -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1">
+                                                <span class="text-slate-800 dark:text-slate-100">1. Kab. Bogor <span class="text-[10px] font-semibold text-amber-600 dark:text-amber-400">(Terbesar di Indonesia)</span></span>
+                                                <span class="text-emerald-700 dark:text-emerald-400 font-display">5,76 Juta</span>
+                                            </div>
+                                            <div class="w-full h-3.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                                <div class="h-full bg-gradient-to-r from-emerald-600 to-teal-500 rounded-full" style="width: 100%"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Bar 2: Kab. Bandung -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                                <span class="text-slate-700 dark:text-slate-200">2. Kab. Bandung</span>
+                                                <span class="text-slate-700 dark:text-slate-300 font-display">3,82 Juta</span>
+                                            </div>
+                                            <div class="w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                                <div class="h-full bg-emerald-500/85 rounded-full" style="width: 66.3%"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Bar 3: Kab. Bekasi -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                                <span class="text-slate-700 dark:text-slate-200">3. Kab. Bekasi</span>
+                                                <span class="text-slate-700 dark:text-slate-300 font-display">3,34 Juta</span>
+                                            </div>
+                                            <div class="w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                                <div class="h-full bg-emerald-500/75 rounded-full" style="width: 58%"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Bar 4: Kab. Sukabumi -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                                <span class="text-slate-700 dark:text-slate-200">4. Kab. Sukabumi</span>
+                                                <span class="text-slate-700 dark:text-slate-300 font-display">2,85 Juta</span>
+                                            </div>
+                                            <div class="w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                                <div class="h-full bg-emerald-500/65 rounded-full" style="width: 49.5%"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Bar 5: Kab. Garut -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                                <span class="text-slate-700 dark:text-slate-200">5. Kab. Garut</span>
+                                                <span class="text-slate-700 dark:text-slate-300 font-display">2,71 Juta</span>
+                                            </div>
+                                            <div class="w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                                <div class="h-full bg-emerald-500/55 rounded-full" style="width: 47%"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pembanding: Kota Bandung -->
+                                        <div class="pt-2 border-t border-dashed border-slate-300 dark:border-slate-700">
+                                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                                <span class="text-sky-700 dark:text-sky-400">Pembanding: Kota Bandung (Ibu Kota)</span>
+                                                <span class="text-sky-700 dark:text-sky-400 font-display">2,57 Juta</span>
+                                            </div>
+                                            <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                                <div class="h-full bg-sky-500 rounded-full" style="width: 44.6%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Fakta Unik Callout Box -->
+                                <div class="mt-5 p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/35 border border-amber-200/80 dark:border-amber-800/50 flex items-start gap-2.5">
+                                    <span class="text-lg shrink-0">💡</span>
+                                    <p class="text-xs text-amber-950 dark:text-amber-200 leading-relaxed">
+                                        <strong>Fakta Unik:</strong> Penduduk terbanyak ternyata bukan di Kota Bandung, melainkan <strong>Kabupaten Bogor (5,76 juta jiwa)</strong>—lebih dari 2 kali lipat penduduk Kota Bandung!
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- RIGHT COLUMN INSIDE CHART GRID: KEPADATAN & KOMPOSISI -->
+                            <div id="jabar-panel-side" class="lg:col-span-5 flex flex-col gap-6">
+                                
+                                <!-- CHART B: Kota Terpadat di Jabar (Lollipop Chart) -->
+                                <div id="jabar-panel-kepadatan" class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-700/70">
+                                    <div class="flex items-center justify-between gap-2 mb-1">
+                                        <h5 class="font-display font-bold text-base text-slate-900 dark:text-white">5 Kota Terpadat di Jabar</h5>
+                                        <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300">Jiwa / km²</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Lollipop chart menonjolkan titik puncak kepadatan urban</p>
+
+                                    <div class="space-y-3 text-xs">
+                                        <!-- Lollipop 1 -->
+                                        <div class="flex items-center gap-3">
+                                            <span class="w-24 font-bold text-slate-800 dark:text-slate-100 shrink-0">Kota Bandung</span>
+                                            <div class="flex-1 flex items-center">
+                                                <div class="h-1.5 bg-sky-600 rounded-l-full" style="width: 96%"></div>
+                                                <div class="w-3.5 h-3.5 rounded-full bg-sky-600 ring-4 ring-sky-500/20 shrink-0 -ml-1"></div>
+                                            </div>
+                                            <span class="font-display font-bold text-sky-700 dark:text-sky-400 w-16 text-right shrink-0">15,3 rb</span>
+                                        </div>
+                                        <!-- Lollipop 2 -->
+                                        <div class="flex items-center gap-3">
+                                            <span class="w-24 font-semibold text-slate-700 dark:text-slate-200 shrink-0">Kota Cimahi</span>
+                                            <div class="flex-1 flex items-center">
+                                                <div class="h-1.5 bg-sky-500 rounded-l-full" style="width: 89%"></div>
+                                                <div class="w-3 h-3 rounded-full bg-sky-500 shrink-0 -ml-1"></div>
+                                            </div>
+                                            <span class="font-display font-semibold text-slate-700 dark:text-slate-300 w-16 text-right shrink-0">14,2 rb</span>
+                                        </div>
+                                        <!-- Lollipop 3 -->
+                                        <div class="flex items-center gap-3">
+                                            <span class="w-24 font-semibold text-slate-700 dark:text-slate-200 shrink-0">Kota Bekasi</span>
+                                            <div class="flex-1 flex items-center">
+                                                <div class="h-1.5 bg-sky-500 rounded-l-full" style="width: 78%"></div>
+                                                <div class="w-3 h-3 rounded-full bg-sky-500 shrink-0 -ml-1"></div>
+                                            </div>
+                                            <span class="font-display font-semibold text-slate-700 dark:text-slate-300 w-16 text-right shrink-0">12,5 rb</span>
+                                        </div>
+                                        <!-- Lollipop 4 -->
+                                        <div class="flex items-center gap-3">
+                                            <span class="w-24 font-semibold text-slate-700 dark:text-slate-200 shrink-0">Kota Depok</span>
+                                            <div class="flex-1 flex items-center">
+                                                <div class="h-1.5 bg-sky-400 rounded-l-full" style="width: 68%"></div>
+                                                <div class="w-3 h-3 rounded-full bg-sky-400 shrink-0 -ml-1"></div>
+                                            </div>
+                                            <span class="font-display font-semibold text-slate-700 dark:text-slate-300 w-16 text-right shrink-0">10,9 rb</span>
+                                        </div>
+                                        <!-- Lollipop 5 -->
+                                        <div class="flex items-center gap-3">
+                                            <span class="w-24 font-semibold text-slate-700 dark:text-slate-200 shrink-0">Kota Bogor</span>
+                                            <div class="flex-1 flex items-center">
+                                                <div class="h-1.5 bg-sky-400 rounded-l-full" style="width: 61%"></div>
+                                                <div class="w-3 h-3 rounded-full bg-sky-400 shrink-0 -ml-1"></div>
+                                            </div>
+                                            <span class="font-display font-semibold text-slate-700 dark:text-slate-300 w-16 text-right shrink-0">9,8 rb</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- CHART C: Donut Chart Komposisi Populasi & Wilayah -->
+                                <div id="jabar-panel-komposisi" class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-700/70 flex-1 flex flex-col justify-between">
+                                    <div>
+                                        <h5 class="font-display font-bold text-base text-slate-900 dark:text-white mb-1">Komposisi Populasi Wilayah</h5>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">18 Kabupaten vs 9 Kota (Total 27 Daerah)</p>
+                                    </div>
+
+                                    <div class="flex items-center gap-5">
+                                        <!-- SVG Donut Chart (36% + 18% + 46% = 100%) -->
+                                        <div class="relative w-28 h-28 shrink-0">
+                                            <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                                                <circle cx="18" cy="18" r="14" fill="none" stroke="#cbd5e1" stroke-width="5" class="dark:stroke-slate-700"></circle>
+                                                <!-- 36% 5 Kab Terbesar -->
+                                                <circle cx="18" cy="18" r="14" fill="none" stroke="#059669" stroke-width="5" stroke-dasharray="36, 100" stroke-dashoffset="0"></circle>
+                                                <!-- 18% 5 Kota Terbesar -->
+                                                <circle cx="18" cy="18" r="14" fill="none" stroke="#0284c7" stroke-width="5" stroke-dasharray="18, 100" stroke-dashoffset="-36"></circle>
+                                                <!-- 46% 17 Daerah Lainnya -->
+                                                <circle cx="18" cy="18" r="14" fill="none" stroke="#f59e0b" stroke-width="5" stroke-dasharray="46, 100" stroke-dashoffset="-54"></circle>
+                                            </svg>
+                                            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                                <span class="font-display font-extrabold text-sm text-slate-900 dark:text-white">27</span>
+                                                <span class="text-[9px] font-semibold text-slate-500 uppercase">Daerah</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Legend -->
+                                        <div class="space-y-2 text-xs flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="flex items-center gap-2 text-slate-700 dark:text-slate-200 font-medium">
+                                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
+                                                    5 Kab. Terbesar
+                                                </span>
+                                                <span class="font-display font-bold text-slate-900 dark:text-white">36%</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <span class="flex items-center gap-2 text-slate-700 dark:text-slate-200 font-medium">
+                                                    <span class="w-2.5 h-2.5 rounded-full bg-sky-600 shrink-0"></span>
+                                                    5 Kota Terbesar
+                                                </span>
+                                                <span class="font-display font-bold text-slate-900 dark:text-white">18%</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <span class="flex items-center gap-2 text-slate-700 dark:text-slate-200 font-medium">
+                                                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0"></span>
+                                                    17 Daerah Lainnya
+                                                </span>
+                                                <span class="font-display font-bold text-slate-900 dark:text-white">46%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Anatomy Callout #4 -->
+                    <div class="jabar-anatomy hidden mt-6 p-3 rounded-xl bg-amber-400 text-slate-950 text-xs font-semibold shadow-lg border border-amber-300 fade-in">
+                        🔍 <strong>Anatomi #4 — Palet 60-30-10 & Footer Kredibel:</strong> Latar terang/bersih mendominasi 60% kanvas, hijau zamrud & biru sebagai 30% warna tema wilayah subur Jawa Barat, dan kuning emas (10%) sebagai aksen sorotan fakta penting.
+                    </div>
+                </div>
+
+                <!-- 4. POSTER FOOTER -->
+                <div class="px-6 sm:px-10 py-4 bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+                    <div>
+                        <strong>Sumber Data:</strong> Badan Pusat Statistik (BPS) Provinsi Jawa Barat — Proyeksi Penduduk & Statistik Daerah 2026
+                    </div>
+                    <div class="font-semibold text-emerald-700 dark:text-emerald-400">
+                        Palet Warna: #F8FAFC (60%) • #059669 / #0284C7 (30%) • #F59E0B (10%)
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- BAGIAN BARU: PANDUAN LENGKAP MEMBUAT INFOGRAFIS DI GEMINI NOTEBOOK -->
+    <section id="gemini-notebook" class="py-16 lg:py-24 bg-gradient-to-b from-sky-50/70 via-indigo-50/30 to-slate-50 dark:from-sky-950/25 dark:via-indigo-950/15 dark:to-slate-950 border-t border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header Section -->
+            <div class="max-w-3xl mx-auto text-center mb-14">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-bold uppercase tracking-wider mb-3">
+                    <span>✨ AI Berbasis Sumber • Sebelumnya Bernama NotebookLM</span>
+                </div>
+                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                    Panduan Lengkap Membuat Infografis di Gemini Notebook
+                </h2>
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed">
+                    Sejak Juli 2026, Google NotebookLM resmi berevolusi menjadi <strong>Gemini Notebook</strong> (<code class="px-1.5 py-0.5 rounded bg-slate-200/80 dark:bg-slate-800 text-xs font-mono">notebook.google.com</code>). Fitur <strong>Studio → Infographic</strong> memungkinkan Anda mengubah dokumen PDF, laporan BPS, catatan rapat, hingga video YouTube menjadi infografis siap pakai tanpa mulai dari kanvas kosong.
+                </p>
+            </div>
+
+            <!-- 3 Keunggulan Utama Gemini Notebook -->
+            <div class="grid md:grid-cols-3 gap-5 mb-14">
+                <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm card-hover">
+                    <div class="w-11 h-11 rounded-2xl bg-sky-100 dark:bg-sky-950 text-sky-600 dark:text-sky-400 flex items-center justify-center text-xl mb-4">📚</div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">Berbasis Sumber (Grounded)</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        AI hanya merangkum angka dan fakta dari dokumen yang Anda unggah (PDF, Google Docs, Spreadsheet, Artikel Web, atau YouTube), sehingga meminimalkan risiko karangan bebas (halusinasi).
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm card-hover">
+                    <div class="w-11 h-11 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl mb-4">🎨</div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">10 Preset Gaya + Custom Prompt</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Dilengkapi 10 gaya visual bawaan (mulai dari <em>Editorial</em>, <em>Bento Grid</em>, hingga <em>Sketch Note</em>) serta kolom arahan desain khusus untuk mengatur fokus cerita dan warna.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm card-hover">
+                    <div class="w-11 h-11 rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl mb-4">⚡</div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">Proses Latar Belakang (1–3 Menit)</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Saat infografis sedang dibuat di panel <strong>Studio</strong>, Anda tetap bisa mengajukan pertanyaan di kolom chat, membuat <em>Mind Map</em>, atau menyiapkan <em>Audio Overview</em> secara bersamaan.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ALUR KERJA 5 LANGKAH DI GEMINI NOTEBOOK -->
+            <div class="mb-16">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">Tutorial Langkah demi Langkah</span>
+                        <h3 class="font-display text-xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">5 Langkah Membuat Infografis di Gemini Notebook</h3>
+                    </div>
+                    <span class="text-xs font-medium text-slate-500 dark:text-slate-400">Berlaku di versi Web Desktop & Aplikasi Mobile</span>
+                </div>
+
+                <div class="space-y-5">
+                    <!-- Langkah 1 -->
+                    <div class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex flex-col lg:flex-row lg:items-center gap-6">
+                            <div class="flex items-start gap-4 lg:w-7/12">
+                                <span class="w-10 h-10 rounded-2xl bg-sky-600 text-white font-display font-extrabold flex items-center justify-center shrink-0 text-base shadow-md shadow-sky-600/20">1</span>
+                                <div>
+                                    <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white">Buat Notebook Baru & Pilih Sumber Spesifik</h4>
+                                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
+                                        Buka <strong>notebook.google.com</strong>, klik <strong>Create New</strong>, lalu unggah sumber Anda (PDF, Google Docs, Slide, tautan berita, video YouTube, atau tempel teks langsung). Di panel kiri (<strong>Sources</strong>), <strong>centang HANYA 1–3 sumber</strong> yang benar-benar ingin dijadikan infografis agar fokus visual tidak melebar.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="lg:w-5/12 p-4 rounded-2xl bg-sky-50/80 dark:bg-sky-950/30 border border-sky-200/70 dark:border-sky-800/50 text-xs text-slate-700 dark:text-slate-200">
+                                <span class="font-bold text-sky-700 dark:text-sky-300 block mb-1">💡 Contoh Sehari-hari:</span>
+                                Anda mengunggah file PDF <em>"Berita Resmi Statistik BPS Jawa Barat 2026"</em>. Hapus centang pada file lain yang tidak relevan supaya seluruh angka pada infografis murni berasal dari dokumen BPS tersebut.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Langkah 2 -->
+                    <div class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex flex-col lg:flex-row lg:items-center gap-6">
+                            <div class="flex items-start gap-4 lg:w-7/12">
+                                <span class="w-10 h-10 rounded-2xl bg-sky-600 text-white font-display font-extrabold flex items-center justify-center shrink-0 text-base shadow-md shadow-sky-600/20">2</span>
+                                <div>
+                                    <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white">Buka Panel "Studio" → Klik Ikon Pensil (Customize)</h4>
+                                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
+                                        Lihat panel <strong>Studio</strong> di sisi kanan layar, lalu temukan kartu <strong>Infographic</strong>. <strong>Jangan langsung mengklik tombol utamanya</strong> (karena akan memakai pengaturan acak otomatis)—klik <strong>ikon Pensil (✏️)</strong> di pojok kartu untuk membuka panel kustomisasi penuh.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="lg:w-5/12 p-4 rounded-2xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-800/50 text-xs text-slate-700 dark:text-slate-200">
+                                <span class="font-bold text-amber-700 dark:text-amber-300 block mb-1">⚠️ Catatan Penting:</span>
+                                Mengklik ikon Pensil memberi Anda kendali penuh atas <strong>Bahasa, Orientasi, Tingkat Detail, Gaya Visual, dan Custom Prompt</strong> sehingga Anda tidak membuang kuota generasi harian.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Langkah 3 -->
+                    <div class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-start gap-4 mb-5">
+                            <span class="w-10 h-10 rounded-2xl bg-sky-600 text-white font-display font-extrabold flex items-center justify-center shrink-0 text-base shadow-md shadow-sky-600/20">3</span>
+                            <div>
+                                <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white">Atur 4 Parameter Kustomisasi</h4>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">Sesuaikan empat pengaturan utama di dalam panel kustomisasi sesuai platform tujuan Anda:</p>
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700">
+                                <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-1">A. Bahasa Output</div>
+                                <div class="font-display font-bold text-sm text-slate-900 dark:text-white mb-1">Pilih "Indonesian"</div>
+                                <p class="text-xs text-slate-600 dark:text-slate-300">Memastikan seluruh judul, label grafik, dan keterangan otomatis ditulis dalam Bahasa Indonesia meskipun sumber aslinya berbahasa Inggris.</p>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700">
+                                <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-1">B. Tingkat Detail</div>
+                                <div class="font-display font-bold text-sm text-slate-900 dark:text-white mb-1">Concise • Standard • Detailed</div>
+                                <p class="text-xs text-slate-600 dark:text-slate-300"><strong>Concise</strong> untuk postingan medsos cepat; <strong>Standard</strong> untuk edukasi umum; <strong>Detailed</strong> untuk laporan riset atau rangkuman rapat lengkap.</p>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700">
+                                <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-1">C. Orientasi Kanvas</div>
+                                <div class="font-display font-bold text-sm text-slate-900 dark:text-white mb-1">Square • Portrait • Landscape</div>
+                                <p class="text-xs text-slate-600 dark:text-slate-300"><strong>Square (1:1)</strong> untuk feed Instagram/LinkedIn; <strong>Portrait</strong> untuk Story, WhatsApp & poster cetak; <strong>Landscape (16:9)</strong> untuk slide presentasi.</p>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700">
+                                <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-1">D. Gaya Visual</div>
+                                <div class="font-display font-bold text-sm text-slate-900 dark:text-white mb-1">10 Preset Gaya (Usia 18+)</div>
+                                <p class="text-xs text-slate-600 dark:text-slate-300">Pilih gaya yang sesuai karakter audiens (misal <em>Editorial</em> untuk data publik atau <em>Kawaii</em> untuk materi anak). Lihat daftar lengkapnya di bawah!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Langkah 4 & 5 dalam 2 Kolom -->
+                    <div class="grid lg:grid-cols-2 gap-5">
+                        <!-- Langkah 4 -->
+                        <div class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                            <div class="flex items-start gap-4">
+                                <span class="w-10 h-10 rounded-2xl bg-sky-600 text-white font-display font-extrabold flex items-center justify-center shrink-0 text-base shadow-md shadow-sky-600/20">4</span>
+                                <div>
+                                    <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white">Tulis Custom Prompt & Klik "Generate"</h4>
+                                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
+                                        Isi kotak deskripsi (<em>Description</em>) untuk memberi tahu AI <strong>bagian mana yang harus disorot, struktur tata letak, dan palet warna</strong> yang diinginkan. Setelah klik <strong>Generate</strong>, tunggu 1–3 menit hingga kartu hasil muncul di panel Studio.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 text-xs text-slate-600 dark:text-slate-300">
+                                <strong>Tips Pro:</strong> Gunakan generator prompt interaktif di bawah agar instruksi Anda terstruktur seperti brief desainer profesional.
+                            </div>
+                        </div>
+
+                        <!-- Langkah 5 -->
+                        <div class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                            <div class="flex items-start gap-4">
+                                <span class="w-10 h-10 rounded-2xl bg-emerald-600 text-white font-display font-extrabold flex items-center justify-center shrink-0 text-base shadow-md shadow-emerald-600/20">5</span>
+                                <div>
+                                    <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white">Periksa Akurasi, Unduh (PNG), & Bagikan</h4>
+                                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
+                                        Klik hasil infografis untuk memperbesar (<em>zoom in</em>). <strong>Periksa setiap angka dan ejaan kata</strong> dibandingkan dokumen sumber. Klik menu titik tiga (<strong>⋮</strong>) untuk <strong>Download sebagai PNG</strong>, melihat kembali prompt (<em>View custom prompt</em>), atau membagikan tautan.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3.5 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/50 text-xs text-emerald-900 dark:text-emerald-200">
+                                <strong>Catatan Berbagi:</strong> Opsi tautan publik (<em>Anyone with a link</em>) aktif untuk akun Google personal, sedangkan akun Workspace Enterprise/Education terbatas pada rekan organisasi.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PENJELAJAH 10 GAYA VISUAL PRESET GEMINI NOTEBOOK -->
+            <div class="mb-16 p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg">
+                <div class="max-w-2xl mb-6">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Referensi Gaya Visual (Preset 18+)</span>
+                    <h3 class="font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">10 Preset Gaya Visual di Gemini Notebook & Kapan Memakainya</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">Pilih gaya yang selaras dengan tujuan penyampaian pesan, bukan sekadar tampilan lucu:</p>
+                </div>
+
+                <div id="gemini-styles-grid" class="grid sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+                    <!-- Rendered via JS -->
+                </div>
+            </div>
+
+            <!-- SIMULATOR & GENERATOR CUSTOM PROMPT GEMINI NOTEBOOK -->
+            <div class="mb-14 p-6 sm:p-8 lg:p-10 rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white border border-indigo-800/60 shadow-2xl">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="inline-block px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-extrabold uppercase tracking-wider mb-2">
+                            🛠️ Alat Bantu Praktis
+                        </span>
+                        <h3 class="font-display text-xl sm:text-2xl font-bold text-white">Generator Custom Prompt Gemini Notebook</h3>
+                        <p class="text-xs sm:text-sm text-indigo-200 mt-1">
+                            Pilih skenario, orientasi, tingkat detail, dan gaya visual—lalu salin hasil prompt siap tempel ke kotak <em>Description</em> di Gemini Notebook!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-6 items-start">
+                    <!-- Controls (Left 6 cols) -->
+                    <div class="lg:col-span-6 space-y-4">
+                        <div>
+                            <label for="gn-scenario" class="block text-xs font-bold uppercase tracking-wider text-indigo-300 mb-1.5">1. Pilih Skenario / Topik Sumber Anda</label>
+                            <select id="gn-scenario" onchange="updateGeminiPrompt()" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+                                <option value="jabar" class="text-slate-900">📊 Data Statistik / Laporan BPS Jawa Barat</option>
+                                <option value="sop" class="text-slate-900">📋 Panduan Layanan Publik / SOP Langkah Kerja</option>
+                                <option value="edukasi" class="text-slate-900">📚 Ringkasan Buku / Materi Belajar & Ujian</option>
+                                <option value="keuangan" class="text-slate-900">💰 Rencana Keuangan / Anggaran Belanja Keluarga</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label for="gn-orientation" class="block text-xs font-bold uppercase tracking-wider text-indigo-300 mb-1.5">2. Orientasi</label>
+                                <select id="gn-orientation" onchange="updateGeminiPrompt()" class="w-full px-3 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+                                    <option value="Portrait" class="text-slate-900">Portrait (Story/WA)</option>
+                                    <option value="Square" class="text-slate-900">Square (1:1 Feed)</option>
+                                    <option value="Landscape" class="text-slate-900">Landscape (Slide 16:9)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="gn-detail" class="block text-xs font-bold uppercase tracking-wider text-indigo-300 mb-1.5">3. Tingkat Detail</label>
+                                <select id="gn-detail" onchange="updateGeminiPrompt()" class="w-full px-3 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+                                    <option value="Standard" class="text-slate-900">Standard (Seimbang)</option>
+                                    <option value="Concise" class="text-slate-900">Concise (Ringkas)</option>
+                                    <option value="Detailed" class="text-slate-900">Detailed (Mendalam)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="gn-style" class="block text-xs font-bold uppercase tracking-wider text-indigo-300 mb-1.5">4. Gaya Visual</label>
+                                <select id="gn-style" onchange="updateGeminiPrompt()" class="w-full px-3 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+                                    <option value="Editorial" class="text-slate-900">Editorial</option>
+                                    <option value="Professional" class="text-slate-900">Professional</option>
+                                    <option value="Bento Grid" class="text-slate-900">Bento Grid</option>
+                                    <option value="Instructional" class="text-slate-900">Instructional</option>
+                                    <option value="Sketch Note" class="text-slate-900">Sketch Note</option>
+                                    <option value="Scientific" class="text-slate-900">Scientific</option>
+                                    <option value="Bricks" class="text-slate-900">Bricks</option>
+                                    <option value="Kawaii" class="text-slate-900">Kawaii</option>
+                                    <option value="Clay" class="text-slate-900">Clay</option>
+                                    <option value="Anime" class="text-slate-900">Anime</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-indigo-200 leading-relaxed">
+                            💡 <strong>Setting di Gemini Notebook:</strong> Language = <span class="text-amber-300 font-semibold">Indonesian</span> • Orientation = <span id="gn-badge-orient" class="text-amber-300 font-semibold">Portrait</span> • Detail = <span id="gn-badge-detail" class="text-amber-300 font-semibold">Standard</span> • Style = <span id="gn-badge-style" class="text-amber-300 font-semibold">Editorial</span>
+                        </div>
+                    </div>
+
+                    <!-- Output Prompt Box (Right 6 cols) -->
+                    <div class="lg:col-span-6 bg-slate-950/90 rounded-2xl p-5 border border-indigo-500/30 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Prompt Siap Tempel (Kotak Description)</span>
+                                <button onclick="copyGeminiPrompt()" class="px-3.5 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-extrabold transition flex items-center gap-1.5 shadow">
+                                    <span>📋 Salin Prompt</span>
+                                </button>
+                            </div>
+                            <textarea id="gn-prompt-output" rows="7" readonly class="w-full bg-transparent text-slate-100 text-xs sm:text-sm font-mono leading-relaxed focus:outline-none resize-none"></textarea>
+                        </div>
+                        <div class="pt-3 mt-3 border-t border-white/10 text-[11px] text-slate-400 flex items-center justify-between">
+                            <span>Tempelkan ke: Studio → Infographic → Ikon Pensil (✏️)</span>
+                            <span class="text-emerald-400 font-semibold">Siap Pakai ✓</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TIPS PRO & HAL PENTING YANG WAJIB DIPERHATIKAN -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                    <div class="text-amber-500 font-display font-extrabold text-sm mb-1.5">01 • Seleksi Sumber Ramping</div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Jangan mencentang 30–50 sumber sekaligus saat membuat infografis. Batasi hanya pada sumber yang relevan agar AI fokus mengekstrak hierarki data yang tajam.
+                    </p>
+                </div>
+
+                <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                    <div class="text-amber-500 font-display font-extrabold text-sm mb-1.5">02 • Gambar Statis (PNG)</div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Teks di dalam hasil infografis tidak bisa diklik atau diedit langsung di Gemini Notebook. Jika ada bagian kurang pas, ubah deskripsi prompt lalu klik <strong>Generate</strong> ulang, atau poles sedikit di Canva.
+                    </p>
+                </div>
+
+                <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                    <div class="text-amber-500 font-display font-extrabold text-sm mb-1.5">03 • Wajib Cek Fakta & Ejaan</div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Visual AI sering terlihat sangat meyakinkan padahal mungkin ada satu angka koma yang meleset atau ejaan terpotong. Selalu cocokkan dengan dokumen asli sebelum dipublikasikan.
+                    </p>
+                </div>
+
+                <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                    <div class="text-amber-500 font-display font-extrabold text-sm mb-1.5">04 • Batasan Akun & Privasi</div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Pilihan 10 gaya visual tersedia untuk pengguna berusia <strong>18+</strong>. File yang diunggah ke Gemini Notebook tidak digunakan untuk melatih model publik Google tanpa izin feedback Anda.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 5: KESALAHAN UMUM (DO'S & DON'TS) -->
+    <section id="kesalahan" class="py-16 lg:py-24 bg-white dark:bg-slate-900/60 border-y border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-14">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Bagian 05 • Hindari Jebakan Pemula</span>
+                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2 mb-4">Kesalahan Umum (Don'ts vs Do's)</h2>
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg">
+                    Banyak infografis gagal menyampaikan pesan bukan karena datanya salah, melainkan karena jebakan visual berikut ini.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Item 1: Tembok Teks -->
+                <div class="rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-900">
+                    <div class="grid grid-cols-2 divide-x divide-slate-200 dark:divide-slate-800 h-full">
+                        <div class="p-5 bg-rose-50/50 dark:bg-rose-950/20">
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-rose-600 dark:text-rose-400 mb-2">✕ HINDARI (DON'T)</span>
+                            <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm mb-2">Tembok Teks Panjang</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Menyalin seluruh isi makalah atau artikel ke dalam poster sehingga pembaca malas melihatnya.</p>
+                        </div>
+                        <div class="p-5 bg-emerald-50/50 dark:bg-emerald-950/20">
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 mb-2">✓ LAKUKAN (DO)</span>
+                            <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm mb-2">Poin Singkat & Padat</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Ringkas setiap poin menjadi 1–2 kalimat pendek (maksimal 15–20 kata) dan gunakan ikon.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2: Warna Bertabrakan -->
+                <div class="rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-900">
+                    <div class="grid grid-cols-2 divide-x divide-slate-200 dark:divide-slate-800 h-full">
+                        <div class="p-5 bg-rose-50/50 dark:bg-rose-950/20">
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-rose-600 dark:text-rose-400 mb-2">✕ HINDARI (DON'T)</span>
+                            <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm mb-2">Kontras Rendah / Neon</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Teks kuning terang di atas latar putih, atau memakai 8 warna mencolok sekaligus dalam satu halaman.</p>
+                        </div>
+                        <div class="p-5 bg-emerald-50/50 dark:bg-emerald-950/20">
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 mb-2">✓ LAKUKAN (DO)</span>
+                            <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm mb-2">Kontras Tinggi & Harmonis</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Teks gelap di atas latar terang (atau sebaliknya) dengan maksimal 3 warna utama.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3: Grafik Menyesatkan -->
+                <div class="rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-900">
+                    <div class="grid grid-cols-2 divide-x divide-slate-200 dark:divide-slate-800 h-full">
+                        <div class="p-5 bg-rose-50/50 dark:bg-rose-950/20">
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-rose-600 dark:text-rose-400 mb-2">✕ HINDARI (DON'T)</span>
+                            <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm mb-2">Skala Grafik Tidak Nol</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Memulai sumbu grafik batang dari angka 48% sehingga 50% terlihat 3x lebih tinggi dari 49%.</p>
+                        </div>
+                        <div class="p-5 bg-emerald-50/50 dark:bg-emerald-950/20">
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 mb-2">✓ LAKUKAN (DO)</span>
+                            <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm mb-2">Skala Jujur & Proporsional</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Selalu mulai diagram batang dari angka 0 dan cantumkan label angka asli serta sumber datanya.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 4: Ukuran Font Kekecilan -->
+                <div class="rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-900">
+                    <div class="grid grid-cols-2 divide-x divide-slate-200 dark:divide-slate-800 h-full">
+                        <div class="p-5 bg-rose-50/50 dark:bg-rose-950/20">
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-rose-600 dark:text-rose-400 mb-2">✕ HINDARI (DON'T)</span>
+                            <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm mb-2">Huruf Terlalu Kecil</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Membuat teks isi berukuran sangat kecil sehingga harus di-zoom berkali-kali saat dibuka di HP.</p>
+                        </div>
+                        <div class="p-5 bg-emerald-50/50 dark:bg-emerald-950/20">
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 mb-2">✓ LAKUKAN (DO)</span>
+                            <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm mb-2">Uji Baca di Layar Ponsel</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Pastikan seluruh tulisan terbaca jelas saat gambar dilihat penuh di layar smartphone tanpa zoom.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 6: REKOMENDASI TOOLS & SUMBER ASET GRATIS -->
+    <section id="tools" class="py-16 lg:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-14">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Bagian 06 • Perangkat & Sumber Daya</span>
+                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2 mb-4">Rekomendasi Tools & Sumber Aset Gratis</h2>
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg">
+                    Pilih alat yang paling sesuai dengan kenyamanan Anda, lengkap dengan situs penyedia ikon, ilustrasi, dan palet warna gratis.
+                </p>
+            </div>
+
+            <!-- Tools Grid -->
+            <div class="grid md:grid-cols-3 gap-6 mb-10">
+                <!-- Pemula -->
+                <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 card-hover">
+                    <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold">Ramah Pemula (Drag & Drop)</span>
+                    <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mt-4 mb-4">Cepat & Banyak Template</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70">
+                            <div class="font-bold text-slate-900 dark:text-white">Canva</div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Ribuan template infografis siap pakai, sangat mudah digunakan di browser maupun HP.</p>
+                        </li>
+                        <li class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70">
+                            <div class="font-bold text-slate-900 dark:text-white">Piktochart & Venngage</div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Khusus dirancang untuk infografis, laporan visual, dan grafik data instan.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Menengah / Pro -->
+                <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 card-hover">
+                    <span class="px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-xs font-bold">Menengah hingga Profesional</span>
+                    <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mt-4 mb-4">Kebebasan Desain Penuh</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70">
+                            <div class="font-bold text-slate-900 dark:text-white">Figma</div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Gratis, berbasis cloud, presisi tinggi untuk mengatur grid, jarak, dan kolaborasi tim.</p>
+                        </li>
+                        <li class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70">
+                            <div class="font-bold text-slate-900 dark:text-white">Adobe Illustrator / Inkscape</div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Standar industri untuk membuat ilustrasi vektor kustom dan cetak resolusi tinggi.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Visualisasi Data Khusus -->
+                <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 card-hover">
+                    <span class="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-xs font-bold">Spesialis Data & Grafik</span>
+                    <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mt-4 mb-4">Olah Angka Jadi Grafik</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70">
+                            <div class="font-bold text-slate-900 dark:text-white">Flourish Studio</div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Ubah file Excel/CSV menjadi grafik interaktif maupun statis yang elegan.</p>
+                        </li>
+                        <li class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70">
+                            <div class="font-bold text-slate-900 dark:text-white">Datawrapper</div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Favorit jurnalis untuk membuat peta data dan grafik statistik yang super bersih.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sumber Aset Gratis -->
+            <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                <h3 class="font-display text-lg sm:text-xl font-bold mb-4">🎁 Gudang Aset Gratis Bebas Hak Cipta</h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                    <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15">
+                        <div class="font-bold mb-1">Ikon Vektor</div>
+                        <p class="text-xs text-indigo-100">Flaticon, Lucide Icons, Heroicons, Phosphor Icons</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15">
+                        <div class="font-bold mb-1">Ilustrasi Karakter</div>
+                        <p class="text-xs text-indigo-100">unDraw, Storyset (Freepik), Humaaans, Open Doodles</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15">
+                        <div class="font-bold mb-1">Kombinasi Warna</div>
+                        <p class="text-xs text-indigo-100">Coolors.co, Color Hunt, Adobe Color</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15">
+                        <div class="font-bold mb-1">Font Gratis</div>
+                        <p class="text-xs text-indigo-100">Google Fonts (Plus Jakarta Sans, Inter, Poppins)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 7: FITUR INTERAKTIF (CHECKLIST KUALITAS & KUIS MINI) -->
+    <section id="interaktif" class="py-16 lg:py-24 bg-white dark:bg-slate-900/60 border-t border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-14">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Bagian 07 • Praktik & Evaluasi</span>
+                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2 mb-4">Alat Bantu & Latihan Interaktif</h2>
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg">
+                    Gunakan daftar periksa sebelum mempublikasikan karya Anda, lalu uji kemampuan Anda dalam memilih jenis infografis!
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- LEFT: INTERACTIVE QUALITY CHECKLIST -->
+                <div class="lg:col-span-6 p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg">
+                    <div class="flex items-center justify-between gap-4 mb-4">
+                        <div>
+                            <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white">✅ Checklist Kualitas Infografis</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Centang poin di bawah ini sebelum Anda mengunduh atau memposting desain</p>
+                        </div>
+                        <button onclick="resetChecklist()" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline shrink-0">Reset</button>
+                    </div>
+
+                    <!-- Progress Bar Kesiapan -->
+                    <div class="mb-6 p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700">
+                        <div class="flex items-center justify-between text-xs font-bold mb-2">
+                            <span id="checklist-status-label" class="text-slate-600 dark:text-slate-300">Kesiapan Publikasi</span>
+                            <span id="checklist-percent" class="text-indigo-600 dark:text-indigo-400 font-display text-sm">0%</span>
+                        </div>
+                        <div class="w-full h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                            <div id="checklist-bar" class="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 w-0 transition-all duration-300 rounded-full"></div>
+                        </div>
+                    </div>
+
+                    <!-- Checklist Items -->
+                    <div id="checklist-items" class="space-y-2.5">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- RIGHT: MINI QUIZ "TEBAK JENIS INFOGRAFIS" -->
+                <div class="lg:col-span-6 p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white">🎯 Kuis: Tebak Jenis Infografis</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Pilih jenis infografis paling tepat untuk studi kasus sehari-hari</p>
+                        </div>
+                        <span id="quiz-counter" class="px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-xs font-bold">Soal 1 / 5</span>
+                    </div>
+
+                    <div id="quiz-container" class="mt-4">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-display font-bold text-sm">IG</div>
+                <span class="font-display font-bold text-slate-900 dark:text-white">InfoGrafis101</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">— Panduan Edukasi Desain & Visualisasi Data</span>
+            </div>
+            <div class="flex items-center gap-6 text-xs text-slate-500 dark:text-slate-400">
+                <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Kembali ke Atas ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT: DATA, INTERACTIVITY, THEME, CHECKLIST, QUIZ -->
+    <script>
+        // ==========================================
+        // 1. DARK / LIGHT MODE TOGGLE & LOCALSTORAGE
+        // ==========================================
+        const htmlEl = document.documentElement;
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const iconSun = document.getElementById('icon-sun');
+        const iconMoon = document.getElementById('icon-moon');
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                htmlEl.classList.add('dark');
+                iconSun.classList.remove('hidden');
+                iconMoon.classList.add('hidden');
+            } else {
+                htmlEl.classList.remove('dark');
+                iconSun.classList.add('hidden');
+                iconMoon.classList.remove('hidden');
+            }
+        }
+
+        // Load saved preference or system preference
+        const savedTheme = localStorage.getItem('infografis_theme');
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            applyTheme('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = htmlEl.classList.contains('dark');
+            const nextTheme = isDark ? 'light' : 'dark';
+            applyTheme(nextTheme);
+            localStorage.setItem('infografis_theme', nextTheme);
+        });
+
+        // ==========================================
+        // 2. MOBILE MENU & READING PROGRESS BAR
+        // ==========================================
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const progressBar = document.getElementById('reading-progress');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+        });
+
+        // ==========================================
+        // 3. TOAST NOTIFICATION & COPY HEX
+        // ==========================================
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        function copyHex(hexCode) {
+            const tempInput = document.createElement('input');
+            tempInput.value = hexCode;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast(`Kode warna ${hexCode} berhasil disalin!`);
+        }
+
+        // ==========================================
+        // 4. SIMULASI PERBANDINGAN TEKS VS INFOGRAFIS
+        // ==========================================
+        function toggleComparison(mode) {
+            const viewText = document.getElementById('view-text');
+            const viewVisual = document.getElementById('view-visual');
+            const btnText = document.getElementById('btn-mode-text');
+            const btnVisual = document.getElementById('btn-mode-visual');
+
+            if (mode === 'text') {
+                viewText.classList.remove('hidden');
+                viewVisual.classList.add('hidden');
+                btnText.className = 'px-4 py-2 rounded-lg text-sm font-semibold transition bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm';
+                btnVisual.className = 'px-4 py-2 rounded-lg text-sm font-semibold transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white';
+            } else {
+                viewVisual.classList.remove('hidden');
+                viewText.classList.add('hidden');
+                btnVisual.className = 'px-4 py-2 rounded-lg text-sm font-semibold transition bg-indigo-600 text-white shadow-sm';
+                btnText.className = 'px-4 py-2 rounded-lg text-sm font-semibold transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white';
+            }
+        }
+
+        // ==========================================
+        // 5. DATA & RENDER 9 JENIS INFOGRAFIS
+        // ==========================================
+        const infographicTypes = [
+            {
+                id: 1,
+                category: 'data',
+                badge: 'Data & Angka',
+                title: '1. Infografis Statistik',
+                desc: 'Menonjolkan angka besar, persentase, dan grafik hasil survei agar data terasa meyakinkan dan mudah dicerna.',
+                when: 'Saat ingin membuktikan fakta dengan angka riset atau laporan keuangan.',
+                example: 'Survei "78% Warga Kota Memilih Bawa Botol Minum Sendiri untuk Kurangi Sampah Plastik".',
+                preview: `
+                    <div class="flex items-center justify-between gap-3 bg-indigo-50/80 dark:bg-slate-800 p-3 rounded-xl">
+                        <div>
+                            <div class="font-display font-extrabold text-2xl text-indigo-600 dark:text-indigo-400">78%</div>
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">Bawa Tumbler Sendiri</div>
+                        </div>
+                        <div class="flex items-end gap-1 h-10">
+                            <div class="w-2.5 bg-indigo-300 h-4 rounded-t"></div>
+                            <div class="w-2.5 bg-indigo-500 h-7 rounded-t"></div>
+                            <div class="w-2.5 bg-indigo-600 h-10 rounded-t"></div>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 2,
+                category: 'alur',
+                badge: 'Alur & Waktu',
+                title: '2. Infografis Proses / Alur',
+                desc: 'Menjelaskan tahapan berurutan dari awal hingga selesai menggunakan nomor langkah dan tanda panah.',
+                when: 'Untuk tutorial, SOP kerja, cara pendaftaran, atau resep masakan.',
+                example: 'Langkah "Cara Mengajukan Pembuatan Paspor Baru Secara Online dari Rumah".',
+                preview: `
+                    <div class="flex items-center justify-between bg-emerald-50/80 dark:bg-slate-800 p-3 rounded-xl text-center">
+                        <div class="px-2 py-1 rounded bg-emerald-600 text-white text-[11px] font-bold">1. Daftar</div>
+                        <span class="text-emerald-500 font-bold">→</span>
+                        <div class="px-2 py-1 rounded bg-emerald-600 text-white text-[11px] font-bold">2. Foto</div>
+                        <span class="text-emerald-500 font-bold">→</span>
+                        <div class="px-2 py-1 rounded bg-emerald-600 text-white text-[11px] font-bold">3. Jadi</div>
+                    </div>`
+            },
+            {
+                id: 3,
+                category: 'alur',
+                badge: 'Alur & Waktu',
+                title: '3. Infografis Linimasa (Timeline)',
+                desc: 'Menampilkan urutan kejadian berdasarkan kronologi tanggal, bulan, atau tahun pada sebuah garis waktu.',
+                when: 'Menceritakan sejarah, perkembangan proyek, atau jadwal acara.',
+                example: 'Linimasa "Sejarah Perkembangan Telepon Genggam dari Tahun 1983 hingga Smartphone Lipat".',
+                preview: `
+                    <div class="bg-purple-50/80 dark:bg-slate-800 p-3 rounded-xl">
+                        <div class="relative flex items-center justify-between text-[11px] font-bold text-purple-700 dark:text-purple-300">
+                            <div class="absolute left-2 right-2 h-0.5 bg-purple-300 dark:bg-purple-700 top-2.5"></div>
+                            <div class="relative z-10 flex flex-col items-center"><span class="w-2.5 h-2.5 rounded-full bg-purple-600 mb-1"></span>1990</div>
+                            <div class="relative z-10 flex flex-col items-center"><span class="w-2.5 h-2.5 rounded-full bg-purple-600 mb-1"></span>2007</div>
+                            <div class="relative z-10 flex flex-col items-center"><span class="w-2.5 h-2.5 rounded-full bg-purple-600 mb-1"></span>2026</div>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 4,
+                category: 'data',
+                badge: 'Data & Angka',
+                title: '4. Infografis Perbandingan (Versus)',
+                desc: 'Membagi layar menjadi dua kolom berdampingan untuk menimbang kelebihan & kekurangan dua pilihan.',
+                when: 'Membantu audiens mengambil keputusan antara produk A atau produk B.',
+                example: 'Perbandingan "Kerja dari Rumah (WFH) vs Kerja di Kantor (WFO): Mana Lebih Hemat?".',
+                preview: `
+                    <div class="grid grid-cols-2 gap-2 bg-amber-50/80 dark:bg-slate-800 p-2.5 rounded-xl text-[11px] text-center font-semibold">
+                        <div class="p-1.5 rounded-lg bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300">🏠 WFH<br><span class="text-[10px] font-normal text-slate-500">Hemat Ongkos</span></div>
+                        <div class="p-1.5 rounded-lg bg-white dark:bg-slate-700 text-amber-600 dark:text-amber-300">🏢 WFO<br><span class="text-[10px] font-normal text-slate-500">Fokus Tim</span></div>
+                    </div>`
+            },
+            {
+                id: 5,
+                category: 'profil',
+                badge: 'Lokasi & Profil',
+                title: '5. Infografis Geografis / Peta',
+                desc: 'Menggunakan peta wilayah dengan kode warna atau pin ikon untuk menunjukkan data berbasis lokasi.',
+                when: 'Menampilkan sebaran populasi, kuliner khas daerah, atau jalur transportasi.',
+                example: 'Peta "Sebaran Sentra Penghasil Kopi Nusantara dari Aceh hingga Papua".',
+                preview: `
+                    <div class="flex items-center justify-around bg-sky-50/80 dark:bg-slate-800 p-3 rounded-xl text-xs">
+                        <span class="px-2 py-1 rounded bg-sky-500/20 text-sky-700 dark:text-sky-300 font-semibold">📍 Gayo</span>
+                        <span class="px-2 py-1 rounded bg-sky-500/20 text-sky-700 dark:text-sky-300 font-semibold">📍 Toraja</span>
+                        <span class="px-2 py-1 rounded bg-sky-500/20 text-sky-700 dark:text-sky-300 font-semibold">📍 Wamena</span>
+                    </div>`
+            },
+            {
+                id: 6,
+                category: 'edukasi',
+                badge: 'Edukasi & Daftar',
+                title: '6. Infografis Hierarki / Piramida',
+                desc: 'Menyusun informasi berdasarkan tingkat prioritas, urutan kebutuhan, atau struktur jabatan dari atas ke bawah.',
+                when: 'Menjelaskan skala prioritas, piramida makanan sehat, atau struktur organisasi.',
+                example: 'Piramida "Prioritas Mengatur Gaji Bulanan: Kebutuhan Pokok, Dana Darurat, lalu Hiburan".',
+                preview: `
+                    <div class="flex flex-col items-center gap-1 bg-rose-50/80 dark:bg-slate-800 p-2.5 rounded-xl text-[10px] font-bold text-white">
+                        <div class="w-1/3 bg-rose-500 text-center py-0.5 rounded">Hiburan</div>
+                        <div class="w-2/3 bg-rose-600 text-center py-0.5 rounded">Tabungan & Investasi</div>
+                        <div class="w-full bg-rose-700 text-center py-0.5 rounded">Kebutuhan Pokok</div>
+                    </div>`
+            },
+            {
+                id: 7,
+                category: 'edukasi',
+                badge: 'Edukasi & Daftar',
+                title: '7. Infografis Daftar (Listicle)',
+                desc: 'Kumpulan tips, fakta unik, atau rekomendasi berpoin yang dilengkapi ikon menarik di tiap nomornya.',
+                when: 'Berbagi tips praktis sehari-hari yang mudah dibaca acak tanpa urutan wajib.',
+                example: 'Daftar "7 Kebiasaan Pagi Hari yang Bikin Produktif Seharian Tanpa Stres".',
+                preview: `
+                    <div class="space-y-1 bg-teal-50/80 dark:bg-slate-800 p-2.5 rounded-xl text-[11px] font-medium text-slate-700 dark:text-slate-300">
+                        <div class="flex items-center gap-2"><span class="w-4 h-4 rounded-full bg-teal-600 text-white text-[10px] flex items-center justify-center">1</span> Minum 1 gelas air putih</div>
+                        <div class="flex items-center gap-2"><span class="w-4 h-4 rounded-full bg-teal-600 text-white text-[10px] flex items-center justify-center">2</span> Peregangan ringan 5 menit</div>
+                    </div>`
+            },
+            {
+                id: 8,
+                category: 'edukasi',
+                badge: 'Edukasi & Daftar',
+                title: '8. Infografis Anatomi / Diagram',
+                desc: 'Menampilkan satu objek utama di tengah dengan garis penunjuk ke bagian-bagian detailnya.',
+                when: 'Membedah bagian tubuh, komponen mesin, atau isi kemasan makanan.',
+                example: 'Anatomi "Cara Membaca Label Informasi Nilai Gizi di Belakang Kemasan Makanan".',
+                preview: `
+                    <div class="flex items-center justify-center gap-3 bg-orange-50/80 dark:bg-slate-800 p-3 rounded-xl text-[11px]">
+                        <span class="text-slate-600 dark:text-slate-300 font-medium">← Kalori</span>
+                        <div class="w-9 h-9 rounded-lg bg-orange-500 text-white flex items-center justify-center font-bold">🥫</div>
+                        <span class="text-slate-600 dark:text-slate-300 font-medium">Gula →</span>
+                    </div>`
+            },
+            {
+                id: 9,
+                category: 'profil',
+                badge: 'Lokasi & Profil',
+                title: '9. Infografis Resume / Profil',
+                desc: 'Mengubah CV teks biasa menjadi ringkasan visual tentang keahlian, pengalaman, dan pencapaian seseorang.',
+                when: 'Melamar pekerjaan kreatif, memperkenalkan pembicara seminar, atau profil bisnis.',
+                example: 'CV Visual "Profil Desainer Grafis dengan Grafik Penguasaan Software & Portofolio".',
+                preview: `
+                    <div class="flex items-center gap-3 bg-indigo-50/80 dark:bg-slate-800 p-2.5 rounded-xl">
+                        <div class="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs">CV</div>
+                        <div class="flex-1 space-y-1">
+                            <div class="h-2 bg-indigo-500 rounded-full w-4/5"></div>
+                            <div class="h-2 bg-purple-400 rounded-full w-3/5"></div>
+                        </div>
+                    </div>`
+            }
+        ];
+
+        function renderInfographicTypes(filter = 'all') {
+            const grid = document.getElementById('infographic-types-grid');
+            const filtered = filter === 'all'
+                ? infographicTypes
+                : infographicTypes.filter(item => item.category === filter);
+
+            grid.innerHTML = filtered.map(item => `
+                <div class="fade-in flex flex-col justify-between p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm card-hover">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 text-[11px] font-bold">
+                                ${item.badge}
+                            </span>
+                        </div>
+                        <h3 class="font-display text-lg font-bold text-slate-900 dark:text-white mb-2">${item.title}</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">${item.desc}</p>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+                        <div>
+                            <div class="text-[11px] font-bold uppercase tracking-wide text-slate-400">Contoh Sehari-hari:</div>
+                            <p class="text-xs text-slate-700 dark:text-slate-300 mt-0.5 font-medium">${item.example}</p>
+                        </div>
+                        <div>
+                            <div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1.5">Mini Preview Visual:</div>
+                            ${item.preview}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterInfographics(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === category) {
+                    btn.className = 'filter-btn active px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white shadow-sm transition';
+                } else {
+                    btn.className = 'filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition';
+                }
+            });
+            renderInfographicTypes(category);
+        }
+
+        // Initial render
+        renderInfographicTypes('all');
+
+        // ==========================================
+        // 6. WORKFLOW 6 LANGKAH INTERAKTIF
+        // ==========================================
+        const workflowSteps = [
+            {
+                step: 1,
+                title: 'Tentukan Tujuan & Audiens',
+                subtitle: 'Siapa yang akan membaca dan apa tindakan yang diharapkan?',
+                description: 'Sebelum membuka aplikasi desain, tentukan satu tujuan utama. Infografis yang membahas terlalu banyak topik sekaligus akan membingungkan pembaca.',
+                caseStudy: '<strong>Studi Kasus:</strong> Kita ingin membuat infografis untuk grup WhatsApp keluarga & media sosial agar anggota rumah tangga mau mematikan alat elektronik yang tidak terpakai.',
+                actionTip: 'Tulis 1 kalimat judul kerja: "5 Cara Mudah Pangkas Tagihan Listrik Bulanan di Rumah".'
+            },
+            {
+                step: 2,
+                title: 'Kumpulkan & Validasi Data',
+                subtitle: 'Pastikan setiap angka dan fakta berasal dari sumber tepercaya',
+                description: 'Kumpulkan data pendukung dari sumber resmi (seperti PLN, Kementerian ESDM, atau jurnal). Catat sumbernya agar infografis Anda kredibel dan dipercaya.',
+                caseStudy: '<strong>Studi Kasus:</strong> Mencatat data konsumsi daya: AC menyumbang ±40% tagihan listrik rumah, perangkat standby (TV/charger menancap) memboroskan hingga 10% listrik.',
+                actionTip: 'Simpan tautan/nama sumber resmi untuk dicantumkan di bagian footer infografis.'
+            },
+            {
+                step: 3,
+                title: 'Buat Kerangka Cerita (Wireframe)',
+                subtitle: 'Sketsa kasar di kertas sebelum menyentuh komputer',
+                description: 'Susun urutan informasi menjadi 3 bagian: Pembuka (Judul & Fakta Mengejutkan), Isi Utama (Poin solusi/data), dan Penutup (Kesimpulan & Sumber).',
+                caseStudy: '<strong>Studi Kasus:</strong> Atas: Judul besar + angka "Boros Listrik 10% dari Charger Menancap". Tengah: 5 ikon langkah hemat listrik. Bawah: Total potensi penghematan Rp 150.000/bulan.',
+                actionTip: 'Gunakan kertas dan pulpen selama 5 menit untuk menggambar kotak-kotak tata letak kasar.'
+            },
+            {
+                step: 4,
+                title: 'Pilih Jenis & Ukuran Kanvas',
+                subtitle: 'Sesuaikan format dengan platform tempat publikasi',
+                description: 'Pilih jenis infografis yang paling cocok (misalnya Listicle atau Statistik), lalu atur ukuran kanvas sesuai tempat unggah agar tidak terpotong.',
+                caseStudy: '<strong>Studi Kasus:</strong> Karena akan dibagikan di Instagram & WhatsApp, pilih ukuran vertikal <strong>1080 x 1350 px</strong> (rasio 4:5) atau <strong>1080 x 1920 px</strong> (Story).',
+                actionTip: 'Untuk dokumen cetak A4, gunakan resolusi 300 DPI agar hasil cetakan tajam.'
+            },
+            {
+                step: 5,
+                title: 'Desain & Visualisasi Data',
+                subtitle: 'Terapkan aturan warna 60-30-10, tipografi, dan ikon seragam',
+                description: 'Masukkan teks singkat, ganti angka dengan grafik atau piktogram, dan pastikan gaya ikon seragam (jangan mencampur ikon garis tipis dengan ikon 3D warna-warni).',
+                caseStudy: '<strong>Studi Kasus:</strong> Gunakan latar putih bersih (60%), biru tua terpercaya (30%), dan kuning cerah (10%) sebagai simbol energi listrik di setiap nomor poin.',
+                actionTip: 'Gunakan fitur Align & Distribute di aplikasi desain agar jarak antar elemen rata sempurna.'
+            },
+            {
+                step: 6,
+                title: 'Review, Uji Keterbacaan & Publikasi',
+                subtitle: 'Cek ulang salah ketik (typo) dan tampilan di layar HP',
+                description: 'Minta satu orang teman melihat infografis Anda selama 5 detik. Tanyakan: "Apa pesan utama gambar ini?" Jika mereka langsung paham, desain Anda berhasil!',
+                caseStudy: '<strong>Studi Kasus:</strong> Mengecek kembali ejaan "kWh", memastikan ukuran font terkecil tetap terbaca jelas di layar HP tanpa zoom, lalu ekspor sebagai PNG berkualitas tinggi.',
+                actionTip: 'Simpan file mentah (editable) agar mudah diperbarui jika ada data baru di masa depan.'
+            }
+        ];
+
+        let activeStep = 1;
+
+        function renderWorkflow() {
+            const listEl = document.getElementById('workflow-steps-list');
+            const detailEl = document.getElementById('workflow-detail-panel');
+
+            listEl.innerHTML = workflowSteps.map(s => {
+                const isActive = s.step === activeStep;
+                return `
+                    <button onclick="selectWorkflowStep(${s.step})" class="w-full text-left p-4 rounded-2xl border transition flex items-center gap-4 ${
+                        isActive
+                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg shadow-indigo-600/20'
+                        : 'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-indigo-400'
+                    }">
+                        <span class="w-9 h-9 rounded-xl font-display font-bold flex items-center justify-center shrink-0 text-sm ${
+                            isActive ? 'bg-white text-indigo-600' : 'bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400'
+                        }">
+                            0${s.step}
+                        </span>
+                        <div>
+                            <div class="font-display font-bold text-sm sm:text-base">${s.title}</div>
+                            <div class="text-xs ${isActive ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-400'} line-clamp-1">${s.subtitle}</div>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+
+            const current = workflowSteps.find(s => s.step === activeStep);
+            detailEl.innerHTML = `
+                <div class="fade-in">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-bold mb-4">
+                        Langkah ${current.step} dari 6
+                    </div>
+                    <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white mb-2">${current.title}</h3>
+                    <p class="text-sm font-medium text-indigo-600 dark:text-indigo-400 mb-4">${current.subtitle}</p>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6">${current.description}</p>
+
+                    <div class="p-4 sm:p-5 rounded-2xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/50 mb-4">
+                        <div class="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-1">🏠 Penerapan Studi Kasus</div>
+                        <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed">${current.caseStudy}</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700 flex items-start gap-3">
+                        <span class="text-lg">💡</span>
+                        <div class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                            <strong class="text-slate-900 dark:text-white">Tips Praktis:</strong> ${current.actionTip}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+                        <button onclick="selectWorkflowStep(${Math.max(1, activeStep - 1)})" ${activeStep === 1 ? 'disabled' : ''} class="px-4 py-2 rounded-xl text-xs font-semibold border border-slate-200 dark:border-slate-700 disabled:opacity-40 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                            ← Sebelumnya
+                        </button>
+                        <button onclick="selectWorkflowStep(${Math.min(6, activeStep + 1)})" ${activeStep === 6 ? 'disabled' : ''} class="px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white disabled:opacity-40 hover:bg-indigo-700 transition">
+                            Langkah Berikutnya →
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectWorkflowStep(stepNum) {
+            activeStep = stepNum;
+            renderWorkflow();
+        }
+
+        renderWorkflow();
+
+        // ==========================================
+        // 7. CHECKLIST KUALITAS INTERAKTIF
+        // ==========================================
+        const checklistData = [
+            'Judul utama singkat, jelas, dan langsung menarik perhatian',
+            'Data dan fakta sudah diperiksa kebenarannya & mencantumkan sumber',
+            'Setiap poin teks ringkas (tidak berupa paragraf panjang)',
+            'Menggunakan maksimal 2 jenis font yang mudah dibaca di HP',
+            'Menerapkan aturan warna harmonis (60-30-10) dengan kontras tinggi',
+            'Gaya ikon dan ilustrasi seragam dari atas sampai bawah',
+            'Tersedia cukup ruang kosong (whitespace) agar tidak terasa sesak',
+            'Sudah dicek ulang bebas salah ketik (typo) dan skala grafik dimulai dari 0'
+        ];
+
+        let checkedItems = JSON.parse(localStorage.getItem('infografis_checklist') || '[]');
+
+        function renderChecklist() {
+            const container = document.getElementById('checklist-items');
+            container.innerHTML = checklistData.map((text, idx) => {
+                const isChecked = checkedItems.includes(idx);
+                return `
+                    <label class="flex items-start gap-3 p-3.5 rounded-2xl border cursor-pointer transition select-none ${
+                        isChecked
+                        ? 'bg-emerald-50/70 dark:bg-emerald-950/25 border-emerald-300 dark:border-emerald-800'
+                        : 'bg-white dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/80 hover:border-indigo-400'
+                    }">
+                        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleChecklistItem(${idx})" class="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                        <span class="text-xs sm:text-sm ${isChecked ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-700 dark:text-slate-200'}">${text}</span>
+                    </label>
+                `;
+            }).join('');
+
+            const percent = Math.round((checkedItems.length / checklistData.length) * 100);
+            document.getElementById('checklist-percent').textContent = `${percent}%`;
+            document.getElementById('checklist-bar').style.width = `${percent}%`;
+
+            const statusLabel = document.getElementById('checklist-status-label');
+            if (percent === 100) {
+                statusLabel.textContent = '🎉 Sempurna! Infografis Siap Dipublikasikan!';
+                statusLabel.className = 'text-emerald-600 dark:text-emerald-400 font-bold';
+            } else if (percent >= 50) {
+                statusLabel.textContent = '👍 Hampir siap, periksa sisa poinnya';
+                statusLabel.className = 'text-indigo-600 dark:text-indigo-400 font-semibold';
+            } else {
+                statusLabel.textContent = 'Kesiapan Publikasi';
+                statusLabel.className = 'text-slate-600 dark:text-slate-300';
+            }
+        }
+
+        function toggleChecklistItem(idx) {
+            if (checkedItems.includes(idx)) {
+                checkedItems = checkedItems.filter(i => i !== idx);
+            } else {
+                checkedItems.push(idx);
+            }
+            localStorage.setItem('infografis_checklist', JSON.stringify(checkedItems));
+            renderChecklist();
+        }
+
+        function resetChecklist() {
+            checkedItems = [];
+            localStorage.removeItem('infografis_checklist');
+            renderChecklist();
+            showToast('Checklist berhasil direset');
+        }
+
+        renderChecklist();
+
+        // ==========================================
+        // 8. KUIS MINI INTERAKTIF "TEBAK JENIS INFOGRAFIS"
+        // ==========================================
+        const quizQuestions = [
+            {
+                scenario: 'Anda ingin membuat poster edukasi untuk warga komplek tentang <strong>urutan langkah memilah sampah organik, anorganik, dan B3 dari rumah hingga bank sampah</strong>.',
+                options: ['Infografis Proses / Alur', 'Infografis Statistik', 'Infografis Peta / Geografis'],
+                correct: 0,
+                explanation: 'Tepat! Karena menjelaskan tahapan berurutan dari awal hingga akhir (langkah demi langkah), <strong>Infografis Proses / Alur</strong> adalah pilihan paling ideal.'
+            },
+            {
+                scenario: 'Seorang teman meminta bantuan Anda membuat visualisasi tentang <strong>perbedaan biaya, waktu tempuh, dan kenyamanan antara naik Kereta Cepat vs Pesawat Jakarta–Bandung</strong>.',
+                options: ['Infografis Linimasa (Timeline)', 'Infografis Perbandingan (Versus)', 'Infografis Anatomi'],
+                correct: 1,
+                explanation: 'Benar! Membandingkan dua pilihan secara berdampingan untuk membantu mengambil keputusan paling pas menggunakan <strong>Infografis Perbandingan (Versus)</strong>.'
+            },
+            {
+                scenario: 'Anda ingin membagikan postingan ringan berisi <strong>"8 Ide Bekal Makan Siang Sehat di Bawah Rp 20.000"</strong> yang bisa dibaca secara acak tanpa urutan wajib.',
+                options: ['Infografis Daftar (Listicle)', 'Infografis Hierarki', 'Infografis Linimasa'],
+                correct: 0,
+                explanation: 'Mantap! Kumpulan ide atau tips berpoin yang tidak terikat urutan kronologis sangat cocok dikemas sebagai <strong>Infografis Daftar (Listicle)</strong>.'
+            },
+            {
+                scenario: 'Sebuah komunitas lingkungan ingin menunjukkan <strong>persentase pengurangan sampah plastik di kota mereka selama 5 tahun terakhir (2022–2026)</strong>.',
+                options: ['Infografis Resume / Profil', 'Infografis Statistik', 'Infografis Anatomi'],
+                correct: 1,
+                explanation: 'Akurat! Data berupa angka persentase dan tren pertumbuhan dari survei atau riset paling kuat ditampilkan dengan <strong>Infografis Statistik</strong>.'
+            },
+            {
+                scenario: 'Anda membuat panduan bagi pemula tentang <strong>bagian-bagian penting pada ban mobil (tapak ban, indikator keausan, kode ukuran, dan dinding ban)</strong>.',
+                options: ['Infografis Anatomi / Diagram', 'Infografis Perbandingan', 'Infografis Daftar'],
+                correct: 0,
+                explanation: 'Sempurna! Membedah satu objek utama dengan garis penunjuk ke bagian-bagian detailnya adalah fungsi utama <strong>Infografis Anatomi / Diagram</strong>.'
+            }
+        ];
+
+        let currentQuizIdx = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            const counter = document.getElementById('quiz-counter');
+
+            if (currentQuizIdx >= quizQuestions.length) {
+                counter.textContent = 'Selesai!';
+                container.innerHTML = `
+                    <div class="fade-in text-center p-6 rounded-2xl bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
+                        <div class="text-4xl mb-3">🏆</div>
+                        <h4 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-1">Kuis Selesai!</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mb-4">
+                            Skor Anda: <strong class="text-indigo-600 dark:text-indigo-400 text-lg">${quizScore} dari ${quizQuestions.length}</strong> soal benar.
+                        </p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">
+                            ${quizScore === quizQuestions.length ? 'Luar biasa! Anda sudah sangat paham memilih format infografis yang tepat.' : 'Bagus! Anda sudah memahami dasar-dasar pemilihan format infografis.'}
+                        </p>
+                        <button onclick="restartQuiz()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition">
+                            Ulangi Kuis
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = quizQuestions[currentQuizIdx];
+            counter.textContent = `Soal ${currentQuizIdx + 1} / ${quizQuestions.length}`;
+
+            container.innerHTML = `
+                <div class="fade-in">
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-200 leading-relaxed mb-4">
+                        ${q.scenario}
+                    </div>
+
+                    <div class="space-y-2.5 mb-4" id="quiz-options">
+                        ${q.options.map((opt, idx) => `
+                            <button onclick="answerQuiz(${idx})" class="quiz-opt-btn w-full text-left p-3.5 rounded-xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 transition flex items-center justify-between">
+                                <span>${opt}</span>
+                                <span class="opt-icon"></span>
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div id="quiz-feedback" class="hidden p-4 rounded-2xl text-xs sm:text-sm leading-relaxed mb-4"></div>
+
+                    <div class="flex justify-end">
+                        <button id="quiz-next-btn" onclick="nextQuiz()" class="hidden px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold transition">
+                            ${currentQuizIdx === quizQuestions.length - 1 ? 'Lihat Hasil Akhir →' : 'Soal Berikutnya →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function answerQuiz(selectedIdx) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const q = quizQuestions[currentQuizIdx];
+            const isCorrect = selectedIdx === q.correct;
+            if (isCorrect) quizScore++;
+
+            const buttons = document.querySelectorAll('.quiz-opt-btn');
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.correct) {
+                    btn.className = 'w-full text-left p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border-2 border-emerald-500 text-xs sm:text-sm font-bold text-emerald-800 dark:text-emerald-200 flex items-center justify-between';
+                    btn.querySelector('.opt-icon').textContent = '✓';
+                } else if (idx === selectedIdx && !isCorrect) {
+                    btn.className = 'w-full text-left p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 border-2 border-rose-500 text-xs sm:text-sm font-bold text-rose-800 dark:text-rose-200 flex items-center justify-between';
+                    btn.querySelector('.opt-icon').textContent = '✕';
+                } else {
+                    btn.classList.add('opacity-50');
+                }
+            });
+
+            const feedbackEl = document.getElementById('quiz-feedback');
+            feedbackEl.classList.remove('hidden');
+            feedbackEl.className = `fade-in p-4 rounded-2xl text-xs sm:text-sm leading-relaxed mb-4 ${
+                isCorrect
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800'
+                : 'bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 border border-amber-200 dark:border-amber-800'
+            }`;
+            feedbackEl.innerHTML = `${isCorrect ? '🎉 <strong>Benar!</strong> ' : '💡 <strong>Kurang tepat.</strong> '}${q.explanation}`;
+
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        function nextQuiz() {
+            currentQuizIdx++;
+            quizAnswered = false;
+            renderQuiz();
+        }
+
+        function restartQuiz() {
+            currentQuizIdx = 0;
+            quizScore = 0;
+            quizAnswered = false;
+            renderQuiz();
+        }
+
+        renderQuiz();
+
+        // ==========================================
+        // 9. INTERAKTIVITAS POSTER STATISTIK JAWA BARAT
+        // ==========================================
+        let isJabarAnatomyVisible = false;
+
+        function toggleJabarAnatomy() {
+            isJabarAnatomyVisible = !isJabarAnatomyVisible;
+            const callouts = document.querySelectorAll('.jabar-anatomy');
+            const btnText = document.getElementById('anatomy-btn-text');
+
+            callouts.forEach(el => {
+                if (isJabarAnatomyVisible) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+
+            btnText.textContent = isJabarAnatomyVisible
+                ? 'Sembunyikan Bedah Anatomi'
+                : 'Bedah Anatomi Desain Infografis Ini';
+
+            showToast(isJabarAnatomyVisible
+                ? 'Mode Bedah Anatomi aktif: lihat catatan kuning di tiap bagian poster!'
+                : 'Mode Bedah Anatomi disembunyikan');
+        }
+
+        function switchJabarChart(tab) {
+            // Update active button styling
+            document.querySelectorAll('.jabar-tab-btn').forEach(btn => {
+                if (btn.dataset.jabarTab === tab) {
+                    btn.className = 'jabar-tab-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white shadow-sm transition';
+                } else {
+                    btn.className = 'jabar-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition';
+                }
+            });
+
+            const panelPopulasi = document.getElementById('jabar-panel-populasi');
+            const panelSide = document.getElementById('jabar-panel-side');
+            const panelKepadatan = document.getElementById('jabar-panel-kepadatan');
+            const panelKomposisi = document.getElementById('jabar-panel-komposisi');
+
+            // Reset classes
+            panelPopulasi.classList.remove('hidden', 'lg:col-span-12');
+            panelPopulasi.classList.add('lg:col-span-7');
+            panelSide.classList.remove('hidden', 'lg:col-span-12');
+            panelSide.classList.add('lg:col-span-5');
+            panelKepadatan.classList.remove('hidden');
+            panelKomposisi.classList.remove('hidden');
+
+            if (tab === 'populasi') {
+                panelSide.classList.add('hidden');
+                panelPopulasi.classList.remove('lg:col-span-7');
+                panelPopulasi.classList.add('lg:col-span-12');
+            } else if (tab === 'kepadatan') {
+                panelPopulasi.classList.add('hidden');
+                panelKomposisi.classList.add('hidden');
+                panelSide.classList.remove('lg:col-span-5');
+                panelSide.classList.add('lg:col-span-12');
+            } else if (tab === 'komposisi') {
+                panelPopulasi.classList.add('hidden');
+                panelKepadatan.classList.add('hidden');
+                panelSide.classList.remove('lg:col-span-5');
+                panelSide.classList.add('lg:col-span-12');
+            }
+        }
+
+        // ==========================================
+        // 10. DATA 10 GAYA VISUAL & GENERATOR PROMPT GEMINI NOTEBOOK
+        // ==========================================
+        const geminiVisualStyles = [
+            { name: 'Editorial', icon: '📰', tag: 'Data & Berita', desc: 'Tata letak ala majalah modern dengan tipografi tegas. Ideal untuk laporan statistik, riset publik, dan artikel mendalam.' },
+            { name: 'Professional', icon: '💼', tag: 'Bisnis & Kantor', desc: 'Bersih, formal, dan terpercaya. Cocok untuk ringkasan rapat eksekutif, proposal proyek, dan profil lembaga.' },
+            { name: 'Bento Grid', icon: '🍱', tag: 'Ringkasan KPI', desc: 'Membagi informasi ke dalam kotak-kotak modular rapi. Sangat pas untuk menampilkan banyak angka penting sekaligus.' },
+            { name: 'Instructional', icon: '🧭', tag: 'Tutorial & SOP', desc: 'Fokus pada urutan langkah bernomor, panah alur, dan ikon tindakan yang jelas untuk panduan praktis.' },
+            { name: 'Scientific', icon: '🔬', tag: 'Sains & Medis', desc: 'Presisi tinggi dengan diagram terstruktur. Cocok untuk jurnal kesehatan, biologi, teknologi, dan riset akademik.' },
+            { name: 'Sketch Note', icon: '✏️', tag: 'Catatan Kreatif', desc: 'Gaya coretan tangan di atas kertas buku catatan. Hangat dan mudah diingat untuk rangkuman seminar atau kuliah.' },
+            { name: 'Bricks', icon: '🧱', tag: 'Bangunan Konsep', desc: 'Menyusun poin-poin seperti balok susun yang saling bertumpuk. Bagus untuk menjelaskan fondasi atau tahapan bertingkat.' },
+            { name: 'Kawaii', icon: '🌸', tag: 'Ramah & Ringan', desc: 'Ilustrasi menggemaskan dengan warna lembut. Efektif untuk edukasi anak, tips gaya hidup sehat, atau kampanye komunitas.' },
+            { name: 'Clay', icon: '🧸', tag: '3D Lembut', desc: 'Visual bertekstur tanah liat 3D yang ramah mata. Menarik perhatian di media sosial untuk topik keluarga dan produk.' },
+            { name: 'Anime', icon: '⚡', tag: 'Dinamis & Muda', desc: 'Gaya ilustrasi ekspresif penuh energi. Cocok untuk audiens pelajar, mahasiswa, dan konten storytelling kreatif.' }
+        ];
+
+        function renderGeminiStyles() {
+            const grid = document.getElementById('gemini-styles-grid');
+            if (!grid) return;
+            grid.innerHTML = geminiVisualStyles.map(st => `
+                <button type="button" onclick="selectGeminiStylePreset('${st.name}')" class="text-left p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/90 dark:border-slate-700 hover:border-sky-500 dark:hover:border-sky-400 transition group flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xl">${st.icon}</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300">${st.tag}</span>
+                        </div>
+                        <div class="font-display font-bold text-sm text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition">${st.name}</div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">${st.desc}</p>
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-slate-200/70 dark:border-slate-700/70 text-[11px] font-semibold text-sky-600 dark:text-sky-400">
+                        Klik untuk pakai gaya ini →
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        const geminiPromptTemplates = {
+            jabar: (orient, detail, style) =>
+`Buatkan infografis berorientasi ${orient} dengan gaya ${style} dan tingkat detail ${detail} dalam Bahasa Indonesia berdasarkan sumber data statistik Jawa Barat yang dicentang.
+
+Struktur & Hierarki Visual:
+1. Header: Judul utama tebal "JAWA BARAT DALAM ANGKA" dengan subjudul ringkas dan keterangan sumber BPS.
+2. Sorotan Utama (Big Numbers): Tampilkan 3-4 kartu angka kunci paling menonjol (Total Penduduk, Luas Wilayah, dan IPM) dengan ukuran angka besar dan ikon pendukung.
+3. Perbandingan Data: Sajikan grafik batang horizontal untuk 5 daerah dengan populasi tertinggi serta fakta unik utamanya.
+4. Gaya & Warna: Gunakan latar belakang terang yang bersih (60%), warna hijau zamrud dan biru tua sebagai warna utama tema daerah (30%), serta kuning emas (10%) untuk menyorot angka terpenting. Pastikan teks singkat, kontras tinggi, dan mudah dibaca di layar ponsel.`,
+
+            sop: (orient, detail, style) =>
+`Buatkan infografis panduan langkah demi langkah berorientasi ${orient} dengan gaya ${style} dan tingkat detail ${detail} dalam Bahasa Indonesia berdasarkan dokumen SOP/panduan yang dipilih.
+
+Struktur & Hierarki Visual:
+1. Header: Judul jelas yang langsung menjelaskan manfaat panduan dan estimasi waktu penyelesaian.
+2. Alur Utama: Susun tahapan secara berurutan dari langkah 1 hingga selesai menggunakan nomor besar, panah alur yang jelas, dan 1 ikon relevan di setiap langkah.
+3. Syarat & Catatan Penting: Tambahkan kotak ringkasan syarat dokumen atau hal yang harus dihindari di bagian bawah.
+4. Gaya & Warna: Gunakan tata letak bersih dengan banyak ruang kosong (whitespace), maksimal 3 warna harmonis, dan batasi setiap poin maksimal 15 kata agar mudah dipindai dalam 5 detik.`,
+
+            edukasi: (orient, detail, style) =>
+`Buatkan infografis ringkasan materi pembelajaran berorientasi ${orient} dengan gaya ${style} dan tingkat detail ${detail} dalam Bahasa Indonesia berdasarkan sumber bacaan yang dipilih.
+
+Struktur & Hierarki Visual:
+1. Header: Topik utama materi dan 1 kalimat kesimpulan inti (key takeaway) di bagian paling atas.
+2. Peta Konsep / Poin Utama: Bagi materi menjadi 3 hingga 5 bagian utama yang saling terhubung secara logis, lengkapi dengan perbandingan atau contoh konkret dari sumber.
+3. Ringkasan Hafalan: Sertakan kotak "3 Poin Wajib Ingat" di bagian bawah sebagai penutup.
+4. Gaya & Warna: Gunakan tipografi sans-serif modern yang sangat mudah dibaca, bedakan subjudul dengan warna aksen yang kontras, dan hindari paragraf panjang.`,
+
+            keuangan: (orient, detail, style) =>
+`Buatkan infografis perencanaan anggaran dan tips hemat berorientasi ${orient} dengan gaya ${style} dan tingkat detail ${detail} dalam Bahasa Indonesia berdasarkan catatan keuangan yang dipilih.
+
+Struktur & Hierarki Visual:
+1. Header: Judul menarik tentang strategi mengatur anggaran bulanan beserta target penghematannya.
+2. Pembagian Proporsi: Visualisasikan pembagian pos pengeluaran (kebutuhan pokok, tabungan/dana darurat, dan keinginan) dalam bentuk diagram lingkaran/batang yang jelas persentasenya.
+3. Langkah Aksi Praktis: Tampilkan 4-5 kebiasaan hemat sehari-hari dalam kartu berikon rapi.
+4. Gaya & Warna: Gunakan palet warna hijau finansial yang segar, biru gelap, dan aksen kuning cerah di atas latar belakang bersih dengan hierarki angka yang tegas.`
+        };
+
+        function updateGeminiPrompt() {
+            const scenarioEl = document.getElementById('gn-scenario');
+            const orientEl = document.getElementById('gn-orientation');
+            const detailEl = document.getElementById('gn-detail');
+            const styleEl = document.getElementById('gn-style');
+            const outputEl = document.getElementById('gn-prompt-output');
+            if (!scenarioEl || !outputEl) return;
+
+            const scenario = scenarioEl.value;
+            const orient = orientEl.value;
+            const detail = detailEl.value;
+            const style = styleEl.value;
+
+            document.getElementById('gn-badge-orient').textContent = orient;
+            document.getElementById('gn-badge-detail').textContent = detail;
+            document.getElementById('gn-badge-style').textContent = style;
+
+            outputEl.value = geminiPromptTemplates[scenario](orient, detail, style);
+        }
+
+        function selectGeminiStylePreset(styleName) {
+            const styleEl = document.getElementById('gn-style');
+            if (styleEl) {
+                styleEl.value = styleName;
+                updateGeminiPrompt();
+                styleEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                showToast(`Gaya "${styleName}" dipilih pada Generator Prompt!`);
+            }
+        }
+
+        function copyGeminiPrompt() {
+            const outputEl = document.getElementById('gn-prompt-output');
+            if (!outputEl) return;
+            outputEl.select();
+            outputEl.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            showToast('Custom Prompt Gemini Notebook berhasil disalin!');
+        }
+
+        renderGeminiStyles();
+        updateGeminiPrompt();
+    </script>
+</body>
+</html>

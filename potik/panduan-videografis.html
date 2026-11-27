@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panduan Lengkap Pembuatan Videografis (Motion Graphics &amp; Video Infografis)</title>
+  <style>
+    /* ==========================================================================
+       1. VARIABEL TEMA & RESET DASAR (100% SELF-CONTAINED CSS)
+       ========================================================================== */
+    :root {
+      --bg-page: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-alt: #f1f5f9;
+      --bg-header: rgba(255, 255, 255, 0.92);
+      --text-main: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-soft: #eff6ff;
+      --primary-text: #1e40af;
+      --accent: #7c3aed;
+      --accent-soft: #f5f3ff;
+      --accent-text: #5b21b6;
+      --success: #059669;
+      --success-soft: #ecfdf5;
+      --success-text: #065f46;
+      --warning: #d97706;
+      --warning-soft: #fffbeb;
+      --warning-text: #92400e;
+      --danger: #dc2626;
+      --danger-soft: #fef2f2;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.07), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg-page: #0b1120;
+      --bg-surface: #131c31;
+      --bg-surface-alt: #1e293b;
+      --bg-header: rgba(19, 28, 49, 0.92);
+      --text-main: #f8fafc;
+      --text-secondary: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border-color: #263449;
+      --border-strong: #334155;
+      --primary: #3b82f6;
+      --primary-hover: #60a5fa;
+      --primary-soft: rgba(59, 130, 246, 0.16);
+      --primary-text: #93c5fd;
+      --accent: #a78bfa;
+      --accent-soft: rgba(167, 139, 250, 0.16);
+      --accent-text: #ddd6fe;
+      --success: #10b981;
+      --success-soft: rgba(16, 185, 129, 0.16);
+      --success-text: #6ee7b7;
+      --warning: #f59e0b;
+      --warning-soft: rgba(245, 158, 11, 0.16);
+      --warning-text: #fcd34d;
+      --danger: #f87171;
+      --danger-soft: rgba(248, 113, 113, 0.16);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.65;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      overflow-x: hidden;
+    }
+
+    /* ==========================================================================
+       2. LAYOUT & TIPOGRAFI UMUM
+       ========================================================================== */
+    .container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    section {
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--border-color);
+      scroll-margin-top: 76px;
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.28;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    p {
+      color: var(--text-secondary);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.32rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      background: var(--primary-soft);
+      color: var(--primary-text);
+      margin-bottom: 0.75rem;
+    }
+
+    .badge-accent {
+      background: var(--accent-soft);
+      color: var(--accent-text);
+    }
+
+    .badge-success {
+      background: var(--success-soft);
+      color: var(--success-text);
+    }
+
+    .badge-warning {
+      background: var(--warning-soft);
+      color: var(--warning-text);
+    }
+
+    .section-header {
+      margin-bottom: 2.25rem;
+      max-width: 780px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 0.65rem;
+    }
+
+    .section-header p {
+      font-size: 1.03rem;
+      color: var(--text-muted);
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.25s ease;
+    }
+
+    .card-alt {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.35rem;
+    }
+
+    .grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 960px) {
+      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .grid-2, .grid-3, .grid-5 { grid-template-columns: 1fr; }
+      section { padding: 2.75rem 0; }
+    }
+
+    /* ==========================================================================
+       3. HEADER STICKY & NAVIGASI RESPONSIF
+       ========================================================================== */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--bg-header);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 68px;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-sm);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-links a:hover {
+      background: var(--primary-soft);
+      color: var(--primary-text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.52rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .hamburger-btn {
+      display: none;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+    }
+
+    @media (max-width: 960px) {
+      .hamburger-btn {
+        display: inline-flex;
+      }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        background: var(--bg-surface);
+        border-bottom: 1px solid var(--border-color);
+        padding: 0.85rem 1.25rem 1.25rem;
+        box-shadow: var(--shadow-md);
+      }
+      .nav-links.open {
+        display: flex;
+      }
+      .nav-links a {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    /* ==========================================================================
+       4. HERO BANNER & TOMBOL UTAMA
+       ========================================================================== */
+    .hero {
+      padding: 3.5rem 0 3rem;
+      background: radial-gradient(circle at top right, var(--primary-soft), transparent 55%),
+                  radial-gradient(circle at bottom left, var(--accent-soft), transparent 50%);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+
+    .hero h1 {
+      font-size: clamp(1.9rem, 4vw, 2.75rem);
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      font-size: 1.08rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.72rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border-color: var(--border-strong);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .btn-sm {
+      padding: 0.45rem 0.85rem;
+      font-size: 0.82rem;
+    }
+
+    .hero-summary-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .stat-item {
+      background: var(--bg-surface-alt);
+      padding: 0.85rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .stat-item strong {
+      display: block;
+      font-size: 1.25rem;
+      color: var(--primary);
+    }
+
+    .stat-item span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       5. KOMPONEN TAB INTERAKTIF & PILL SELECTOR
+       ========================================================================== */
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .tab-btn {
+      padding: 0.62rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    .tab-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ==========================================================================
+       6. FORM, KALKULATOR & SAFE ZONE SIMULATOR
+       ========================================================================== */
+    label.field-label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+    }
+
+    textarea, input[type="text"], select {
+      width: 100%;
+      padding: 0.72rem 0.9rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.94rem;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus, input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .calc-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    .metric-box {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem;
+    }
+
+    .metric-box .label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .metric-box .val {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 0.15rem;
+    }
+
+    /* Simulator Safe Zone */
+    .safezone-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-surface-alt);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      min-height: 360px;
+      margin: 1rem 0;
+    }
+
+    .screen-frame {
+      position: relative;
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      color: #f8fafc;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screen-frame.ratio-16-9 {
+      width: 100%;
+      max-width: 440px;
+      aspect-ratio: 16 / 9;
+    }
+
+    .screen-frame.ratio-9-16 {
+      width: 195px;
+      aspect-ratio: 9 / 16;
+    }
+
+    .screen-frame.ratio-1-1 {
+      width: 265px;
+      aspect-ratio: 1 / 1;
+    }
+
+    .safe-boundary {
+      position: absolute;
+      border: 2px dashed #34d399;
+      background: rgba(16, 185, 129, 0.12);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.6rem;
+      transition: all 0.3s ease;
+    }
+
+    .ratio-16-9 .safe-boundary {
+      top: 10%;
+      bottom: 12%;
+      left: 8%;
+      right: 8%;
+    }
+
+    .ratio-9-16 .safe-boundary {
+      top: 13%;
+      bottom: 22%;
+      left: 8%;
+      right: 19%;
+    }
+
+    .ratio-1-1 .safe-boundary {
+      top: 10%;
+      bottom: 10%;
+      left: 10%;
+      right: 10%;
+    }
+
+    .ui-danger-zone {
+      position: absolute;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #fca5a5;
+      background: rgba(239, 68, 68, 0.25);
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    /* ==========================================================================
+       7. TABEL & KARTU GEMINI NOTEBOOK
+       ========================================================================== */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--bg-surface-alt);
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .step-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .step-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       8. PROMPT GENERATOR OUTPUT BOX
+       ========================================================================== */
+    .prompt-output-area {
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      line-height: 1.6;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      min-height: 250px;
+      resize: vertical;
+    }
+
+    .toast-msg {
+      display: none;
+      padding: 0.65rem 0.9rem;
+      border-radius: var(--radius-sm);
+      background: var(--success-soft);
+      color: var(--success-text);
+      border: 1px solid var(--success);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .toast-msg.show {
+      display: block;
+    }
+
+    /* ==========================================================================
+       9. CHECKLIST & KUIS INTERAKTIF
+       ========================================================================== */
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: var(--bg-surface-alt);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 0.75rem 0 1.25rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--success));
+      transition: width 0.3s ease;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0.9rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      margin-bottom: 0.6rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .checklist-item:hover {
+      background: var(--bg-surface-alt);
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .checklist-item.checked span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .quiz-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.7rem 0.95rem;
+      margin-top: 0.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface-alt);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .quiz-option:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .quiz-option.correct {
+      background: var(--success-soft);
+      border-color: var(--success);
+      color: var(--success-text);
+    }
+
+    .quiz-option.wrong {
+      background: var(--danger-soft);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .quiz-feedback {
+      margin-top: 0.65rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.86rem;
+      background: var(--primary-soft);
+      color: var(--primary-text);
+    }
+
+    footer {
+      padding: 2.5rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface);
+    }
+  </style>
+</head>
+<body>
+  <!-- ========================================================================
+       HEADER STICKY & NAVIGASI RESPONSIF
+       ======================================================================== -->
+  <header class="sticky-header">
+    <div class="container nav-bar">
+      <a href="#top" class="brand">
+        <span class="brand-icon" aria-hidden="true">▶</span>
+        <span>Panduan Videografis</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#konsep-jenis" onclick="closeMobileMenu()">Konsep &amp; Jenis</a></li>
+        <li><a href="#alur-kalkulator" onclick="closeMobileMenu()">Alur Produksi</a></li>
+        <li><a href="#kalkulator-safezone" onclick="closeMobileMenu()">Kalkulator &amp; Safe Zone</a></li>
+        <li><a href="#gemini-notebook" onclick="closeMobileMenu()">Gemini Notebook</a></li>
+        <li><a href="#prompt-generator" onclick="closeMobileMenu()">Prompt Generator</a></li>
+        <li><a href="#ceklis-kuis" onclick="closeMobileMenu()">Ceklis &amp; Kuis</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button type="button" class="btn-icon" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Ganti Tema Terang atau Gelap">
+          <span id="themeIcon">🌙</span>
+          <span id="themeLabel">Mode Gelap</span>
+        </button>
+        <button type="button" class="btn-icon hamburger-btn" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Buka Menu Navigasi">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HERO SECTION
+       ======================================================================== -->
+  <div id="top" class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">🎬 Panduan Praktis &amp; Interaktif Lengkap</span>
+        <h1>Panduan Lengkap Pembuatan Videografis (Motion Graphics &amp; Video Infografis)</h1>
+        <p>
+          Pelajari cara mengubah data rumit, laporan tebal, dan informasi sehari-hari menjadi video animasi grafis yang jernih, menarik, dan mudah dipahami siapa saja—baik secara manual maupun otomatis menggunakan <strong>Gemini Notebook (NotebookLM)</strong>.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#konsep-jenis" class="btn btn-primary">Mulai Belajar Dasar</a>
+          <a href="#gemini-notebook" class="btn btn-outline">✨ Panduan Gemini Notebook</a>
+          <a href="#prompt-generator" class="btn btn-outline">🛠️ Buka Prompt Generator</a>
+        </div>
+      </div>
+
+      <div class="hero-summary-card">
+        <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Ringkasan Cepat Isi Panduan</h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">Semua materi dan alat bantu tersedia langsung di halaman ini:</p>
+        <div class="stat-list">
+          <div class="stat-item">
+            <strong>5 Jenis</strong>
+            <span>Format Videografis &amp; Contoh</span>
+          </div>
+          <div class="stat-item">
+            <strong>135 KPM</strong>
+            <span>Standar Kecepatan Suara VO</span>
+          </div>
+          <div class="stat-item">
+            <strong>11 Gaya</strong>
+            <span>Visual Studio Gemini Notebook</span>
+          </div>
+          <div class="stat-item">
+            <strong>4 Preset</strong>
+            <span>Prompt Generator Siap Pakai</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ======================================================================
+         BAGIAN 01: KONSEP DASAR & 5 JENIS VIDEOGRAFIS
+         ====================================================================== -->
+    <section id="konsep-jenis">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge">Bagian 01 • Fondasi Utama</span>
+          <h2>Konsep Dasar &amp; 5 Jenis Videografis</h2>
+          <p>
+            <strong>Videografis</strong> (gabungan <em>video</em> dan <em>infografis</em>) adalah penyajian informasi, data, atau penjelasan langkah kerja melalui perpaduan ilustrasi grafis bergerak (<em>motion graphics</em>), teks singkat, ikon, serta suara narasi.
+          </p>
+        </div>
+
+        <!-- Perbedaan 3 Media -->
+        <div class="grid-3" style="margin-bottom: 2.5rem;">
+          <div class="card">
+            <span class="badge badge-warning">1. Video Syuting Biasa</span>
+            <h3 style="font-size: 1.12rem; margin-bottom: 0.5rem;">Rekaman Kamera Nyata</h3>
+            <p style="font-size: 0.92rem;">
+              Mengandalkan kamera untuk merekam wajah pembicara, lokasi, atau kejadian nyata (contoh: vlog atau liputan berita). Kurang efektif jika harus menjelaskan angka statistik atau alur sistem abstrak.
+            </p>
+          </div>
+          <div class="card">
+            <span class="badge badge-accent">2. Infografis Statis</span>
+            <h3 style="font-size: 1.12rem; margin-bottom: 0.5rem;">Poster Gambar Diam</h3>
+            <p style="font-size: 0.92rem;">
+              Menyajikan teks dan ikon dalam satu gambar diam (JPG/PNG/PDF). Bagus untuk dicetak, tetapi penonton sering malas membaca jika tulisannya terlalu padat di layar ponsel.
+            </p>
+          </div>
+          <div class="card" style="border-color: var(--primary);">
+            <span class="badge">3. Videografis (Motion Graphics)</span>
+            <h3 style="font-size: 1.12rem; margin-bottom: 0.5rem;">Grafis Bergerak + Narasi Suara</h3>
+            <p style="font-size: 0.92rem;">
+              Menggabungkan kekuatan visual infografis dengan gerakan bertahap dan suara narator. Mata penonton dipandu satu per satu sehingga pesan kompleks dipahami 2× lebih cepat.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tab Interaktif 5 Jenis Videografis -->
+        <h3 style="font-size: 1.25rem; margin-bottom: 0.85rem;">Pilih 5 Jenis Videografis untuk Melihat Contoh Sehari-hari:</h3>
+        <div class="tab-bar" id="jenisTabBar">
+          <button type="button" class="tab-btn active" onclick="selectJenisTab(0)">1. Explainer Video</button>
+          <button type="button" class="tab-btn" onclick="selectJenisTab(1)">2. Data Visualization / Statistik</button>
+          <button type="button" class="tab-btn" onclick="selectJenisTab(2)">3. Kinetic Typography</button>
+          <button type="button" class="tab-btn" onclick="selectJenisTab(3)">4. Tutorial / How-To Motion</button>
+          <button type="button" class="tab-btn" onclick="selectJenisTab(4)">5. Social Media Reels / Short</button>
+        </div>
+
+        <div class="tab-panel" id="jenisTabPanel">
+          <!-- Diisi otomatis oleh JavaScript -->
+        </div>
+
+        <!-- 5 Elemen Utama Videografis -->
+        <h3 style="font-size: 1.25rem; margin: 2.5rem 0 1rem;">5 Elemen Utama Pembentuk Videografis Berkualitas</h3>
+        <div class="grid-5">
+          <div class="card">
+            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;">📝</div>
+            <h4 style="font-size: 0.98rem; margin-bottom: 0.35rem;">1. Naskah (Script)</h4>
+            <p style="font-size: 0.85rem;">Tulang punggung cerita. Ditulis dengan kalimat pendek, bahasa sehari-hari, dan durasi terukur.</p>
+          </div>
+          <div class="card">
+            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;">🖼️</div>
+            <h4 style="font-size: 0.98rem; margin-bottom: 0.35rem;">2. Storyboard</h4>
+            <p style="font-size: 0.85rem;">Sketsa urutan adegan dari detik pertama hingga akhir agar visual selaras dengan narasi.</p>
+          </div>
+          <div class="card">
+            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;">🎨</div>
+            <h4 style="font-size: 0.98rem; margin-bottom: 0.35rem;">3. Aset Visual Vektor</h4>
+            <p style="font-size: 0.85rem;">Ikon, ilustrasi karakter, grafik, dan palet warna yang tajam (tidak pecah saat diperbesar).</p>
+          </div>
+          <div class="card">
+            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;">✨</div>
+            <h4 style="font-size: 0.98rem; margin-bottom: 0.35rem;">4. Animasi &amp; Easing</h4>
+            <p style="font-size: 0.85rem;">Pergerakan objek yang halus (percepatan/perlambatan alami), bukan gerakan kaku patah-patah.</p>
+          </div>
+          <div class="card">
+            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;">🎙️</div>
+            <h4 style="font-size: 0.98rem; margin-bottom: 0.35rem;">5. Audio (VO &amp; SFX)</h4>
+            <p style="font-size: 0.85rem;">Suara narator jernih, musik latar lembut (volume -20 dB), dan efek suara klik/geser halus.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         BAGIAN 02A: ALUR PRODUKSI 5 TAHAP
+         ====================================================================== -->
+    <section id="alur-kalkulator">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge">Bagian 02 • Metode Produksi Terstruktur</span>
+          <h2>Alur Produksi Videografis 5 Tahap</h2>
+          <p>
+            Ikuti urutan kerja standar industri berikut agar pembuatan videografis tidak macet di tengah jalan dan tidak perlu mengulang animasi berkali-kali.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="step-row">
+            <span class="step-num">1</span>
+            <div>
+              <h3 style="font-size: 1.05rem;">Tahap Pra-Produksi (Riset, Naskah &amp; Storyboard)</h3>
+              <p style="font-size: 0.92rem;">Tentukan 1 tujuan utama video dan siapa penontonnya. Tulis naskah Voice-Over (VO) terlebih dahulu, lalu buat tabel 2 kolom: <em>Kolom Kiri = Kalimat Narasi</em>, <em>Kolom Kanan = Gambar Apa yang Muncul di Layar</em>.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <span class="step-num">2</span>
+            <div>
+              <h3 style="font-size: 1.05rem;">Tahap Produksi Aset Visual &amp; Rekaman Suara (VO)</h3>
+              <p style="font-size: 0.92rem;"><strong>Aturan Emas:</strong> Rekam suara narator (VO) <em>sebelum</em> mulai menganimasikan gambar! Suara narator adalah patokan ketukan waktu (<em>timing</em>). Siapkan ilustrasi vektor dan pilih maksimal 3 warna utama serta 2 jenis huruf yang mudah dibaca.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <span class="step-num">3</span>
+            <div>
+              <h3 style="font-size: 1.05rem;">Tahap Animasi &amp; Transisi (Motion)</h3>
+              <p style="font-size: 0.92rem;">Susun aset visual mengikuti rekaman suara narator. Pastikan setiap pergantian adegan terjadi setiap 3–5 detik agar mata penonton tetap segar. Gunakan kurva gerak halus (<em>ease-in / ease-out</em>).</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <span class="step-num">4</span>
+            <div>
+              <h3 style="font-size: 1.05rem;">Tahap Tata Suara (Audio Mixing &amp; Subtitle)</h3>
+              <p style="font-size: 0.92rem;">Tambahkan musik latar ceria atau tenang dengan volume rendah (sekitar 15%–20% dari volume suara narator) serta efek suara kecil (<em>whoosh, pop, click</em>). Tambahkan teks terjemahan/<em>caption</em> di bagian bawah layar.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <span class="step-num">5</span>
+            <div>
+              <h3 style="font-size: 1.05rem;">Tahap Ekspor &amp; Uji Tonton di Ponsel</h3>
+              <p style="font-size: 0.92rem;">Ekspor video ke format standar universal: <strong>MP4 (Codec H.264), resolusi Full HD (1080p), 30 fps</strong>. Tonton hasil akhirnya lewat layar HP untuk memastikan tulisan kecil tetap terbaca jelas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         BAGIAN 02B: KALKULATOR DURASI NASKAH & SIMULATOR SAFE ZONE
+         ====================================================================== -->
+    <section id="kalkulator-safezone">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-accent">Alat Bantu Praktis</span>
+          <h2>Kalkulator Durasi Naskah &amp; Simulator Rasio Layar (Safe Zone)</h2>
+          <p>
+            Uji panjang naskah narasi Anda secara langsung dan periksa batas aman penempatan teks agar tidak tertutup tombol media sosial.
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <!-- KALKULATOR DURASI NASKAH -->
+          <div class="card">
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.35rem;">⏱️ Kalkulator Durasi Naskah Voice-Over</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+              Ketik atau tempel naskah Anda di bawah, atau coba tombol contoh siap uji:
+            </p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.85rem;">
+              <button type="button" class="btn btn-outline btn-sm" onclick="loadSampleScript('short')">Contoh Naskah 30 Detik (Tips Hemat Air)</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="loadSampleScript('medium')">Contoh Naskah 60 Detik (Laporan Posyandu)</button>
+            </div>
+
+            <div style="margin-bottom: 0.85rem;">
+              <label for="speechPace" class="field-label">Pilih Kecepatan Bicara Narator:</label>
+              <select id="speechPace" onchange="calculateScriptMetrics()">
+                <option value="110">Lambat &amp; Tenang — 110 Kata/Menit (Cocok untuk Lansia / Materi Medis)</option>
+                <option value="135" selected>Normal &amp; Jelas — 135 Kata/Menit (Standar Videografis Umum)</option>
+                <option value="160">Cepat &amp; Dinamis — 160 Kata/Menit (Cocok untuk TikTok / Reels)</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="scriptInput" class="field-label">Teks Naskah Narasi (Voice-Over):</label>
+              <textarea id="scriptInput" rows="6" oninput="calculateScriptMetrics()" placeholder="Tulis atau tempel naskah narasi videografis Anda di sini..."></textarea>
+            </div>
+
+            <div class="calc-metrics">
+              <div class="metric-box">
+                <div class="label">Jumlah Kata</div>
+                <div class="val" id="metricWords">0 kata</div>
+              </div>
+              <div class="metric-box">
+                <div class="label">Estimasi Durasi</div>
+                <div class="val" id="metricDuration">0 detik</div>
+              </div>
+              <div class="metric-box">
+                <div class="label">Rekomendasi Adegan</div>
+                <div class="val" id="metricScenes">0 scene</div>
+              </div>
+              <div class="metric-box">
+                <div class="label">Perkiraan Ukuran MP4</div>
+                <div class="val" id="metricFileSize">0 MB</div>
+              </div>
+            </div>
+
+            <div class="card-alt" style="margin-top: 0.9rem; font-size: 0.84rem;" id="scriptAdvice">
+              💡 <strong>Saran Produksi:</strong> Idealnya setiap adegan (scene) berganti setiap 4 detik agar visual tetap menarik.
+            </div>
+          </div>
+
+          <!-- SIMULATOR RASIO LAYAR & SAFE ZONE -->
+          <div class="card">
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.35rem;">📐 Simulator Rasio Layar &amp; Zona Aman (Safe Zone)</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+              Pilih platform tujuan untuk melihat area hijau yang aman untuk menaruh judul &amp; grafik:
+            </p>
+
+            <div class="tab-bar" style="margin-bottom: 0.5rem;">
+              <button type="button" class="tab-btn active" id="btnRatio169" onclick="setScreenRatio('16-9')">16:9 YouTube / Presentasi</button>
+              <button type="button" class="tab-btn" id="btnRatio916" onclick="setScreenRatio('9-16')">9:16 Reels / TikTok / Shorts</button>
+              <button type="button" class="tab-btn" id="btnRatio11" onclick="setScreenRatio('1-1')">1:1 Feed Instagram</button>
+            </div>
+
+            <div class="safezone-stage">
+              <div class="screen-frame ratio-16-9" id="screenFrame">
+                <div class="safe-boundary">
+                  <strong style="font-size: 0.82rem; color: #6ee7b7;">ZONA AMAN (SAFE ZONE)</strong>
+                  <span style="font-size: 0.72rem; color: #e2e8f0; margin-top: 4px;">Taruh Judul Utama, Grafik &amp; Ikon di dalam kotak hijau ini</span>
+                </div>
+                <span class="ui-danger-zone" id="dangerLabelTop" style="top: 6px; left: 8px;">Batas Atas Layar</span>
+                <span class="ui-danger-zone" id="dangerLabelBottom" style="bottom: 6px; left: 8px;">Area Subtitle / Deskripsi App</span>
+              </div>
+            </div>
+
+            <div class="card-alt" id="ratioSpecsBox" style="font-size: 0.86rem;">
+              <!-- Diisi otomatis oleh JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         BAGIAN 03: PANDUAN LENGKAP GEMINI NOTEBOOK (NOTEBOOKLM)
+         ====================================================================== -->
+    <section id="gemini-notebook">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge">Bagian 03 • Pembuatan Otomatis Berbasis AI</span>
+          <h2>Panduan Lengkap Pembuatan Videografis di Gemini Notebook</h2>
+          <p>
+            <strong>Gemini Notebook</strong> (sebelumnya dikenal sebagai <em>NotebookLM</em> di <code>notebook.google.com</code>) memiliki fitur <strong>Video Overviews</strong> yang dapat mengubah dokumen laporan, catatan rapat, atau tabel angka Anda menjadi videografis ber-narasi secara otomatis.
+          </p>
+        </div>
+
+        <!-- Konsep Source-Grounded AI -->
+        <div class="card" style="margin-bottom: 2rem; border-left: 5px solid var(--primary);">
+          <div class="grid-2" style="align-items: center;">
+            <div>
+              <span class="badge badge-success">🔒 Keunggulan Utama: Source-Grounded AI</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Berbasis Dokumen Sumber Anda — Bebas Mengarang Fakta</h3>
+              <p style="font-size: 0.94rem;">
+                Berbeda dengan AI pembuat video umum yang mengambil informasi acak dari internet, Gemini Notebook mengunci pengetahuannya <strong>hanya pada file sumber yang Anda unggah</strong>. AI membaca angka, kutipan, dan poin penting di dokumen Anda, lalu menyusunnya menjadi slide visual bergerak lengkap dengan suara narator.
+              </p>
+            </div>
+            <div class="card-alt">
+              <strong style="display: block; font-size: 0.86rem; margin-bottom: 0.55rem; color: var(--primary);">Format Sumber yang Didukung:</strong>
+              <ul style="font-size: 0.88rem; color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.8;">
+                <li>Dokumen <strong>PDF</strong> &amp; <strong>EPUB</strong> (laporan, buku panduan, peraturan)</li>
+                <li><strong>Google Docs</strong> &amp; <strong>Google Slides</strong> langsung dari Drive</li>
+                <li><strong>Tautan Website (URL)</strong> &amp; tautan <strong>Video YouTube</strong></li>
+                <li><strong>Teks Salin-Tempel</strong> &amp; rekaman <strong>Audio</strong> rapat</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Perbandingan 3 Format Video Overview -->
+        <h3 style="font-size: 1.22rem; margin-bottom: 0.9rem;">3 Format Video Overview di Gemini Notebook</h3>
+        <div class="grid-3" style="margin-bottom: 2.25rem;">
+          <div class="card">
+            <span class="badge">Format 1 • Mendalam</span>
+            <h4 style="font-size: 1.05rem; margin-bottom: 0.45rem;">Explainer Video (Standar)</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">
+              Video penjelasan lengkap berdurasi sekitar <strong>3–7 menit</strong> yang menyajikan slide visual terstruktur, poin utama, diagram, serta narasi suara yang terperinci.
+            </p>
+            <div class="card-alt" style="font-size: 0.82rem;">
+              <strong>Cocok untuk:</strong> Materi pelatihan karyawan, penjelasan modul kuliah, atau paparan laporan program kerja.
+            </div>
+          </div>
+
+          <div class="card" style="border-color: var(--primary);">
+            <span class="badge badge-success">Format 2 • Paling Populer</span>
+            <h4 style="font-size: 1.05rem; margin-bottom: 0.45rem;">Short Video (~60 Detik)</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">
+              Ringkasan padat berdurasi sekitar <strong>1 menit</strong> yang langsung menyoroti 2–3 inti sari terpenting dengan tempo cepat agar nyaman ditonton lewat ponsel.
+            </p>
+            <div class="card-alt" style="font-size: 0.82rem;">
+              <strong>Cocok untuk:</strong> Dibagikan cepat ke grup WhatsApp warga/kantor, Instagram Reels, atau pengantar rapat.
+            </div>
+          </div>
+
+          <div class="card">
+            <span class="badge badge-accent">Format 3 • Visual Tinggi</span>
+            <h4 style="font-size: 1.05rem; margin-bottom: 0.45rem;">Cinematic Video Overview</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">
+              Gaya penceritaan visual sinematik bergaya dokumenter dengan transisi gerak yang dinamis dan ilustrasi penuh layar yang memikat perhatian.
+            </p>
+            <div class="card-alt" style="font-size: 0.82rem;">
+              <strong>Cocok untuk:</strong> Video kampanye publik, profil lembaga/desa, atau pembuka acara seminar.
+            </div>
+          </div>
+        </div>
+
+        <!-- Pemilih Interaktif 11 Gaya Visual Bawaan Studio -->
+        <div class="card" style="margin-bottom: 2.25rem;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 0.35rem;">🎨 Pemilih Interaktif: 11 Gaya Visual Bawaan Studio Gemini Notebook</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Klik salah satu dari 11 gaya visual berikut untuk melihat karakter tampilan, nuansa warna, dan topik yang paling cocok:
+          </p>
+
+          <div class="tab-bar" id="nbStyleSelector">
+            <!-- Diisi oleh JavaScript -->
+          </div>
+
+          <div class="card-alt" id="nbStyleDetailBox">
+            <!-- Diisi oleh JavaScript -->
+          </div>
+        </div>
+
+        <!-- Alur Kerja 5 Langkah & Studi Kasus Kelurahan -->
+        <div class="grid-2" style="margin-bottom: 2.25rem;">
+          <div class="card">
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.75rem;">Alur Kerja 5 Langkah di Gemini Notebook</h3>
+            <div class="step-row">
+              <span class="step-num">1</span>
+              <div>
+                <h4 style="font-size: 0.96rem;">Siapkan Sumber yang Bersih</h4>
+                <p style="font-size: 0.86rem;">Rapikan judul bab dan ringkasan angka pada dokumen PDF/Docs Anda. Dokumen yang terstruktur menghasilkan slide visual yang jauh lebih rapi.</p>
+              </div>
+            </div>
+            <div class="step-row">
+              <span class="step-num">2</span>
+              <div>
+                <h4 style="font-size: 0.96rem;">Unggah ke Notebook Baru</h4>
+                <p style="font-size: 0.86rem;">Buka <code>notebook.google.com</code>, klik <em>Create New</em>, lalu unggah 1–3 sumber utama yang paling relevan.</p>
+              </div>
+            </div>
+            <div class="step-row">
+              <span class="step-num">3</span>
+              <div>
+                <h4 style="font-size: 0.96rem;">Buka Panel Studio &amp; Pilih Customize</h4>
+                <p style="font-size: 0.86rem;">Di panel kanan bernama <strong>Studio</strong>, cari kartu <strong>Video Overview</strong> dan klik ikon pensil (<em>Customize</em>) sebelum membuat video.</p>
+              </div>
+            </div>
+            <div class="step-row">
+              <span class="step-num">4</span>
+              <div>
+                <h4 style="font-size: 0.96rem;">Masukkan Instruksi Fokus &amp; Gaya Visual</h4>
+                <p style="font-size: 0.86rem;">Pilih format (<em>Short / Explainer / Cinematic</em>), tentukan 1 dari 11 <em>Visual Style</em>, pilih bahasa Indonesia, lalu tempel instruksi dari Prompt Generator di bawah.</p>
+              </div>
+            </div>
+            <div class="step-row">
+              <span class="step-num">5</span>
+              <div>
+                <h4 style="font-size: 0.96rem;">Tinjau, Unduh MP4 &amp; Bagikan</h4>
+                <p style="font-size: 0.86rem;">Putar video hasil render untuk memeriksa pelafalan istilah dan ketepatan angka, lalu unduh file MP4 atau bagikan tautannya.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Studi Kasus Sehari-hari -->
+          <div class="card" style="background: linear-gradient(180deg, var(--primary-soft), var(--bg-surface));">
+            <span class="badge badge-success">📌 Studi Kasus Nyata Sehari-hari</span>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.6rem;">Mengubah Laporan Anggaran &amp; Kegiatan Kelurahan (25 Halaman) Menjadi Video 90 Detik</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 0.85rem;">
+              <strong>Masalah:</strong> Pengurus kelurahan memiliki dokumen PDF Laporan Realisasi Anggaran &amp; Kegiatan setebal 25 halaman. Jika file PDF dibagikan mentah ke grup WhatsApp RT/RW, hampir tidak ada warga yang sempat membacanya.
+            </p>
+            <div class="card-alt" style="margin-bottom: 0.85rem; font-size: 0.86rem;">
+              <strong>Langkah Penyelesaian di Gemini Notebook:</strong>
+              <ul style="padding-left: 1.15rem; margin-top: 0.4rem; line-height: 1.75;">
+                <li><strong>Sumber Diunggah:</strong> 1 file PDF Laporan 25 halaman + 1 catatan ringkasan 5 program fisik yang sudah selesai.</li>
+                <li><strong>Pengaturan Studio:</strong> Format <em>Short (~60–90 detik)</em>, Gaya Visual <strong>Bento Grid</strong>, Bahasa Indonesia.</li>
+                <li><strong>Instruksi Fokus:</strong> Meminta AI menyoroti 3 angka utama (perbaikan jalan lingkungan, posyandu balita, dan pengelolaan bank sampah) dengan bahasa warga sehari-hari.</li>
+              </ul>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--success-text); font-weight: 700;">
+              ✓ Hasil Akhir: Video infografis kotak-kotak kartu modern berdurasi 90 detik yang mudah dipahami warga saat rapat RT maupun lewat ponsel.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tabel Keterbatasan & Solusi Praktis -->
+        <h3 style="font-size: 1.2rem; margin-bottom: 0.85rem;">Tabel Keterbatasan Gemini Notebook &amp; Solusi Praktisnya</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 34%;">Keterbatasan Gemini Notebook</th>
+                <th style="width: 33%;">Dampak pada Hasil Video</th>
+                <th style="width: 33%;">Solusi Praktis yang Bisa Dilakukan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Tidak bisa mengedit slide satuan secara manual</strong> (tidak ada timeline geser per objek di dalam Notebook).</td>
+                <td>Jika ada 1 adegan kurang pas, Anda tidak bisa menggeser posisi teksnya langsung di Notebook.</td>
+                <td>Perbaiki instruksi pada kolom <em>Customize</em> lalu klik <strong>Generate ulang</strong>, atau potong/sisipkan klip tambahan di <strong>CapCut / Canva</strong>.</td>
+              </tr>
+              <tr>
+                <td><strong>Pelafalan singkatan daerah atau istilah teknis</strong> kadang terbaca kaku oleh suara AI.</td>
+                <td>Singkatan seperti "RT/RW" atau nama program daerah bisa terdengar kurang natural.</td>
+                <td>Tambahkan catatan pelafalan di prompt kustomisasi, misalnya: <em>"Baca RT sebagai Er-Te dan jelaskan kepanjangan singkatan saat pertama disebut."</em></td>
+              </tr>
+              <tr>
+                <td><strong>Belum otomatis memasang logo instansi/UMKM</strong> atau bingkai identitas khusus di sudut layar.</td>
+                <td>Tampilan video masih polos tanpa identitas merek/lembaga Anda.</td>
+                <td>Unduh video MP4 dari Gemini Notebook, lalu masukkan ke <strong>Canva</strong> atau <strong>CapCut</strong> untuk menempelkan logo dan layar penutup (<em>outro</em>).</td>
+              </tr>
+              <tr>
+                <td><strong>Terlalu banyak sumber dicentang sekaligus</strong> membuat fokus cerita melebar.</td>
+                <td>Video membahas terlalu banyak topik secara dangkal dalam waktu singkat.</td>
+                <td>Centang maksimal <strong>1–3 file sumber utama</strong> saja di panel kiri sebelum menekan tombol pembuatan Video Overview.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         BAGIAN 04: PROMPT GENERATOR GEMINI NOTEBOOK INTERAKTIF
+         ====================================================================== -->
+    <section id="prompt-generator">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-accent">Bagian 04 • Alat Bantu Prompt</span>
+          <h2>Prompt Generator Videografis Gemini Notebook</h2>
+          <p>
+            Pilih salah satu preset contoh sehari-hari atau isi pengaturan di bawah untuk menghasilkan instruksi (<em>prompt</em>) siap salin ke dalam <strong>Gemini Notebook</strong>.
+          </p>
+        </div>
+
+        <!-- 4 Tombol Preset Sekali Klik -->
+        <div style="margin-bottom: 1.25rem;">
+          <span class="field-label">Muat Cepat 4 Preset Contoh Sehari-hari (Sekali Klik):</span>
+          <div class="grid-2" style="gap: 0.75rem;">
+            <button type="button" class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="applyPromptPreset('kelurahan')">
+              🏛️ 1. Sosialisasi Laporan Kegiatan Kelurahan / Desa
+            </button>
+            <button type="button" class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="applyPromptPreset('posyandu')">
+              🩺 2. Edukasi Kesehatan &amp; Gizi Keluarga untuk Posyandu
+            </button>
+            <button type="button" class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="applyPromptPreset('kuliah')">
+              📚 3. Ringkasan Materi Kuliah / Rapat Kerja Kantor
+            </button>
+            <button type="button" class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="applyPromptPreset('umkm')">
+              💼 4. Konten Tips Keuangan &amp; UMKM Pemula
+            </button>
+          </div>
+        </div>
+
+        <!-- Form Builder + Output Prompt -->
+        <div class="card">
+          <div class="grid-2">
+            <!-- Form Kustomisasi Kiri -->
+            <div style="display: flex; flex-direction: column; gap: 0.95rem;">
+              <div>
+                <label for="pgTopic" class="field-label">1. Topik / Judul Sumber Dokumen</label>
+                <input type="text" id="pgTopic" oninput="updateGeneratedPrompt()" placeholder="Contoh: Laporan Realisasi Anggaran & Program Kelurahan Tahun 2026" />
+              </div>
+
+              <div>
+                <label for="pgAudience" class="field-label">2. Target Audiens Penonton</label>
+                <input type="text" id="pgAudience" oninput="updateGeneratedPrompt()" placeholder="Contoh: Warga masyarakat umum, pengurus RT/RW, dan tokoh pemuda" />
+              </div>
+
+              <div class="grid-2" style="gap: 0.85rem;">
+                <div>
+                  <label for="pgFormat" class="field-label">3. Format Video</label>
+                  <select id="pgFormat" onchange="updateGeneratedPrompt()">
+                    <option value="Short (~60 Detik)">Short (~60 Detik - Ringkas &amp; Padat)</option>
+                    <option value="Explainer Video (3-5 Menit)">Explainer Video (3–5 Menit)</option>
+                    <option value="Cinematic Video">Cinematic Video (Gaya Dokumenter)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="pgStyle" class="field-label">4. Gaya Visual (11 Pilihan Studio)</label>
+                  <select id="pgStyle" onchange="updateGeneratedPrompt()">
+                    <option value="Bento Grid">1. Bento Grid (Kartu Kotak Data)</option>
+                    <option value="Professional">2. Professional (Korporat &amp; Resmi)</option>
+                    <option value="Instructional">3. Instructional (Panduan Langkah)</option>
+                    <option value="Sketch Note">4. Sketch Note (Catatan Sketsa)</option>
+                    <option value="Editorial">5. Editorial (Gaya Majalah/Berita)</option>
+                    <option value="Scientific">6. Scientific (Ilmiah &amp; Medis)</option>
+                    <option value="Kawaii">7. Kawaii (Ramah &amp; Menggemaskan)</option>
+                    <option value="Anime">8. Anime (Ilustrasi Dinamis)</option>
+                    <option value="Clay">9. Clay (Animasi Tanah Liat 3D)</option>
+                    <option value="Bricks">10. Bricks (Balok Susun Kreatif)</option>
+                    <option value="Auto-Select">11. Auto-Select (Otomatis AI)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="pgLanguage" class="field-label">5. Bahasa &amp; Gaya Bahasa Narasi</label>
+                <select id="pgLanguage" onchange="updateGeneratedPrompt()">
+                  <option value="Bahasa Indonesia Santai Komunikatif (hangat, akrab, mudah dipahami semua usia)">Indonesia Santai Komunikatif</option>
+                  <option value="Bahasa Indonesia Formal & Baku (resmi, lugas, dan berwibawa)">Indonesia Formal &amp; Baku</option>
+                  <option value="Bilingual (Bahasa Indonesia utama dengan istilah kunci Bahasa Inggris yang dijelaskan artinya)">Bilingual (Indonesia + Istilah Inggris)</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="pgFocus" class="field-label">6. Fokus Utama yang Ditekankan</label>
+                <textarea id="pgFocus" rows="3" oninput="updateGeneratedPrompt()" placeholder="Contoh: Soroti 3 pencapaian utama beserta angka anggarannya, hindari istilah birokrasi rumit, dan tutup dengan ajakan hadir rapat warga."></textarea>
+              </div>
+            </div>
+
+            <!-- Kolom Hasil Output Kanan -->
+            <div style="display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.75rem;">
+                  <div class="tab-bar" style="margin-bottom: 0;">
+                    <button type="button" class="tab-btn active btn-sm" id="btnMode1" onclick="setPromptMode(1)">Mode 1: Customize Studio</button>
+                    <button type="button" class="tab-btn btn-sm" id="btnMode2" onclick="setPromptMode(2)">Mode 2: Chat Storyboard &amp; VO</button>
+                  </div>
+
+                  <button type="button" class="btn btn-primary btn-sm" id="copyPromptBtn" onclick="copyPromptText()">
+                    📋 Salin Prompt
+                  </button>
+                </div>
+
+                <div class="toast-msg" id="copyToast">
+                  ✓ Tersalin! Silakan tempel (Ctrl+V) ke kolom instruksi di Gemini Notebook.
+                </div>
+
+                <textarea id="promptOutput" class="prompt-output-area" readonly></textarea>
+              </div>
+
+              <div class="card-alt" style="margin-top: 0.85rem; font-size: 0.83rem;" id="promptModeNote">
+                <strong>Petunjuk Mode 1:</strong> Tempelkan hasil prompt ini ke kotak <em>"What should the AI hosts focus on?"</em> pada menu <strong>Customize Video Overview</strong> di panel Studio Gemini Notebook.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         BAGIAN 05: DAFTAR PERIKSA (CHECKLIST) & KUIS INTERAKTIF
+         ====================================================================== -->
+    <section id="ceklis-kuis">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-success">Bagian 05 • Evaluasi Kualitas</span>
+          <h2>Daftar Periksa (Checklist) Kualitas &amp; Kuis Pemahaman</h2>
+          <p>
+            Pastikan 8 poin kontrol kualitas terpenuhi sebelum video dirilis, lalu uji pemahaman Anda melalui 6 soal kuis interaktif.
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <!-- CHECKLIST 8 POIN -->
+          <div class="card">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+              <h3 style="font-size: 1.15rem;">✅ Daftar Periksa 8 Poin Sebelum Render</h3>
+              <button type="button" class="btn btn-outline btn-sm" onclick="resetChecklist()">Reset</button>
+            </div>
+
+            <div style="margin-top: 0.75rem; font-size: 0.88rem; font-weight: 700; color: var(--primary);" id="checklistStatusText">
+              Kesiapan Produksi: 0% (0 dari 8 poin selesai)
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="checklistProgressFill"></div>
+            </div>
+
+            <div id="checklistContainer">
+              <!-- Diisi otomatis oleh JavaScript -->
+            </div>
+          </div>
+
+          <!-- KUIS INTERAKTIF 6 SOAL -->
+          <div class="card">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.85rem;">
+              <h3 style="font-size: 1.15rem;">🧠 Kuis Pemahaman (6 Soal Pilihan Ganda)</h3>
+              <button type="button" class="btn btn-outline btn-sm" onclick="resetQuiz()">Ulangi Kuis</button>
+            </div>
+
+            <div class="card-alt" style="margin-bottom: 1rem; font-size: 0.9rem; font-weight: 700;" id="quizScoreBanner">
+              Skor Sementara: 0 / 6 Benar (Dijawab: 0 dari 6 soal)
+            </div>
+
+            <div id="quizContainer">
+              <!-- Diisi otomatis oleh JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p style="font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem;">
+        Panduan Lengkap Pembuatan Videografis (Motion Graphics &amp; Video Infografis)
+      </p>
+      <p style="font-size: 0.82rem;">
+        Dirancang interaktif, responsif, dan mandiri untuk memudahkan pembuatan konten edukasi, laporan publik, serta presentasi visual modern.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       JAVASCRIPT LENGKAP & MANDIRI (INLINE, BEBAS ERROR)
+       ======================================================================== -->
+  <script>
+    (function () {
+      "use strict";
+
+      /* ----------------------------------------------------------------------
+         1. PENGELOLAAN TEMA TERANG / GELAP (DENGAN FALLBACK LOCALSTORAGE)
+         ---------------------------------------------------------------------- */
+      function getSavedTheme() {
+        try {
+          return localStorage.getItem("videografis_theme") || "light";
+        } catch (err) {
+          return "light";
+        }
+      }
+
+      function saveTheme(theme) {
+        try {
+          localStorage.setItem("videografis_theme", theme);
+        } catch (err) {
+          // Abaikan jika penyimpanan dibatasi di lingkungan sandbox/iframe
+        }
+      }
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        var iconEl = document.getElementById("themeIcon");
+        var labelEl = document.getElementById("themeLabel");
+        if (iconEl && labelEl) {
+          if (theme === "dark") {
+            iconEl.textContent = "☀️";
+            labelEl.textContent = "Mode Terang";
+          } else {
+            iconEl.textContent = "🌙";
+            labelEl.textContent = "Mode Gelap";
+          }
+        }
+      }
+
+      window.toggleTheme = function () {
+        var current = document.documentElement.getAttribute("data-theme") || "light";
+        var next = current === "dark" ? "light" : "dark";
+        applyTheme(next);
+        saveTheme(next);
+      };
+
+      applyTheme(getSavedTheme());
+
+      /* ----------------------------------------------------------------------
+         2. MENU HAMBURGER RESPONSIF (MOBILE)
+         ---------------------------------------------------------------------- */
+      window.toggleMobileMenu = function () {
+        var nav = document.getElementById("navLinks");
+        if (nav) {
+          nav.classList.toggle("open");
+        }
+      };
+
+      window.closeMobileMenu = function () {
+        var nav = document.getElementById("navLinks");
+        if (nav) {
+          nav.classList.remove("open");
+        }
+      };
+
+      /* ----------------------------------------------------------------------
+         3. DATA & TAB INTERAKTIF 5 JENIS VIDEOGRAFIS
+         ---------------------------------------------------------------------- */
+      var jenisVideografisData = [
+        {
+          title: "1. Explainer Video (Video Penjelasan Alur)",
+          badge: "Paling Sering Digunakan",
+          desc: "Menjelaskan cara kerja suatu layanan, aplikasi, atau aturan baru dari awal sampai akhir menggunakan karakter ilustrasi sederhana dan alur sebab-akibat.",
+          example: "Contoh Sehari-hari: Video 60 detik dari Puskesmas atau Dinas Kependudukan yang menjelaskan cara daftar antrean berobat lewat aplikasi HP dalam 3 langkah mudah.",
+          specs: "Durasi Ideal: 60 – 120 detik | Rasio: 16:9 (YouTube/Layar Tunggu) atau 9:16 (WhatsApp/Reels)"
+        },
+        {
+          title: "2. Data Visualization / Statistik Gerak",
+          badge: "Berbasis Angka & Grafik",
+          desc: "Mengubah tabel angka yang membosankan menjadi diagram batang yang tumbuh, grafik lingkaran yang berputar, serta perbandingan ukuran objek yang langsung terlihat.",
+          example: "Contoh Sehari-hari: Infografis gerak berita pagi yang menunjukkan perbandingan harga beras, cabai, dan telur minggu ini dibandingkan bulan lalu.",
+          specs: "Durasi Ideal: 30 – 90 detik | Rasio: 16:9 atau 1:1 (Feed Media Sosial)"
+        },
+        {
+          title: "3. Kinetic Typography (Tipografi Bergerak)",
+          badge: "Fokus Kata & Ketukan Musik",
+          desc: "Menjadikan huruf dan kata-kata sebagai bintang utama animasi. Teks muncul membesar, bergeser, atau berubah warna mengikuti irama suara narator.",
+          example: "Contoh Sehari-hari: Pengumuman jadwal pemadaman listrik bergilir atau kutipan pengingat keselamatan berkendara di papan reklame digital jalan raya.",
+          specs: "Durasi Ideal: 15 – 45 detik | Rasio: 9:16 atau 1:1 (Sangat kuat meski ditonton tanpa suara/mute)"
+        },
+        {
+          title: "4. Tutorial / How-To Motion",
+          badge: "Panduan Langkah Praktis",
+          desc: "Menampilkan urutan langkah praktis bernomor (Langkah 1, Langkah 2, Langkah 3) disertai tanda panah dan sorotan bagian penting agar penonton bisa langsung meniru.",
+          example: "Contoh Sehari-hari: Video panduan pertolongan pertama saat tersedak atau cara memilah sampah organik dan anorganik di rumah tangga.",
+          specs: "Durasi Ideal: 45 – 90 detik | Rasio: 16:9 (Layar Kelas/Pelatihan) atau 9:16 (Ponsel)"
+        },
+        {
+          title: "5. Social Media Reels / Short Infografis",
+          badge: "Cepat & Ramah Ponsel",
+          desc: "Video vertikal berdurasi singkat dengan pembuka (hook) tajam di 3 detik pertama, teks besar di tengah layar, dan pergantian visual cepat setiap 2–3 detik.",
+          example: "Contoh Sehari-hari: Video tips '3 Cara Hemat Tagihan Listrik AC di Rumah' berdurasi 45 detik yang dibagikan di TikTok, Instagram Reels, dan YouTube Shorts.",
+          specs: "Durasi Ideal: 30 – 60 detik | Rasio: 9:16 Vertikal Penuh (1080 × 1920 piksel)"
+        }
+      ];
+
+      window.selectJenisTab = function (index) {
+        var buttons = document.querySelectorAll("#jenisTabBar .tab-btn");
+        for (var i = 0; i < buttons.length; i++) {
+          if (i === index) {
+            buttons[i].classList.add("active");
+          } else {
+            buttons[i].classList.remove("active");
+          }
+        }
+
+        var item = jenisVideografisData[index];
+        var panel = document.getElementById("jenisTabPanel");
+        if (item && panel) {
+          panel.innerHTML =
+            '<span class="badge">' + item.badge + '</span>' +
+            '<h3 style="font-size: 1.22rem; margin-bottom: 0.5rem;">' + item.title + '</h3>' +
+            '<p style="font-size: 0.96rem; margin-bottom: 1rem;">' + item.desc + '</p>' +
+            '<div class="card-alt" style="margin-bottom: 0.85rem;">' +
+              '<strong style="color: var(--primary); display: block; margin-bottom: 0.25rem;">💡 Contoh Nyata Sehari-hari:</strong>' +
+              '<span style="font-size: 0.92rem;">' + item.example + '</span>' +
+            '</div>' +
+            '<div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">⚙️ Spesifikasi Rekomendasi: ' + item.specs + '</div>';
+        }
+      };
+
+      selectJenisTab(0);
+
+      /* ----------------------------------------------------------------------
+         4. KALKULATOR DURASI NASKAH VOICE-OVER
+         ---------------------------------------------------------------------- */
+      var sampleScripts = {
+        short: "Tahukah Anda keran air yang menetes pelan bisa membuang hingga dua puluh liter air setiap hari? Yuk lakukan tiga kebiasaan kecil di rumah. Pertama, tutup keran saat menyikat gigi. Kedua, tampung air bilasan cucian sayur untuk menyiram tanaman. Ketiga, segera ganti karet keran yang longgar. Langkah sederhana ini hemat air sekaligus meringankan tagihan bulanan!",
+        medium: "Selamat pagi Bapak dan Ibu warga RW nol lima. Berikut laporan singkat kegiatan Posyandu Melati sepanjang triwulan pertama tahun ini. Dari total seratus dua puluh balita terdaftar, sembilan puluh lima persen telah rutin ditimbang dan mendapat imunisasi lengkap. Selain itu, program pemberian makanan tambahan bergizi berhasil menurunkan angka balita kurang berat badan dari delapan anak menjadi dua anak saja. Terima kasih atas peran aktif para kader dan orang tua. Mari hadir kembali pada jadwal penimbangan bulan depan demi generasi sehat!"
+      };
+
+      window.loadSampleScript = function (type) {
+        var inputEl = document.getElementById("scriptInput");
+        if (inputEl && sampleScripts[type]) {
+          inputEl.value = sampleScripts[type];
+          calculateScriptMetrics();
+        }
+      };
+
+      window.calculateScriptMetrics = function () {
+        var text = document.getElementById("scriptInput").value.trim();
+        var wpm = parseInt(document.getElementById("speechPace").value, 10) || 135;
+
+        var words = text ? text.split(/\s+/).filter(function (w) { return w.length > 0; }).length : 0;
+        var totalSeconds = words > 0 ? Math.round((words / wpm) * 60) : 0;
+        var scenes = totalSeconds > 0 ? Math.max(1, Math.ceil(totalSeconds / 4)) : 0;
+        // Estimasi bitrate standar 1080p MP4 (~8 Mbps = ~1 MB/detik)
+        var estSizeMB = totalSeconds > 0 ? Math.max(1, Math.round(totalSeconds * 0.95)) : 0;
+
+        document.getElementById("metricWords").textContent = words + " kata";
+
+        if (totalSeconds >= 60) {
+          var mins = Math.floor(totalSeconds / 60);
+          var secs = totalSeconds % 60;
+          document.getElementById("metricDuration").textContent = mins + " mnt " + secs + " dtk";
+        } else {
+          document.getElementById("metricDuration").textContent = totalSeconds + " detik";
+        }
+
+        document.getElementById("metricScenes").textContent = scenes + " scene";
+        document.getElementById("metricFileSize").textContent = "~" + estSizeMB + " MB";
+
+        var adviceEl = document.getElementById("scriptAdvice");
+        if (words === 0) {
+          adviceEl.innerHTML = "💡 <strong>Saran Produksi:</strong> Idealnya setiap adegan (scene) berganti setiap 4 detik agar visual tetap menarik.";
+        } else if (totalSeconds <= 65) {
+          adviceEl.innerHTML = "✅ <strong>Durasi Ideal Medsos:</strong> Durasi " + totalSeconds + " detik sangat pas untuk Instagram Reels, TikTok, YouTube Shorts, dan video pengantar rapat.";
+        } else if (totalSeconds <= 180) {
+          adviceEl.innerHTML = "📊 <strong>Durasi Explainer Standar:</strong> Siapkan sekitar " + scenes + " pergantian slide/adegan agar penonton tetap fokus menyimak sampai selesai.";
+        } else {
+          adviceEl.innerHTML = "⚠️ <strong>Naskah Cukup Panjang:</strong> Pertimbangkan membagi video menjadi 2 bagian (Part 1 & Part 2) jika ditujukan untuk penonton ponsel.";
+        }
+      };
+
+      loadSampleScript("short");
+
+      /* ----------------------------------------------------------------------
+         5. SIMULATOR RASIO LAYAR & ZONA AMAN (SAFE ZONE)
+         ---------------------------------------------------------------------- */
+      var ratioSpecs = {
+        "16-9": {
+          res: "1920 × 1080 piksel (Full HD Horizontal)",
+          platforms: "YouTube, Layar Proyektor Rapat, Televisi Ruang Tunggu, Presentasi",
+          fontGuide: "Judul Utama minimal 48–64 pt | Teks Penjelas minimal 28–32 pt",
+          note: "Sisakan margin 8% di kiri-kanan dan 12% di bagian bawah untuk ruang subtitle/closed caption.",
+          topLabel: "Margin Atas (10%)",
+          bottomLabel: "Area Subtitle / Bilah Pemutar Video (12%)"
+        },
+        "9-16": {
+          res: "1080 × 1920 piksel (Full HD Vertikal)",
+          platforms: "TikTok, Instagram Reels, YouTube Shorts, Status WhatsApp",
+          fontGuide: "Judul Utama minimal 56–72 pt | Teks Penjelas minimal 34–40 pt",
+          note: "Hindari menaruh teks di 19% sisi kanan (tertutup tombol Like/Komentar) dan 22% sisi bawah (tertutup caption & nama akun).",
+          topLabel: "Batas Kamera / Pencarian (13%)",
+          bottomLabel: "Area Tombol Like Kanan & Caption Bawah (22%)"
+        },
+        "1-1": {
+          res: "1080 × 1080 piksel (Persegi / Square)",
+          platforms: "Feed Instagram, Postingan Facebook, LinkedIn",
+          fontGuide: "Judul Utama minimal 50–64 pt | Teks Penjelas minimal 30–36 pt",
+          note: "Sisakan ruang kosong 10% di keempat sisi agar tampilan tampak lega dan tidak terpotong pratinjau grid profil.",
+          topLabel: "Margin Atas (10%)",
+          bottomLabel: "Margin Bawah (10%)"
+        }
+      };
+
+      window.setScreenRatio = function (ratioKey) {
+        var frame = document.getElementById("screenFrame");
+        frame.className = "screen-frame ratio-" + ratioKey;
+
+        document.getElementById("btnRatio169").classList.toggle("active", ratioKey === "16-9");
+        document.getElementById("btnRatio916").classList.toggle("active", ratioKey === "9-16");
+        document.getElementById("btnRatio11").classList.toggle("active", ratioKey === "1-1");
+
+        var spec = ratioSpecs[ratioKey];
+        document.getElementById("dangerLabelTop").textContent = spec.topLabel;
+        document.getElementById("dangerLabelBottom").textContent = spec.bottomLabel;
+
+        document.getElementById("ratioSpecsBox").innerHTML =
+          "<strong>Resolusi Standar:</strong> " + spec.res + "<br>" +
+          "<strong>Platform Utama:</strong> " + spec.platforms + "<br>" +
+          "<strong>Ukuran Huruf Minimal:</strong> " + spec.fontGuide + "<br>" +
+          "<span style='color: var(--success-text); font-weight: 700;'>💡 Catatan Aman: " + spec.note + "</span>";
+      };
+
+      setScreenRatio("16-9");
+
+      /* ----------------------------------------------------------------------
+         6. PEMILIH INTERAKTIF 11 GAYA VISUAL GEMINI NOTEBOOK
+         ---------------------------------------------------------------------- */
+      var nbVisualStyles = [
+        {
+          name: "1. Bento Grid",
+          badge: "Terbaik untuk Data & Laporan",
+          desc: "Membagi layar menjadi kotak-kotak kartu modern dengan garis batas rapi, ikon bersih, dan angka utama yang sangat menonjol.",
+          palette: "Latar terang bersih dengan aksen kartu berwarna kontras dan tipografi modern.",
+          bestFor: "Laporan realisasi anggaran kelurahan, perbandingan harga/statistik, ringkasan fitur produk."
+        },
+        {
+          name: "2. Professional",
+          badge: "Korporat & Resmi",
+          desc: "Gaya slide presentasi eksekutif dengan tata letak simetris, grafik bisnis formal, dan hierarki judul yang tegas.",
+          palette: "Biru tua, abu-abu slate, putih bersih, dengan aksen emas atau biru cerah.",
+          bestFor: "Paparan proposal proyek, laporan kinerja instansi pemerintah, presentasi rapat pimpinan."
+        },
+        {
+          name: "3. Instructional",
+          badge: "Panduan & SOP Langkah Kerja",
+          desc: "Menampilkan diagram langkah demi langkah bernomor dengan panah alur yang jelas serta sorotan pada bagian penting.",
+          palette: "Latar cerah netral dengan warna penanda hijau/biru untuk langkah benar.",
+          bestFor: "Tutorial pendaftaran layanan publik, SOP keselamatan kerja, panduan penggunaan aplikasi."
+        },
+        {
+          name: "4. Sketch Note",
+          badge: "Catatan Sketsa Visual",
+          desc: "Ilustrasi garis tangan seperti catatan buku kreatif lengkap dengan panah penghubung dan sorotan warna stabilo.",
+          palette: "Kertas putih/krem lembut dengan tinta gelap dan sorotan kuning/biru muda.",
+          bestFor: "Ringkasan materi kuliah, bedah buku, sesi curah pendapat (brainstorming) tim."
+        },
+        {
+          name: "5. Editorial",
+          badge: "Gaya Majalah & Jurnalistik",
+          desc: "Perpaduan tipografi klasik yang berwibawa dengan ilustrasi konseptual bergaya kolom analisis majalah berita.",
+          palette: "Warna hangat klasik (krem, arang, terakota, dan hijau zaitun).",
+          bestFor: "Ulasan kebijakan publik, artikel analisis tren ekonomi, ringkasan riset sosial."
+        },
+        {
+          name: "6. Scientific",
+          badge: "Sains, Medis & Akademik",
+          desc: "Diagram teknis presisi, ilustrasi anatomi/proses alam, skema laboratorium, dan label istilah yang akurat.",
+          palette: "Biru laboratorium, putih bersih, hijau medis, dan abu-abu teknis.",
+          bestFor: "Edukasi kesehatan Posyandu (pencegahan DBD/stunting), penjelasan jurnal ilmiah, materi IPA."
+        },
+        {
+          name: "7. Kawaii",
+          badge: "Ramah & Menggemaskan",
+          desc: "Karakter ilustrasi imut dengan ekspresi ceria dan garis lembut yang membuat topik serius terasa ringan dan bersahabat.",
+          palette: "Warna pastel lembut (merah muda muda, biru langit, kuning mentega, mint).",
+          bestFor: "Edukasi anak sekolah, kampanye literasi menabung, konten media sosial komunitas."
+        },
+        {
+          name: "8. Anime",
+          badge: "Ilustrasi Dinamis & Bercerita",
+          desc: "Gaya gambar karakter dan latar belakang ekspresif ala animasi Jepang dengan pencahayaan dramatis yang memikat.",
+          palette: "Warna cerah kontras tinggi dengan pencahayaan sinematik.",
+          bestFor: "Storytelling kreatif, pengenalan sejarah/budaya, video edukasi audiens muda."
+        },
+        {
+          name: "9. Clay",
+          badge: "Animasi Tanah Liat 3D",
+          desc: "Objek dan karakter tampak seperti dibentuk dari plastisin/tanah liat tiga dimensi yang hangat, bertekstur, dan menyentuh.",
+          palette: "Warna tanah hangat, terakota, hijau daun, dan biru lembut bertekstur.",
+          bestFor: "Kampanye lingkungan hidup, cerita keluarga, pengenalan produk kerajinan & UMKM."
+        },
+        {
+          name: "10. Bricks",
+          badge: "Balok Susun Kreatif",
+          desc: "Dunia visual yang dirakit dari balok-balok mainan warna-warni yang tersusun menjadi bangunan, ikon, atau grafik.",
+          palette: "Warna primer cerah (merah, kuning, biru, hijau) dengan bayangan 3D.",
+          bestFor: "Menjelaskan bagaimana suatu sistem dibangun dari bagian kecil atau perencanaan anggaran."
+        },
+        {
+          name: "11. Auto-Select",
+          badge: "Pilihan Otomatis AI",
+          desc: "Gemini Notebook membaca nada dan isi dokumen Anda terlebih dahulu, lalu memilihkan gaya visual paling serasi secara otomatis.",
+          palette: "Menyesuaikan karakter dokumen sumber secara otomatis.",
+          bestFor: "Saat Anda ingin menghasilkan video cepat tanpa perlu memilih gaya desain secara manual."
+        }
+      ];
+
+      window.selectNbStyle = function (index) {
+        var container = document.getElementById("nbStyleSelector");
+        var html = "";
+        for (var i = 0; i < nbVisualStyles.length; i++) {
+          var activeCls = i === index ? " active" : "";
+          html += '<button type="button" class="tab-btn btn-sm' + activeCls + '" onclick="selectNbStyle(' + i + ')">' + nbVisualStyles[i].name + '</button>';
+        }
+        container.innerHTML = html;
+
+        var st = nbVisualStyles[index];
+        document.getElementById("nbStyleDetailBox").innerHTML =
+          '<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.45rem;">' +
+            '<h4 style="font-size: 1.08rem;">' + st.name + '</h4>' +
+            '<span class="badge" style="margin-bottom: 0;">' + st.badge + '</span>' +
+          '</div>' +
+          '<p style="font-size: 0.92rem; margin-bottom: 0.45rem;"><strong>Karakter Visual:</strong> ' + st.desc + '</p>' +
+          '<p style="font-size: 0.88rem; margin-bottom: 0.45rem;"><strong>Nuansa Warna:</strong> ' + st.palette + '</p>' +
+          '<p style="font-size: 0.88rem; color: var(--primary-text); font-weight: 700;">✓ Paling Cocok Untuk: ' + st.bestFor + '</p>';
+      };
+
+      selectNbStyle(0);
+
+      /* ----------------------------------------------------------------------
+         7. PROMPT GENERATOR GEMINI NOTEBOOK INTERAKTIF
+         ---------------------------------------------------------------------- */
+      var currentPromptMode = 1;
+
+      var promptPresets = {
+        kelurahan: {
+          topic: "Laporan Realisasi Anggaran & Program Kegiatan Kelurahan Tahun 2026",
+          audience: "Warga masyarakat umum, pengurus RT/RW, dan tokoh masyarakat setempat",
+          format: "Short (~60 Detik)",
+          style: "Bento Grid",
+          language: "Bahasa Indonesia Santai Komunikatif (hangat, akrab, mudah dipahami semua usia)",
+          focus: "Soroti 3 pencapaian utama yang paling dirasakan warga (perbaikan jalan lingkungan, layanan posyandu balita, dan pengelolaan bank sampah) beserta persentase realisasinya. Jelaskan singkatan anggaran dengan bahasa sehari-hari dan tutup dengan ajakan mengikuti musyawarah warga."
+        },
+        posyandu: {
+          topic: "Panduan Pencegahan Stunting & Pola Makan Gizi Seimbang Keluarga",
+          audience: "Ibu hamil, orang tua balita, dan kader Posyandu di lingkungan RW",
+          format: "Explainer Video (3-5 Menit)",
+          style: "Scientific",
+          language: "Bahasa Indonesia Santai Komunikatif (hangat, akrab, mudah dipahami semua usia)",
+          focus: "Jelaskan 4 pilar isi piringku dengan contoh bahan pangan lokal yang murah dan mudah didapat di pasar tradisional. Gunakan analogi sederhana agar mudah diingat saat memasak di rumah."
+        },
+        kuliah: {
+          topic: "Ringkasan Materi Manajemen Proyek & Evaluasi Kinerja Tim",
+          audience: "Mahasiswa dan peserta pelatihan kerja kantor",
+          format: "Explainer Video (3-5 Menit)",
+          style: "Sketch Note",
+          language: "Bilingual (Bahasa Indonesia utama dengan istilah kunci Bahasa Inggris yang dijelaskan artinya)",
+          focus: "Rangkum konsep inti dari bab utama menjadi 4 poin berurutan lengkap dengan contoh kasus penerapan di dunia kerja serta 3 kesimpulan penting untuk bahan diskusi."
+        },
+        umkm: {
+          topic: "Strategi Pencatatan Keuangan Harian & Penentuan Harga Jual UMKM Pemula",
+          audience: "Pelaku usaha mikro, pedagang kuliner, dan pemilik toko rumahan",
+          format: "Short (~60 Detik)",
+          style: "Instructional",
+          language: "Bahasa Indonesia Santai Komunikatif (hangat, akrab, mudah dipahami semua usia)",
+          focus: "Tunjukkan 3 langkah praktis memisahkan uang pribadi dan uang usaha serta cara menghitung modal bahan baku agar tidak rugi. Tampilkan simulasi angka sederhana yang langsung bisa dipraktikkan."
+        }
+      };
+
+      window.applyPromptPreset = function (key) {
+        var preset = promptPresets[key];
+        if (!preset) return;
+        document.getElementById("pgTopic").value = preset.topic;
+        document.getElementById("pgAudience").value = preset.audience;
+        document.getElementById("pgFormat").value = preset.format;
+        document.getElementById("pgStyle").value = preset.style;
+        document.getElementById("pgLanguage").value = preset.language;
+        document.getElementById("pgFocus").value = preset.focus;
+        updateGeneratedPrompt();
+      };
+
+      window.setPromptMode = function (mode) {
+        currentPromptMode = mode;
+        document.getElementById("btnMode1").classList.toggle("active", mode === 1);
+        document.getElementById("btnMode2").classList.toggle("active", mode === 2);
+
+        var noteEl = document.getElementById("promptModeNote");
+        if (mode === 1) {
+          noteEl.innerHTML = '<strong>Petunjuk Mode 1:</strong> Tempelkan hasil prompt ini ke kotak <em>"What should the AI hosts focus on?"</em> pada menu <strong>Customize Video Overview</strong> di panel Studio Gemini Notebook.';
+        } else {
+          noteEl.innerHTML = '<strong>Petunjuk Mode 2:</strong> Tempelkan prompt ini di <strong>kolom Chat utama Gemini Notebook</strong> untuk menghasilkan tabel naskah VO &amp; storyboard adegan demi adegan.';
+        }
+        updateGeneratedPrompt();
+      };
+
+      window.updateGeneratedPrompt = function () {
+        var topic = document.getElementById("pgTopic").value.trim() || "Dokumen Sumber Utama";
+        var audience = document.getElementById("pgAudience").value.trim() || "Masyarakat umum";
+        var format = document.getElementById("pgFormat").value;
+        var style = document.getElementById("pgStyle").value;
+        var language = document.getElementById("pgLanguage").value;
+        var focus = document.getElementById("pgFocus").value.trim() || "Soroti 3–5 poin dan angka terpenting dari sumber secara akurat.";
+
+        var output = "";
+        if (currentPromptMode === 1) {
+          output =
+            "Buatkan Video Overview berdasarkan sumber yang dipilih dengan ketentuan berikut:\n" +
+            "- Topik Utama: " + topic + ".\n" +
+            "- Format & Durasi: " + format + ".\n" +
+            "- Gaya Visual Studio: " + style + " (tampilkan teks singkat, angka kunci menonjol, dan tata letak bersih tidak penuh paragraf).\n" +
+            "- Target Audiens: " + audience + ".\n" +
+            "- Bahasa & Gaya Penyampaian: Gunakan " + language + ".\n" +
+            "- Struktur Alur: Awali dengan 1 kalimat pembuka (hook) menarik di 5 detik pertama, lanjutkan dengan poin-poin inti berbasis data dokumen, dan akhiri dengan kesimpulan praktis.\n" +
+            "- Fokus Utama yang Ditekankan: " + focus + "\n" +
+            "- Aturan Akurasi: Gunakan hanya data dan fakta yang tercantum dalam sumber dokumen tanpa menambahkan asumsi di luar sumber.";
+        } else {
+          output =
+            "Berdasarkan sumber dokumen yang tercentang di Notebook ini mengenai \"" + topic + "\", susunkan naskah Voice-Over dan Storyboard videografis dalam format tabel dengan spesifikasi:\n" +
+            "1. Target Format: " + format + " dengan konsep visual bergaya " + style + ".\n" +
+            "2. Target Penonton: " + audience + ".\n" +
+            "3. Gaya Bahasa Narasi: " + language + " (kecepatan baca alami ~135 kata/menit).\n" +
+            "4. Fokus Konten: " + focus + "\n\n" +
+            "Sajikan output dalam tabel berisi 4 kolom:\n" +
+            "| Adegan & Estimasi Detik | Deskripsi Visual & Grafik Layar | Teks Singkat di Layar (Maks 8 Kata) | Naskah Narasi Voice-Over |\n" +
+            "Pastikan seluruh angka merujuk akurat pada dokumen sumber.";
+        }
+
+        document.getElementById("promptOutput").value = output;
+      };
+
+      window.copyPromptText = function () {
+        var textarea = document.getElementById("promptOutput");
+        var toast = document.getElementById("copyToast");
+        var btn = document.getElementById("copyPromptBtn");
+
+        function showCopiedFeedback() {
+          toast.classList.add("show");
+          btn.textContent = "✓ Tersalin!";
+          setTimeout(function () {
+            toast.classList.remove("show");
+            btn.textContent = "📋 Salin Prompt";
+          }, 2800);
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(textarea.value).then(showCopiedFeedback).catch(function () {
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            try { document.execCommand("copy"); } catch (e) {}
+            showCopiedFeedback();
+          });
+        } else {
+          textarea.select();
+          textarea.setSelectionRange(0, 99999);
+          try { document.execCommand("copy"); } catch (e) {}
+          showCopiedFeedback();
+        }
+      };
+
+      applyPromptPreset("kelurahan");
+
+      /* ----------------------------------------------------------------------
+         8. DAFTAR PERIKSA (CHECKLIST) 8 POIN SEBELUM RENDER
+         ---------------------------------------------------------------------- */
+      var checklistItemsData = [
+        "1. Naskah Voice-Over sudah dibaca keras dan sesuai target durasi (~135 kata/menit).",
+        "2. Satu adegan (slide) maksimal hanya memuat 1 ide pokok dan teks singkat (maksimal 8–10 kata).",
+        "3. Kontras warna tulisan dan latar belakang sangat jelas terbaca di layar ponsel redup.",
+        "4. Posisi judul utama dan grafik sudah berada di dalam Zona Aman (Safe Zone).",
+        "5. Semua angka statistik, persentase, dan ejaan istilah sudah dicek ulang sesuai sumber.",
+        "6. Suara narator terdengar jernih tanpa desis, dan musik latar tidak menutupi suara bicara.",
+        "7. Transisi antaradegan berganti halus setiap 3–5 detik sehingga tidak membosankan.",
+        "8. Pengaturan ekspor sudah diatur ke MP4 (H.264), resolusi 1080p, 30 fps."
+      ];
+
+      var checklistState = [false, false, false, false, false, false, false, false];
+
+      function renderChecklist() {
+        var container = document.getElementById("checklistContainer");
+        var html = "";
+        var checkedCount = 0;
+
+        for (var i = 0; i < checklistItemsData.length; i++) {
+          if (checklistState[i]) checkedCount++;
+          var cls = checklistState[i] ? "checklist-item checked" : "checklist-item";
+          var chk = checklistState[i] ? "checked" : "";
+          html +=
+            '<label class="' + cls + '">' +
+              '<input type="checkbox" ' + chk + ' onchange="toggleChecklistItem(' + i + ')" />' +
+              '<span style="font-size: 0.9rem;">' + checklistItemsData[i] + '</span>' +
+            '</label>';
+        }
+        container.innerHTML = html;
+
+        var pct = Math.round((checkedCount / checklistItemsData.length) * 100);
+        document.getElementById("checklistStatusText").textContent =
+          "Kesiapan Produksi: " + pct + "% (" + checkedCount + " dari " + checklistItemsData.length + " poin selesai)";
+        document.getElementById("checklistProgressFill").style.width = pct + "%";
+      }
+
+      window.toggleChecklistItem = function (idx) {
+        checklistState[idx] = !checklistState[idx];
+        renderChecklist();
+      };
+
+      window.resetChecklist = function () {
+        for (var i = 0; i < checklistState.length; i++) {
+          checklistState[i] = false;
+        }
+        renderChecklist();
+      };
+
+      renderChecklist();
+
+      /* ----------------------------------------------------------------------
+         9. KUIS PEMAHAMAN INTERAKTIF (6 SOAL PILIHAN GANDA)
+         ---------------------------------------------------------------------- */
+      var quizData = [
+        {
+          question: "1. Berapa kecepatan bicara standar yang paling nyaman dan jelas untuk naskah narasi (Voice-Over) videografis?",
+          options: [
+            "60 kata per menit",
+            "135 kata per menit",
+            "260 kata per menit"
+          ],
+          correctIndex: 1,
+          explanation: "Kecepatan sekitar 135 kata per menit terasa alami, artikulasinya jelas, dan memberi jeda waktu bagi mata untuk melihat grafik."
+        },
+        {
+          question: "2. Dalam alur produksi videografis manual, kapan waktu terbaik merekam suara narator (Voice-Over)?",
+          options: [
+            "Sebelum memulai animasi agar gerakan mengikuti ketukan suara",
+            "Setelah seluruh animasi selesai dirender menjadi MP4",
+            "Bersamaan saat mengunggah video ke media sosial"
+          ],
+          correctIndex: 0,
+          explanation: "Suara narator adalah patokan ritme utama sehingga perpindahan adegan animasi bisa disesuaikan tepat dengan kata yang diucapkan."
+        },
+        {
+          question: "3. Mengapa Zona Aman (Safe Zone) sangat penting saat membuat videografis vertikal 9:16?",
+          options: [
+            "Agar ukuran file MP4 menjadi setengah lebih kecil",
+            "Agar teks judul dan grafik tidak tertutup tombol Like, Komentar, dan deskripsi di layar HP",
+            "Agar video otomatis memiliki musik latar"
+          ],
+          correctIndex: 1,
+          explanation: "Antarmuka TikTok, Reels, dan Shorts menutupi sekitar 19% area kanan dan 22% area bawah layar dengan ikon interaksi dan teks deskripsi."
+        },
+        {
+          question: "4. Apa keunggulan utama fitur Video Overview di Gemini Notebook dibandingkan pembuat video AI biasa?",
+          options: [
+            "Mengunci materi pada dokumen sumber yang Anda unggah (Source-Grounded AI) sehingga fakta & angka akurat",
+            "Bisa mengedit posisi setiap ikon per milimeter secara manual",
+            "Hanya bisa digunakan untuk membuat film kartun panjang"
+          ],
+          correctIndex: 0,
+          explanation: "Gemini Notebook membaca langsung file PDF, Google Docs, atau tautan yang Anda unggah sehingga minim halusinasi atau karangan bebas."
+        },
+        {
+          question: "5. Gaya visual (Visual Style) manakah di Studio Gemini Notebook yang paling pas untuk menyajikan laporan angka atau perbandingan kategori dalam kotak-kotak kartu rapi?",
+          options: [
+            "Kawaii",
+            "Bento Grid",
+            "Clay"
+          ],
+          correctIndex: 1,
+          explanation: "Bento Grid menyusun informasi dalam kotak-kotak kartu modular yang sangat bersih untuk menonjolkan angka kunci dan ringkasan data."
+        },
+        {
+          question: "6. Apa solusi terbaik jika Anda ingin menambahkan logo instansi/UMKM pada video hasil unduhan dari Gemini Notebook?",
+          options: [
+            "Mengetikkan ulang seluruh laporan dari nol",
+            "Memasukkan file MP4 hasil unduhan ke aplikasi CapCut atau Canva untuk menempelkan logo dan layar penutup",
+            "Mengubah ekstensi file .mp4 menjadi .pdf"
+          ],
+          correctIndex: 1,
+          explanation: "Menggabungkan kecepatan AI Gemini Notebook dengan sentuhan akhir logo/caption di CapCut atau Canva adalah alur kerja hibrida yang paling efisien."
+        }
+      ];
+
+      var quizAnswers = [null, null, null, null, null, null];
+
+      function renderQuiz() {
+        var container = document.getElementById("quizContainer");
+        var html = "";
+        var answeredCount = 0;
+        var correctCount = 0;
+
+        for (var i = 0; i < quizData.length; i++) {
+          var q = quizData[i];
+          var chosen = quizAnswers[i];
+          var isAnswered = chosen !== null;
+
+          if (isAnswered) {
+            answeredCount++;
+            if (chosen === q.correctIndex) correctCount++;
+          }
+
+          html += '<div class="quiz-card">';
+          html += '<div style="font-weight: 800; font-size: 0.95rem; margin-bottom: 0.45rem;">' + q.question + '</div>';
+
+          for (var j = 0; j < q.options.length; j++) {
+            var btnClass = "quiz-option";
+            var disabledAttr = isAnswered ? "disabled" : "";
+            if (isAnswered) {
+              if (j === q.correctIndex) {
+                btnClass += " correct";
+              } else if (j === chosen) {
+                btnClass += " wrong";
+              }
+            }
+            html += '<button type="button" class="' + btnClass + '" ' + disabledAttr + ' onclick="answerQuizQuestion(' + i + ', ' + j + ')">' + q.options[j] + '</button>';
+          }
+
+          if (isAnswered) {
+            var prefix = chosen === q.correctIndex ? "✅ <strong>Benar!</strong> " : "❌ <strong>Kurang tepat.</strong> ";
+            html += '<div class="quiz-feedback">' + prefix + q.explanation + '</div>';
+          }
+
+          html += '</div>';
+        }
+
+        container.innerHTML = html;
+        var pct = Math.round((correctCount / quizData.length) * 100);
+        document.getElementById("quizScoreBanner").textContent =
+          "Skor Anda: " + correctCount + " / " + quizData.length + " Benar (" + pct + "%) • Dijawab: " + answeredCount + " dari " + quizData.length + " soal";
+      }
+
+      window.answerQuizQuestion = function (qIdx, optIdx) {
+        if (quizAnswers[qIdx] !== null) return;
+        quizAnswers[qIdx] = optIdx;
+        renderQuiz();
+      };
+
+      window.resetQuiz = function () {
+        for (var i = 0; i < quizAnswers.length; i++) {
+          quizAnswers[i] = null;
+        }
+        renderQuiz();
+      };
+
+      renderQuiz();
+    })();
+  </script>
+</body>
+</html>

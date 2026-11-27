@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panduan Lengkap Pembuatan Dashboard — Dari Pemula Hingga Mahir</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Kustomisasi scrollbar & transisi halus */
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .tab-active {
+      border-bottom: 3px solid #2563eb;
+      color: #2563eb;
+      font-weight: 600;
+    }
+    .dark .tab-active {
+      border-bottom-color: #60a5fa;
+      color: #60a5fa;
+    }
+    /* Gaya cetak PDF yang rapi */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+        color: #111827 !important;
+      }
+      .shadow-lg, .shadow-md, .shadow-sm {
+        box-shadow: none !important;
+        border: 1px solid #e5e7eb !important;
+      }
+      section {
+        break-inside: avoid;
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- ===================================================================== -->
+  <!-- STICKY HEADER & NAVIGASI RESPONSIF -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-50 w-full bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2.5 group">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-indigo-600 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="9" rx="1.5"></rect>
+              <rect x="14" y="3" width="7" height="5" rx="1.5"></rect>
+              <rect x="14" y="12" width="7" height="9" rx="1.5"></rect>
+              <rect x="3" y="16" width="7" height="5" rx="1.5"></rect>
+            </svg>
+          </div>
+          <div>
+            <span class="font-heading font-bold text-lg tracking-tight text-slate-900 dark:text-white">Dash<span class="text-brand-600 dark:text-brand-500">Pintar</span></span>
+            <span class="hidden sm:inline-block text-[11px] font-medium ml-1.5 px-2 py-0.5 rounded-full bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">Panduan Lengkap</span>
+          </div>
+        </a>
+
+        <!-- Menu Desktop -->
+        <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+          <a href="#pengantar" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Konsep Dasar</a>
+          <a href="#jenis-dashboard" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">4 Jenis Utama</a>
+          <a href="#anatomi" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Komponen & Grafik</a>
+          <a href="#langkah-pembuatan" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">6 Langkah</a>
+          <a href="#simulasi-live" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors font-semibold text-brand-600 dark:text-brand-400">Simulasi Wilayah & Bisnis</a>
+          <a href="#checklist" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Checklist</a>
+          <a href="#kuis" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Kuis</a>
+        </nav>
+
+        <!-- Action Buttons: Cetak PDF, Dark/Light Mode, Mobile Menu -->
+        <div class="flex items-center gap-2">
+          <!-- Tombol Cetak PDF -->
+          <button onclick="window.print()" title="Cetak atau Simpan sebagai PDF" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-all shadow-sm">
+            <svg class="w-4 h-4 text-brand-600 dark:text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+            </svg>
+            <span>Cetak PDF</span>
+          </button>
+
+          <!-- Tombol Dark/Light Mode -->
+          <button id="theme-toggle" aria-label="Ubah Tema Terang atau Gelap" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-400 transition-all shadow-sm">
+            <!-- Sun Icon (shown in dark mode) -->
+            <svg id="icon-sun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5"></circle>
+              <path stroke-linecap="round" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+            </svg>
+            <!-- Moon Icon (shown in light mode) -->
+            <svg id="icon-moon" class="w-5 h-5 block dark:hidden text-slate-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>
+          </button>
+
+          <!-- Hamburger Menu Mobile -->
+          <button id="mobile-menu-btn" aria-label="Buka Menu Navigasi" class="lg:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drawer Navigasi Mobile -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-5 space-y-2 shadow-lg">
+      <a href="#pengantar" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">1. Konsep Dasar & Analogi</a>
+      <a href="#jenis-dashboard" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">2. 4 Jenis Utama Dashboard</a>
+      <a href="#anatomi" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">3. Anatomi & Panduan Grafik</a>
+      <a href="#langkah-pembuatan" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">4. Alur Pembuatan 6 Langkah</a>
+      <a href="#simulasi-live" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-semibold text-brand-600 dark:text-brand-400 bg-brand-50/70 dark:bg-brand-900/30">5. Simulasi Profil Wilayah & Bisnis</a>
+      <a href="#checklist" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">6. Checklist & Kesalahan Umum</a>
+      <a href="#kuis" class="mobile-link block px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">7. Kuis Mini Interaktif</a>
+      <button onclick="window.print()" class="w-full mt-2 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+        <span>🖨️ Cetak / Simpan PDF</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- 1. HERO SECTION & PENGANTAR (ANALOGI DASHBOARD MOBIL) -->
+  <!-- ===================================================================== -->
+  <section id="pengantar" class="relative overflow-hidden pt-12 pb-16 sm:pt-16 sm:pb-24 bg-gradient-to-b from-white via-slate-50 to-slate-100/70 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 border-b border-slate-200/80 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        
+        <!-- Teks Hero -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 dark:bg-brand-900/40 border border-brand-200 dark:border-brand-800 text-brand-700 dark:text-brand-300 text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span>
+            Belajar Data Tanpa Pusing Angka
+          </div>
+
+          <h1 class="font-heading text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+            Panduan Lengkap Pembuatan <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600 dark:from-brand-400 dark:to-indigo-400">Dashboard</span> yang Mudah Dipahami
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+            Bayangkan kamu sedang menyetir mobil di jalan tol. Kamu tidak perlu membuka kap mesin untuk mengecek berapa liter bensin tersisa atau seberapa panas mesinnya. Cukup lirik <strong>dashboard mobil</strong> selama 2 detik! Itulah fungsi utama dashboard data dalam bisnis maupun kehidupan sehari-hari.
+          </p>
+
+          <div class="flex flex-wrap gap-3 pt-2 no-print">
+            <a href="#simulasi-live" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-lg shadow-brand-600/25 transition-all">
+              <span>Coba Simulasi Dashboard</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+            </a>
+            <a href="#langkah-pembuatan" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 font-semibold text-sm transition-all">
+              <span>Pelajari 6 Langkahnya</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Ilustrasi Analogi Dashboard Mobil vs Tabel Mentah -->
+        <div class="lg:col-span-5">
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-200 dark:border-slate-800 space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Analogi Sehari-hari</span>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">Aturan 5 Detik</span>
+            </div>
+
+            <!-- Panel Mockup Dashboard Mobil -->
+            <div class="bg-slate-900 text-white rounded-xl p-5 space-y-4">
+              <div class="text-xs text-slate-400 flex justify-between">
+                <span>🚘 Panel Instrumen Mobil</span>
+                <span class="text-emerald-400 font-medium">● Sistem Normal</span>
+              </div>
+              <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="bg-slate-800/90 rounded-xl p-3 border border-slate-700">
+                  <div class="text-[11px] text-slate-400">Kecepatan</div>
+                  <div class="text-xl font-bold text-sky-400 mt-1">80 <span class="text-xs font-normal">km/j</span></div>
+                  <div class="text-[10px] text-slate-400 mt-1">= Arus Kas</div>
+                </div>
+                <div class="bg-slate-800/90 rounded-xl p-3 border border-amber-500/40">
+                  <div class="text-[11px] text-slate-400">Sisa Bensin</div>
+                  <div class="text-xl font-bold text-amber-400 mt-1">22%</div>
+                  <div class="text-[10px] text-amber-300 mt-1">= Stok Barang</div>
+                </div>
+                <div class="bg-slate-800/90 rounded-xl p-3 border border-slate-700">
+                  <div class="text-[11px] text-slate-400">Suhu Mesin</div>
+                  <div class="text-xl font-bold text-emerald-400 mt-1">88°C</div>
+                  <div class="text-[10px] text-slate-400 mt-1">= Beban Kerja</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Perbandingan Tabel Mentah vs Dashboard Visual -->
+            <div class="grid sm:grid-cols-2 gap-3 text-xs">
+              <div class="p-3.5 rounded-xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-200/70 dark:border-rose-900/50">
+                <div class="font-bold text-rose-700 dark:text-rose-300 mb-1">❌ Tabel Excel Mentah</div>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Ribuan baris angka berderet. Mata cepat lelah, butuh 15 menit hanya untuk sadar kalau stok kopi hampir habis.
+                </p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-900/50">
+                <div class="font-bold text-emerald-700 dark:text-emerald-300 mb-1">✅ Dashboard Visual</div>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Ringkasan grafik & indikator warna. Dalam 5 detik langsung tahu kondisi terkini dan keputusan apa yang harus diambil.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 2. 4 JENIS UTAMA DASHBOARD (TAB INTERAKTIF) -->
+  <!-- ===================================================================== -->
+  <section id="jenis-dashboard" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Klasifikasi Dashboard</span>
+      <h2 class="font-heading text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2">
+        4 Jenis Utama Dashboard & Contoh Sehari-hari
+      </h2>
+      <p class="text-slate-600 dark:text-slate-300 mt-3 text-sm sm:text-base">
+        Tidak semua dashboard dibuat dengan tujuan yang sama. Klik setiap tab di bawah untuk melihat perbedaan fungsi, waktu pantau, dan contoh nyatanya.
+      </p>
+    </div>
+
+    <!-- Tab Buttons -->
+    <div class="flex overflow-x-auto border-b border-slate-200 dark:border-slate-800 mb-8 gap-2 sm:gap-4 no-scrollbar" role="tablist">
+      <button onclick="switchTypeTab('operasional')" id="tab-btn-operasional" class="type-tab-btn tab-active whitespace-nowrap px-4 py-3 text-sm transition-all flex items-center gap-2">
+        <span>⚡</span> 1. Operasional
+      </button>
+      <button onclick="switchTypeTab('analitis')" id="tab-btn-analitis" class="type-tab-btn whitespace-nowrap px-4 py-3 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all flex items-center gap-2">
+        <span>🔍</span> 2. Analitis
+      </button>
+      <button onclick="switchTypeTab('strategis')" id="tab-btn-strategis" class="type-tab-btn whitespace-nowrap px-4 py-3 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all flex items-center gap-2">
+        <span>🎯</span> 3. Strategis
+      </button>
+      <button onclick="switchTypeTab('taktis')" id="tab-btn-taktis" class="type-tab-btn whitespace-nowrap px-4 py-3 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all flex items-center gap-2">
+        <span>📋</span> 4. Taktis
+      </button>
+    </div>
+
+    <!-- Tab Content Container -->
+    <div id="type-tab-content" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 shadow-md border border-slate-200 dark:border-slate-800 transition-all">
+      <!-- Konten diisi oleh JS secara dinamis -->
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 3. ANATOMI & KOMPONEN WAJIB DASHBOARD (KARTU INTERAKTIF) -->
+  <!-- ===================================================================== -->
+  <section id="anatomi" class="py-16 sm:py-20 bg-slate-100/70 dark:bg-slate-900/50 border-y border-slate-200/80 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Blok Penyusun</span>
+        <h2 class="font-heading text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2">
+          Anatomi & Komponen Wajib Dashboard
+        </h2>
+        <p class="text-slate-600 dark:text-slate-300 mt-3 text-sm sm:text-base">
+          Layaknya membangun rumah yang butuh pondasi, pintu, dan jendela, dashboard yang efektif tersusun dari 6 komponen utama berikut ini.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Kartu 1: KPI Cards -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-lg bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold">1. KPI Cards</span>
+              <span class="text-xl">🔢</span>
+            </div>
+            <h3 class="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">Kartu Angka Utama</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              Menampilkan satu angka paling penting berukuran besar, wajib disertai pembanding (misal: naik/turun dibanding bulan lalu) agar pembaca tahu angka itu bagus atau buruk.
+            </p>
+          </div>
+          <!-- Mini Preview -->
+          <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700">
+            <div class="text-xs text-slate-500 dark:text-slate-400">Pengeluaran Listrik Bulan Ini</div>
+            <div class="flex items-baseline justify-between mt-1">
+              <span class="text-lg font-bold text-slate-900 dark:text-white">Rp 420.000</span>
+              <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-md">▼ 12% hemat</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kartu 2: Grafik Tren -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-xs font-bold">2. Grafik Tren</span>
+              <span class="text-xl">📈</span>
+            </div>
+            <h3 class="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">Line / Area Chart</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              Digunakan untuk melihat perubahan data dari waktu ke waktu (harian, mingguan, bulanan). Sangat cocok untuk mendeteksi kenaikan, penurunan, atau pola musiman.
+            </p>
+          </div>
+          <!-- Mini SVG Line Preview -->
+          <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700">
+            <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Tren Berat Badan (Jan - Jun)</div>
+            <svg viewBox="0 0 200 45" class="w-full h-10 overflow-visible">
+              <polyline fill="none" stroke="#4f46e5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="5,10 45,14 85,22 125,20 165,32 195,38" />
+              <circle cx="195" cy="38" r="4" fill="#4f46e5" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Kartu 3: Grafik Perbandingan -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-bold">3. Perbandingan</span>
+              <span class="text-xl">📊</span>
+            </div>
+            <h3 class="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">Bar / Column Chart</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              Membandingkan besaran antar kategori secara adil. Mata manusia sangat jago membandingkan panjang batang yang sejajar. Gunakan batang horizontal jika nama kategori panjang.
+            </p>
+          </div>
+          <!-- Mini Bar Preview -->
+          <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700 space-y-1.5 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="w-16 text-slate-600 dark:text-slate-300">Kopi Susu</span>
+              <div class="flex-1 bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden"><div class="bg-emerald-500 h-full w-[85%]"></div></div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-16 text-slate-600 dark:text-slate-300">Americano</span>
+              <div class="flex-1 bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden"><div class="bg-emerald-500/70 h-full w-[55%]"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kartu 4: Grafik Komposisi -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-lg bg-amber-50 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-xs font-bold">4. Komposisi</span>
+              <span class="text-xl">🍩</span>
+            </div>
+            <h3 class="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">Donut / Stacked Bar</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              Menunjukkan porsi bagian terhadap total 100% (misal: pembagian gaji bulanan). <strong>Tips Penting:</strong> Hindari Pie/Donut Chart jika kategorinya lebih dari 4, karena irisan kecil sulit dibedakan!
+            </p>
+          </div>
+          <div class="p-3 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-800/50 text-xs text-amber-800 dark:text-amber-200">
+            💡 Jika kategori > 4 (misal 10 jenis pengeluaran), ganti Donut Chart dengan Horizontal Bar Chart!
+          </div>
+        </div>
+
+        <!-- Kartu 5: Filter / Slicer Interaktif -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-lg bg-purple-50 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-bold">5. Filter / Slicer</span>
+              <span class="text-xl">🎛️</span>
+            </div>
+            <h3 class="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">Kontrol Penyaring Data</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              Memungkinkan pengguna menyaring tampilan sesuai kebutuhan tanpa membuat banyak halaman terpisah (misal: filter berdasarkan bulan, cabang toko, atau kategori produk).
+            </p>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700 flex gap-2 text-xs">
+            <span class="px-2.5 py-1 rounded-lg bg-purple-600 text-white font-medium">Bulan Ini</span>
+            <span class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600">Semua Cabang</span>
+          </div>
+        </div>
+
+        <!-- Kartu 6: Tabel Ringkasan -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-lg bg-rose-50 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300 text-xs font-bold">6. Tabel Ringkasan</span>
+              <span class="text-xl">📑</span>
+            </div>
+            <h3 class="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">Detail Terstruktur</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              Diletakkan di bagian paling bawah dashboard untuk melihat rincian transaksi spesifik. Wajib dilengkapi kolom pencarian dan pembagian halaman (paginasi 5–10 baris) agar tidak memanjang ke bawah.
+            </p>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 flex justify-between items-center">
+            <span>🔍 Cari transaksi / wilayah...</span>
+            <span class="font-semibold text-brand-600 dark:text-brand-400">Hal 1 / 3</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Panduan Cepat Pemilihan Grafik Agar Tidak Salah Kaprah -->
+      <div class="mt-12 bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Panduan Anti-Salah Pilih</span>
+            <h3 class="font-heading text-xl font-bold text-slate-900 dark:text-white mt-1">Kapan Menggunakan Jenis Grafik Tertentu?</h3>
+          </div>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Cocokkan tujuan data dengan bentuk visualnya</span>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs sm:text-sm">
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+            <div class="font-bold text-slate-900 dark:text-white mb-1">📈 Line Chart (Grafik Garis)</div>
+            <p class="text-slate-600 dark:text-slate-300"><strong>Pakai saat:</strong> Melihat tren berurutan waktu (misal: kenaikan IPM Kab. Bandung 2022–2026).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+            <div class="font-bold text-slate-900 dark:text-white mb-1">📊 Bar / Column Chart</div>
+            <p class="text-slate-600 dark:text-slate-300"><strong>Pakai saat:</strong> Membandingkan peringkat antar-wilayah (misal: jumlah penduduk 6 kelurahan di Kec. Coblong).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+            <div class="font-bold text-slate-900 dark:text-white mb-1">🍩 Donut / Stacked Bar</div>
+            <p class="text-slate-600 dark:text-slate-300"><strong>Pakai saat:</strong> Menunjukkan proporsi bagian terhadap 100% total (maksimal 3–4 kategori utama).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+            <div class="font-bold text-slate-900 dark:text-white mb-1">🎯 Bullet Chart / Progress Bar</div>
+            <p class="text-slate-600 dark:text-slate-300"><strong>Pakai saat:</strong> Mengukur capaian saat ini terhadap target (misal: skor IDM Desa vs batas Desa Mandiri).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+            <div class="font-bold text-slate-900 dark:text-white mb-1">🟦 Heatmap / Matriks Indikator</div>
+            <p class="text-slate-600 dark:text-slate-300"><strong>Pakai saat:</strong> Memetakan kepadatan atau status kesiapan banyak kecamatan/RW dalam satu pandangan warna.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+            <div class="font-bold text-slate-900 dark:text-white mb-1">🔵 Scatter Plot (Titik Sebar)</div>
+            <p class="text-slate-600 dark:text-slate-300"><strong>Pakai saat:</strong> Melihat hubungan dua variabel (misal: luas wilayah vs kepadatan penduduk antar-kota).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 4. ALUR PEMBUATAN DASHBOARD 6 LANGKAH (STEPPER / ACCORDION INTERAKTIF) -->
+  <!-- ===================================================================== -->
+  <section id="langkah-pembuatan" class="py-16 sm:py-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Metodologi Praktis</span>
+      <h2 class="font-heading text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2">
+        Alur Pembuatan Dashboard dalam 6 Langkah
+      </h2>
+      <p class="text-slate-600 dark:text-slate-300 mt-3 text-sm sm:text-base">
+        Jangan langsung membuka Excel, Power BI, atau Tableau! Ikuti urutan 6 langkah ini agar dashboard kamu benar-benar terpakai. Klik setiap langkah untuk membukanya.
+      </p>
+    </div>
+
+    <div class="space-y-4" id="steps-accordion">
+      <!-- Langkah-langkah di-render via JS agar rapi & interaktif -->
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 5. SIMULASI LIVE MINI-DASHBOARD INTERAKTIF (WILAYAH & BISNIS) -->
+  <!-- ===================================================================== -->
+  <section id="simulasi-live" class="py-16 sm:py-20 bg-gradient-to-b from-slate-100 to-slate-200/60 dark:from-slate-900 dark:to-slate-950 border-y border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Switcher Mode Simulasi: Profil Wilayah vs Usaha Kopi -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 text-xs font-bold mb-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            Sandbox Interaktif Dwi-Skenario
+          </span>
+          <h2 class="font-heading text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+            Simulasi Live Dashboard: Profil Wilayah & Bisnis Sehari-hari
+          </h2>
+          <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">
+            Pilih skenario simulasi di sebelah kanan untuk mencoba dashboard pemerintahan berjenjang (Desa s.d. Provinsi) maupun dashboard usaha harian.
+          </p>
+        </div>
+
+        <div class="inline-flex p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm self-start lg:self-auto">
+          <button id="sim-mode-wilayah" onclick="switchSimMode('wilayah')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-600 text-white shadow-sm transition-all flex items-center gap-2">
+            <span>🏛️</span> <span>Profil Wilayah (Desa–Provinsi)</span>
+          </button>
+          <button id="sim-mode-bisnis" onclick="switchSimMode('bisnis')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all flex items-center gap-2">
+            <span>☕</span> <span>Bisnis Kopi & Roti</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- SIMULASI A: DASHBOARD PROFIL WILAYAH ADMINISTRASI (DESA - PROVINSI) -->
+      <!-- =================================================================== -->
+      <div id="sim-container-wilayah" class="space-y-6">
+        <!-- Bilah Pemilih Jenjang Wilayah & Tahun -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+          <div class="space-y-1.5">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">1. Pilih Jenjang Administrasi Wilayah:</span>
+            <div class="flex flex-wrap gap-2" role="group" aria-label="Pilih Jenjang Wilayah">
+              <button onclick="selectRegionLevel('desa')" id="reg-btn-desa" class="reg-level-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-brand-600 text-white shadow-sm transition-all">
+                🏡 Desa / Kelurahan
+              </button>
+              <button onclick="selectRegionLevel('kecamatan')" id="reg-btn-kecamatan" class="reg-level-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                🏘️ Kecamatan
+              </button>
+              <button onclick="selectRegionLevel('kabupaten')" id="reg-btn-kabupaten" class="reg-level-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                🏞️ Kabupaten
+              </button>
+              <button onclick="selectRegionLevel('kota')" id="reg-btn-kota" class="reg-level-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                🏙️ Kota
+              </button>
+              <button onclick="selectRegionLevel('provinsi')" id="reg-btn-provinsi" class="reg-level-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                🗺️ Provinsi
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2 xl:pt-0 border-t xl:border-t-0 border-slate-100 dark:border-slate-800">
+            <div>
+              <label for="reg-year-filter" class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">2. Tahun Data</label>
+              <select id="reg-year-filter" onchange="updateRegionDashboard()" class="text-xs sm:text-sm font-semibold bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                <option value="2026" selected>📅 Tahun 2026 (Terkini)</option>
+                <option value="2025">📅 Tahun 2025</option>
+                <option value="2024">📅 Tahun 2024</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kontainer Utama Dashboard Profil Wilayah -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-8 shadow-xl border border-slate-200 dark:border-slate-800 space-y-8">
+          
+          <!-- Header Identitas Wilayah Terpilih -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-200 dark:border-slate-800">
+            <div>
+              <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                <span id="reg-badge-level" class="px-2.5 py-0.5 rounded-lg text-xs font-bold bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">Jenjang Desa</span>
+                <span id="reg-breadcrumb" class="text-xs text-slate-500 dark:text-slate-400">Prov. Jawa Barat › Kab. Bandung › Kec. Cimenyan</span>
+              </div>
+              <h3 id="reg-title" class="font-heading text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">
+                Profil Desa Ciburial
+              </h3>
+              <p id="reg-focus-desc" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
+                Fokus pemantauan mikro: demografi warga per RW, status kemandirian desa (IDM), dan ketepatan penyaluran bantuan sosial.
+              </p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-xs shrink-0">
+              <div class="text-slate-400 font-semibold">Penanggung Jawab Utama</div>
+              <div id="reg-pic" class="font-bold text-slate-800 dark:text-slate-100 mt-0.5">Kepala Desa & Perangkat RW/RT</div>
+            </div>
+          </div>
+
+          <!-- BARIS 1: 4 KPI CARDS PROFIL WILAYAH -->
+          <div id="reg-kpi-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            <!-- Di-render dinamis oleh JS -->
+          </div>
+
+          <!-- BARIS 2: GRAFIK PERBANDINGAN SUB-WILAYAH & KOMPOSISI SEKTOR/DEMOGRAFI -->
+          <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Grafik Batang Perbandingan Sub-Wilayah -->
+            <div class="lg:col-span-7 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80 flex flex-col justify-between">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                <div>
+                  <h4 id="reg-bar-title" class="font-heading font-bold text-base text-slate-900 dark:text-white">Sebaran Penduduk per Dusun / RW</h4>
+                  <p id="reg-bar-subtitle" class="text-xs text-slate-500 dark:text-slate-400">Perbandingan jumlah jiwa antar-subwilayah</p>
+                </div>
+                <span id="reg-bar-unit" class="text-xs font-medium px-2.5 py-1 rounded-lg bg-brand-50 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300">Satuan: Jiwa</span>
+              </div>
+              <div id="reg-bar-chart" class="w-full pt-2">
+                <!-- SVG / Bar chart di-render JS -->
+              </div>
+            </div>
+
+            <!-- Komposisi Demografi / Struktur Ekonomi Wilayah -->
+            <div class="lg:col-span-5 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80 flex flex-col justify-between">
+              <div>
+                <h4 id="reg-comp-title" class="font-heading font-bold text-base text-slate-900 dark:text-white">Struktur Mata Pencaharian Warga</h4>
+                <p id="reg-comp-subtitle" class="text-xs text-slate-500 dark:text-slate-400 mb-5">Proporsi penduduk bekerja menurut sektor utama</p>
+                <div id="reg-comp-bars" class="space-y-4">
+                  <!-- Progress bars di-render JS -->
+                </div>
+              </div>
+              <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700 text-xs text-slate-500 dark:text-slate-400 flex items-start justify-between gap-2">
+                <span class="shrink-0">💡 Catatan Kebijakan:</span>
+                <span id="reg-insight" class="font-semibold text-slate-700 dark:text-slate-200 text-right">Penguatan agrowisata & UMKM warga lereng utara</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BARIS 3: TABEL RINCIAN SUB-WILAYAH (DENGAN PENCARIAN & PAGINASI 5 BARIS) -->
+          <div class="pt-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div>
+                <h4 id="reg-table-title" class="font-heading font-bold text-base text-slate-900 dark:text-white">Data Rincian per RW / Dusun di Desa Ciburial</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Menampilkan maksimal 5 baris per halaman agar mudah dipindai</p>
+              </div>
+
+              <div class="relative w-full sm:w-72">
+                <input type="text" id="reg-table-search" oninput="handleRegTableSearch()" placeholder="Cari nama wilayah atau status..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+                <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path stroke-linecap="round" d="M21 21l-4.35-4.35"></path>
+                </svg>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
+              <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead id="reg-table-head">
+                  <!-- Header dinamis sesuai jenjang -->
+                </thead>
+                <tbody id="reg-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 bg-white dark:bg-slate-900">
+                  <!-- Baris dinamis sesuai jenjang -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 text-xs text-slate-600 dark:text-slate-400">
+              <div id="reg-pagination-info">Menampilkan 1–5 dari 8 data</div>
+              <div class="flex items-center gap-2">
+                <button id="reg-btn-prev" onclick="changeRegPage(-1)" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed font-medium transition-colors">
+                  ← Sebelumnya
+                </button>
+                <span id="reg-page-indicator" class="font-semibold text-slate-800 dark:text-slate-200 px-2">Hal 1 / 2</span>
+                <button id="reg-btn-next" onclick="changeRegPage(1)" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed font-medium transition-colors">
+                  Berikutnya →
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- SIMULASI B: DASHBOARD USAHA KOPI & ROTI NUSANTARA (TETAP TERSEDIA)   -->
+      <!-- =================================================================== -->
+      <div id="sim-container-bisnis" class="hidden space-y-6">
+        <!-- Header Section Simulasi Bisnis -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div>
+            <h3 class="font-heading text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+              Dashboard Usaha Kopi & Roti Nusantara
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-0.5">
+              Ubah filter cabang atau periode untuk melihat bagaimana angka KPI, grafik, dan tabel ikut berubah seketika.
+            </p>
+          </div>
+
+          <!-- Filter / Slicer Kontrol -->
+          <div class="flex flex-wrap items-center gap-3">
+            <div>
+              <label for="filter-cabang" class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Pilih Cabang</label>
+              <select id="filter-cabang" onchange="updateDashboardSimulation()" class="text-xs sm:text-sm font-semibold bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                <option value="all">🏢 Semua Cabang</option>
+                <option value="bandung">🏔️ Cabang Bandung</option>
+                <option value="jakarta">🏙️ Cabang Jakarta</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="filter-periode" class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Periode Waktu</label>
+              <select id="filter-periode" onchange="updateDashboardSimulation()" class="text-xs sm:text-sm font-semibold bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                <option value="bulan">📅 Bulan Ini</option>
+                <option value="kuartal">📊 Kuartal Ini (3 Bulan)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kontainer Dashboard Mockup Bisnis -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-8 shadow-xl border border-slate-200 dark:border-slate-800 space-y-8">
+          
+          <!-- BARIS 1: 4 KPI CARDS -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            <!-- KPI 1 -->
+            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80">
+              <div class="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
+                <span>Total Pendapatan</span>
+                <span class="p-1.5 rounded-lg bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400">💰</span>
+              </div>
+              <div id="kpi-revenue" class="font-heading text-2xl font-extrabold text-slate-900 dark:text-white mt-2">Rp 84.500.000</div>
+              <div id="kpi-revenue-trend" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1.5 flex items-center gap-1">
+                <span>▲ 14,2%</span> <span class="text-slate-400 font-normal">vs periode lalu</span>
+              </div>
+            </div>
+
+            <!-- KPI 2 -->
+            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80">
+              <div class="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
+                <span>Total Transaksi</span>
+                <span class="p-1.5 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">🧾</span>
+              </div>
+              <div id="kpi-orders" class="font-heading text-2xl font-extrabold text-slate-900 dark:text-white mt-2">2.140 Struk</div>
+              <div id="kpi-orders-trend" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1.5 flex items-center gap-1">
+                <span>▲ 8,5%</span> <span class="text-slate-400 font-normal">vs periode lalu</span>
+              </div>
+            </div>
+
+            <!-- KPI 3 -->
+            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80">
+              <div class="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
+                <span>Rata-rata Belanja</span>
+                <span class="p-1.5 rounded-lg bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400">🛍️</span>
+              </div>
+              <div id="kpi-aov" class="font-heading text-2xl font-extrabold text-slate-900 dark:text-white mt-2">Rp 39.485</div>
+              <div id="kpi-aov-trend" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1.5 flex items-center gap-1">
+                <span>▲ 5,1%</span> <span class="text-slate-400 font-normal">vs target Rp 35rb</span>
+              </div>
+            </div>
+
+            <!-- KPI 4 -->
+            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80">
+              <div class="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
+                <span>Kepuasan Pelanggan</span>
+                <span class="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400">⭐</span>
+              </div>
+              <div id="kpi-csat" class="font-heading text-2xl font-extrabold text-slate-900 dark:text-white mt-2">4,8 / 5,0</div>
+              <div id="kpi-csat-trend" class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1.5">
+                Dari 612 ulasan terverifikasi
+              </div>
+            </div>
+          </div>
+
+          <!-- BARIS 2: GRAFIK VISUAL INTERAKTIF -->
+          <div class="grid lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-7 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80 flex flex-col justify-between">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="font-heading font-bold text-base text-slate-900 dark:text-white">Tren Pendapatan (Juta Rp)</h3>
+                  <p id="chart-subtitle" class="text-xs text-slate-500 dark:text-slate-400">Perbandingan mingguan — Semua Cabang</p>
+                </div>
+                <span class="text-xs font-medium px-2.5 py-1 rounded-lg bg-brand-50 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300">Skala dari 0</span>
+              </div>
+              <div id="bar-chart-container" class="w-full pt-2"></div>
+            </div>
+
+            <div class="lg:col-span-5 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80 flex flex-col justify-between">
+              <div>
+                <h3 class="font-heading font-bold text-base text-slate-900 dark:text-white">Kontribusi Kategori Menu</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-5">Porsi pendapatan per kelompok produk</p>
+                <div id="category-bars" class="space-y-4"></div>
+              </div>
+              <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700 text-xs text-slate-500 dark:text-slate-400 flex items-center justify-between">
+                <span>💡 Insight Otomatis:</span>
+                <span id="auto-insight" class="font-semibold text-slate-700 dark:text-slate-200">Kopi Susu Gula Aren menyumbang 46% omzet</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BARIS 3: TABEL RINGKASAN TRANSAKSI -->
+          <div class="pt-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div>
+                <h3 class="font-heading font-bold text-base text-slate-900 dark:text-white">Rincian Transaksi Terkini</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Menampilkan maksimal 5 baris per halaman agar tampilan tetap ringkas</p>
+              </div>
+              <div class="relative w-full sm:w-64">
+                <input type="text" id="table-search" oninput="handleTableSearch()" placeholder="Cari menu, cabang, atau kasir..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+                <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path stroke-linecap="round" d="M21 21l-4.35-4.35"></path>
+                </svg>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
+              <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead>
+                  <tr class="bg-slate-100 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
+                    <th class="py-3 px-4 font-semibold">ID Struk</th>
+                    <th class="py-3 px-4 font-semibold">Cabang</th>
+                    <th class="py-3 px-4 font-semibold">Menu Pesanan</th>
+                    <th class="py-3 px-4 font-semibold">Metode</th>
+                    <th class="py-3 px-4 font-semibold text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody id="transaction-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 bg-white dark:bg-slate-900"></tbody>
+              </table>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 text-xs text-slate-600 dark:text-slate-400">
+              <div id="pagination-info">Menampilkan 1–5 dari 12 transaksi</div>
+              <div class="flex items-center gap-2">
+                <button id="btn-prev-page" onclick="changePage(-1)" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed font-medium transition-colors">
+                  ← Sebelumnya
+                </button>
+                <span id="page-indicator" class="font-semibold text-slate-800 dark:text-slate-200 px-2">Hal 1 / 3</span>
+                <button id="btn-next-page" onclick="changePage(1)" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed font-medium transition-colors">
+                  Berikutnya →
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 6. CHECKLIST ANTI-GAGAL & KESALAHAN UMUM (BEFORE VS AFTER) -->
+  <!-- ===================================================================== -->
+  <section id="checklist" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Kontrol Kualitas</span>
+      <h2 class="font-heading text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2">
+        Kesalahan Umum (Before vs After) & Checklist Anti-Gagal
+      </h2>
+      <p class="text-slate-600 dark:text-slate-300 mt-3 text-sm sm:text-base">
+        Banyak dashboard terlihat canggih tapi justru membingungkan. Pelajari jebakan pemula dan gunakan checklist interaktif di bawah sebelum mempublikasikan dashboardmu.
+      </p>
+    </div>
+
+    <!-- Perbandingan Before vs After -->
+    <div class="grid md:grid-cols-2 gap-6 mb-12">
+      <!-- Kesalahan 1 & 2 -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
+        <div class="p-4 rounded-xl bg-rose-50/80 dark:bg-rose-950/30 border border-rose-200/80 dark:border-rose-900/50">
+          <div class="text-xs font-bold text-rose-700 dark:text-rose-300 uppercase mb-1">❌ BEFORE: Terlalu Banyak Warna & Tanpa Target</div>
+          <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+            Menggunakan warna pelangi untuk setiap batang grafik dan hanya menulis "Penjualan: Rp 50 Juta" tanpa penjelasan apakah itu tercapai atau meleset.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-900/50">
+          <div class="text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase mb-1">✅ AFTER: Warna Semantik & Konteks Jelas</div>
+          <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+            Gunakan 1 warna utama (misal biru), lalu pakai <strong>hijau</strong> untuk target tercapai dan <strong>merah</strong> hanya untuk peringatan. Tulis: "Rp 50 Juta (92% dari Target Rp 54 Juta)".
+          </p>
+        </div>
+      </div>
+
+      <!-- Kesalahan 3 & 4 -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
+        <div class="p-4 rounded-xl bg-rose-50/80 dark:bg-rose-950/30 border border-rose-200/80 dark:border-rose-900/50">
+          <div class="text-xs font-bold text-rose-700 dark:text-rose-300 uppercase mb-1">❌ BEFORE: Skala Sumbu Y Tidak Mulai dari Nol</div>
+          <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+            Memulai grafik batang dari angka 95 hingga 100 sehingga selisih 1% terlihat seolah-olah melonjak 5 kali lipat. Ini menyesatkan pengambil keputusan!
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-900/50">
+          <div class="text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase mb-1">✅ AFTER: Sumbu Y Mulai dari 0 & Tata Letak Lega</div>
+          <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+            Selalu mulai sumbu Y grafik batang dari angka <strong>0</strong> agar proporsinya jujur. Sisakan ruang kosong (whitespace) minimal 20% agar mata nyaman membaca.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checklist Interaktif (Tersimpan di localStorage) -->
+    <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-md">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-slate-200 dark:border-slate-800">
+        <div>
+          <h3 class="font-heading text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span>✅ Checklist Pra-Rilis Dashboard</span>
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Centang poin di bawah ini saat kamu membuat dashboard. Status centang otomatis tersimpan di browser kamu.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span id="checklist-progress-text" class="text-xs sm:text-sm font-bold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/40 px-3 py-1.5 rounded-xl">
+            0 / 6 Selesai
+          </span>
+          <button onclick="resetChecklist()" class="text-xs font-medium text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 underline">
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <div id="checklist-items" class="grid sm:grid-cols-2 gap-3.5">
+        <!-- Di-render oleh JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 7. KUIS MINI INTERAKTIF (5 SOAL STUDI KASUS) -->
+  <!-- ===================================================================== -->
+  <section id="kuis" class="py-16 sm:py-20 bg-slate-100/80 dark:bg-slate-900/60 border-t border-slate-200 dark:border-slate-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Uji Pemahaman</span>
+        <h2 class="font-heading text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2">
+          Kuis Mini Studi Kasus Sehari-hari
+        </h2>
+        <p class="text-slate-600 dark:text-slate-300 mt-2 text-sm sm:text-base">
+          Jawab 5 studi kasus singkat berikut untuk menguji kemampuanmu memilih jenis dashboard dan grafik yang paling tepat!
+        </p>
+      </div>
+
+      <div id="quiz-container" class="space-y-6">
+        <!-- Soal kuis di-render oleh JS -->
+      </div>
+
+      <!-- Tombol Submit & Hasil Skor -->
+      <div class="mt-8 bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div id="quiz-result-box" class="text-sm text-slate-600 dark:text-slate-300">
+          Pilih jawaban untuk semua 5 pertanyaan di atas, lalu klik tombol periksa skor.
+        </div>
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+          <button onclick="resetQuiz()" class="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            Ulangi Kuis
+          </button>
+          <button onclick="evaluateQuiz()" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-semibold shadow-md shadow-brand-600/20 transition-all">
+            Periksa Skor Saya
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- FOOTER -->
+  <!-- ===================================================================== -->
+  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-10 text-center text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p class="font-semibold text-slate-700 dark:text-slate-300">DashPintar — Panduan Interaktif Pembuatan Dashboard</p>
+      <p>Dirancang dengan bahasa sederhana & studi kasus sehari-hari untuk membantu siapa saja mengambil keputusan berbasis data.</p>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT LOGIKA INTERAKTIF -->
+  <!-- ===================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. MANAJEMEN TEMA DARK / LIGHT MODE & MOBILE MENU
+    // =========================================================================
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+
+    // Cek preferensi tersimpan (default terang sesuai spesifikasi)
+    if (localStorage.getItem('dashpintar_theme') === 'dark') {
+      htmlElement.classList.add('dark');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      htmlElement.classList.toggle('dark');
+      const isDark = htmlElement.classList.contains('dark');
+      localStorage.setItem('dashpintar_theme', isDark ? 'dark' : 'light');
+    });
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // =========================================================================
+    // 2. DATA & LOGIKA TAB 4 JENIS UTAMA DASHBOARD
+    // =========================================================================
+    const dashboardTypesData = {
+      operasional: {
+        badge: 'Real-Time & Harian',
+        badgeColor: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+        title: 'Dashboard Operasional',
+        tagline: 'Memantau aktivitas yang sedang terjadi detik ini atau hari ini agar operasional berjalan lancar tanpa hambatan.',
+        tujuan: 'Mendeteksi masalah secepat mungkin (seperti stok menipis atau antrean menumpuk) supaya bisa langsung ditangani hari itu juga.',
+        frekuensi: 'Setiap jam / Real-time / Setiap hari',
+        pengguna: 'Barista kepala, kasir, supervisor gudang, tim customer service.',
+        contohJudul: 'Contoh Sehari-hari: Warung Kopi & Roti',
+        contohDetail: 'Layar tablet di dekat meja kasir yang menampilkan: (1) Jumlah pesanan yang sedang dibuat dapur, (2) Sisa stok susu segar & biji kopi hari ini (menyala merah jika sisa < 2 liter), dan (3) Waktu tunggu rata-rata pelanggan (target di bawah 5 menit).',
+        indikator: ['Antrean Aktif: 4 Pesanan', 'Stok Susu: 3,5 Liter (Aman)', 'Waktu Tunggu: 3,8 Menit']
+      },
+      analitis: {
+        badge: 'Investigasi & Pola Masa Lalu',
+        badgeColor: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300',
+        title: 'Dashboard Analitis',
+        tagline: 'Menggali data historis untuk mencari tahu "Mengapa hal ini terjadi?" dan menemukan pola tersembunyi.',
+        tujuan: 'Memahami penyebab naik-turunnya performa dengan membandingkan banyak variabel (cuaca, promo, hari libur, jenis produk).',
+        frekuensi: 'Mingguan atau Bulanan',
+        pengguna: 'Analis data, pemilik usaha, tim pemasaran (marketing).',
+        contohJudul: 'Contoh Sehari-hari: Analisis Penjualan Es Kopi saat Musim Hujan',
+        contohDetail: 'Pemilik kedai membandingkan grafik penjualan Es Kopi vs Kopi Panas selama 6 bulan terakhir disandingkan dengan data curah hujan. Ternyata saat hujan turun sore hari, penjualan Es Kopi turun 40%, namun pesanan Roti Bakar & Kopi Tubruk Panas naik 65%.',
+        indikator: ['Korelasi Hujan vs Es Kopi: -40%', 'Kenaikan Menu Hangat: +65%', 'Rekomendasi: Paket Bundling Hujan']
+      },
+      strategis: {
+        badge: 'Visi Jangka Panjang (KPI)',
+        badgeColor: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300',
+        title: 'Dashboard Strategis',
+        tagline: 'Melihat gambaran besar apakah tujuan utama (KPI) jangka panjang sudah berada di jalur yang benar.',
+        tujuan: 'Menyelaraskan keputusan besar dengan target tahunan tanpa tenggelam dalam detail teknis harian.',
+        frekuensi: 'Bulanan, Kuartalan (3 bulan), atau Tahunan',
+        pengguna: 'Direktur, CEO, Kepala Keluarga (untuk keuangan rumah tangga).',
+        contohJudul: 'Contoh Sehari-hari: Dashboard Keuangan & Dana Darurat Keluarga',
+        contohDetail: 'Suami-istri memantau satu layar ringkasan setiap akhir bulan: (1) Progres Dana Darurat saat ini Rp 45 Juta dari target Rp 60 Juta (75%), (2) Rasio tabungan bulanan (target minimal 20% dari gaji), dan (3) Sisa cicilan KPR.',
+        indikator: ['Dana Darurat: 75% Tercapai', 'Rasio Tabungan: 22% (Sehat)', 'Target Bebas Hutang: 14 Bulan Lagi']
+      },
+      taktis: {
+        badge: 'Proyek & Kinerja Tim Jangka Menengah',
+        badgeColor: 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300',
+        title: 'Dashboard Taktis',
+        tagline: 'Memantau kemajuan proyek jangka menengah dan memastikan setiap bagian tim menyelesaikan tugas sesuai jadwal.',
+        tujuan: 'Mengatur alokasi anggaran, waktu, dan tenaga kerja agar target proyek atau kampanye selesai tepat waktu.',
+        frekuensi: 'Mingguan atau Dua Mingguan',
+        pengguna: 'Manajer proyek, ketua panitia acara, mandor renovasi.',
+        contohJudul: 'Contoh Sehari-hari: Persiapan Acara Panitia 17-an atau Renovasi Rumah',
+        contohDetail: 'Ketua panitia memantau: (1) Dana terkumpul dari iuran warga Rp 8,5 Juta dari anggaran Rp 10 Juta, (2) Progres perlengkapan lomba (80% beres), dan (3) Daftar tugas seksi konsumsi yang masih tertunda.',
+        indikator: ['Anggaran Terkumpul: 85%', 'Progres Persiapan: 12/15 Tugas', 'H-5 Menuju Hari Acara']
+      }
+    };
+
+    function switchTypeTab(typeKey) {
+      // Update style tombol tab
+      document.querySelectorAll('.type-tab-btn').forEach(btn => {
+        btn.classList.remove('tab-active');
+        btn.classList.add('text-slate-600', 'dark:text-slate-400');
+      });
+      const activeBtn = document.getElementById(`tab-btn-${typeKey}`);
+      activeBtn.classList.add('tab-active');
+      activeBtn.classList.remove('text-slate-600', 'dark:text-slate-400');
+
+      const data = dashboardTypesData[typeKey];
+      const container = document.getElementById('type-tab-content');
+
+      container.innerHTML = `
+        <div class="grid lg:grid-cols-12 gap-8 items-start">
+          <div class="lg:col-span-7 space-y-5">
+            <div class="inline-block px-3 py-1 rounded-full text-xs font-bold ${data.badgeColor}">
+              ${data.badge}
+            </div>
+            <h3 class="font-heading text-2xl font-bold text-slate-900 dark:text-white">${data.title}</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">${data.tagline}</p>
+
+            <div class="grid sm:grid-cols-3 gap-4 pt-2">
+              <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+                <div class="text-xs font-bold text-slate-400 uppercase">Tujuan Utama</div>
+                <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 mt-1.5 leading-relaxed">${data.tujuan}</p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+                <div class="text-xs font-bold text-slate-400 uppercase">Frekuensi Pantau</div>
+                <p class="text-xs sm:text-sm font-semibold text-brand-600 dark:text-brand-400 mt-1.5">${data.frekuensi}</p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+                <div class="text-xs font-bold text-slate-400 uppercase">Siapa Penggunanya?</div>
+                <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 mt-1.5 leading-relaxed">${data.pengguna}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 bg-gradient-to-br from-brand-50 to-indigo-50/70 dark:from-slate-800 dark:to-slate-800/60 rounded-2xl p-6 border border-brand-200/70 dark:border-slate-700 space-y-4">
+            <div class="flex items-center gap-2 text-brand-700 dark:text-brand-300 font-bold text-sm">
+              <span>💡</span>
+              <span>${data.contohJudul}</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+              ${data.contohDetail}
+            </p>
+            <div class="pt-2 space-y-2">
+              <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Contoh Kartu KPI di Layar:</div>
+              <div class="flex flex-wrap gap-2">
+                ${data.indikator.map(item => `
+                  <span class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm">
+                    ${item}
+                  </span>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Inisialisasi Tab Pertama
+    switchTypeTab('operasional');
+
+    // =========================================================================
+    // 3. ALUR PEMBUATAN DASHBOARD 6 LANGKAH (ACCORDION INTERAKTIF)
+    // =========================================================================
+    const stepsData = [
+      {
+        num: '01',
+        title: 'Tentukan Tujuan & Audiens (Aturan 5 Detik)',
+        summary: 'Siapa yang akan melihat dashboard ini dan keputusan apa yang ingin mereka ambil?',
+        detail: 'Sebelum menggambar grafik apa pun, tanyakan dua hal: "Siapa pembacanya?" dan "Tindakan apa yang akan mereka lakukan setelah melihat angka ini?". Terapkan <strong>Aturan 5 Detik</strong>: informasi paling krusial harus langsung tertangkap mata dalam 5 detik pertama tanpa perlu berpikir keras.',
+        contoh: 'Contoh: Untuk pemilik warung kopi, tujuannya adalah "Mengetahui apakah omzet hari ini mencapai target Rp 2,5 juta dan menu apa yang stoknya menipis".'
+      },
+      {
+        num: '02',
+        title: 'Pilih Metrik & KPI yang Tepat (Hindari Vanity Metrics)',
+        summary: 'Bedakan angka yang berdampak nyata vs angka yang hanya terlihat keren di permukaan.',
+        detail: 'Jangan masukkan semua data yang kamu punya. Fokus pada <strong>KPI (Key Performance Indicator)</strong> yang benar-benar mengukur kesehatan tujuanmu. Hindari <em>Vanity Metrics</em> (metrik gengsi) seperti jumlah pengikut media sosial yang tinggi tapi tidak ada satu pun yang membeli produkmu.',
+        contoh: 'Contoh: Daripada sekadar menghitung "Jumlah Pengunjung Toko", lebih berguna mengukur "Persentase Pengunjung yang Jadi Membeli" dan "Keuntungan Bersih".'
+      },
+      {
+        num: '03',
+        title: 'Kumpulkan & Bersihkan Data (Prinsip Garbage In, Garbage Out)',
+        summary: 'Grafik sebagus apa pun akan menyesatkan jika sumber datanya berantakan atau ganda.',
+        detail: 'Dalam dunia data berlaku hukum <em>Garbage In, Garbage Out</em> (sampah masuk, sampah keluar). Pastikan format tanggal seragam, tidak ada transaksi ganda (duplikat), penulisan nama kategori konsisten (misal jangan mencampur "Kopi Susu", "kopi susu", dan "Kp Susu" sebagai 3 menu berbeda).',
+        contoh: 'Contoh: Merapikan catatan pengeluaran rumah tangga di Excel agar kolom "Makan" dan "Jajan" tidak tercampur dengan "Tagihan Listrik".'
+      },
+      {
+        num: '04',
+        title: 'Buat Sketsa Tata Letak / Wireframe (Pola Baca F dan Z)',
+        summary: 'Susun tata letak di kertas menggunakan prinsip Piramida Terbalik sebelum menyentuh software.',
+        detail: 'Mata manusia membaca layar dari kiri atas ke kanan atas, lalu turun ke bawah (membentuk pola huruf <strong>F</strong> atau <strong>Z</strong>). Gunakan prinsip <strong>Piramida Terbalik</strong>: taruh ringkasan angka besar (KPI Cards) di baris paling atas, grafik tren di bagian tengah, dan tabel detail di bagian paling bawah.',
+        contoh: 'Contoh: Coret-coret kotak layout di buku catatan selama 10 menit sebelum membuka Excel/Power BI. Ini menghemat waktu revisi berjam-jam!'
+      },
+      {
+        num: '05',
+        title: 'Pilih Visualisasi & Warna yang Tepat (Maksimal 5–7 Kartu)',
+        summary: 'Gunakan grafik yang sesuai jenis datanya dan batasi penggunaan warna agar tidak menyilaukan.',
+        detail: 'Batasi maksimal <strong>5 hingga 7 elemen visual</strong> dalam satu layar agar tidak sesak (<em>clutter</em>). Gunakan warna netral sebagai dasar, satu warna utama merek, serta <strong>warna semantik</strong> yang universal: Hijau untuk positif/aman, Kuning/Oranye untuk peringatan, dan Merah untuk bahaya/turun.',
+        contoh: 'Contoh: Gunakan Line Chart untuk tren bulanan, Bar Chart untuk perbandingan antar cabang, dan hindari grafik 3D karena membuat sudut pandang angka menjadi tidak akurat.'
+      },
+      {
+        num: '06',
+        title: 'Uji Coba, Umpan Balik & Iterasi',
+        summary: 'Tunjukkan dashboard ke calon pengguna dan amati apakah mereka langsung paham tanpa dijelaskan.',
+        detail: 'Dashboard yang baik tidak membutuhkan buku panduan manual. Tunjukkan rancanganmu ke rekan kerja atau pasangan, lalu diam saja selama 10 detik. Tanyakan: "Menurutmu, apa kesimpulan utama dari layar ini?". Jika mereka bingung, sederhanakan lagi label dan tampilannya.',
+        contoh: 'Contoh: Setelah dipakai 2 minggu, ternyata kasir kesulitan mencari tombol filter tanggal. Pindahkan filter tersebut ke pojok kanan atas agar lebih mudah dijangkau.'
+      }
+    ];
+
+    const stepsContainer = document.getElementById('steps-accordion');
+    stepsData.forEach((step, idx) => {
+      const isOpen = idx === 0; // Langkah 1 terbuka secara default
+      const stepEl = document.createElement('div');
+      stepEl.className = 'bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-all';
+      stepEl.innerHTML = `
+        <button onclick="toggleStep(${idx})" class="w-full text-left px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+          <div class="flex items-center gap-4">
+            <span class="w-10 h-10 rounded-xl bg-brand-600 text-white font-heading font-bold text-sm flex items-center justify-center shrink-0 shadow-sm">
+              ${step.num}
+            </span>
+            <div>
+              <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900 dark:text-white">${step.title}</h3>
+              <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">${step.summary}</p>
+            </div>
+          </div>
+          <svg id="step-chevron-${idx}" class="w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <div id="step-body-${idx}" class="${isOpen ? 'block' : 'hidden'} px-5 sm:px-6 pb-6 pt-2 border-t border-slate-100 dark:border-slate-800/80 space-y-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          <p>${step.detail}</p>
+          <div class="p-3.5 rounded-xl bg-brand-50/70 dark:bg-brand-900/20 border border-brand-100 dark:border-brand-800/40 text-xs sm:text-sm text-brand-900 dark:text-brand-200">
+            <strong>💡 ${step.contoh}</strong>
+          </div>
+        </div>
+      `;
+      stepsContainer.appendChild(stepEl);
+    });
+
+    function toggleStep(idx) {
+      const body = document.getElementById(`step-body-${idx}`);
+      const chevron = document.getElementById(`step-chevron-${idx}`);
+      body.classList.toggle('hidden');
+      chevron.classList.toggle('rotate-180');
+    }
+
+    // =========================================================================
+    // 3B. SIMULASI DASHBOARD PROFIL WILAYAH (DESA - PROVINSI) & SWITCHER MODE
+    // =========================================================================
+    const regionProfilesData = {
+      desa: {
+        badge: 'Jenjang Desa / Kelurahan',
+        breadcrumb: 'Prov. Jawa Barat › Kab. Bandung › Kec. Cimenyan',
+        title: 'Profil Desa Ciburial',
+        focus: 'Fokus pemantauan mikro: demografi warga per RW, status Indeks Desa Membangun (IDM), dan ketepatan penyaluran bantuan sosial.',
+        pic: 'Kepala Desa & Perangkat RW/RT',
+        barTitle: 'Sebaran Penduduk per RW / Dusun',
+        barSubtitle: 'Perbandingan jumlah jiwa antar-RW di Desa Ciburial',
+        barUnit: 'Satuan: Jiwa',
+        compTitle: 'Struktur Mata Pencaharian Warga',
+        compSubtitle: 'Proporsi penduduk bekerja menurut sektor utama',
+        tableTitle: 'Data Rincian per RW / Dusun di Desa Ciburial',
+        tableHeaders: ['Kode Wilayah', 'Nama Dusun / RW', 'Jumlah Jiwa', 'Keluarga (KK)', 'Status Layanan'],
+        years: {
+          '2026': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '👥', val: '12.480 Jiwa', trend: '▲ 1,8%', sub: '3.640 Kepala Keluarga', pos: true },
+              { label: 'Skor IDM Desa', icon: '🏆', val: '0,8420', trend: '▲ Mandiri', sub: 'Target minimal 0,8155', pos: true },
+              { label: 'Realisasi Dana Desa', icon: '💰', val: '88,5%', trend: '▲ Rp 1,42 M', sub: 'Dari pagu Rp 1,60 Miliar', pos: true },
+              { label: 'Keluarga Penerima Bansos', icon: '🤝', val: '312 KK', trend: '▼ 6,3%', sub: 'Menurun berkat UMKM baru', pos: true }
+            ],
+            bars: [
+              { label: 'RW 01', val: 1620 }, { label: 'RW 02', val: 1480 }, { label: 'RW 03', val: 1890 },
+              { label: 'RW 04', val: 1540 }, { label: 'RW 05', val: 1710 }, { label: 'RW 06', val: 1420 },
+              { label: 'RW 07', val: 1510 }, { label: 'RW 08', val: 1310 }
+            ],
+            comp: [
+              { name: 'Pertanian & Hortikultura', pct: 38, color: 'bg-emerald-500' },
+              { name: 'Jasa Wisata & Kuliner', pct: 34, color: 'bg-brand-600' },
+              { name: 'UMKM & Perdagangan', pct: 28, color: 'bg-indigo-500' }
+            ],
+            insight: 'RW 03 memiliki kepadatan tertinggi (1.890 jiwa); perlu penambahan 1 Posyandu aktif.',
+            rows: [
+              { col1: 'RW-01', col2: 'Dusun Pakar Kulon (RW 01)', col3: '1.620 Jiwa', col4: '475 KK', status: 'Mandiri', badge: 'emerald' },
+              { col1: 'RW-02', col2: 'Dusun Pakar Wetan (RW 02)', col3: '1.480 Jiwa', col4: '430 KK', status: 'Mandiri', badge: 'emerald' },
+              { col1: 'RW-03', col2: 'Dusun Ciburial Tengah (RW 03)', col3: '1.890 Jiwa', col4: '550 KK', status: 'Padat Penduduk', badge: 'amber' },
+              { col1: 'RW-04', col2: 'Dusun Cibengang (RW 04)', col3: '1.540 Jiwa', col4: '448 KK', status: 'Mandiri', badge: 'emerald' },
+              { col1: 'RW-05', col2: 'Dusun Sekebuluh (RW 05)', col3: '1.710 Jiwa', col4: '498 KK', status: 'Mandiri', badge: 'emerald' },
+              { col1: 'RW-06', col2: 'Dusun Cikurutug (RW 06)', col3: '1.420 Jiwa', col4: '412 KK', status: 'Prioritas Irigasi', badge: 'sky' },
+              { col1: 'RW-07', col2: 'Dusun Bukit Dago (RW 07)', col3: '1.510 Jiwa', col4: '442 KK', status: 'Mandiri', badge: 'emerald' },
+              { col1: 'RW-08', col2: 'Dusun Babakan (RW 08)', col3: '1.310 Jiwa', col4: '385 KK', status: 'Mandiri', badge: 'emerald' }
+            ]
+          },
+          '2025': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '👥', val: '12.260 Jiwa', trend: '▲ 1,5%', sub: '3.580 Kepala Keluarga', pos: true },
+              { label: 'Skor IDM Desa', icon: '🏆', val: '0,8210', trend: '▲ Mandiri', sub: 'Naik dari status Maju', pos: true },
+              { label: 'Realisasi Dana Desa', icon: '💰', val: '96,2%', trend: '▲ Rp 1,49 M', sub: 'Dari pagu Rp 1,55 Miliar', pos: true },
+              { label: 'Keluarga Penerima Bansos', icon: '🤝', val: '333 KK', trend: '▼ 4,1%', sub: 'Tersalurkan 100% tepat', pos: true }
+            ],
+            bars: [
+              { label: 'RW 01', val: 1590 }, { label: 'RW 02', val: 1450 }, { label: 'RW 03', val: 1850 },
+              { label: 'RW 04', val: 1510 }, { label: 'RW 05', val: 1680 }, { label: 'RW 06', val: 1400 },
+              { label: 'RW 07', val: 1490 }, { label: 'RW 08', val: 1290 }
+            ],
+            comp: [
+              { name: 'Pertanian & Hortikultura', pct: 41, color: 'bg-emerald-500' },
+              { name: 'Jasa Wisata & Kuliner', pct: 31, color: 'bg-brand-600' },
+              { name: 'UMKM & Perdagangan', pct: 28, color: 'bg-indigo-500' }
+            ],
+            insight: 'Peralihan tenaga kerja muda ke sektor jasa wisata & kuliner meningkat 3%.',
+            rows: [
+              { col1: 'RW-01', col2: 'Dusun Pakar Kulon (RW 01)', col3: '1.590 Jiwa', col4: '465 KK', status: 'Mandiri', badge: 'emerald' },
+              { col1: 'RW-02', col2: 'Dusun Pakar Wetan (RW 02)', col3: '1.450 Jiwa', col4: '422 KK', status: 'Mandiri', badge: 'emerald' },
+              { col1: 'RW-03', col2: 'Dusun Ciburial Tengah (RW 03)', col3: '1.850 Jiwa', col4: '540 KK', status: 'Padat Penduduk', badge: 'amber' },
+              { col1: 'RW-04', col2: 'Dusun Cibengang (RW 04)', col3: '1.510 Jiwa', col4: '440 KK', status: 'Mandiri', badge: 'emerald' },
+              { col1: 'RW-05', col2: 'Dusun Sekebuluh (RW 05)', col3: '1.680 Jiwa', col4: '490 KK', status: 'Mandiri', badge: 'emerald' },
+              { col1: 'RW-06', col2: 'Dusun Cikurutug (RW 06)', col3: '1.400 Jiwa', col4: '408 KK', status: 'Prioritas Irigasi', badge: 'sky' }
+            ]
+          },
+          '2024': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '👥', val: '12.080 Jiwa', trend: '▲ 1,4%', sub: '3.515 Kepala Keluarga', pos: true },
+              { label: 'Skor IDM Desa', icon: '🏆', val: '0,7980', trend: '● Maju', sub: 'Target Mandiri 0,8155', pos: true },
+              { label: 'Realisasi Dana Desa', icon: '💰', val: '94,8%', trend: '▲ Rp 1,42 M', sub: 'Dari pagu Rp 1,50 Miliar', pos: true },
+              { label: 'Keluarga Penerima Bansos', icon: '🤝', val: '347 KK', trend: '▼ 2,0%', sub: 'Validasi DTKS selesai', pos: true }
+            ],
+            bars: [
+              { label: 'RW 01', val: 1560 }, { label: 'RW 02', val: 1430 }, { label: 'RW 03', val: 1820 },
+              { label: 'RW 04', val: 1490 }, { label: 'RW 05', val: 1650 }, { label: 'RW 06', val: 1380 },
+              { label: 'RW 07', val: 1470 }, { label: 'RW 08', val: 1280 }
+            ],
+            comp: [
+              { name: 'Pertanian & Hortikultura', pct: 44, color: 'bg-emerald-500' },
+              { name: 'Jasa Wisata & Kuliner', pct: 29, color: 'bg-brand-600' },
+              { name: 'UMKM & Perdagangan', pct: 27, color: 'bg-indigo-500' }
+            ],
+            insight: 'Fokus pembangunan 2024 pada pengaspalan jalan penghubung antardusun.',
+            rows: [
+              { col1: 'RW-01', col2: 'Dusun Pakar Kulon (RW 01)', col3: '1.560 Jiwa', col4: '458 KK', status: 'Maju', badge: 'sky' },
+              { col1: 'RW-02', col2: 'Dusun Pakar Wetan (RW 02)', col3: '1.430 Jiwa', col4: '416 KK', status: 'Maju', badge: 'sky' },
+              { col1: 'RW-03', col2: 'Dusun Ciburial Tengah (RW 03)', col3: '1.820 Jiwa', col4: '532 KK', status: 'Padat Penduduk', badge: 'amber' },
+              { col1: 'RW-04', col2: 'Dusun Cibengang (RW 04)', col3: '1.490 Jiwa', col4: '435 KK', status: 'Maju', badge: 'sky' },
+              { col1: 'RW-05', col2: 'Dusun Sekebuluh (RW 05)', col3: '1.650 Jiwa', col4: '482 KK', status: 'Maju', badge: 'sky' }
+            ]
+          }
+        }
+      },
+      kecamatan: {
+        badge: 'Jenjang Kecamatan',
+        breadcrumb: 'Prov. Jawa Barat › Kota Bandung',
+        title: 'Profil Kecamatan Coblong',
+        focus: 'Fokus koordinasi wilayah: perbandingan antar-6 kelurahan, pelayanan administrasi kependudukan (KTP/KK), dan fasilitas pendidikan/kesehatan.',
+        pic: 'Camat & Para Lurah Se-Kecamatan',
+        barTitle: 'Jumlah Penduduk per Kelurahan (Ribu Jiwa)',
+        barSubtitle: 'Perbandingan 6 kelurahan di wilayah Kecamatan Coblong',
+        barUnit: 'Satuan: Ribu Jiwa',
+        compTitle: 'Komposisi Usia & Aktivitas Penduduk',
+        compSubtitle: 'Sebaran kelompok warga di kawasan pendidikan & jasa',
+        tableTitle: 'Data Rincian 6 Kelurahan di Kecamatan Coblong',
+        tableHeaders: ['Kode Kel.', 'Nama Kelurahan', 'Penduduk', 'Kepadatan / km²', 'Kinerja Layanan'],
+        years: {
+          '2026': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '👥', val: '116.420 Jiwa', trend: '▲ 1,1%', sub: 'Tersebar di 6 Kelurahan', pos: true },
+              { label: 'Indeks Kepuasan Layanan', icon: '⭐', val: '91,4%', trend: '▲ 2,6%', sub: 'Layanan Paten Kecamatan', pos: true },
+              { label: 'Faskes & Puskesmas', icon: '🏥', val: '5 Unit', trend: '● Siaga 24J', sub: 'Rasio dokter 1:2.400 warga', pos: true },
+              { label: 'UMKM Terdaftar', icon: '🏪', val: '4.820 Unit', trend: '▲ 9,4%', sub: 'Dominasi kuliner & kos', pos: true }
+            ],
+            bars: [
+              { label: 'Dago', val: 31.2 }, { label: 'Sekeloa', val: 26.8 }, { label: 'Sadang Serang', val: 21.4 },
+              { label: 'Lebakgede', val: 14.5 }, { label: 'Lebaksiliwangi', val: 11.8 }, { label: 'Cipaganti', val: 10.7 }
+            ],
+            comp: [
+              { name: 'Usia Produktif & Mahasiswa', pct: 64, color: 'bg-brand-600' },
+              { name: 'Pelajar & Anak-anak', pct: 24, color: 'bg-indigo-500' },
+              { name: 'Lansia (> 60 Tahun)', pct: 12, color: 'bg-emerald-500' }
+            ],
+            insight: 'Kelurahan Dago & Sekeloa menyumbang hampir 50% total penduduk kecamatan.',
+            rows: [
+              { col1: 'KEL-01', col2: 'Kelurahan Dago', col3: '31.200 Jiwa', col4: '12.090 / km²', status: 'Sangat Baik', badge: 'emerald' },
+              { col1: 'KEL-02', col2: 'Kelurahan Sekeloa', col3: '26.800 Jiwa', col4: '24.360 / km²', status: 'Padat Tinggi', badge: 'amber' },
+              { col1: 'KEL-03', col2: 'Kelurahan Sadang Serang', col3: '21.400 Jiwa', col4: '16.460 / km²', status: 'Sangat Baik', badge: 'emerald' },
+              { col1: 'KEL-04', col2: 'Kelurahan Lebakgede', col3: '14.500 Jiwa', col4: '13.180 / km²', status: 'Sangat Baik', badge: 'emerald' },
+              { col1: 'KEL-05', col2: 'Kelurahan Lebaksiliwangi', col3: '11.800 Jiwa', col4: '11.800 / km²', status: 'Zona Hijau', badge: 'sky' },
+              { col1: 'KEL-06', col2: 'Kelurahan Cipaganti', col3: '10.720 Jiwa', col4: '15.310 / km²', status: 'Sangat Baik', badge: 'emerald' }
+            ]
+          },
+          '2025': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '👥', val: '115.150 Jiwa', trend: '▲ 1,0%', sub: 'Tersebar di 6 Kelurahan', pos: true },
+              { label: 'Indeks Kepuasan Layanan', icon: '⭐', val: '88,8%', trend: '▲ 1,9%', sub: 'Layanan Paten Kecamatan', pos: true },
+              { label: 'Faskes & Puskesmas', icon: '🏥', val: '5 Unit', trend: '● Normal', sub: 'Cakupan imunisasi 96%', pos: true },
+              { label: 'UMKM Terdaftar', icon: '🏪', val: '4.405 Unit', trend: '▲ 7,2%', sub: 'Sertifikasi NIB meningkat', pos: true }
+            ],
+            bars: [
+              { label: 'Dago', val: 30.8 }, { label: 'Sekeloa', val: 26.5 }, { label: 'Sadang Serang', val: 21.1 },
+              { label: 'Lebakgede', val: 14.4 }, { label: 'Lebaksiliwangi', val: 11.7 }, { label: 'Cipaganti', val: 10.6 }
+            ],
+            comp: [
+              { name: 'Usia Produktif & Mahasiswa', pct: 63, color: 'bg-brand-600' },
+              { name: 'Pelajar & Anak-anak', pct: 25, color: 'bg-indigo-500' },
+              { name: 'Lansia (> 60 Tahun)', pct: 12, color: 'bg-emerald-500' }
+            ],
+            insight: 'Digitalisasi antrean KTP elektronik memangkas waktu tunggu warga menjadi 12 menit.',
+            rows: [
+              { col1: 'KEL-01', col2: 'Kelurahan Dago', col3: '30.800 Jiwa', col4: '11.930 / km²', status: 'Sangat Baik', badge: 'emerald' },
+              { col1: 'KEL-02', col2: 'Kelurahan Sekeloa', col3: '26.500 Jiwa', col4: '24.090 / km²', status: 'Padat Tinggi', badge: 'amber' },
+              { col1: 'KEL-03', col2: 'Kelurahan Sadang Serang', col3: '21.100 Jiwa', col4: '16.230 / km²', status: 'Sangat Baik', badge: 'emerald' },
+              { col1: 'KEL-04', col2: 'Kelurahan Lebakgede', col3: '14.400 Jiwa', col4: '13.090 / km²', status: 'Sangat Baik', badge: 'emerald' },
+              { col1: 'KEL-05', col2: 'Kelurahan Lebaksiliwangi', col3: '11.700 Jiwa', col4: '11.700 / km²', status: 'Zona Hijau', badge: 'sky' },
+              { col1: 'KEL-06', col2: 'Kelurahan Cipaganti', col3: '10.650 Jiwa', col4: '15.210 / km²', status: 'Sangat Baik', badge: 'emerald' }
+            ]
+          },
+          '2024': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '👥', val: '114.010 Jiwa', trend: '▲ 0,9%', sub: 'Tersebar di 6 Kelurahan', pos: true },
+              { label: 'Indeks Kepuasan Layanan', icon: '⭐', val: '86,9%', trend: '▲ 1,5%', sub: 'Layanan Paten Kecamatan', pos: true },
+              { label: 'Faskes & Puskesmas', icon: '🏥', val: '5 Unit', trend: '● Normal', sub: 'Renovasi 2 Puskesmas', pos: true },
+              { label: 'UMKM Terdaftar', icon: '🏪', val: '4.110 Unit', trend: '▲ 6,0%', sub: 'Pendataan ulang UMKM', pos: true }
+            ],
+            bars: [
+              { label: 'Dago', val: 30.5 }, { label: 'Sekeloa', val: 26.2 }, { label: 'Sadang Serang', val: 20.9 },
+              { label: 'Lebakgede', val: 14.3 }, { label: 'Lebaksiliwangi', val: 11.6 }, { label: 'Cipaganti', val: 10.5 }
+            ],
+            comp: [
+              { name: 'Usia Produktif & Mahasiswa', pct: 62, color: 'bg-brand-600' },
+              { name: 'Pelajar & Anak-anak', pct: 26, color: 'bg-indigo-500' },
+              { name: 'Lansia (> 60 Tahun)', pct: 12, color: 'bg-emerald-500' }
+            ],
+            insight: 'Program pengelolaan sampah mandiri di RW percontohan mengurangi timbulan sampah 18%.',
+            rows: [
+              { col1: 'KEL-01', col2: 'Kelurahan Dago', col3: '30.500 Jiwa', col4: '11.820 / km²', status: 'Baik', badge: 'sky' },
+              { col1: 'KEL-02', col2: 'Kelurahan Sekeloa', col3: '26.200 Jiwa', col4: '23.810 / km²', status: 'Padat Tinggi', badge: 'amber' },
+              { col1: 'KEL-03', col2: 'Kelurahan Sadang Serang', col3: '20.900 Jiwa', col4: '16.070 / km²', status: 'Baik', badge: 'sky' },
+              { col1: 'KEL-04', col2: 'Kelurahan Lebakgede', col3: '14.300 Jiwa', col4: '13.000 / km²', status: 'Baik', badge: 'sky' },
+              { col1: 'KEL-05', col2: 'Kelurahan Lebaksiliwangi', col3: '11.600 Jiwa', col4: '11.600 / km²', status: 'Zona Hijau', badge: 'emerald' }
+            ]
+          }
+        }
+      },
+      kabupaten: {
+        badge: 'Jenjang Kabupaten',
+        breadcrumb: 'Provinsi Jawa Barat (31 Kecamatan, 270 Desa)',
+        title: 'Profil Kabupaten Bandung',
+        focus: 'Fokus pembangunan daerah luas: pemerataan infrastruktur antar-kecamatan, ketahanan pangan, indeks pembangunan manusia (IPM), dan penurunan kemiskinan.',
+        pic: 'Bupati & Bappeda Kabupaten Bandung',
+        barTitle: 'Populasi Kecamatan Utama (Ribu Jiwa)',
+        barSubtitle: 'Perbandingan 6 kecamatan dengan jumlah penduduk terbesar',
+        barUnit: 'Satuan: Ribu Jiwa',
+        compTitle: 'Struktur PDRB Lapangan Usaha',
+        compSubtitle: 'Kontribusi sektor ekonomi utama Kabupaten Bandung',
+        tableTitle: 'Data Rincian Kecamatan Sampel di Kabupaten Bandung',
+        tableHeaders: ['Kode Kec.', 'Nama Kecamatan', 'Jumlah Desa/Kel', 'Penduduk', 'Potensi Utama'],
+        years: {
+          '2026': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '👥', val: '3,78 Juta', trend: '▲ 1,3%', sub: '31 Kecamatan & 280 Desa/Kel', pos: true },
+              { label: 'Indeks Pembangunan (IPM)', icon: '🎓', val: '74,85', trend: '▲ +0,62 poin', sub: 'Kategori Tinggi', pos: true },
+              { label: 'Realisasi APBD', icon: '🏛️', val: '86,4%', trend: '▲ Rp 6,12 T', sub: 'Dari target Rp 7,08 Triliun', pos: true },
+              { label: 'Tingkat Kemiskinan', icon: '📉', val: '5,82%', trend: '▼ 0,38%', sub: 'Terendah dalam 5 tahun', pos: true }
+            ],
+            bars: [
+              { label: 'Baleendah', val: 274 }, { label: 'Cileunyi', val: 196 }, { label: 'Rancaekek', val: 191 },
+              { label: 'Margahayu', val: 132 }, { label: 'Soreang', val: 124 }, { label: 'Pangalengan', val: 162 }
+            ],
+            comp: [
+              { name: 'Industri Pengolahan (Tekstil & Pangan)', pct: 52, color: 'bg-brand-600' },
+              { name: 'Perdagangan & Jasa Wisata', pct: 29, color: 'bg-indigo-500' },
+              { name: 'Pertanian, Teh & Peternakan', pct: 19, color: 'bg-emerald-500' }
+            ],
+            insight: 'Konektivitas Tol Soroja & Cisumdawu mendorong investasi di Soreang dan Cileunyi.',
+            rows: [
+              { col1: '32.04.32', col2: 'Kecamatan Baleendah', col3: '8 Kel/Desa', col4: '274.100 Jiwa', status: 'Pusat Permukiman', badge: 'brand' },
+              { col1: '32.04.05', col2: 'Kecamatan Cileunyi', col3: '6 Desa', col4: '196.400 Jiwa', status: 'Simpul Pendidikan', badge: 'sky' },
+              { col1: '32.04.28', col2: 'Kecamatan Rancaekek', col3: '14 Desa/Kel', col4: '191.200 Jiwa', status: 'Kawasan Industri', badge: 'indigo' },
+              { col1: '32.04.15', col2: 'Kecamatan Pangalengan', col3: '13 Desa', col4: '162.500 Jiwa', status: 'Agrowisata & Susu', badge: 'emerald' },
+              { col1: '32.04.09', col2: 'Kecamatan Margahayu', col3: '5 Desa/Kel', col4: '132.800 Jiwa', status: 'Jasa & Perdagangan', badge: 'sky' },
+              { col1: '32.04.37', col2: 'Kecamatan Soreang', col3: '10 Desa', col4: '124.600 Jiwa', status: 'Ibu Kota Kabupaten', badge: 'emerald' }
+            ]
+          },
+          '2025': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '👥', val: '3,73 Juta', trend: '▲ 1,2%', sub: '31 Kecamatan & 280 Desa/Kel', pos: true },
+              { label: 'Indeks Pembangunan (IPM)', icon: '🎓', val: '74,23', trend: '▲ +0,58 poin', sub: 'Kategori Tinggi', pos: true },
+              { label: 'Realisasi APBD', icon: '🏛️', val: '94,1%', trend: '▲ Rp 6,45 T', sub: 'Dari pagu Rp 6,85 Triliun', pos: true },
+              { label: 'Tingkat Kemiskinan', icon: '📉', val: '6,20%', trend: '▼ 0,25%', sub: 'Program padat karya desa', pos: true }
+            ],
+            bars: [
+              { label: 'Baleendah', val: 270 }, { label: 'Cileunyi', val: 193 }, { label: 'Rancaekek', val: 189 },
+              { label: 'Margahayu', val: 131 }, { label: 'Soreang', val: 122 }, { label: 'Pangalengan', val: 160 }
+            ],
+            comp: [
+              { name: 'Industri Pengolahan (Tekstil & Pangan)', pct: 53, color: 'bg-brand-600' },
+              { name: 'Perdagangan & Jasa Wisata', pct: 28, color: 'bg-indigo-500' },
+              { name: 'Pertanian, Teh & Peternakan', pct: 19, color: 'bg-emerald-500' }
+            ],
+            insight: 'Pembangunan kolam retensi mengurangi luas genangan banjir di wilayah selatan.',
+            rows: [
+              { col1: '32.04.32', col2: 'Kecamatan Baleendah', col3: '8 Kel/Desa', col4: '270.400 Jiwa', status: 'Pusat Permukiman', badge: 'brand' },
+              { col1: '32.04.05', col2: 'Kecamatan Cileunyi', col3: '6 Desa', col4: '193.100 Jiwa', status: 'Simpul Pendidikan', badge: 'sky' },
+              { col1: '32.04.28', col2: 'Kecamatan Rancaekek', col3: '14 Desa/Kel', col4: '189.000 Jiwa', status: 'Kawasan Industri', badge: 'indigo' },
+              { col1: '32.04.15', col2: 'Kecamatan Pangalengan', col3: '13 Desa', col4: '160.200 Jiwa', status: 'Agrowisata & Susu', badge: 'emerald' },
+              { col1: '32.04.37', col2: 'Kecamatan Soreang', col3: '10 Desa', col4: '122.400 Jiwa', status: 'Ibu Kota Kabupaten', badge: 'emerald' }
+            ]
+          },
+          '2024': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '👥', val: '3,69 Juta', trend: '▲ 1,2%', sub: '31 Kecamatan & 280 Desa/Kel', pos: true },
+              { label: 'Indeks Pembangunan (IPM)', icon: '🎓', val: '73,65', trend: '▲ +0,51 poin', sub: 'Kategori Tinggi', pos: true },
+              { label: 'Realisasi APBD', icon: '🏛️', val: '92,8%', trend: '▲ Rp 6,10 T', sub: 'Dari pagu Rp 6,57 Triliun', pos: true },
+              { label: 'Tingkat Kemiskinan', icon: '📉', val: '6,45%', trend: '▼ 0,20%', sub: 'Bantuan modal petani', pos: true }
+            ],
+            bars: [
+              { label: 'Baleendah', val: 267 }, { label: 'Cileunyi', val: 190 }, { label: 'Rancaekek', val: 187 },
+              { label: 'Margahayu', val: 129 }, { label: 'Soreang', val: 120 }, { label: 'Pangalengan', val: 158 }
+            ],
+            comp: [
+              { name: 'Industri Pengolahan (Tekstil & Pangan)', pct: 54, color: 'bg-brand-600' },
+              { name: 'Perdagangan & Jasa Wisata', pct: 26, color: 'bg-indigo-500' },
+              { name: 'Pertanian, Teh & Peternakan', pct: 20, color: 'bg-emerald-500' }
+            ],
+            insight: 'Peningkatan produksi kopi spesialti Jawa Barat dari wilayah Ciwidey & Pangalengan.',
+            rows: [
+              { col1: '32.04.32', col2: 'Kecamatan Baleendah', col3: '8 Kel/Desa', col4: '267.000 Jiwa', status: 'Pusat Permukiman', badge: 'brand' },
+              { col1: '32.04.05', col2: 'Kecamatan Cileunyi', col3: '6 Desa', col4: '190.500 Jiwa', status: 'Simpul Pendidikan', badge: 'sky' },
+              { col1: '32.04.28', col2: 'Kecamatan Rancaekek', col3: '14 Desa/Kel', col4: '187.100 Jiwa', status: 'Kawasan Industri', badge: 'indigo' },
+              { col1: '32.04.15', col2: 'Kecamatan Pangalengan', col3: '13 Desa', col4: '158.400 Jiwa', status: 'Agrowisata & Susu', badge: 'emerald' },
+              { col1: '32.04.37', col2: 'Kecamatan Soreang', col3: '10 Desa', col4: '120.100 Jiwa', status: 'Ibu Kota Kabupaten', badge: 'emerald' }
+            ]
+          }
+        }
+      },
+      kota: {
+        badge: 'Jenjang Pemerintah Kota',
+        breadcrumb: 'Provinsi Jawa Barat (30 Kecamatan, 151 Kelurahan)',
+        title: 'Profil Kota Bandung',
+        focus: 'Fokus tata kelola perkotaan: pertumbuhan ekonomi jasa & ekonomi kreatif, kepadatan penduduk, layanan transportasi publik, dan pengelolaan sampah kota.',
+        pic: 'Wali Kota & Diskominfo / Bappelitbang Kota',
+        barTitle: 'Penduduk per Kecamatan Terpadat (Ribu Jiwa)',
+        barSubtitle: 'Perbandingan 6 kecamatan dengan populasi tertinggi di Kota Bandung',
+        barUnit: 'Satuan: Ribu Jiwa',
+        compTitle: 'Kontribusi Ekonomi Perkotaan (PDRB)',
+        compSubtitle: 'Sektor penggerak utama ekonomi jasa dan kreatif',
+        tableTitle: 'Data Rincian Kecamatan Sampel di Kota Bandung',
+        tableHeaders: ['Kode Kec.', 'Nama Kecamatan', 'Kepadatan / km²', 'Penduduk', 'Karakter Kawasan'],
+        years: {
+          '2026': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '🏙️', val: '2,54 Juta', trend: '▲ 0,7%', sub: 'Kepadatan 15.180 jiwa/km²', pos: true },
+              { label: 'IPM Kota Bandung', icon: '🎓', val: '83,64', trend: '▲ +0,48 poin', sub: 'Kategori Sangat Tinggi', pos: true },
+              { label: 'Pertumbuhan Ekonomi', icon: '📈', val: '5,42%', trend: '▲ +0,25%', sub: 'Didorong pariwisata & TIK', pos: true },
+              { label: 'Pendapatan Asli Daerah', icon: '💳', val: 'Rp 3,48 T', trend: '▲ 9,1%', sub: 'Digitalisasi pajak & retribusi', pos: true }
+            ],
+            bars: [
+              { label: 'Babakan Ciparay', val: 148 }, { label: 'Bandung Kulon', val: 141 }, { label: 'Kiaracondong', val: 134 },
+              { label: 'Coblong', val: 116 }, { label: 'Antapani', val: 82 }, { label: 'Sumur Bandung', val: 38 }
+            ],
+            comp: [
+              { name: 'Perdagangan, Hotel & Kuliner', pct: 44, color: 'bg-brand-600' },
+              { name: 'Informasi, Komunikasi & Kreatif', pct: 31, color: 'bg-indigo-500' },
+              { name: 'Jasa Pendidikan & Kesehatan', pct: 25, color: 'bg-emerald-500' }
+            ],
+            insight: 'Layanan Bandung Smart City menurunkan waktu respons aduan warga di bawah 4 jam.',
+            rows: [
+              { col1: '32.73.03', col2: 'Kecamatan Babakan Ciparay', col3: '20.120 / km²', col4: '148.200 Jiwa', status: 'Permukiman Padat', badge: 'amber' },
+              { col1: '32.73.15', col2: 'Kecamatan Bandung Kulon', col3: '21.850 / km²', col4: '141.500 Jiwa', status: 'Perdagangan Barat', badge: 'sky' },
+              { col1: '32.73.16', col2: 'Kecamatan Kiaracondong', col3: '21.960 / km²', col4: '134.100 Jiwa', status: 'Simpul Transportasi', badge: 'indigo' },
+              { col1: '32.73.02', col2: 'Kecamatan Coblong', col3: '15.840 / km²', col4: '116.420 Jiwa', status: 'Pendidikan & Wisata', badge: 'emerald' },
+              { col1: '32.73.20', col2: 'Kecamatan Antapani', col3: '19.430 / km²', col4: '82.100 Jiwa', status: 'Hunian Keluarga', badge: 'sky' },
+              { col1: '32.73.05', col2: 'Kecamatan Sumur Bandung', col3: '11.170 / km²', col4: '38.400 Jiwa', status: 'Pusat Pemerintahan', badge: 'emerald' }
+            ]
+          },
+          '2025': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '🏙️', val: '2,52 Juta', trend: '▲ 0,7%', sub: 'Kepadatan 15.060 jiwa/km²', pos: true },
+              { label: 'IPM Kota Bandung', icon: '🎓', val: '83,16', trend: '▲ +0,45 poin', sub: 'Kategori Sangat Tinggi', pos: true },
+              { label: 'Pertumbuhan Ekonomi', icon: '📈', val: '5,17%', trend: '▲ +0,18%', sub: 'Sektor jasa pulih penuh', pos: true },
+              { label: 'Pendapatan Asli Daerah', icon: '💳', val: 'Rp 3,19 T', trend: '▲ 7,8%', sub: '94% dari target APBD', pos: true }
+            ],
+            bars: [
+              { label: 'Babakan Ciparay', val: 147 }, { label: 'Bandung Kulon', val: 140 }, { label: 'Kiaracondong', val: 133 },
+              { label: 'Coblong', val: 115 }, { label: 'Antapani', val: 81 }, { label: 'Sumur Bandung', val: 38 }
+            ],
+            comp: [
+              { name: 'Perdagangan, Hotel & Kuliner', pct: 45, color: 'bg-brand-600' },
+              { name: 'Informasi, Komunikasi & Kreatif', pct: 30, color: 'bg-indigo-500' },
+              { name: 'Jasa Pendidikan & Kesehatan', pct: 25, color: 'bg-emerald-500' }
+            ],
+            insight: 'Program Kang Pisman berhasil mengolah 32% sampah organik di tingkat kelurahan.',
+            rows: [
+              { col1: '32.73.03', col2: 'Kecamatan Babakan Ciparay', col3: '19.980 / km²', col4: '147.100 Jiwa', status: 'Permukiman Padat', badge: 'amber' },
+              { col1: '32.73.15', col2: 'Kecamatan Bandung Kulon', col3: '21.700 / km²', col4: '140.400 Jiwa', status: 'Perdagangan Barat', badge: 'sky' },
+              { col1: '32.73.16', col2: 'Kecamatan Kiaracondong', col3: '21.800 / km²', col4: '133.200 Jiwa', status: 'Simpul Transportasi', badge: 'indigo' },
+              { col1: '32.73.02', col2: 'Kecamatan Coblong', col3: '15.670 / km²', col4: '115.150 Jiwa', status: 'Pendidikan & Wisata', badge: 'emerald' },
+              { col1: '32.73.20', col2: 'Kecamatan Antapani', col3: '19.200 / km²', col4: '81.300 Jiwa', status: 'Hunian Keluarga', badge: 'sky' }
+            ]
+          },
+          '2024': {
+            kpis: [
+              { label: 'Total Penduduk', icon: '🏙️', val: '2,50 Juta', trend: '▲ 0,6%', sub: 'Kepadatan 14.940 jiwa/km²', pos: true },
+              { label: 'IPM Kota Bandung', icon: '🎓', val: '82,71', trend: '▲ +0,40 poin', sub: 'Kategori Sangat Tinggi', pos: true },
+              { label: 'Pertumbuhan Ekonomi', icon: '📈', val: '4,99%', trend: '▲ +0,12%', sub: 'Kunjungan wisatawan naik', pos: true },
+              { label: 'Pendapatan Asli Daerah', icon: '💳', val: 'Rp 2,96 T', trend: '▲ 6,5%', sub: 'Optimalisasi pajak restoran', pos: true }
+            ],
+            bars: [
+              { label: 'Babakan Ciparay', val: 146 }, { label: 'Bandung Kulon', val: 139 }, { label: 'Kiaracondong', val: 132 },
+              { label: 'Coblong', val: 114 }, { label: 'Antapani', val: 80 }, { label: 'Sumur Bandung', val: 37 }
+            ],
+            comp: [
+              { name: 'Perdagangan, Hotel & Kuliner', pct: 46, color: 'bg-brand-600' },
+              { name: 'Informasi, Komunikasi & Kreatif', pct: 29, color: 'bg-indigo-500' },
+              { name: 'Jasa Pendidikan & Kesehatan', pct: 25, color: 'bg-emerald-500' }
+            ],
+            insight: 'Integrasi angkutan feeder Trans Metro Pasundan meningkatkan pengguna transportasi umum.',
+            rows: [
+              { col1: '32.73.03', col2: 'Kecamatan Babakan Ciparay', col3: '19.850 / km²', col4: '146.000 Jiwa', status: 'Permukiman Padat', badge: 'amber' },
+              { col1: '32.73.15', col2: 'Kecamatan Bandung Kulon', col3: '21.550 / km²', col4: '139.200 Jiwa', status: 'Perdagangan Barat', badge: 'sky' },
+              { col1: '32.73.16', col2: 'Kecamatan Kiaracondong', col3: '21.640 / km²', col4: '132.100 Jiwa', status: 'Simpul Transportasi', badge: 'indigo' },
+              { col1: '32.73.02', col2: 'Kecamatan Coblong', col3: '15.510 / km²', col4: '114.010 Jiwa', status: 'Pendidikan & Wisata', badge: 'emerald' }
+            ]
+          }
+        }
+      },
+      provinsi: {
+        badge: 'Jenjang Pemerintah Provinsi',
+        breadcrumb: 'Republik Indonesia (18 Kabupaten & 9 Kota = 27 Kab/Kota)',
+        title: 'Profil Provinsi Jawa Barat',
+        focus: 'Fokus makro strategis lintas-daerah: ketimpangan antar-wilayah (utara-selatan), realisasi investasi PMA/PMDN, tingkat pengangguran terbuka, dan ketahanan energi/pangan.',
+        pic: 'Gubernur & Bappeda Provinsi Jawa Barat',
+        barTitle: 'Populasi Kab/Kota Terbesar (Juta Jiwa)',
+        barSubtitle: 'Perbandingan 6 kabupaten/kota berpenduduk terbanyak di Jawa Barat',
+        barUnit: 'Satuan: Juta Jiwa',
+        compTitle: 'Struktur Ekonomi Regional Jawa Barat',
+        compSubtitle: 'Kontribusi lapangan usaha terhadap PDRB Provinsi',
+        tableTitle: 'Data Rincian Kabupaten/Kota Sampel di Jawa Barat',
+        tableHeaders: ['Kode Wil.', 'Kabupaten / Kota', 'Penduduk', 'IPM Daerah', 'Status Ekonomi'],
+        years: {
+          '2026': {
+            kpis: [
+              { label: 'Total Penduduk Jabar', icon: '🗺️', val: '50,76 Juta', trend: '▲ 1,1%', sub: 'Provinsi terpadat di Indonesia', pos: true },
+              { label: 'Realisasi Investasi', icon: '🏭', val: 'Rp 238,5 T', trend: '▲ 13,4%', sub: 'Peringkat #1 Nasional', pos: true },
+              { label: 'IPM Provinsi Jabar', icon: '🎓', val: '75,18', trend: '▲ +0,54 poin', sub: '27 Kab/Kota kategori Tinggi+', pos: true },
+              { label: 'Pengangguran Terbuka', icon: '💼', val: '6,35%', trend: '▼ 0,52%', sub: 'Penyerapan kawasan Rebana', pos: true }
+            ],
+            bars: [
+              { label: 'Kab. Bogor', val: 5.68 }, { label: 'Kab. Bandung', val: 3.78 }, { label: 'Kab. Bekasi', val: 3.31 },
+              { label: 'Kota Bekasi', val: 2.66 }, { label: 'Kota Bandung', val: 2.54 }, { label: 'Kab. Karawang', val: 2.56 }
+            ],
+            comp: [
+              { name: 'Industri Manufaktur & Otomotif', pct: 43, color: 'bg-brand-600' },
+              { name: 'Perdagangan, Logistik & Jasa', pct: 39, color: 'bg-indigo-500' },
+              { name: 'Pertanian, Perikanan & Energi', pct: 18, color: 'bg-emerald-500' }
+            ],
+            insight: 'Segitiga pertumbuhan Rebana (Cirebon–Patimban–Kertajati) mempercepat pemerataan Jabar Timur.',
+            rows: [
+              { col1: '32.01', col2: 'Kabupaten Bogor', col3: '5,68 Juta Jiwa', col4: '72,45', status: 'Pusat Industri & Hunian', badge: 'brand' },
+              { col1: '32.04', col2: 'Kabupaten Bandung', col3: '3,78 Juta Jiwa', col4: '74,85', status: 'Tekstil & Agrowisata', badge: 'emerald' },
+              { col1: '32.16', col2: 'Kabupaten Bekasi', col3: '3,31 Juta Jiwa', col4: '76,12', status: 'Kawasan Manufaktur', badge: 'indigo' },
+              { col1: '32.75', col2: 'Kota Bekasi', col3: '2,66 Juta Jiwa', col4: '83,40', status: 'Jasa & Komuter', badge: 'sky' },
+              { col1: '32.73', col2: 'Kota Bandung', col3: '2,54 Juta Jiwa', col4: '83,64', status: 'Ibu Kota & Kreatif', badge: 'emerald' },
+              { col1: '32.15', col2: 'Kabupaten Karawang', col3: '2,56 Juta Jiwa', col4: '73,80', status: 'Lumbung Padi & Industri', badge: 'amber' }
+            ]
+          },
+          '2025': {
+            kpis: [
+              { label: 'Total Penduduk Jabar', icon: '🗺️', val: '50,21 Juta', trend: '▲ 1,1%', sub: '27 Kabupaten dan Kota', pos: true },
+              { label: 'Realisasi Investasi', icon: '🏭', val: 'Rp 210,3 T', trend: '▲ 11,8%', sub: 'Peringkat #1 Nasional', pos: true },
+              { label: 'IPM Provinsi Jabar', icon: '🎓', val: '74,64', trend: '▲ +0,49 poin', sub: 'Kategori Tinggi', pos: true },
+              { label: 'Pengangguran Terbuka', icon: '💼', val: '6,87%', trend: '▼ 0,41%', sub: 'Pelatihan vokasi SMK', pos: true }
+            ],
+            bars: [
+              { label: 'Kab. Bogor', val: 5.61 }, { label: 'Kab. Bandung', val: 3.73 }, { label: 'Kab. Bekasi', val: 3.26 },
+              { label: 'Kota Bekasi', val: 2.63 }, { label: 'Kota Bandung', val: 2.52 }, { label: 'Kab. Karawang', val: 2.53 }
+            ],
+            comp: [
+              { name: 'Industri Manufaktur & Otomotif', pct: 44, color: 'bg-brand-600' },
+              { name: 'Perdagangan, Logistik & Jasa', pct: 38, color: 'bg-indigo-500' },
+              { name: 'Pertanian, Perikanan & Energi', pct: 18, color: 'bg-emerald-500' }
+            ],
+            insight: 'Operasional penuh Kereta Cepat Whoosh & Tol Cisumdawu memangkas biaya logistik antarwilayah.',
+            rows: [
+              { col1: '32.01', col2: 'Kabupaten Bogor', col3: '5,61 Juta Jiwa', col4: '71,95', status: 'Pusat Industri & Hunian', badge: 'brand' },
+              { col1: '32.04', col2: 'Kabupaten Bandung', col3: '3,73 Juta Jiwa', col4: '74,23', status: 'Tekstil & Agrowisata', badge: 'emerald' },
+              { col1: '32.16', col2: 'Kabupaten Bekasi', col3: '3,26 Juta Jiwa', col4: '75,68', status: 'Kawasan Manufaktur', badge: 'indigo' },
+              { col1: '32.75', col2: 'Kota Bekasi', col3: '2,63 Juta Jiwa', col4: '82,95', status: 'Jasa & Komuter', badge: 'sky' },
+              { col1: '32.73', col2: 'Kota Bandung', col3: '2,52 Juta Jiwa', col4: '83,16', status: 'Ibu Kota & Kreatif', badge: 'emerald' }
+            ]
+          },
+          '2024': {
+            kpis: [
+              { label: 'Total Penduduk Jabar', icon: '🗺️', val: '49,66 Juta', trend: '▲ 1,0%', sub: '27 Kabupaten dan Kota', pos: true },
+              { label: 'Realisasi Investasi', icon: '🏭', val: 'Rp 188,1 T', trend: '▲ 10,2%', sub: 'Didominasi industri kendaraan listrik', pos: true },
+              { label: 'IPM Provinsi Jabar', icon: '🎓', val: '74,15', trend: '▲ +0,45 poin', sub: 'Kategori Tinggi', pos: true },
+              { label: 'Pengangguran Terbuka', icon: '💼', val: '7,28%', trend: '▼ 0,35%', sub: 'Ekspansi UMKM digital desa', pos: true }
+            ],
+            bars: [
+              { label: 'Kab. Bogor', val: 5.55 }, { label: 'Kab. Bandung', val: 3.69 }, { label: 'Kab. Bekasi', val: 3.22 },
+              { label: 'Kota Bekasi', val: 2.60 }, { label: 'Kota Bandung', val: 2.50 }, { label: 'Kab. Karawang', val: 2.50 }
+            ],
+            comp: [
+              { name: 'Industri Manufaktur & Otomotif', pct: 44, color: 'bg-brand-600' },
+              { name: 'Perdagangan, Logistik & Jasa', pct: 37, color: 'bg-indigo-500' },
+              { name: 'Pertanian, Perikanan & Energi', pct: 19, color: 'bg-emerald-500' }
+            ],
+            insight: 'Program Desa Digital menjangkau lebih dari 5.300 desa dengan akses internet stabil.',
+            rows: [
+              { col1: '32.01', col2: 'Kabupaten Bogor', col3: '5,55 Juta Jiwa', col4: '71,48', status: 'Pusat Industri & Hunian', badge: 'brand' },
+              { col1: '32.04', col2: 'Kabupaten Bandung', col3: '3,69 Juta Jiwa', col4: '73,65', status: 'Tekstil & Agrowisata', badge: 'emerald' },
+              { col1: '32.16', col2: 'Kabupaten Bekasi', col3: '3,22 Juta Jiwa', col4: '75,20', status: 'Kawasan Manufaktur', badge: 'indigo' },
+              { col1: '32.73', col2: 'Kota Bandung', col3: '2,50 Juta Jiwa', col4: '82,71', status: 'Ibu Kota & Kreatif', badge: 'emerald' }
+            ]
+          }
+        }
+      }
+    };
+
+    let currentRegionLevel = 'desa';
+    let currentRegPage = 1;
+    const regRowsPerPage = 5;
+
+    function switchSimMode(mode) {
+      const btnWilayah = document.getElementById('sim-mode-wilayah');
+      const btnBisnis = document.getElementById('sim-mode-bisnis');
+      const contWilayah = document.getElementById('sim-container-wilayah');
+      const contBisnis = document.getElementById('sim-container-bisnis');
+
+      if (mode === 'wilayah') {
+        btnWilayah.className = 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-600 text-white shadow-sm transition-all flex items-center gap-2';
+        btnBisnis.className = 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all flex items-center gap-2';
+        contWilayah.classList.remove('hidden');
+        contBisnis.classList.add('hidden');
+      } else {
+        btnBisnis.className = 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-600 text-white shadow-sm transition-all flex items-center gap-2';
+        btnWilayah.className = 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all flex items-center gap-2';
+        contBisnis.classList.remove('hidden');
+        contWilayah.classList.add('hidden');
+      }
+    }
+
+    function selectRegionLevel(level) {
+      currentRegionLevel = level;
+      currentRegPage = 1;
+      const searchInput = document.getElementById('reg-table-search');
+      if (searchInput) searchInput.value = '';
+
+      document.querySelectorAll('.reg-level-btn').forEach(btn => {
+        btn.className = 'reg-level-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all';
+      });
+      const activeBtn = document.getElementById(`reg-btn-${level}`);
+      if (activeBtn) {
+        activeBtn.className = 'reg-level-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-brand-600 text-white shadow-sm transition-all';
+      }
+
+      updateRegionDashboard();
+    }
+
+    function updateRegionDashboard() {
+      const yearSelect = document.getElementById('reg-year-filter');
+      const year = yearSelect ? yearSelect.value : '2026';
+      const meta = regionProfilesData[currentRegionLevel];
+      const yData = meta.years[year] || meta.years['2026'];
+
+      // Update Header Wilayah
+      document.getElementById('reg-badge-level').textContent = `${meta.badge} • Tahun ${year}`;
+      document.getElementById('reg-breadcrumb').textContent = meta.breadcrumb;
+      document.getElementById('reg-title').textContent = meta.title;
+      document.getElementById('reg-focus-desc').textContent = meta.focus;
+      document.getElementById('reg-pic').textContent = meta.pic;
+
+      // Render 4 KPI Cards
+      const kpiGrid = document.getElementById('reg-kpi-grid');
+      kpiGrid.innerHTML = yData.kpis.map(k => `
+        <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80">
+          <div class="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
+            <span>${k.label}</span>
+            <span class="p-1.5 rounded-lg bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400">${k.icon}</span>
+          </div>
+          <div class="font-heading text-2xl font-extrabold text-slate-900 dark:text-white mt-2">${k.val}</div>
+          <div class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1.5 flex items-center gap-1.5">
+            <span>${k.trend}</span> <span class="text-slate-400 font-normal truncate">${k.sub}</span>
+          </div>
+        </div>
+      `).join('');
+
+      // Render Bar Chart Perbandingan Sub-Wilayah (Skala mulai dari 0)
+      document.getElementById('reg-bar-title').textContent = meta.barTitle;
+      document.getElementById('reg-bar-subtitle').textContent = meta.barSubtitle;
+      document.getElementById('reg-bar-unit').textContent = meta.barUnit;
+
+      const maxVal = Math.max(...yData.bars.map(b => b.val)) * 1.18;
+      const barContainer = document.getElementById('reg-bar-chart');
+      barContainer.innerHTML = `
+        <div class="grid gap-2 sm:gap-3 items-end h-48 pt-6 px-1 border-b border-slate-300 dark:border-slate-700" style="grid-template-columns: repeat(${yData.bars.length}, minmax(0, 1fr));">
+          ${yData.bars.map(bar => {
+            const heightPct = Math.max(8, Math.round((bar.val / maxVal) * 100));
+            return `
+              <div class="flex flex-col items-center h-full justify-end group">
+                <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 mb-1.5 group-hover:text-brand-600 transition-colors text-center">
+                  ${bar.val}
+                </span>
+                <div class="w-full max-w-[54px] bg-gradient-to-t from-brand-600 to-indigo-500 rounded-t-xl transition-all duration-500 group-hover:brightness-110 shadow-sm" style="height: ${heightPct}%"></div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <div class="grid gap-2 sm:gap-3 text-center pt-2.5 px-1" style="grid-template-columns: repeat(${yData.bars.length}, minmax(0, 1fr));">
+          ${yData.bars.map(bar => `
+            <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate" title="${bar.label}">${bar.label}</span>
+          `).join('')}
+        </div>
+      `;
+
+      // Render Komposisi Sektor
+      document.getElementById('reg-comp-title').textContent = meta.compTitle;
+      document.getElementById('reg-comp-subtitle').textContent = meta.compSubtitle;
+      document.getElementById('reg-insight').textContent = yData.insight;
+
+      const compContainer = document.getElementById('reg-comp-bars');
+      compContainer.innerHTML = yData.comp.map(c => `
+        <div>
+          <div class="flex justify-between text-xs font-semibold mb-1.5">
+            <span class="text-slate-700 dark:text-slate-200">${c.name}</span>
+            <span class="text-slate-900 dark:text-white">${c.pct}%</span>
+          </div>
+          <div class="w-full h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+            <div class="${c.color} h-full rounded-full transition-all duration-500" style="width: ${c.pct}%"></div>
+          </div>
+        </div>
+      `).join('');
+
+      // Update Judul & Header Tabel
+      document.getElementById('reg-table-title').textContent = `${meta.tableTitle} (${year})`;
+      const thead = document.getElementById('reg-table-head');
+      thead.innerHTML = `
+        <tr class="bg-slate-100 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
+          <th class="py-3 px-4 font-semibold">${meta.tableHeaders[0]}</th>
+          <th class="py-3 px-4 font-semibold">${meta.tableHeaders[1]}</th>
+          <th class="py-3 px-4 font-semibold">${meta.tableHeaders[2]}</th>
+          <th class="py-3 px-4 font-semibold">${meta.tableHeaders[3]}</th>
+          <th class="py-3 px-4 font-semibold text-right">${meta.tableHeaders[4]}</th>
+        </tr>
+      `;
+
+      renderRegionTable();
+    }
+
+    function handleRegTableSearch() {
+      currentRegPage = 1;
+      renderRegionTable();
+    }
+
+    function changeRegPage(delta) {
+      currentRegPage += delta;
+      renderRegionTable();
+    }
+
+    function renderRegionTable() {
+      const year = document.getElementById('reg-year-filter').value;
+      const meta = regionProfilesData[currentRegionLevel];
+      const yData = meta.years[year] || meta.years['2026'];
+      const query = document.getElementById('reg-table-search').value.toLowerCase().trim();
+
+      const filtered = yData.rows.filter(r =>
+        r.col1.toLowerCase().includes(query) ||
+        r.col2.toLowerCase().includes(query) ||
+        r.col3.toLowerCase().includes(query) ||
+        r.col4.toLowerCase().includes(query) ||
+        r.status.toLowerCase().includes(query)
+      );
+
+      const totalRows = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(totalRows / regRowsPerPage));
+      if (currentRegPage > totalPages) currentRegPage = totalPages;
+      if (currentRegPage < 1) currentRegPage = 1;
+
+      const startIdx = (currentRegPage - 1) * regRowsPerPage;
+      const pageRows = filtered.slice(startIdx, startIdx + regRowsPerPage);
+
+      const badgeStyles = {
+        emerald: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300',
+        amber: 'bg-amber-50 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300',
+        sky: 'bg-sky-50 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300',
+        indigo: 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300',
+        brand: 'bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300'
+      };
+
+      const tbody = document.getElementById('reg-table-body');
+      if (pageRows.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-8 text-center text-slate-500 dark:text-slate-400">
+              Tidak ditemukan data wilayah yang cocok dengan pencarian "${query}".
+            </td>
+          </tr>
+        `;
+      } else {
+        tbody.innerHTML = pageRows.map(r => `
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+            <td class="py-3 px-4 font-semibold text-brand-600 dark:text-brand-400 whitespace-nowrap">${r.col1}</td>
+            <td class="py-3 px-4 font-medium text-slate-800 dark:text-slate-100">${r.col2}</td>
+            <td class="py-3 px-4 text-slate-600 dark:text-slate-300 whitespace-nowrap">${r.col3}</td>
+            <td class="py-3 px-4 text-slate-600 dark:text-slate-300 whitespace-nowrap">${r.col4}</td>
+            <td class="py-3 px-4 text-right whitespace-nowrap">
+              <span class="px-2.5 py-1 rounded-lg text-xs font-semibold ${badgeStyles[r.badge] || badgeStyles.sky}">
+                ${r.status}
+              </span>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      const showStart = totalRows === 0 ? 0 : startIdx + 1;
+      const showEnd = Math.min(startIdx + regRowsPerPage, totalRows);
+      document.getElementById('reg-pagination-info').textContent = `Menampilkan ${showStart}–${showEnd} dari ${totalRows} data wilayah`;
+      document.getElementById('reg-page-indicator').textContent = `Hal ${currentRegPage} / ${totalPages}`;
+      document.getElementById('reg-btn-prev').disabled = currentRegPage <= 1;
+      document.getElementById('reg-btn-next').disabled = currentRegPage >= totalPages;
+    }
+
+    // Inisialisasi Simulasi Profil Wilayah
+    updateRegionDashboard();
+
+    // =========================================================================
+    // 4. SIMULASI LIVE MINI-DASHBOARD INTERAKTIF (BISNIS KOPI & ROTI)
+    // =========================================================================
+    const simDatasets = {
+      'all-bulan': {
+        revenue: 'Rp 84.500.000',
+        revTrend: '▲ 14,2%',
+        revPositive: true,
+        orders: '2.140 Struk',
+        ordTrend: '▲ 8,5%',
+        aov: 'Rp 39.485',
+        aovTrend: '▲ 5,1%',
+        csat: '4,8 / 5,0',
+        csatSub: 'Dari 612 ulasan terverifikasi',
+        subtitle: 'Perbandingan Mingguan — Semua Cabang (Bulan Ini)',
+        bars: [
+          { label: 'Minggu 1', val: 18.5 },
+          { label: 'Minggu 2', val: 20.2 },
+          { label: 'Minggu 3', val: 21.8 },
+          { label: 'Minggu 4', val: 24.0 }
+        ],
+        categories: [
+          { name: 'Kopi Susu & Espresso', pct: 46, color: 'bg-brand-600' },
+          { name: 'Roti Panggang & Pastry', pct: 32, color: 'bg-indigo-500' },
+          { name: 'Minuman Non-Kopi', pct: 22, color: 'bg-emerald-500' }
+        ],
+        insight: 'Kopi Susu Gula Aren menyumbang 46% omzet total'
+      },
+      'all-kuartal': {
+        revenue: 'Rp 248.900.000',
+        revTrend: '▲ 18,7%',
+        revPositive: true,
+        orders: '6.310 Struk',
+        ordTrend: '▲ 12,4%',
+        aov: 'Rp 39.445',
+        aovTrend: '▲ 4,8%',
+        csat: '4,8 / 5,0',
+        csatSub: 'Dari 1.840 ulasan terverifikasi',
+        subtitle: 'Perbandingan Bulanan — Semua Cabang (Kuartal Ini)',
+        bars: [
+          { label: 'Bulan 1', val: 76.4 },
+          { label: 'Bulan 2', val: 88.0 },
+          { label: 'Bulan 3', val: 84.5 }
+        ],
+        categories: [
+          { name: 'Kopi Susu & Espresso', pct: 48, color: 'bg-brand-600' },
+          { name: 'Roti Panggang & Pastry', pct: 30, color: 'bg-indigo-500' },
+          { name: 'Minuman Non-Kopi', pct: 22, color: 'bg-emerald-500' }
+        ],
+        insight: 'Puncak omzet kuartal terjadi pada Bulan ke-2 (Rp 88 Jt)'
+      },
+      'bandung-bulan': {
+        revenue: 'Rp 38.200.000',
+        revTrend: '▲ 16,4%',
+        revPositive: true,
+        orders: '1.020 Struk',
+        ordTrend: '▲ 11,0%',
+        aov: 'Rp 37.450',
+        aovTrend: '▲ 4,2%',
+        csat: '4,9 / 5,0',
+        csatSub: 'Dari 310 ulasan Cabang Bandung',
+        subtitle: 'Perbandingan Mingguan — Cabang Bandung (Bulan Ini)',
+        bars: [
+          { label: 'Minggu 1', val: 8.2 },
+          { label: 'Minggu 2', val: 9.1 },
+          { label: 'Minggu 3', val: 9.9 },
+          { label: 'Minggu 4', val: 11.0 }
+        ],
+        categories: [
+          { name: 'Kopi Susu & Espresso', pct: 42, color: 'bg-brand-600' },
+          { name: 'Roti Panggang & Pastry', pct: 38, color: 'bg-indigo-500' },
+          { name: 'Minuman Non-Kopi', pct: 20, color: 'bg-emerald-500' }
+        ],
+        insight: 'Udara sejuk Bandung mendongkrak penjualan Roti Panggang (38%)'
+      },
+      'bandung-kuartal': {
+        revenue: 'Rp 112.400.000',
+        revTrend: '▲ 21,0%',
+        revPositive: true,
+        orders: '2.980 Struk',
+        ordTrend: '▲ 15,2%',
+        aov: 'Rp 37.718',
+        aovTrend: '▲ 5,0%',
+        csat: '4,9 / 5,0',
+        csatSub: 'Dari 920 ulasan Cabang Bandung',
+        subtitle: 'Perbandingan Bulanan — Cabang Bandung (Kuartal Ini)',
+        bars: [
+          { label: 'Bulan 1', val: 34.0 },
+          { label: 'Bulan 2', val: 40.2 },
+          { label: 'Bulan 3', val: 38.2 }
+        ],
+        categories: [
+          { name: 'Kopi Susu & Espresso', pct: 43, color: 'bg-brand-600' },
+          { name: 'Roti Panggang & Pastry', pct: 37, color: 'bg-indigo-500' },
+          { name: 'Minuman Non-Kopi', pct: 20, color: 'bg-emerald-500' }
+        ],
+        insight: 'Rating kepuasan pelanggan tertinggi ada di Cabang Bandung (4,9)'
+      },
+      'jakarta-bulan': {
+        revenue: 'Rp 46.300.000',
+        revTrend: '▲ 12,1%',
+        revPositive: true,
+        orders: '1.120 Struk',
+        ordTrend: '▲ 6,4%',
+        aov: 'Rp 41.339',
+        aovTrend: '▲ 5,8%',
+        csat: '4,7 / 5,0',
+        csatSub: 'Dari 302 ulasan Cabang Jakarta',
+        subtitle: 'Perbandingan Mingguan — Cabang Jakarta (Bulan Ini)',
+        bars: [
+          { label: 'Minggu 1', val: 10.3 },
+          { label: 'Minggu 2', val: 11.1 },
+          { label: 'Minggu 3', val: 11.9 },
+          { label: 'Minggu 4', val: 13.0 }
+        ],
+        categories: [
+          { name: 'Kopi Susu & Espresso', pct: 50, color: 'bg-brand-600' },
+          { name: 'Roti Panggang & Pastry', pct: 26, color: 'bg-indigo-500' },
+          { name: 'Minuman Non-Kopi', pct: 24, color: 'bg-emerald-500' }
+        ],
+        insight: 'Pekerja kantoran Jakarta mendominasi pesanan Es Kopi Susu (50%)'
+      },
+      'jakarta-kuartal': {
+        revenue: 'Rp 136.500.000',
+        revTrend: '▲ 16,8%',
+        revPositive: true,
+        orders: '3.330 Struk',
+        ordTrend: '▲ 10,1%',
+        aov: 'Rp 40.990',
+        aovTrend: '▲ 4,6%',
+        csat: '4,7 / 5,0',
+        csatSub: 'Dari 920 ulasan Cabang Jakarta',
+        subtitle: 'Perbandingan Bulanan — Cabang Jakarta (Kuartal Ini)',
+        bars: [
+          { label: 'Bulan 1', val: 42.4 },
+          { label: 'Bulan 2', val: 47.8 },
+          { label: 'Bulan 3', val: 46.3 }
+        ],
+        categories: [
+          { name: 'Kopi Susu & Espresso', pct: 51, color: 'bg-brand-600' },
+          { name: 'Roti Panggang & Pastry', pct: 25, color: 'bg-indigo-500' },
+          { name: 'Minuman Non-Kopi', pct: 24, color: 'bg-emerald-500' }
+        ],
+        insight: 'Rata-rata nilai belanja Jakarta 10% lebih tinggi dibanding Bandung'
+      }
+    };
+
+    // Data Transaksi Mockup untuk Tabel & Paginasi
+    const allTransactions = [
+      { id: '#TRX-1041', branch: 'bandung', branchLabel: 'Bandung', menu: '2x Es Kopi Susu Aren, 1x Roti Bakar Cokelat', method: 'QRIS', total: 'Rp 68.000' },
+      { id: '#TRX-1042', branch: 'jakarta', branchLabel: 'Jakarta', menu: '3x Iced Americano, 2x Croissant Almond', method: 'Kartu Debit', total: 'Rp 132.000' },
+      { id: '#TRX-1043', branch: 'bandung', branchLabel: 'Bandung', menu: '1x Hot Cappuccino, 1x Roti Srikaya Pandan', method: 'QRIS', total: 'Rp 45.000' },
+      { id: '#TRX-1044', branch: 'jakarta', branchLabel: 'Jakarta', menu: '2x Matcha Latte, 1x Cinnamon Roll', method: 'Tunai', total: 'Rp 84.000' },
+      { id: '#TRX-1045', branch: 'bandung', branchLabel: 'Bandung', menu: '4x Es Kopi Susu Aren (Paket Kantor)', method: 'QRIS', total: 'Rp 88.000' },
+      { id: '#TRX-1046', branch: 'jakarta', branchLabel: 'Jakarta', menu: '1x Caramel Macchiato, 1x Tuna Puff', method: 'QRIS', total: 'Rp 62.000' },
+      { id: '#TRX-1047', branch: 'bandung', branchLabel: 'Bandung', menu: '2x Cokelat Panas, 2x Pisang Bakar Keju', method: 'Tunai', total: 'Rp 76.000' },
+      { id: '#TRX-1048', branch: 'jakarta', branchLabel: 'Jakarta', menu: '2x Es Kopi Susu Aren, 1x Beef Croissant', method: 'QRIS', total: 'Rp 81.000' },
+      { id: '#TRX-1049', branch: 'bandung', branchLabel: 'Bandung', menu: '1x V60 Manual Brew Gayo, 1x Brownies', method: 'Kartu Debit', total: 'Rp 52.000' },
+      { id: '#TRX-1050', branch: 'jakarta', branchLabel: 'Jakarta', menu: '3x Es Kopi Susu Aren, 2x Roti Bakar Keju', method: 'QRIS', total: 'Rp 114.000' },
+      { id: '#TRX-1051', branch: 'bandung', branchLabel: 'Bandung', menu: '2x Lychee Tea, 1x Roti Bakar Cokelat', method: 'QRIS', total: 'Rp 58.000' },
+      { id: '#TRX-1052', branch: 'jakarta', branchLabel: 'Jakarta', menu: '1x Iced Latte, 1x Cheese Danish', method: 'Tunai', total: 'Rp 55.000' }
+    ];
+
+    let currentPage = 1;
+    const rowsPerPage = 5;
+
+    function updateDashboardSimulation() {
+      const branch = document.getElementById('filter-cabang').value;
+      const period = document.getElementById('filter-periode').value;
+      const key = `${branch}-${period}`;
+      const d = simDatasets[key];
+
+      // Update KPI Cards
+      document.getElementById('kpi-revenue').textContent = d.revenue;
+      document.getElementById('kpi-revenue-trend').innerHTML = `<span>${d.revTrend}</span> <span class="text-slate-400 font-normal">vs periode lalu</span>`;
+      document.getElementById('kpi-orders').textContent = d.orders;
+      document.getElementById('kpi-orders-trend').innerHTML = `<span>${d.ordTrend}</span> <span class="text-slate-400 font-normal">vs periode lalu</span>`;
+      document.getElementById('kpi-aov').textContent = d.aov;
+      document.getElementById('kpi-aov-trend').innerHTML = `<span>${d.aovTrend}</span> <span class="text-slate-400 font-normal">vs target Rp 35rb</span>`;
+      document.getElementById('kpi-csat').textContent = d.csat;
+      document.getElementById('kpi-csat-trend').textContent = d.csatSub;
+      document.getElementById('chart-subtitle').textContent = d.subtitle;
+      document.getElementById('auto-insight').textContent = d.insight;
+
+      // Render Bar Chart (Skala dimulai dari 0)
+      const maxVal = Math.max(...d.bars.map(b => b.val)) * 1.15;
+      const barContainer = document.getElementById('bar-chart-container');
+      barContainer.innerHTML = `
+        <div class="grid grid-cols-${d.bars.length} gap-3 sm:gap-5 items-end h-48 pt-6 px-2 border-b border-slate-300 dark:border-slate-700">
+          ${d.bars.map(bar => {
+            const heightPct = Math.round((bar.val / maxVal) * 100);
+            return `
+              <div class="flex flex-col items-center h-full justify-end group">
+                <span class="text-xs font-bold text-slate-700 dark:text-slate-200 mb-1.5 group-hover:text-brand-600 transition-colors">
+                  Rp ${bar.val} Jt
+                </span>
+                <div class="w-full max-w-[64px] bg-gradient-to-t from-brand-600 to-indigo-500 rounded-t-xl transition-all duration-500 group-hover:brightness-110 shadow-sm" style="height: ${heightPct}%"></div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <div class="grid grid-cols-${d.bars.length} gap-3 sm:gap-5 text-center pt-2.5 px-2">
+          ${d.bars.map(bar => `
+            <span class="text-xs font-medium text-slate-500 dark:text-slate-400">${bar.label}</span>
+          `).join('')}
+        </div>
+      `;
+
+      // Render Category Progress Bars
+      const catContainer = document.getElementById('category-bars');
+      catContainer.innerHTML = d.categories.map(cat => `
+        <div>
+          <div class="flex justify-between text-xs font-semibold mb-1.5">
+            <span class="text-slate-700 dark:text-slate-200">${cat.name}</span>
+            <span class="text-slate-900 dark:text-white">${cat.pct}%</span>
+          </div>
+          <div class="w-full h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+            <div class="${cat.color} h-full rounded-full transition-all duration-500" style="width: ${cat.pct}%"></div>
+          </div>
+        </div>
+      `).join('');
+
+      // Reset halaman tabel ke 1 saat filter berubah
+      currentPage = 1;
+      renderTransactionTable();
+    }
+
+    function handleTableSearch() {
+      currentPage = 1;
+      renderTransactionTable();
+    }
+
+    function changePage(delta) {
+      currentPage += delta;
+      renderTransactionTable();
+    }
+
+    function renderTransactionTable() {
+      const branchFilter = document.getElementById('filter-cabang').value;
+      const searchQuery = document.getElementById('table-search').value.toLowerCase().trim();
+
+      // Filter data berdasarkan cabang & kata kunci pencarian
+      const filtered = allTransactions.filter(tx => {
+        const matchBranch = branchFilter === 'all' || tx.branch === branchFilter;
+        const matchSearch =
+          tx.id.toLowerCase().includes(searchQuery) ||
+          tx.branchLabel.toLowerCase().includes(searchQuery) ||
+          tx.menu.toLowerCase().includes(searchQuery) ||
+          tx.method.toLowerCase().includes(searchQuery);
+        return matchBranch && matchSearch;
+      });
+
+      const totalRows = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(totalRows / rowsPerPage));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIndex = (currentPage - 1) * rowsPerPage;
+      const paginatedRows = filtered.slice(startIndex, startIndex + rowsPerPage);
+
+      const tbody = document.getElementById('transaction-table-body');
+      if (paginatedRows.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-8 text-center text-slate-500 dark:text-slate-400">
+              Tidak ditemukan transaksi yang cocok dengan pencarian "${searchQuery}".
+            </td>
+          </tr>
+        `;
+      } else {
+        tbody.innerHTML = paginatedRows.map(tx => `
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+            <td class="py-3 px-4 font-semibold text-brand-600 dark:text-brand-400 whitespace-nowrap">${tx.id}</td>
+            <td class="py-3 px-4 whitespace-nowrap">
+              <span class="px-2.5 py-0.5 rounded-md text-xs font-medium ${tx.branch === 'bandung' ? 'bg-sky-50 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300' : 'bg-purple-50 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'}">
+                ${tx.branchLabel}
+              </span>
+            </td>
+            <td class="py-3 px-4 text-slate-700 dark:text-slate-200">${tx.menu}</td>
+            <td class="py-3 px-4 text-slate-500 dark:text-slate-400 whitespace-nowrap">${tx.method}</td>
+            <td class="py-3 px-4 font-bold text-slate-900 dark:text-white text-right whitespace-nowrap">${tx.total}</td>
+          </tr>
+        `).join('');
+      }
+
+      // Update info & tombol paginasi
+      const showStart = totalRows === 0 ? 0 : startIndex + 1;
+      const showEnd = Math.min(startIndex + rowsPerPage, totalRows);
+      document.getElementById('pagination-info').textContent = `Menampilkan ${showStart}–${showEnd} dari ${totalRows} transaksi`;
+      document.getElementById('page-indicator').textContent = `Hal ${currentPage} / ${totalPages}`;
+      document.getElementById('btn-prev-page').disabled = currentPage <= 1;
+      document.getElementById('btn-next-page').disabled = currentPage >= totalPages;
+    }
+
+    // Inisialisasi Simulasi Live
+    updateDashboardSimulation();
+
+    // =========================================================================
+    // 5. CHECKLIST INTERAKTIF DENGAN PENYIMPANAN LOCALSTORAGE
+    // =========================================================================
+    const checklistItemsData = [
+      { id: 'chk_1', text: 'Aturan 5 Detik: Angka terpenting langsung terlihat di bagian paling atas.' },
+      { id: 'chk_2', text: 'Konteks Angka: Setiap KPI punya pembanding (target atau periode sebelumnya).' },
+      { id: 'chk_3', text: 'Skala Jujur: Semua grafik batang (Bar/Column) memulai sumbu Y dari angka 0.' },
+      { id: 'chk_4', text: 'Bebas Pie Chart Berlebih: Tidak ada Pie/Donut Chart dengan lebih dari 4 irisan.' },
+      { id: 'chk_5', text: 'Warna Semantik Konsisten: Hijau untuk positif, merah khusus peringatan, tidak warna-warni.' },
+      { id: 'chk_6', text: 'Responsif & Lega: Minimal 20% ruang kosong dan tabel dibatasi 5–10 baris per halaman.' }
+    ];
+
+    let savedChecklist = JSON.parse(localStorage.getItem('dashpintar_checklist') || '{}');
+
+    function renderChecklist() {
+      const container = document.getElementById('checklist-items');
+      let completedCount = 0;
+
+      container.innerHTML = checklistItemsData.map(item => {
+        const isChecked = !!savedChecklist[item.id];
+        if (isChecked) completedCount++;
+
+        return `
+          <label class="flex items-start gap-3 p-4 rounded-2xl border cursor-pointer transition-all ${
+            isChecked
+              ? 'bg-emerald-50/70 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-800'
+              : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 hover:border-brand-400'
+          }">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleChecklistItem('${item.id}')" class="mt-1 w-4 h-4 rounded text-brand-600 focus:ring-brand-500 cursor-pointer" />
+            <span class="text-xs sm:text-sm leading-relaxed ${
+              isChecked ? 'line-through text-slate-500 dark:text-slate-400' : 'text-slate-800 dark:text-slate-200 font-medium'
+            }">
+              ${item.text}
+            </span>
+          </label>
+        `;
+      }).join('');
+
+      document.getElementById('checklist-progress-text').textContent = `${completedCount} / ${checklistItemsData.length} Selesai`;
+    }
+
+    function toggleChecklistItem(id) {
+      savedChecklist[id] = !savedChecklist[id];
+      localStorage.setItem('dashpintar_checklist', JSON.stringify(savedChecklist));
+      renderChecklist();
+    }
+
+    function resetChecklist() {
+      savedChecklist = {};
+      localStorage.removeItem('dashpintar_checklist');
+      renderChecklist();
+    }
+
+    renderChecklist();
+
+    // =========================================================================
+    // 6. KUIS MINI INTERAKTIF (5 SOAL STUDI KASUS SEHARI-HARI)
+    // =========================================================================
+    const quizQuestions = [
+      {
+        q: '1. Kepala Desa Ciburial ingin memantau penyaluran bantuan sosial per RW dan sisa anggaran desa setiap hari agar tidak terjadi keterlambatan. Jenis dashboard apa yang paling tepat?',
+        options: [
+          'Dashboard Strategis',
+          'Dashboard Operasional',
+          'Dashboard Analitis',
+          'Dashboard Infografis Statis'
+        ],
+        answer: 1,
+        explanation: 'Dashboard Operasional digunakan untuk memantau aktivitas harian/real-time dan mendeteksi kendala lapangan secara cepat.'
+      },
+      {
+        q: '2. Pemerintah Provinsi Jawa Barat ingin membandingkan tren kenaikan Indeks Pembangunan Manusia (IPM) dari tahun 2021 hingga 2026. Grafik apa yang paling sesuai?',
+        options: [
+          'Pie Chart (Grafik Lingkaran)',
+          'Line Chart (Grafik Garis)',
+          'Scatter Plot',
+          'Tabel Mentah 500 Baris'
+        ],
+        answer: 1,
+        explanation: 'Line Chart adalah visualisasi terbaik untuk memperlihatkan tren perubahan nilai secara berurutan dari waktu ke waktu.'
+      },
+      {
+        q: '3. Kamu ingin menampilkan porsi 9 jenis pengeluaran rumah tangga (makan, listrik, cicilan, bensin, kuota, dll). Mengapa Pie Chart sebaiknya dihindari?',
+        options: [
+          'Karena Pie Chart hanya bisa dipakai untuk data keuangan perusahaan besar',
+          'Karena irisan yang lebih dari 4 kategori sulit dibandingkan ukurannya oleh mata',
+          'Karena Pie Chart tidak bisa diberi warna',
+          'Karena Pie Chart tidak memiliki sumbu Y dari nol'
+        ],
+        answer: 1,
+        explanation: 'Mata manusia sulit membedakan sudut irisan lingkaran jika kategorinya lebih dari 4. Gunakan Horizontal Bar Chart sebagai gantinya.'
+      },
+      {
+        q: '4. Menurut prinsip "Aturan 5 Detik" dan "Piramida Terbalik", di bagian mana kartu angka KPI utama harus diletakkan?',
+        options: [
+          'Di bagian paling bawah setelah tabel transaksi',
+          'Di halaman kedua setelah pengguna menekan tombol lanjut',
+          'Di baris paling atas layar dengan ukuran angka yang jelas & pembanding target',
+          'Disembunyikan di dalam menu dropdown'
+        ],
+        answer: 2,
+        explanation: 'Piramida Terbalik menempatkan ringkasan paling penting (KPI Cards) di baris teratas agar langsung terbaca dalam 5 detik pertama.'
+      },
+      {
+        q: '5. Sebuah grafik batang perbandingan jumlah penduduk antar-kelurahan memulai sumbu Y dari angka 20.000 jiwa (bukan 0), sehingga kelurahan berpenduduk 24.000 terlihat 4 kali lebih tinggi dari 21.000. Apa kesalahannya?',
+        options: [
+          'Skala sumbu Y terpotong (tidak mulai dari 0) sehingga mendistorsi perbandingan visual',
+          'Warnanya kurang mencolok',
+          'Seharusnya menggunakan grafik 3D agar lebih menarik',
+          'Nama kelurahan tidak diurutkan sesuai abjad'
+        ],
+        answer: 0,
+        explanation: 'Grafik batang mengandalkan panjang batang untuk perbandingan proporsional; memotong sumbu Y dari angka selain 0 membuat perbandingan menjadi menyesatkan.'
+      }
+    ];
+
+    let userQuizAnswers = {};
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = quizQuestions.map((item, qIdx) => `
+        <div id="quiz-card-${qIdx}" class="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <p class="font-heading font-bold text-sm sm:text-base text-slate-900 dark:text-white leading-relaxed">${item.q}</p>
+          <div class="grid sm:grid-cols-2 gap-2.5">
+            ${item.options.map((opt, oIdx) => `
+              <button type="button" onclick="selectQuizOption(${qIdx}, ${oIdx})" id="q-${qIdx}-opt-${oIdx}" class="quiz-opt-${qIdx} text-left px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 hover:border-brand-400 text-xs sm:text-sm text-slate-700 dark:text-slate-200 transition-all">
+                <span class="font-bold mr-1.5">${String.fromCharCode(65 + oIdx)}.</span> ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div id="quiz-feedback-${qIdx}" class="hidden text-xs sm:text-sm p-3.5 rounded-xl"></div>
+        </div>
+      `).join('');
+    }
+
+    function selectQuizOption(qIdx, oIdx) {
+      userQuizAnswers[qIdx] = oIdx;
+      document.querySelectorAll(`.quiz-opt-${qIdx}`).forEach((btn, idx) => {
+        if (idx === oIdx) {
+          btn.classList.add('border-brand-600', 'bg-brand-50', 'dark:bg-brand-900/40', 'text-brand-800', 'dark:text-brand-200', 'font-semibold');
+          btn.classList.remove('border-slate-200', 'dark:border-slate-700', 'bg-slate-50', 'dark:bg-slate-800/60');
+        } else {
+          btn.classList.remove('border-brand-600', 'bg-brand-50', 'dark:bg-brand-900/40', 'text-brand-800', 'dark:text-brand-200', 'font-semibold');
+          btn.classList.add('border-slate-200', 'dark:border-slate-700', 'bg-slate-50', 'dark:bg-slate-800/60');
+        }
+      });
+    }
+
+    function evaluateQuiz() {
+      const answeredCount = Object.keys(userQuizAnswers).length;
+      const resultBox = document.getElementById('quiz-result-box');
+
+      if (answeredCount < quizQuestions.length) {
+        resultBox.innerHTML = `<span class="font-semibold text-amber-600 dark:text-amber-400">⚠️ Kamu baru menjawab ${answeredCount} dari ${quizQuestions.length} soal. Lengkapi semua jawaban terlebih dahulu ya!</span>`;
+        return;
+      }
+
+      let score = 0;
+      quizQuestions.forEach((item, qIdx) => {
+        const chosen = userQuizAnswers[qIdx];
+        const feedbackEl = document.getElementById(`quiz-feedback-${qIdx}`);
+        feedbackEl.classList.remove('hidden');
+
+        if (chosen === item.answer) {
+          score++;
+          feedbackEl.className = 'text-xs sm:text-sm p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200';
+          feedbackEl.innerHTML = `<strong>✅ Benar!</strong> ${item.explanation}`;
+        } else {
+          feedbackEl.className = 'text-xs sm:text-sm p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200';
+          feedbackEl.innerHTML = `<strong>❌ Kurang tepat.</strong> Jawaban benar: <strong>${String.fromCharCode(65 + item.answer)}</strong>. ${item.explanation}`;
+        }
+      });
+
+      const pct = Math.round((score / quizQuestions.length) * 100);
+      resultBox.innerHTML = `<span class="font-heading font-bold text-base text-slate-900 dark:text-white">Skor Kamu: ${score} / ${quizQuestions.length} (${pct}%)</span> — ${pct >= 80 ? 'Luar biasa! Kamu siap merancang dashboard yang efektif 🎉' : 'Bagus! Baca kembali penjelasan tiap soal untuk mempertajam pemahamanmu 💪'}`;
+    }
+
+    function resetQuiz() {
+      userQuizAnswers = {};
+      renderQuiz();
+      document.getElementById('quiz-result-box').textContent = 'Pilih jawaban untuk semua 5 pertanyaan di atas, lalu klik tombol periksa skor.';
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>
