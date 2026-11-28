@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSBPM v5.1 — Panduan Lengkap 5W+1H & Eksplorasi Interaktif</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Micro-animations & Transitions */
+        .phase-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .phase-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Glassmorphism utility */
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Fade in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.35s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- ==========================================
+         1. STICKY HEADER & READING PROGRESS BAR
+         ========================================== -->
+    <header class="sticky top-0 z-50 w-full glass-header bg-white/85 dark:bg-slate-900/85 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-indigo-600 flex items-center justify-center text-white font-display font-bold shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
+                        <i data-lucide="layers" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <span class="font-display font-bold text-lg tracking-tight text-slate-900 dark:text-white block leading-none">GSBPM <span class="text-brand-600 dark:text-brand-400">v5.1</span></span>
+                        <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 tracking-wide">Statistical Process Standard</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center gap-1 lg:gap-2">
+                    <a href="#pengantar-5w1h" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-brand-400 dark:hover:bg-slate-800/70 transition-colors">Konsep 5W+1H</a>
+                    <a href="#matriks-gsbpm" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-brand-400 dark:hover:bg-slate-800/70 transition-colors">8 Fase & 44 Sub-proses</a>
+                    <a href="#overarching" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-brand-400 dark:hover:bg-slate-800/70 transition-colors">Lintas Sektoral</a>
+                    <a href="#studi-kasus" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-brand-400 dark:hover:bg-slate-800/70 transition-colors">Implementasi Nyata</a>
+                    <a href="#kuis-interaktif" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-brand-400 dark:hover:bg-slate-800/70 transition-colors">Simulasi Kuis</a>
+                </nav>
+
+                <!-- Theme Toggle & Mobile Menu Button -->
+                <div class="flex items-center gap-2">
+                    <button id="theme-toggle" aria-label="Ubah Tema Gelap/Terang" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <i id="theme-icon-sun" data-lucide="sun" class="w-5 h-5 hidden dark:block text-amber-400"></i>
+                        <i id="theme-icon-moon" data-lucide="moon" class="w-5 h-5 block dark:hidden text-slate-700"></i>
+                    </button>
+
+                    <button id="mobile-menu-btn" aria-label="Buka Menu Navigasi" class="md:hidden p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-4 space-y-1 shadow-lg">
+            <a href="#pengantar-5w1h" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Konsep 5W+1H</a>
+            <a href="#matriks-gsbpm" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">8 Fase & 44 Sub-proses</a>
+            <a href="#overarching" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Proses Lintas Sektoral</a>
+            <a href="#studi-kasus" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Contoh Implementasi Nyata</a>
+            <a href="#kuis-interaktif" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Uji Pemahaman (Kuis)</a>
+        </div>
+
+        <!-- Reading Progress Bar -->
+        <div class="w-full h-1 bg-slate-200/50 dark:bg-slate-800/50 overflow-hidden">
+            <div id="reading-progress" class="h-full bg-gradient-to-r from-brand-500 via-indigo-500 to-emerald-500 w-0 transition-all duration-150"></div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         HERO SECTION
+         ========================================== -->
+    <section class="relative overflow-hidden pt-12 pb-16 sm:pt-20 sm:pb-24 border-b border-slate-200/80 dark:border-slate-800/80">
+        <!-- Decorative Background Gradients -->
+        <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-brand-500/15 via-indigo-500/10 to-emerald-500/15 dark:from-brand-500/10 dark:via-indigo-500/5 dark:to-emerald-500/10 blur-3xl rounded-full"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 dark:bg-brand-950/60 border border-brand-200 dark:border-brand-800/80 text-brand-700 dark:text-brand-300 text-xs sm:text-sm font-semibold mb-6">
+                <span class="w-2 h-2 rounded-full bg-brand-600 dark:bg-brand-400 animate-pulse"></span>
+                Standar Internasional UNECE • Selaras Satu Data Indonesia (SDI)
+            </div>
+
+            <h1 class="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-[1.15]">
+                Memahami <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600 dark:from-brand-400 dark:to-indigo-400">GSBPM v5.1</span> Secara Menyeluruh & Praktis
+            </h1>
+
+            <p class="mt-6 text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                <strong>Generic Statistical Business Process Model</strong> adalah kerangka kerja standar global yang mendefinisikan dan mendeskripsikan serangkaian proses bisnis untuk menghasilkan statistik resmi berkualitas tinggi secara sistematis.
+            </p>
+
+            <!-- Quick Action Buttons -->
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <a href="#matriks-gsbpm" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold shadow-lg shadow-brand-600/25 transition-all hover:-translate-y-0.5">
+                    <i data-lucide="grid" class="w-5 h-5"></i>
+                    Eksplorasi 8 Fase & 44 Sub-proses
+                </a>
+                <a href="#studi-kasus" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-100 font-semibold border border-slate-200 dark:border-slate-700 shadow-sm transition-all hover:-translate-y-0.5">
+                    <i data-lucide="briefcase" class="w-5 h-5 text-brand-600 dark:text-brand-400"></i>
+                    Studi Kasus Pemerintah Daerah
+                </a>
+            </div>
+
+            <!-- Key Metrics Strip -->
+            <div class="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="p-4 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="font-display font-extrabold text-2xl sm:text-3xl text-brand-600 dark:text-brand-400">8 Fase</div>
+                    <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Tahapan Inti Produksi</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="font-display font-extrabold text-2xl sm:text-3xl text-indigo-600 dark:text-indigo-400">44 Sub</div>
+                    <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Sub-proses Terperinci</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="font-display font-extrabold text-2xl sm:text-3xl text-emerald-600 dark:text-emerald-400">3 Lintas</div>
+                    <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Overarching Processes</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="font-display font-extrabold text-2xl sm:text-3xl text-amber-600 dark:text-amber-400">Versi 5.1</div>
+                    <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Standar UNECE & SDI</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         2. KONSEP LENGKAP 5W + 1H (INTERACTIVE TABS)
+         ========================================== -->
+    <section id="pengantar-5w1h" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Fondasi Konseptual</span>
+            <h2 class="font-display font-bold text-2xl sm:text-4xl text-slate-900 dark:text-white mt-2">
+                Membedah GSBPM Melalui Pendekatan 5W + 1H
+            </h2>
+            <p class="mt-3 text-slate-600 dark:text-slate-300 text-base sm:text-lg">
+                Pilih setiap dimensi pertanyaan di bawah ini untuk memahami definisi resmi, urgensi, aktor pengguna, waktu penerapan, cakupan wilayah, hingga mekanisme kerja fleksibel GSBPM.
+            </p>
+        </div>
+
+        <!-- 5W+1H Interactive Selector Tabs -->
+        <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5" id="w5h1-tabs" role="tablist">
+            <!-- Tabs populated dynamically by JS -->
+        </div>
+
+        <!-- 5W+1H Content Display Card -->
+        <div id="w5h1-content" class="mt-6 p-6 sm:p-8 lg:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none transition-all">
+            <!-- Content populated dynamically by JS -->
+        </div>
+    </section>
+
+    <!-- ==========================================
+         3. EKSPLORASI INTERAKTIF 8 FASE & 44 SUB-PROSES
+         ========================================== -->
+    <section id="matriks-gsbpm" class="py-16 sm:py-24 bg-slate-100/80 dark:bg-slate-900/50 border-y border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+                <div class="max-w-2xl">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Arsitektur Inti GSBPM v5.1</span>
+                    <h2 class="font-display font-bold text-2xl sm:text-4xl text-slate-900 dark:text-white mt-2">
+                        Matriks Interaktif 8 Fase & 44 Sub-proses
+                    </h2>
+                    <p class="mt-3 text-slate-600 dark:text-slate-300 text-base">
+                        Klik pada <strong>Judul Fase</strong> atau kotak <strong>Sub-proses (1.1 – 8.3)</strong> untuk membaca deskripsi resmi, input, output, serta contoh aktivitas nyata <strong>Pemerintah Daerah (OPD, Bappeda, & Walidata Diskominfo)</strong>.
+                    </p>
+                </div>
+
+                <!-- Search & Filter Box -->
+                <div class="w-full lg:w-[440px] flex flex-col gap-2">
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <div class="relative flex-1">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                            <input 
+                                type="text" 
+                                id="subprocess-search" 
+                                placeholder="Cari sub-proses (misal: Romantik, RPJMD, stunting, OSS)..." 
+                                class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-sm"
+                            >
+                            <button id="clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" title="Hapus pencarian">
+                                <i data-lucide="x-circle" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <select 
+                            id="phase-filter" 
+                            aria-label="Filter berdasarkan Fase"
+                            class="px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-sm"
+                        >
+                            <option value="all">Semua Fase (1–8)</option>
+                            <option value="1">Fase 1: Specify Needs</option>
+                            <option value="2">Fase 2: Design</option>
+                            <option value="3">Fase 3: Build</option>
+                            <option value="4">Fase 4: Collect</option>
+                            <option value="5">Fase 5: Process</option>
+                            <option value="6">Fase 6: Analyse</option>
+                            <option value="7">Fase 7: Disseminate</option>
+                            <option value="8">Fase 8: Evaluate</option>
+                        </select>
+                    </div>
+                    <p id="search-status" class="text-xs text-slate-500 dark:text-slate-400 ml-1">Menampilkan seluruh 8 Fase dan 44 Sub-proses.</p>
+                </div>
+            </div>
+
+            <!-- Interactive 8-Phase Matrix Grid -->
+            <div id="gsbpm-matrix" class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- Matrix cards rendered via JS -->
+            </div>
+
+            <!-- Detail Inspector Panel (Appears below or opens cleanly when a phase/subprocess is clicked) -->
+            <div id="detail-inspector" class="mt-8 rounded-3xl bg-white dark:bg-slate-900 border-2 border-brand-500/30 dark:border-brand-500/40 p-6 sm:p-8 shadow-xl transition-all">
+                <!-- Populated dynamically when user clicks any Phase or Sub-process -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         4. OVERARCHING PROCESSES (PROSES LINTAS SEKTORAL)
+         ========================================== -->
+    <section id="overarching" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Tata Kelola Menyeluruh</span>
+            <h2 class="font-display font-bold text-2xl sm:text-4xl text-slate-900 dark:text-white mt-2">
+                Proses Lintas Sektoral (Overarching Processes)
+            </h2>
+            <p class="mt-3 text-slate-600 dark:text-slate-300 text-base sm:text-lg">
+                Selain 8 fase utama, GSBPM menetapkan proses-proses menyeluruh yang berjalan terus-menerus di sepanjang siklus produksi statistik untuk menjamin integritas data dan tata kelola.
+            </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Card 1: Quality Management -->
+            <div class="p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-5">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">1. Manajemen Kualitas (Quality Management)</h3>
+                <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Mencakup mekanisme penilaian dan pengendalian kualitas di setiap fase (bukan hanya di akhir). Menggunakan kerangka dimensi kualitas seperti <strong>relevansi, akurasi, ketepatan waktu, aksesibilitas, keterbandingan, dan koherensi</strong>.
+                </p>
+                <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs font-medium text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Selaras dengan NQAF (National Quality Assurance Framework)
+                </div>
+            </div>
+
+            <!-- Card 2: Metadata Management -->
+            <div class="p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="w-12 h-12 rounded-2xl bg-brand-100 dark:bg-brand-950 text-brand-600 dark:text-brand-400 flex items-center justify-center mb-5">
+                    <i data-lucide="tags" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">2. Manajemen Metadata (Metadata Management)</h3>
+                <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Metadata ("data tentang data") dihasilkan dan digunakan di setiap fase. Manajemen metadata memastikan konsep, definisi, klasifikasi (seperti KBLI/KBJI), dan metodologi terdokumentasi sejak Fase 1 hingga dipublikasikan pada Fase 7.
+                </p>
+                <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs font-medium text-brand-700 dark:text-brand-400 flex items-center gap-1.5">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Mendukung standar DDI, SDMX, & Metadata Satu Data
+                </div>
+            </div>
+
+            <!-- Card 3: Data Management -->
+            <div class="p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="w-12 h-12 rounded-2xl bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-5">
+                    <i data-lucide="database" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">3. Manajemen Data (Data Management)</h3>
+                <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Ditambahkan secara eksplisit pada <strong>GSBPM v5.1</strong> untuk menegaskan tata kelola siklus hidup data: keamanan penyimpanan, kontrol akses, integritas basis data, kerahasiaan responden (<em>data privacy</em>), hingga pengarsipan dan pemusnahan data.
+                </p>
+                <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs font-medium text-purple-700 dark:text-purple-400 flex items-center gap-1.5">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Pembaruan Utama pada GSBPM Versi 5.1
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         5. CONTOH IMPLEMENTASI NYATA (STUDI KASUS)
+         ========================================== -->
+    <section id="studi-kasus" class="py-16 sm:py-24 bg-slate-100/80 dark:bg-slate-900/50 border-y border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl">
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Penerapan Praktis Statistik Sektoral Pemda</span>
+                <h2 class="font-display font-bold text-2xl sm:text-4xl text-slate-900 dark:text-white mt-2">
+                    4 Contoh Implementasi Nyata di Pemerintah Daerah
+                </h2>
+                <p class="mt-3 text-slate-600 dark:text-slate-300 text-base sm:text-lg">
+                    Pelajari bagaimana OPD teknis, Bappeda, dan Walidata (Diskominfo) menerapkan GSBPM v5.1 dalam <strong>Kompilasi Produk Administrasi (Kompromin)</strong>, <strong>Integrasi Data Lintas OPD</strong>, maupun <strong>Survei Pelayanan Publik Daerah</strong>.
+                </p>
+            </div>
+
+            <!-- Case Study Selector Buttons (4 Cards Grid) -->
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5" id="case-study-tabs">
+                <button data-case="case1" class="case-tab-btn text-left p-5 rounded-2xl border-2 border-brand-600 bg-white dark:bg-slate-900 shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">Kasus 1 • Kompromin Dinkes</span>
+                            <i data-lucide="heart-pulse" class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-900 dark:text-white mt-3 leading-snug">Statistik Kesehatan Ibu, Anak & Prevalensi Stunting</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Dinas Kesehatan • Aplikasi e-PPGBM & laporan rutin Puskesmas.</p>
+                </button>
+
+                <button data-case="case2" class="case-tab-btn text-left p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-100 dark:bg-teal-950 text-teal-700 dark:text-teal-300">Kasus 2 • Kompromin Perizinan</span>
+                            <i data-lucide="building-2" class="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-900 dark:text-white mt-3 leading-snug">Statistik Investasi & Pertumbuhan UMKM Daerah</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">DPMPTSP & Dinkop UKM • Kompilasi data NIB/OSS-RBA & LKPM.</p>
+                </button>
+
+                <button data-case="case3" class="case-tab-btn text-left p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300">Kasus 3 • Survei Pemda</span>
+                            <i data-lucide="clipboard-check" class="w-4 h-4 text-brand-600 dark:text-brand-400 shrink-0"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-900 dark:text-white mt-3 leading-snug">Survei Kepuasan Masyarakat (SKM) Pelayanan Publik</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Bagian Organisasi Setda & Mal Pelayanan Publik (MPP).</p>
+                </button>
+
+                <button data-case="case4" class="case-tab-btn text-left p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300">Kasus 4 • Integrasi Lintas OPD</span>
+                            <i data-lucide="users" class="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-900 dark:text-white mt-3 leading-snug">Pemutakhiran Data Kemiskinan Ekstrem & Bansos</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Bappeda, Dinsos & Dukcapil • Integrasi P3KE/DTKS & NIK.</p>
+                </button>
+            </div>
+
+            <!-- Case Study Timeline Content -->
+            <div id="case-study-display" class="mt-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 lg:p-10 shadow-lg">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         6. SIMULASI KUIS INTERAKTIF ("UJI PEMAHAMAN")
+         ========================================== -->
+    <section id="kuis-interaktif" class="py-16 sm:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">Latihan Pemetaan Proses</span>
+            <h2 class="font-display font-bold text-2xl sm:text-4xl text-slate-900 dark:text-white mt-2">
+                Uji Pemahaman GSBPM Anda
+            </h2>
+            <p class="mt-3 text-slate-600 dark:text-slate-300 text-base">
+                Cocokkan skenario kegiatan statistik nyata di bawah ini ke dalam <strong>Fase GSBPM v5.1</strong> yang paling tepat!
+            </p>
+        </div>
+
+        <div class="mt-10 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-xl">
+            <!-- Quiz Header Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex items-center gap-3">
+                    <span id="quiz-progress-badge" class="px-3 py-1.5 rounded-xl bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 font-bold text-sm">
+                        Skenario 1 dari 5
+                    </span>
+                    <span id="quiz-score-badge" class="px-3 py-1.5 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold text-sm">
+                        Skor: 0
+                    </span>
+                </div>
+                <button id="quiz-reset-btn" class="text-xs font-semibold text-slate-500 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400 flex items-center gap-1.5 transition-colors">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Ulangi Simulasi
+                </button>
+            </div>
+
+            <!-- Quiz Question Area -->
+            <div id="quiz-container" class="mt-6">
+                <!-- Populated dynamically by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white font-display font-bold">
+                    <i data-lucide="layers" class="w-4 h-4"></i>
+                </div>
+                <div>
+                    <p class="font-display font-bold text-sm text-slate-900 dark:text-white">Portal Edukasi GSBPM v5.1</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Referensi Standar: UNECE High-Level Group for the Modernisation of Official Statistics (HLG-MOS)</p>
+                </div>
+            </div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 text-center md:text-right">
+                <p>Disusun untuk mendukung literasi statistik resmi, Satu Data Indonesia (SDI), & Evaluasi Penyelenggaraan Statistik Sektoral (EPSS).</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         JAVASCRIPT DATA & INTERACTIVE LOGIC
+         ========================================== -->
+    <script>
+        // ==========================================
+        // 1. DATA: 5W + 1H CONTENT
+        // ==========================================
+        const w5h1Data = [
+            {
+                id: 'what',
+                label: 'WHAT (Apa Itu?)',
+                icon: 'help-circle',
+                color: 'brand',
+                title: 'Apa itu GSBPM (Generic Statistical Business Process Model)?',
+                lead: 'GSBPM adalah model referensi standar internasional yang mendeskripsikan dan mendefinisikan serangkaian proses bisnis yang diperlukan untuk menghasilkan statistik resmi.',
+                points: [
+                    {
+                        heading: 'Struktur Hierarki 3 Level & Keterkaitan GSIM/GAMSO',
+                        text: 'GSBPM terdiri atas Level 0 (Proses Bisnis Statistik), Level 1 (8 Fase utama), dan Level 2 (44 Sub-proses). GSBPM bersinergi erat dengan GSIM (Generic Statistical Information Model) yang memodelkan objek informasi/data, serta GAMSO yang memodelkan aktivitas manajemen organisasi di luar produksi statistik.'
+                    },
+                    {
+                        heading: 'Bahasa Bersama (Common Vocabulary)',
+                        text: 'GSBPM bukan perangkat lunak atau aturan kaku, melainkan kerangka kerja konseptual yang memberikan kosakata standar agar ahli statistik, pemilik data administrasi, tim TI, dan manajer dapat berkomunikasi dengan persepsi yang sama.'
+                    }
+                ]
+            },
+            {
+                id: 'why',
+                label: 'WHY (Mengapa Penting?)',
+                icon: 'target',
+                color: 'indigo',
+                title: 'Mengapa GSBPM Sangat Penting dalam Produksi Statistik?',
+                lead: 'Tanpa standar proses yang seragam, setiap instansi atau unit kerja cenderung membangun alur kerja sendiri-sendiri yang memicu duplikasi biaya dan inkonsistensi kualitas data.',
+                points: [
+                    {
+                        heading: 'Adaptasi Berdasarkan Sumber Data (Survei vs Kompromin vs Big Data)',
+                        text: 'Pada survei lapangan, hampir semua sub-proses dijalankan. Namun, pada Kompilasi Produk Administrasi (Kompromin), sub-proses desain kuesioner (2.3) dan penarikan sampel (2.4/4.1) digantikan dengan mekanisme penarikan API/MoU data registrasi serta pemetaan konsep administratif ke standar statistik.'
+                    },
+                    {
+                        heading: 'Siklus Berkelanjutan (Feedback Loop)',
+                        text: 'Hasil dari Fase 8 (Evaluate) menghasilkan rencana aksi perbaikan yang langsung menjadi masukan bagi Fase 1 (Specify Needs) atau Fase 2 (Design) pada periode siklus berikutnya.'
+                    },
+                    {
+                        heading: 'Selaras dengan Satu Data Indonesia (SDI) & EPSS',
+                        text: 'Dalam tata kelola pemerintahan daerah (Perpres No. 39 Tahun 2019 & Peraturan BPS No. 3 Tahun 2022), GSBPM menjadi standar baku penyelenggaraan statistik sektoral oleh Perangkat Daerah (OPD), sekaligus menjadi indikator utama penilaian kematangan dalam Evaluasi Penyelenggaraan Statistik Sektoral (EPSS).'
+                    }
+                ]
+            },
+            {
+                id: 'who',
+                label: 'WHO (Siapa Saja?)',
+                icon: 'users',
+                color: 'emerald',
+                title: 'Siapa Aktor & Pemangku Kepentingan dalam GSBPM Pemerintah Daerah?',
+                lead: 'GSBPM dirancang untuk digunakan oleh seluruh aktor dalam ekosistem Satu Data Daerah di tingkat Provinsi maupun Kabupaten/Kota.',
+                points: [
+                    {
+                        heading: 'Produsen Data Daerah (OPD Teknis)',
+                        text: 'Seluruh Organisasi Perangkat Daerah (Dinas Kesehatan, Dinas Pendidikan, Dinas Sosial, DPMPTSP, Dinas Pertanian, Disperindag, dll.) berperan sebagai Produsen Data yang menyelenggarakan pendataan atau mengompilasi data administrasi sektoral.'
+                    },
+                    {
+                        heading: 'Walidata (Diskominfo), Bappeda, & Pembina Data (BPS)',
+                        text: 'Dinas Komunikasi dan Informatika (Diskominfo) selaku Walidata memeriksa kesesuaian standar & metadata; Bappeda selaku Koordinator Forum Satu Data menyelaraskan kebutuhan indikator RPJMD/RKPD; dan BPS Daerah membina metodologi serta menerbitkan Rekomendasi Kegiatan Statistik (Romantik).'
+                    },
+                    {
+                        heading: 'Penyedia Data & Pengguna Data Daerah',
+                        text: 'Mencakup unit layanan (Puskesmas, sekolah, kecamatan/desa), masyarakat/pelaku usaha responden survei daerah, serta pengguna data seperti Kepala Daerah, DPRD, Bappeda, akademisi, dan masyarakat luas.'
+                    }
+                ]
+            },
+            {
+                id: 'when',
+                label: 'WHEN (Kapan Dipakai?)',
+                icon: 'calendar-clock',
+                color: 'amber',
+                title: 'Kapan GSBPM Diterapkan dalam Siklus Perencanaan & Pembangunan Daerah?',
+                lead: 'GSBPM diterapkan sejak tahap perencanaan indikator pembangunan daerah hingga evaluasi kualitas data setelah dipublikasikan di Portal Satu Data Daerah.',
+                points: [
+                    {
+                        heading: 'Sejak Penyusunan Indikator RPJMD, RKPD, & SPM',
+                        text: 'Dimulai pada Fase 1 (Specify Needs) saat Bappeda dan OPD merumuskan kebutuhan data indikator kinerja daerah atau Standar Pelayanan Minimal (SPM), sehingga OPD mengecek ketersediaan data yang sudah ada (1.5) sebelum mengusulkan survei baru.'
+                    },
+                    {
+                        heading: 'Sepanjang Siklus Pelaporan Rutin maupun Survei Daerah',
+                        text: 'Berlaku untuk kompilasi laporan bulanan/triwulanan OPD (seperti data stunting, perizinan NIB, atau kunjungan wisata daerah), penyusunan publikasi tahunan Daerah Dalam Angka, maupun survei daerah seperti Survei Kepuasan Masyarakat (SKM).'
+                    },
+                    {
+                        heading: 'Sebelum Pengajuan Romantik & Penilaian EPSS',
+                        text: 'Dokumen perencanaan pada Fase 1 dan Fase 2 menjadi dasar pengajuan Rekomendasi Kegiatan Statistik (Romantik) ke BPS, sedangkan bukti penerapan seluruh Fase 1–8 menjadi objek penilaian Tim Penilai Internal (TPI) dalam EPSS.'
+                    }
+                ]
+            },
+            {
+                id: 'where',
+                label: 'WHERE (Di Mana Berlaku?)',
+                icon: 'globe',
+                color: 'cyan',
+                title: 'Di Mana & Pada Jenis Kegiatan OPD Apa Saja GSBPM Diterapkan?',
+                lead: 'GSBPM merupakan standar universal yang wajib diterapkan pada seluruh kegiatan statistik sektoral di lingkungan Pemerintah Provinsi maupun Kabupaten/Kota.',
+                points: [
+                    {
+                        heading: 'Seluruh Perangkat Daerah & Unit Pelaksana Teknis (UPT)',
+                        text: 'Diterapkan di seluruh OPD tingkat Provinsi, Kabupaten/Kota, hingga unit layanan di bawahnya seperti Puskesmas, RSUD, Satuan Pendidikan, Mal Pelayanan Publik (MPP), dan Kecamatan/Kelurahan.'
+                    },
+                    {
+                        heading: 'Berlaku untuk Kompromin, Survei Daerah, & Integrasi Register',
+                        text: 'Mayoritas statistik sektoral Pemda dihasilkan melalui Kompilasi Produk Administrasi (Kompromin) dari aplikasi layanan (e-PPGBM, Dapodik, OSS-RBA, SIKS-NG), namun GSBPM juga berlaku penuh untuk survei lapangan mandiri OPD maupun integrasi data lintas dinas.'
+                    },
+                    {
+                        heading: 'Terhubung ke Portal Satu Data Daerah & Satu Data Indonesia',
+                        text: 'Output akhir Fase 7 bermuara pada Portal Satu Data Provinsi/Kabupaten/Kota (Open Data Daerah) yang terintegrasi secara nasional dengan portal data.go.id.'
+                    }
+                ]
+            },
+            {
+                id: 'how',
+                label: 'HOW (Bagaimana Kerjanya?)',
+                icon: 'git-branch',
+                color: 'purple',
+                title: 'Bagaimana Mekanisme Kerja GSBPM pada Kegiatan Statistik Pemda?',
+                lead: 'GSBPM bekerja sebagai panduan proses bisnis yang fleksibel dan non-linear, menyesuaikan apakah OPD melakukan survei lapangan atau kompilasi catatan administrasi.',
+                points: [
+                    {
+                        heading: 'Adaptif antara Kompromin OPD vs Survei Mandiri OPD',
+                        text: 'Jika OPD mengompilasi data administrasi yang sudah ada (misal data izin usaha dari aplikasi OSS), sub-proses desain kuesioner (2.3) dan penarikan sampel (2.4/4.1) disederhanakan menjadi mekanisme penarikan data register dan pemetaan variabel.'
+                    },
+                    {
+                        heading: 'Kolaborasi Terstruktur Produsen Data & Walidata',
+                        text: 'Setiap tahapan memiliki input dan output jelas: OPD menyiapkan rancangan dan metadata (MS-Keg, MS-Var, MS-Ind), BPS memberikan rekomendasi statistik, dan Walidata (Diskominfo) memverifikasi kualitas serta standar data sebelum dirilis.'
+                    },
+                    {
+                        heading: 'Dikawal 3 Proses Lintas Sektoral (Overarching)',
+                        text: 'Sepanjang siklus berjalan, OPD dan Walidata menjalankan Manajemen Kualitas (pengecekan kelengkapan laporan OPD), Manajemen Metadata (kode wilayah Kemendagri & konsep baku), serta Manajemen Data (keamanan NIK dan hak akses).'
+                    }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // 2. DATA: 8 PHASES & 44 SUB-PROCESSES (GSBPM v5.1)
+        // ==========================================
+        const gsbpmPhases = [
+            {
+                id: 1,
+                code: 'Fase 1',
+                enTitle: 'Specify Needs',
+                idTitle: 'Identifikasi Kebutuhan',
+                color: 'blue',
+                badgeBg: 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300',
+                borderAccent: 'border-blue-500',
+                headerBg: 'bg-blue-600',
+                summary: 'Fase ini dipicu ketika kebutuhan akan statistik baru teridentifikasi, atau umpan balik mengenai statistik yang ada memerlukan tinjauan ulang. Organisasi menentukan apa yang dibutuhkan pengguna dan apakah data tersebut layak diproduksi.',
+                subprocesses: [
+                    {
+                        code: '1.1',
+                        en: 'Identify needs',
+                        id: 'Identifikasi kebutuhan',
+                        desc: 'Melakukan penyelidikan awal untuk mengidentifikasi statistik apa yang dibutuhkan oleh pemangku kepentingan dan mengapa statistik tersebut diperlukan.',
+                        input: 'Mandat kebijakan daerah (RPJMD/RKPD/SPM), permintaan pimpinan daerah, atau hasil evaluasi EPSS.',
+                        output: 'Daftar kebutuhan informasi statistik sektoral awal yang teridentifikasi.',
+                        example: 'Bappeda dan Dinas Kesehatan mengidentifikasi kebutuhan data prevalensi balita stunting per desa untuk penyusunan RKPD dan lokus intervensi gizi.'
+                    },
+                    {
+                        code: '1.2',
+                        en: 'Consult and confirm needs',
+                        id: 'Konsultasi dan konfirmasi kebutuhan',
+                        desc: 'Berkonsultasi secara mendalam dengan pemangku kepentingan untuk mengonfirmasi pemahaman rinci mengenai kebutuhan data, jadwal rilis, dan tingkat akurasi yang diharapkan.',
+                        input: 'Daftar kebutuhan awal dan daftar OPD/pemangku kepentingan daerah.',
+                        output: 'Berita acara kesepakatan Daftar Data Daerah melalui Forum Satu Data Daerah.',
+                        example: 'Rapat Forum Satu Data Daerah antara Bappeda, Diskominfo (Walidata), OPD teknis, dan BPS Daerah untuk menyepakati indikator prioritas dan jadwal pemutakhiran.'
+                    },
+                    {
+                        code: '1.3',
+                        en: 'Establish output objectives',
+                        id: 'Menetapkan tujuan output',
+                        desc: 'Menentukan output statistik yang diperlukan untuk memenuhi kebutuhan pengguna yang disepakati pada sub-proses 1.2, termasuk indikator dan disagregasinya.',
+                        input: 'Kebutuhan pengguna daerah yang telah dikonfirmasi.',
+                        output: 'Spesifikasi target output statistik (tabel indikator kinerja daerah, level kecamatan/desa).',
+                        example: 'Menetapkan target output berupa tabel Indeks Kepuasan Masyarakat (IKM) per unit layanan publik dan rasio penduduk ber-NIB per kecamatan setiap semester.'
+                    },
+                    {
+                        code: '1.4',
+                        en: 'Identify concepts',
+                        id: 'Identifikasi konsep',
+                        desc: 'Memperjelas konsep dan definisi variabel yang akan diukur dari sudut pandang pengguna (belum terikat pada konsep teknis statistik yang ketat).',
+                        input: 'Spesifikasi target output statistik daerah.',
+                        output: 'Daftar konsep dan definisi operasional awal yang disepakati OPD.',
+                        example: 'Menyelaraskan konsep "UMKM binaan aktif" di Dinas Koperasi dengan konsep "pelaku usaha mikro/kecil ber-NIB" di DPMPTSP agar tidak terjadi tumpang tindih definisi.'
+                    },
+                    {
+                        code: '1.5',
+                        en: 'Check data availability',
+                        id: 'Memeriksa ketersediaan data',
+                        desc: 'Memeriksa apakah sumber data yang sudah ada (survei lain, data administrasi OPD, aplikasi layanan) dapat memenuhi kebutuhan tanpa harus mengadakan survei baru dari nol.',
+                        input: 'Daftar konsep & inventarisasi aplikasi/register data di seluruh OPD.',
+                        output: 'Laporan penilaian ketersediaan data dan analisis kesenjangan (gap analysis).',
+                        example: 'Mengecek apakah kebutuhan data anak tidak sekolah dapat dipenuhi dari kompilasi Dapodik Dinas Pendidikan & SIAK Dukcapil sebelum memutuskan turun mendata ke lapangan.'
+                    },
+                    {
+                        code: '1.6',
+                        en: 'Prepare and submit business case',
+                        id: 'Menyiapkan dan mengajukan proposal kegiatan (Business Case)',
+                        desc: 'Menyusun dokumen kelayakan (TOR/KAK, RKA-OPD, sumber daya manusia, jadwal, dan pengajuan Rekomendasi Kegiatan Statistik) untuk mendapatkan persetujuan.',
+                        input: 'Hasil dari sub-proses 1.1 hingga 1.5.',
+                        output: 'Dokumen KAK/TOR kegiatan statistik OPD dan pengajuan Romantik ke BPS.',
+                        example: 'OPD menyusun KAK kegiatan statistik sektoral dalam RKA-OPD dan mengajukan permohonan Rekomendasi Kegiatan Statistik (Romantik) kepada BPS Daerah.'
+                    }
+                ]
+            },
+            {
+                id: 2,
+                code: 'Fase 2',
+                enTitle: 'Design',
+                idTitle: 'Perancangan',
+                color: 'indigo',
+                badgeBg: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300',
+                borderAccent: 'border-indigo-500',
+                headerBg: 'bg-indigo-600',
+                summary: 'Fase ini mencakup seluruh aktivitas perancangan metodologi, definisi variabel standar, instrumen pengumpulan data, kerangka sampel, alur pengolahan, serta sistem produksi sebelum dibangun.',
+                subprocesses: [
+                    {
+                        code: '2.1',
+                        en: 'Design outputs',
+                        id: 'Merancang output',
+                        desc: 'Merancang rincian output statistik yang akan dihasilkan, termasuk rancangan tabulasi publikasi, standar kerahasiaan data, dan saluran diseminasi Portal Satu Data Daerah.',
+                        input: 'Spesifikasi target output dari 1.3.',
+                        output: 'Rancangan detail produk statistik (dummy tables, struktur dataset terbuka, & profil daerah).',
+                        example: 'Merancang template dataset terbuka (CSV/XLSX) dan dummy table Profil Kesehatan Daerah serta bab statistik sektoral untuk buku Daerah Dalam Angka.'
+                    },
+                    {
+                        code: '2.2',
+                        en: 'Design variable descriptions',
+                        id: 'Merancang deskripsi variabel',
+                        desc: 'Mendefinisikan variabel statistik secara presisi beserta klasifikasi standar yang digunakan (kode wilayah Kemendagri, KBLI, klasifikasi penyakit ICD-10, jenjang pendidikan).',
+                        input: 'Konsep awal dari 1.4 dan kamus Standar Data Statistik Nasional (SDSN).',
+                        output: 'Dokumen Metadata Statistik (MS-Keg, MS-Var, MS-Ind) dan kode klasifikasi baku.',
+                        example: 'Menyusun MS-Var dan MS-Ind bersama Walidata Diskominfo dengan menggunakan kode wilayah administrasi Kemendagri hingga tingkat desa/kelurahan serta KBLI 2020.'
+                    },
+                    {
+                        code: '2.3',
+                        en: 'Design collection',
+                        id: 'Merancang pengumpulan data',
+                        desc: 'Menentukan metode pengumpulan data yang paling tepat (survei digital/kertas, formulir pelaporan rutin UPT/kecamatan, atau integrasi API aplikasi layanan) serta merancang instrumen.',
+                        input: 'Deskripsi variabel (2.2) dan hasil cek ketersediaan data (1.5).',
+                        output: 'Rancangan kuesioner survei OPD atau spesifikasi format pelaporan/API data administrasi.',
+                        example: 'Merancang kuesioner Survei Kepuasan Masyarakat (SKM) berbasis QR-Code sesuai PermenPANRB No. 14/2017, atau merancang format baku rekapan bulanan Puskesmas.'
+                    },
+                    {
+                        code: '2.4',
+                        en: 'Design frame and sample',
+                        id: 'Merancang kerangka dan sampel',
+                        desc: 'Mengidentifikasi populasi target, membangun kerangka sampel, serta menentukan metode penarikan sampel (atau menetapkan cakupan populasi penuh pada kompilasi data register OPD).',
+                        input: 'Deskripsi variabel (2.2) dan data populasi/register daerah.',
+                        output: 'Metodologi sampling (misal tabel Krejcie-Morgan untuk SKM) atau kriteria cakupan populasi register.',
+                        example: 'Menentukan besaran sampel minimal responden SKM pada tiap unit layanan Mal Pelayanan Publik (MPP) atau menetapkan cakupan seluruh balita terdaftar di Posyandu.'
+                    },
+                    {
+                        code: '2.5',
+                        en: 'Design processing and analysis',
+                        id: 'Merancang pengolahan dan analisis',
+                        desc: 'Merancang metodologi pengolahan data pasca-pengumpulan: aturan validasi kewajaran angka, pencocokan NIK/KK antar-OPD, deduplikasi, metode imputasi laporan terlambat, dan formula indeks.',
+                        input: 'Rancangan output (2.1) dan variabel (2.2).',
+                        output: 'Spesifikasi aturan validasi (rule validation), algoritma record linkage NIK, dan formula agregasi.',
+                        example: 'Merancang aturan validasi otomatis agar jumlah lulusan sekolah tidak melebihi jumlah siswa tingkat akhir dan merancang formula penghitungan nilai IKM tertimbang.'
+                    },
+                    {
+                        code: '2.6',
+                        en: 'Design production systems and workflow',
+                        id: 'Merancang sistem produksi dan alur kerja',
+                        desc: 'Merancang arsitektur alur kerja end-to-end mulai dari pengumpulan di unit layanan/kecamatan hingga verifikasi Walidata dan publikasi di Portal Satu Data Daerah.',
+                        input: 'Seluruh rancangan dari sub-proses 2.1 hingga 2.5.',
+                        output: 'Cetak biru (blueprint) alur kerja tata kelola data antara UPT, Admin OPD, dan Walidata Diskominfo.',
+                        example: 'Menyusun SOP alur verifikasi berjenjang: operator Puskesmas input data -> validator Dinkes periksa -> Walidata Diskominfo kurasi sebelum tayang di Open Data Daerah.'
+                    }
+                ]
+            },
+            {
+                id: 3,
+                code: 'Fase 3',
+                enTitle: 'Build',
+                idTitle: 'Pembangunan / Pengembangan',
+                color: 'violet',
+                badgeBg: 'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-300',
+                borderAccent: 'border-violet-500',
+                headerBg: 'bg-violet-600',
+                summary: 'Fase ini membangun dan menguji seluruh instrumen pengumpulan data, perangkat lunak pengolahan, basis data, dan alur kerja produksi hingga siap digunakan di lingkungan operasional.',
+                subprocesses: [
+                    {
+                        code: '3.1',
+                        en: 'Reuse or build collection instruments',
+                        id: 'Menggunakan ulang atau membangun instrumen pengumpulan',
+                        desc: 'Membangun atau mengadaptasi instrumen pengumpulan data fisik maupun elektronik (formulir survei online, modul input laporan kecamatan/UPT, atau konektor API aplikasi).',
+                        input: 'Rancangan pengumpulan data (2.3).',
+                        output: 'Instrumen pengumpulan data atau modul pelaporan OPD siap uji.',
+                        example: 'Membangun formulir survei SKM digital berbasis web/QR-Code di tiap loket layanan atau menyiapkan template Excel terstandar untuk laporan triwulanan kecamatan.'
+                    },
+                    {
+                        code: '3.2',
+                        en: 'Reuse or build processing and analysis components',
+                        id: 'Menggunakan ulang atau membangun komponen pengolahan & analisis',
+                        desc: 'Membangun atau mengonfigurasi perangkat lunak, skrip ETL, atau makro pengolahan untuk validasi, pemetaan kode wilayah, pengecekan duplikasi NIK, dan penghitungan indikator.',
+                        input: 'Spesifikasi pengolahan & analisis (2.5).',
+                        output: 'Modul/skrip pengolahan, validasi, dan kalkulasi indikator siap uji.',
+                        example: 'Membuat skrip/rumus validasi otomatis pada sistem informasi OPD untuk mendeteksi duplikasi NIK penerima bantuan sosial dan mencocokkan kode desa Kemendagri.'
+                    },
+                    {
+                        code: '3.3',
+                        en: 'Reuse or build dissemination components',
+                        id: 'Menggunakan ulang atau membangun komponen diseminasi',
+                        desc: 'Membangun atau menyiapkan komponen rilis produk statistik pada Portal Satu Data Daerah (CKAN/DKAN), dasbor pimpinan daerah, API terbuka, dan template publikasi.',
+                        input: 'Rancangan output (2.1).',
+                        output: 'Kanal dan komponen diseminasi Portal Satu Data Daerah siap pakai.',
+                        example: 'Menyiapkan struktur organisasi, grup dataset, dan visualisasi grafik pada Portal Satu Data Provinsi/Kabupaten/Kota yang dikelola Diskominfo.'
+                    },
+                    {
+                        code: '3.4',
+                        en: 'Configure workflows',
+                        id: 'Mengonfigurasi alur kerja',
+                        desc: 'Menghubungkan seluruh komponen (pengumpulan, validasi OPD, pemeriksaan Walidata, diseminasi) ke dalam satu alur kerja operasional yang terintegrasi.',
+                        input: 'Cetak biru alur kerja (2.6) dan komponen dari 3.1–3.3.',
+                        output: 'Sistem produksi dan hak akses peran (role-based access) terkonfigurasi.',
+                        example: 'Mengonfigurasi hak akses pengguna pada Portal Satu Data Daerah untuk peran Operator OPD, Verifikator OPD, dan Admin Walidata Diskominfo.'
+                    },
+                    {
+                        code: '3.5',
+                        en: 'Test production systems',
+                        id: 'Menguji sistem produksi',
+                        desc: 'Melakukan pengujian teknis (User Acceptance Test / UAT, uji aturan validasi, dan keamanan akses data) sebelum sistem digunakan secara resmi.',
+                        input: 'Sistem produksi terintegrasi (3.4).',
+                        output: 'Berita acara kelulusan UAT sistem dan instrumen.',
+                        example: 'Tim TI Diskominfo bersama admin OPD melakukan UAT formulir input dan memastikan aturan validasi menolak input angka negatif atau kode wilayah yang salah.'
+                    },
+                    {
+                        code: '3.6',
+                        en: 'Test statistical business process',
+                        id: 'Menguji proses bisnis statistik (Uji Coba)',
+                        desc: 'Melakukan uji coba skala kecil (pilot test instrumen survei atau simulasi kompilasi data semester lalu) untuk memverifikasi kelayakan proses end-to-end.',
+                        input: 'Instrumen dan sistem yang telah lulus uji teknis (3.5).',
+                        output: 'Laporan hasil uji coba lapangan/simulasi dan penyempurnaan instrumen.',
+                        example: 'Melakukan uji coba kuesioner SKM kepada 30 pengunjung di Mal Pelayanan Publik (MPP) untuk memastikan pertanyaan mudah dipahami masyarakat.'
+                    },
+                    {
+                        code: '3.7',
+                        en: 'Finalise production systems',
+                        id: 'Finalisasi sistem produksi',
+                        desc: 'Menyempurnakan sistem dan instrumen berdasarkan hasil uji coba (3.6), menyusun buku pedoman/juknis bagi petugas OPD, dan meluncurkan sistem ke lingkungan produksi.',
+                        input: 'Hasil evaluasi uji coba (3.6).',
+                        output: 'Instrumen final dan Petunjuk Teknis (Juknis) pengumpulan/pengolahan data OPD.',
+                        example: 'Menerbitkan Juknis Pengisian Data Sektoral OPD serta mengaktifkan tautan resmi survei/pelaporan bagi seluruh unit kerja daerah.'
+                    }
+                ]
+            },
+            {
+                id: 4,
+                code: 'Fase 4',
+                enTitle: 'Collect',
+                idTitle: 'Pengumpulan',
+                color: 'emerald',
+                badgeBg: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300',
+                borderAccent: 'border-emerald-500',
+                headerBg: 'bg-emerald-600',
+                summary: 'Fase ini mengumpulkan atau mengakuisisi seluruh informasi yang diperlukan (data survei daerah maupun data administrasi dari unit layanan/OPD) dan memuatnya ke lingkungan penyimpanan yang aman.',
+                subprocesses: [
+                    {
+                        code: '4.1',
+                        en: 'Create frame and select sample',
+                        id: 'Membuat kerangka dan memilih sampel',
+                        desc: 'Menyiapkan kerangka sampel aktual saat pelaksanaan dan menarik sampel unit observasi (atau menetapkan daftar seluruh unit layanan/register yang ditarik pada Kompromin OPD).',
+                        input: 'Metodologi sampling (2.4) dan daftar unit layanan/populasi terkini.',
+                        output: 'Daftar sampel terpilih (atau daftar cakupan Puskesmas/sekolah/kecamatan yang wajib melapor).',
+                        example: 'Menetapkan daftar seluruh 42 Puskesmas dan 310 Posyandu yang wajib menyetorkan laporan penimbangan balita periode bulan berjalan.'
+                    },
+                    {
+                        code: '4.2',
+                        en: 'Set up collection',
+                        id: 'Menyiapkan pengumpulan data',
+                        desc: 'Memastikan SDM, proses, dan teknologi siap beroperasi: bimbingan teknis (bimtek) operator OPD/kecamatan, distribusi QR-Code survei, atau aktivasi penarikan data aplikasi.',
+                        input: 'Sistem produksi final (3.7) dan daftar cakupan (4.1).',
+                        output: 'Operator OPD/petugas terlatih dan kanal pengumpulan data aktif.',
+                        example: 'Menyelenggarakan Bimbingan Teknis (Bimtek) pengisian data sektoral bagi admin data seluruh OPD dan operator kecamatan.'
+                    },
+                    {
+                        code: '4.3',
+                        en: 'Run collection',
+                        id: 'Menjalankan pengumpulan data',
+                        desc: 'Melaksanakan pengumpulan data di lapangan/loket layanan atau menghimpun laporan administrasi dari unit kerja/aplikasi, disertai pemantauan progres kelengkapan.',
+                        input: 'Instrumen pengumpulan (3.7) dan kesiapan operator/petugas (4.2).',
+                        output: 'Data mentah (raw data) hasil survei atau kompilasi laporan administrasi OPD.',
+                        example: 'Pengunjung loket MPP mengisi kuesioner SKM melalui QR-Code selama 1 bulan, atau admin DPMPTSP mengekstrak data penerbitan NIB dari sistem OSS-RBA.'
+                    },
+                    {
+                        code: '4.4',
+                        en: 'Finalise collection',
+                        id: 'Finalisasi pengumpulan data',
+                        desc: 'Menutup periode pengumpulan data (cut-off), mengecek kelengkapan kiriman dari seluruh unit pelapor, dan memuat data mentah ke basis data staging OPD.',
+                        input: 'Data mentah hasil pengumpulan (4.3).',
+                        output: 'Basis data mentah terhimpun yang siap masuk ke tahap pengolahan (Fase 5).',
+                        example: 'Admin OPD menutup batas waktu pelaporan triwulanan kecamatan (cut-off tanggal 10) dan mengarsipkan seluruh file rekapan mentah ke server OPD.'
+                    }
+                ]
+            },
+            {
+                id: 5,
+                code: 'Fase 5',
+                enTitle: 'Process',
+                idTitle: 'Pengolahan',
+                color: 'teal',
+                badgeBg: 'bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300',
+                borderAccent: 'border-teal-500',
+                headerBg: 'bg-teal-600',
+                summary: 'Fase ini membersihkan data mentah dan menyiapkannya untuk analisis. Mencakup integrasi data lintas OPD, klasifikasi/koding wilayah & sektor, pemeriksaan anomali, imputasi, hingga penghitungan agregat.',
+                subprocesses: [
+                    {
+                        code: '5.1',
+                        en: 'Integrate data',
+                        id: 'Mengintegrasikan data',
+                        desc: 'Menggabungkan data dari berbagai unit kerja atau lintas OPD (misalnya menggabungkan data kemiskinan Dinsos dengan data kependudukan Dukcapil) serta menghapus duplikasi.',
+                        input: 'Data mentah dari berbagai unit pelapor/OPD (4.4).',
+                        output: 'Dataset gabungan yang terstruktur dan bebas catatan ganda.',
+                        example: 'Mengintegrasikan rekap laporan dari seluruh kecamatan dan melakukan pembersihan duplikasi NIK penerima bantuan sosial lintas program OPD.'
+                    },
+                    {
+                        code: '5.2',
+                        en: 'Classify and code',
+                        id: 'Klasifikasi dan koding',
+                        desc: 'Mengubah informasi teks bebas atau kode lokal menjadi kode klasifikasi standar (kode wilayah Kemendagri, KBLI, tingkat pendidikan, jenis layanan publik).',
+                        input: 'Dataset gabungan (5.1) dan tabel referensi klasifikasi standar.',
+                        output: 'Dataset dengan variabel berkode standar nasional.',
+                        example: 'Menyeragamkan penulisan nama desa/kecamatan menjadi kode wilayah resmi Kemendagri dan mengodekan bidang usaha pelaku UMKM ke KBLI 2-digit.'
+                    },
+                    {
+                        code: '5.3',
+                        en: 'Review and validate',
+                        id: 'Pemeriksaan dan validasi (Editing)',
+                        desc: 'Memeriksa data untuk mengidentifikasi potensi salah ketik angka satuan, nilai ekstrem (outlier), sel kosong, atau inkonsistensi antar-indikator.',
+                        input: 'Dataset berkode (5.2) dan aturan validasi (2.5).',
+                        output: 'Daftar anomali atau catatan ketidakwajaran data yang perlu dikonfirmasi.',
+                        example: 'Mendeteksi laporan Puskesmas yang mencatat jumlah balita ditimbang lebih besar dari total sasaran balita di wilayah kerja Puskesmas tersebut.'
+                    },
+                    {
+                        code: '5.4',
+                        en: 'Edit and impute',
+                        id: 'Penyuntingan dan imputasi',
+                        desc: 'Memperbaiki data yang keliru setelah konfirmasi ke unit pelapor, serta menangani data laporan unit kerja yang belum masuk menggunakan metode estimasi/imputasi yang terdokumentasi.',
+                        input: 'Daftar anomali data (5.3) dan metode imputasi (2.5).',
+                        output: 'Dataset bersih dan lengkap (clean dataset).',
+                        example: 'Mengoreksi salah ketik satuan produksi pertanian (kuintal vs ton) setelah konfirmasi ke penyuluh kecamatan, serta mencatat keterangan estimasi jika ada unit yang terlambat.'
+                    },
+                    {
+                        code: '5.5',
+                        en: 'Derive new variables and units',
+                        id: 'Menurunkan variabel dan unit baru',
+                        desc: 'Membentuk variabel atau indikator turunan baru dari variabel dasar yang telah bersih agar sesuai dengan definisi indikator kinerja daerah.',
+                        input: 'Dataset bersih (5.4) dan formula variabel turunan.',
+                        output: 'Dataset dengan variabel indikator turunan tambahan.',
+                        example: 'Menurunkan status gizi balita (stunting/wasting) dari variabel umur, tinggi badan, dan berat badan, serta menghitung persentase capaian SPM daerah.'
+                    },
+                    {
+                        code: '5.6',
+                        en: 'Calculate weights',
+                        id: 'Menghitung penimbang (Weights)',
+                        desc: 'Menghitung bobot sampel pada survei daerah (seperti pembobotan responden antar-loket pada SKM) atau menetapkan bobot 1 pada kompilasi data registrasi penuh OPD.',
+                        input: 'Dataset (5.5) dan desain sampel/cakupan (2.4).',
+                        output: 'Dataset yang dilengkapi variabel penimbang.',
+                        example: 'Menghitung bobot jumlah pemohon per jenis layanan pada Survei Kepuasan Masyarakat (SKM) untuk menghasilkan nilai IKM gabungan Mal Pelayanan Publik.'
+                    },
+                    {
+                        code: '5.7',
+                        en: 'Calculate aggregates',
+                        id: 'Menghitung agregat',
+                        desc: 'Menghitung angka total, rata-rata, persentase, rasio, dan indeks agregat menurut kecamatan, kabupaten/kota, kelompok umur, atau sektor usaha.',
+                        input: 'Dataset berpenimbang (5.6).',
+                        output: 'Tabel agregat indikator statistik sektoral.',
+                        example: 'Menghitung total nilai realisasi investasi dan jumlah tenaga kerja terserap per kecamatan serta skor Indeks Kepuasan Masyarakat (IKM) tingkat kabupaten/kota.'
+                    },
+                    {
+                        code: '5.8',
+                        en: 'Finalise data files',
+                        id: 'Finalisasi file data',
+                        desc: 'Menyatukan hasil pengolahan menjadi file dataset final yang terkunci (frozen) dan tervalidasi di tingkat OPD sebelum diserahkan ke Walidata untuk analisis dan publikasi.',
+                        input: 'Hasil agregasi (5.7) dan dataset bersih.',
+                        output: 'Master file dataset statistik sektoral OPD yang telah dikunci.',
+                        example: 'Kepala Bidang OPD menyetujui master dataset final semesteran dan mengunggahnya ke sistem staging Walidata Diskominfo beserta metadata lengkap.'
+                    }
+                ]
+            },
+            {
+                id: 6,
+                code: 'Fase 6',
+                enTitle: 'Analyse',
+                idTitle: 'Analisis',
+                color: 'amber',
+                badgeBg: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300',
+                borderAccent: 'border-amber-500',
+                headerBg: 'bg-amber-600',
+                summary: 'Fase ini memproduksi output statistik, memeriksa kesesuaiannya dengan ekspektasi dan kondisi lapangan daerah, menafsirkan fenomena di balik angka, serta menjaga kerahasiaan identitas individu.',
+                subprocesses: [
+                    {
+                        code: '6.1',
+                        en: 'Prepare draft outputs',
+                        id: 'Menyiapkan draf output',
+                        desc: 'Mengubah dataset final (5.8) menjadi bentuk tabel publikasi, peta tematik wilayah, grafik tren antar-tahun, serta perbandingan capaian terhadap target RPJMD.',
+                        input: 'Master file dataset final (5.8).',
+                        output: 'Draf tabel statistik, peta sebaran kecamatan, dan ringkasan capaian target daerah.',
+                        example: 'Menyiapkan tabel perbandingan prevalensi stunting antar-kecamatan dan grafik pertumbuhan penerbitan NIB triwulanan dibanding target RKPD.'
+                    },
+                    {
+                        code: '6.2',
+                        en: 'Validate outputs',
+                        id: 'Memvalidasi output (Pemeriksaan Walidata & Substansi)',
+                        desc: 'Memverifikasi kewajaran angka agregat dengan membandingkannya terhadap tahun sebelumnya, data BPS (misal Survei Kesehatan Indonesia / Susenas), serta pemeriksaan Walidata.',
+                        input: 'Draf output (6.1), data pembanding BPS, dan daftar periksa Walidata.',
+                        output: 'Output statistik sektoral yang telah lulus verifikasi substansi dan Walidata.',
+                        example: 'Walidata Diskominfo memeriksa kesesuaian standar data & metadata, sementara Dinkes membandingkan tren data e-PPGBM dengan hasil Survei Kesehatan Indonesia (SKI) BPS.'
+                    },
+                    {
+                        code: '6.3',
+                        en: 'Interpret and explain outputs',
+                        id: 'Menafsirkan dan menjelaskan output',
+                        desc: 'Menganalisis makna di balik angka statistik daerah untuk menyusun narasi penjelasan yang informatif bagi pimpinan daerah dan publik.',
+                        input: 'Output tervalidasi (6.2) dan konteks kebijakan/kondisi lapangan daerah.',
+                        output: 'Naskah analisis deskriptif dan rekomendasi kebijakan bagi Kepala Daerah/Bappeda.',
+                        example: 'Menjelaskan faktor penyebab peningkatan skor IKM pada layanan perizinan online atau faktor pendorong lonjakan investasi sektor pariwisata di kecamatan tertentu.'
+                    },
+                    {
+                        code: '6.4',
+                        en: 'Apply disclosure control',
+                        id: 'Menerapkan pengendalian kerahasiaan data',
+                        desc: 'Memastikan dataset dan tabel yang akan dipublikasikan ke masyarakat tidak membocorkan data pribadi (NIK, nama, alamat lengkap, atau identitas pelaku usaha tunggal).',
+                        input: 'Output tervalidasi (6.2) dan aturan perlindungan data pribadi (UU PDP).',
+                        output: 'Dataset publik yang telah dianonimisasi/diagregasi secara aman.',
+                        example: 'Menghapus kolom NIK, nama lengkap, dan nomor telepon warga dari dataset kemiskinan atau daftar penerima bantuan sosial sebelum dipublikasikan sebagai Open Data.'
+                    },
+                    {
+                        code: '6.5',
+                        en: 'Finalise outputs',
+                        id: 'Finalisasi output',
+                        desc: 'Memastikan seluruh tabel, naskah analisis, infografis, dan metadata pendamping telah lengkap dan disetujui oleh Kepala OPD serta Walidata untuk dirilis.',
+                        input: 'Output aman (6.4) dan naskah analisis (6.3).',
+                        output: 'Paket publikasi statistik sektoral final yang siap dirilis.',
+                        example: 'Penandatanganan berita acara persetujuan rilis dataset dan laporan analisis antara Kepala OPD (Produsen Data) dan Kepala Diskominfo (Walidata).'
+                    }
+                ]
+            },
+            {
+                id: 7,
+                code: 'Fase 7',
+                enTitle: 'Disseminate',
+                idTitle: 'Diseminasi',
+                color: 'orange',
+                badgeBg: 'bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-300',
+                borderAccent: 'border-orange-500',
+                headerBg: 'bg-orange-600',
+                summary: 'Fase ini mengelola perilisan produk statistik daerah kepada masyarakat dan pemangku kepentingan melalui Portal Satu Data Daerah, publikasi profil daerah, serta layanan permintaan data.',
+                subprocesses: [
+                    {
+                        code: '7.1',
+                        en: 'Update output systems',
+                        id: 'Memperbarui sistem output',
+                        desc: 'Mengunggah dataset terstandar dan metadata ke Portal Satu Data Provinsi/Kabupaten/Kota serta memastikan keterhubungan (harvesting) ke Portal Satu Data Indonesia (data.go.id).',
+                        input: 'Paket publikasi final (6.5).',
+                        output: 'Dataset terbuka berformat machine-readable (CSV/JSON/API) aktif di Portal Satu Data Daerah.',
+                        example: 'Walidata Diskominfo memublikasikan dataset stunting, perizinan NIB, dan IKM pada Portal Satu Data Daerah yang terhubung otomatis ke data.go.id.'
+                    },
+                    {
+                        code: '7.2',
+                        en: 'Produce dissemination products',
+                        id: 'Menghasilkan produk diseminasi',
+                        desc: 'Menyusun berbagai format produk informasi sesuai kebutuhan pengguna: buku Profil Daerah, kontribusi tabel untuk publikasi Daerah Dalam Angka, infografis, dan rilis pers.',
+                        input: 'Paket publikasi final (6.5) dan template desain publikasi daerah.',
+                        output: 'Buku publikasi digital (PDF), infografis media sosial, dan tabel siap unduh.',
+                        example: 'Menyusun buku Profil Kesehatan Daerah tahunan, infografis capaian investasi daerah, serta menyetor tabel sektoral ke BPS untuk buku Kabupaten/Kota Dalam Angka.'
+                    },
+                    {
+                        code: '7.3',
+                        en: 'Manage release of dissemination products',
+                        id: 'Mengelola rilis produk diseminasi',
+                        desc: 'Menjalankan rilis publikasi sesuai jadwal kalender rilis daerah, menyampaikan laporan eksekutif kepada Kepala Daerah, dan mengumumkan ketersediaan data kepada publik.',
+                        input: 'Produk diseminasi siap rilis (7.2) dan jadwal rilis daerah.',
+                        output: 'Publikasi dan dataset resmi daerah yang dapat diakses publik secara terbuka.',
+                        example: 'Merilis Laporan Hasil Survei Kepuasan Masyarakat (SKM) secara resmi melalui website Pemda, papan informasi loket MPP, dan siaran pers Humas Pemda.'
+                    },
+                    {
+                        code: '7.4',
+                        en: 'Promote dissemination products',
+                        id: 'Mempromosikan produk diseminasi',
+                        desc: 'Menyosialisasikan pemanfaatan data sektoral daerah melalui Musrenbang, media sosial resmi Pemda, rapat koordinasi lintas OPD, dan literasi data masyarakat.',
+                        input: 'Publikasi yang telah dirilis (7.3).',
+                        output: 'Pemanfaatan data dalam Musrenbang/perencanaan dan peningkatan akses publik.',
+                        example: 'Bappeda memaparkan peta sebaran kemiskinan ekstrem dan stunting hasil pemutakhiran data daerah sebagai bahan utama penyusunan program prioritas dalam Musrenbang RKPD.'
+                    },
+                    {
+                        code: '7.5',
+                        en: 'Manage user support',
+                        id: 'Mengelola dukungan pengguna',
+                        desc: 'Melayani permintaan data khusus dari peneliti, mahasiswa, media, maupun instansi vertikal melalui layanan PPID / meja layanan Satu Data Daerah.',
+                        input: 'Permohonan informasi/tabulasi data dari pengguna eksternal maupun internal.',
+                        output: 'Penyediaan data sesuai ketentuan PPID dan log catatan permintaan pengguna.',
+                        example: 'Melayani permohonan data seri waktu kunjungan pasien Puskesmas atau jumlah UMKM per kecamatan dari akademisi melalui layanan PPID / Portal Satu Data Daerah.'
+                    }
+                ]
+            },
+            {
+                id: 8,
+                code: 'Fase 8',
+                enTitle: 'Evaluate',
+                idTitle: 'Evaluasi',
+                color: 'rose',
+                badgeBg: 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300',
+                borderAccent: 'border-rose-500',
+                headerBg: 'bg-rose-600',
+                summary: 'Fase ini mengevaluasi keseluruhan penyelenggaraan kegiatan statistik sektoral Pemda dari awal hingga akhir, mengidentifikasi kendala di lapangan/OPD, dan menyusun rencana perbaikan siklus berikutnya.',
+                subprocesses: [
+                    {
+                        code: '8.1',
+                        en: 'Gather evaluation inputs',
+                        id: 'Mengumpulkan masukan evaluasi',
+                        desc: 'Mengumpulkan bukti evaluasi: catatan keterlambatan laporan kecamatan/UPT, hasil pemeriksaan kelengkapan metadata dari Walidata, masukan pengguna portal, serta hasil penilaian mandiri EPSS.',
+                        input: 'Log ketepatan waktu pelaporan unit kerja, catatan kurasi Walidata, dan lembar penilaian EPSS.',
+                        output: 'Kumpulan bukti dan catatan evaluasi penyelenggaraan statistik sektoral.',
+                        example: 'Mengumpulkan rekap keterlambatan pengiriman laporan bulanan dari kecamatan, jumlah dataset OPD yang dikembalikan Walidata karena metadata belum lengkap, serta umpan balik pengguna.'
+                    },
+                    {
+                        code: '8.2',
+                        en: 'Conduct evaluation',
+                        id: 'Melakukan evaluasi',
+                        desc: 'Menganalisis seluruh masukan evaluasi untuk mengidentifikasi hambatan teknis, kesenjangan kapasitas SDM operator OPD, serta tingkat kematangan proses bisnis berdasarkan standar EPSS.',
+                        input: 'Bukti evaluasi (8.1) dan dokumen perencanaan awal (1.6).',
+                        output: 'Laporan evaluasi penyelenggaraan statistik sektoral dan rekomendasi perbaikan.',
+                        example: 'Rapat evaluasi akhir tahun antara Bappeda, Diskominfo, OPD, dan Tim Penilai Internal (TPI) EPSS dengan pendampingan BPS Daerah untuk membedah nilai kematangan tiap domain.'
+                    },
+                    {
+                        code: '8.3',
+                        en: 'Agree an action plan',
+                        id: 'Menyepakati rencana aksi (Action Plan)',
+                        desc: 'Merumuskan dan menyepakati rencana tindak lanjut perbaikan untuk tahun anggaran/siklus berikutnya yang langsung menjadi masukan bagi Fase 1 atau Fase 2.',
+                        input: 'Laporan evaluasi (8.2).',
+                        output: 'Dokumen Rencana Aksi Perbaikan Tata Kelola Data & Statistik Sektoral Daerah.',
+                        example: 'Menyepakati rencana aksi tahun depan berupa integrasi otomatis API aplikasi OPD ke Portal Satu Data Daerah serta penambahan anggaran bimtek operator data kecamatan.'
+                    }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // 3. DATA: 4 REAL-WORLD CASE STUDIES (PEMDA)
+        // ==========================================
+        const caseStudies = {
+            case1: {
+                title: 'Studi Kasus 1: Statistik Kesehatan Ibu, Anak & Prevalensi Stunting Daerah (Dinas Kesehatan)',
+                badge: 'Kompilasi Produk Administrasi (Kompromin) • Aplikasi e-PPGBM & Puskesmas',
+                badgeClass: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300',
+                context: 'Dinas Kesehatan Kabupaten/Kota mengompilasi data hasil penimbangan dan pengukuran antropometri bulanan seluruh balita dari Posyandu dan Puskesmas melalui aplikasi e-PPGBM untuk memantau prevalensi stunting dan capaian Standar Pelayanan Minimal (SPM) Kesehatan.',
+                flowNote: 'Pada kegiatan Kompromin ini, Dinkes tidak membuat survei rumah tangga terpisah, melainkan memanfaatkan catatan pelayanan rutin Posyandu/Puskesmas dengan pengawasan ketat pada standar klasifikasi WHO dan validasi NIK.',
+                steps: [
+                    {
+                        phase: 'Fase 1 • Specify Needs',
+                        sub: '1.1 – 1.6',
+                        action: 'Bappeda, TPPS (Tim Percepatan Penurunan Stunting), dan Dinkes menyepakati kebutuhan data prevalensi stunting per desa dalam Forum Satu Data Daerah (1.2), mengecek kelengkapan pencatatan e-PPGBM (1.5), dan mengajukan Rekomendasi Kegiatan Statistik (Romantik) ke BPS (1.6).'
+                    },
+                    {
+                        phase: 'Fase 2 • Design',
+                        sub: '2.1 – 2.6',
+                        action: 'Menyusun Metadata Statistik (MS-Keg, MS-Var, MS-Ind) bersama Walidata Diskominfo (2.2), menetapkan standar kurva pertumbuhan WHO dan kode desa Kemendagri, merancang format pelaporan rutin Puskesmas (2.3), serta menyusun SOP verifikasi berjenjang (2.6).'
+                    },
+                    {
+                        phase: 'Fase 3 • Build',
+                        sub: '3.1 – 3.7',
+                        action: 'Menyiapkan modul ekstraksi data dari e-PPGBM dan template validasi tingkat kabupaten/kota (3.1–3.2), menyiapkan struktur dataset pada Portal Satu Data Daerah (3.3), serta melakukan uji coba validasi dengan admin gizi Puskesmas (3.6).'
+                    },
+                    {
+                        phase: 'Fase 4 • Collect',
+                        sub: '4.1 – 4.4',
+                        action: 'Menetapkan cakupan seluruh Puskesmas dan Posyandu aktif (4.1), mengadakan bimtek petugas gizi Puskesmas (4.2), menghimpun input hasil penimbangan bulanan terutama pada Bulan Penimbangan Balita (4.3), dan melakukan cut-off bulanan (4.4).'
+                    },
+                    {
+                        phase: 'Fase 5 • Process',
+                        sub: '5.1 – 5.8',
+                        action: 'Mengintegrasikan laporan seluruh Puskesmas dan mengecek duplikasi NIK balita bersama Dukcapil (5.1), menyelaraskan kode desa Kemendagri (5.2), mendeteksi serta mengoreksi anomali input tinggi/berat badan ekstrem (5.3–5.4), lalu menghitung agregat prevalensi per desa/kecamatan (5.7).'
+                    },
+                    {
+                        phase: 'Fase 6 • Analyse',
+                        sub: '6.1 – 6.5',
+                        action: 'Menyusun peta sebaran lokus stunting per desa (6.1), membandingkan tren prevalensi dengan hasil Survei Kesehatan Indonesia (SKI) BPS (6.2), menyusun rekomendasi intervensi spesifik/sensitif (6.3), dan menghapus identitas nama/NIK balita sebelum rilis publik (6.4).'
+                    },
+                    {
+                        phase: 'Fase 7 • Disseminate',
+                        sub: '7.1 – 7.5',
+                        action: 'Walidata Diskominfo memublikasikan tabel agregat prevalensi stunting per kecamatan/desa ke Portal Satu Data Daerah (7.1), menerbitkan buku Profil Kesehatan Daerah & kontribusi Daerah Dalam Angka (7.2), serta menyajikannya dalam Rembuk Stunting Kabupaten/Kota (7.4).'
+                    },
+                    {
+                        phase: 'Fase 8 • Evaluate',
+                        sub: '8.1 – 8.3',
+                        action: 'Mengevaluasi persentase balita yang belum terukur (D/S) dan kelengkapan input NIK di Puskesmas (8.1–8.2), lalu menyepakati rencana aksi pengadaan alat antropometri terstandar serta integrasi bridging NIK Puskesmas-Dukcapil untuk tahun berikutnya (8.3).'
+                    }
+                ]
+            },
+            case2: {
+                title: 'Studi Kasus 2: Statistik Realisasi Investasi & Pertumbuhan UMKM Daerah (DPMPTSP & Dinkop UKM)',
+                badge: 'Kompilasi Produk Administrasi (Kompromin) • Data OSS-RBA / NIB & LKPM',
+                badgeClass: 'bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300',
+                context: 'DPMPTSP bersama Dinas Koperasi dan UKM mengompilasi catatan administrasi penerbitan Nomor Induk Berusaha (NIB) dari sistem OSS-RBA serta Laporan Kegiatan Penanaman Modal (LKPM) untuk mengukur pertumbuhan usaha baru, nilai investasi, dan penyerapan tenaga kerja daerah.',
+                flowNote: 'Ciri khas Kompromin Perizinan: Sumber data berasal dari register transaksi perizinan elektronik, sehingga fokus utama terletak pada klasifikasi KBLI 2020, pembersihan duplikasi NIB/NPWP, dan penentuan lokasi proyek sesuai kode wilayah Kemendagri.',
+                steps: [
+                    {
+                        phase: 'Fase 1 • Specify Needs',
+                        sub: '1.1 – 1.6',
+                        action: 'Bappeda dan Kepala Daerah membutuhkan indikator realisasi investasi daerah dan jumlah UMKM baru per sektor dalam RPJMD (1.1–1.3). DPMPTSP mengecek ketersediaan data tarikan OSS-RBA (1.5) dan mengajukan Romantik ke BPS (1.6).'
+                    },
+                    {
+                        phase: 'Fase 2 • Design',
+                        sub: '2.1 – 2.6',
+                        action: 'Menyelaraskan definisi skala usaha (Mikro, Kecil, Menengah, Besar) sesuai PP No. 7/2021 dan klasifikasi KBLI 2020 pada dokumen MS-Var & MS-Ind (2.2), merancang format ekstraksi CSV/API dari dashboard OSS-RBA (2.3), serta aturan agregasi investasi per kecamatan (2.5).'
+                    },
+                    {
+                        phase: 'Fase 3 • Build',
+                        sub: '3.1 – 3.7',
+                        action: 'Membangun skrip pengolahan otomatis untuk memisahkan data pelaku usaha tunggal yang memiliki banyak kode KBLI proyek (3.2), menyiapkan template tabel terbuka pada Portal Satu Data Daerah (3.3), dan menguji validasi kode wilayah (3.5).'
+                    },
+                    {
+                        phase: 'Fase 4 • Collect',
+                        sub: '4.1 – 4.4',
+                        action: 'Menarik seluruh catatan penerbitan NIB dan LKPM yang berlokasi proyek di wilayah Provinsi/Kabupaten/Kota pada periode triwulan berjalan dari sistem OSS-RBA (4.3) dan menyimpannya ke database staging DPMPTSP (4.4).'
+                    },
+                    {
+                        phase: 'Fase 5 • Process',
+                        sub: '5.1 – 5.8',
+                        action: 'Menggabungkan data NIB dengan database UMKM binaan Dinkop UKM untuk mencegah penghitungan ganda (5.1), mengelompokkan ke KBLI 2-digit & kode kecamatan Kemendagri (5.2), mendeteksi salah ketik nilai modal usaha ekstrem (5.3–5.4), dan menghitung total nilai investasi serta tenaga kerja (5.7).'
+                    },
+                    {
+                        phase: 'Fase 6 • Analyse',
+                        sub: '6.1 – 6.5',
+                        action: 'Menyusun tabel pertumbuhan investasi PMDN/PMA dan distribusi UMKM per kecamatan (6.1), memvalidasi lonjakan investasi dengan laporan pengawasan lapangan DPMPTSP (6.2), serta menyembunyikan rincian nilai proyek jika di suatu kecamatan hanya terdapat 1 investor besar (6.4).'
+                    },
+                    {
+                        phase: 'Fase 7 • Disseminate',
+                        sub: '7.1 – 7.5',
+                        action: 'Mengunggah dataset jumlah NIB dan realisasi investasi terstandar ke Portal Satu Data Daerah melalui Walidata Diskominfo (7.1), menerbitkan infografis iklim investasi daerah (7.2), dan mempromosikannya dalam forum temu investor daerah (7.4).'
+                    },
+                    {
+                        phase: 'Fase 8 • Evaluate',
+                        sub: '8.1 – 8.3',
+                        action: 'Mengevaluasi ketidaktepatan pengisian titik koordinat/kecamatan lokasi proyek oleh pemohon NIB (8.1–8.2), lalu menyepakati rencana aksi pendampingan klinik OSS bagi pelaku usaha mikro di kecamatan bersama Dinkop UKM (8.3).'
+                    }
+                ]
+            },
+            case3: {
+                title: 'Studi Kasus 3: Survei Kepuasan Masyarakat (SKM) & Evaluasi Kualitas Pelayanan Publik Daerah',
+                badge: 'Pendekatan Survei Daerah • Bagian Organisasi Setda & Mal Pelayanan Publik (MPP)',
+                badgeClass: 'bg-brand-100 text-brand-800 dark:bg-brand-950 dark:text-brand-300',
+                context: 'Bagian Organisasi Sekretariat Daerah bersama seluruh OPD penyelenggara layanan publik (Dukcapil, DPMPTSP, RSUD, Puskesmas, Samsat/Bapenda) melaksanakan Survei Kepuasan Masyarakat (SKM) berkala untuk mengukur Indeks Kepuasan Masyarakat (IKM) sesuai PermenPANRB No. 14 Tahun 2017.',
+                flowNote: 'Pada kegiatan survei mandiri Pemda ini, seluruh tahapan mulai dari perancangan kuesioner 9 unsur layanan, penarikan sampel pengunjung layanan, hingga pembobotan IKM dijalankan secara sistematis sesuai GSBPM.',
+                steps: [
+                    {
+                        phase: 'Fase 1 • Specify Needs',
+                        sub: '1.1 – 1.6',
+                        action: 'Kepala Daerah dan Bagian Organisasi Setda menetapkan kebutuhan skor IKM seluruh unit pelayanan publik sebagai indikator reformasi birokrasi (1.1–1.3), menyelaraskan konsep 9 unsur pelayanan (1.4), dan mengajukan Romantik ke BPS Daerah (1.6).'
+                    },
+                    {
+                        phase: 'Fase 2 • Design',
+                        sub: '2.1 – 2.6',
+                        action: 'Merancang struktur tabel skor per unsur layanan (2.1), mendefinisikan skala likert 1–4 pada MS-Var (2.2), mendesain kuesioner digital berbasis QR-Code dan formulir kertas bagi lansia/disabilitas (2.3), serta menetapkan ukuran sampel minimal menggunakan tabel Krejcie-Morgan (2.4).'
+                    },
+                    {
+                        phase: 'Fase 3 • Build',
+                        sub: '3.1 – 3.7',
+                        action: 'Membangun aplikasi survei SKM online terintegrasi per loket layanan (3.1), mengonfigurasi rumus otomatis penghitungan Nilai Rata-Rata Tertimbang (NRR) dan konversi IKM skala 25–100 (3.2), serta melakukan uji coba di loket Dukcapil dan MPP (3.6).'
+                    },
+                    {
+                        phase: 'Fase 4 • Collect',
+                        sub: '4.1 – 4.4',
+                        action: 'Menempatkan QR-Code SKM di seluruh meja layanan OPD dan menugaskan petugas pendamping survei (4.2), mengumpulkan isian responden pengguna layanan selama periode survei hingga memenuhi kuota sampel tiap unit layanan (4.3–4.4).'
+                    },
+                    {
+                        phase: 'Fase 5 • Process',
+                        sub: '5.1 – 5.8',
+                        action: 'Menggabungkan hasil input digital dan kuesioner kertas (5.1), mengodekan jenis layanan dan karakteristik pendidikan/pekerjaan responden (5.2), menyaring kuesioner tidak lengkap/isian asal-asalan (5.3–5.4), menghitung bobot antar-layanan (5.6), dan menghitung skor IKM akhir (5.7).'
+                    },
+                    {
+                        phase: 'Fase 6 • Analyse',
+                        sub: '6.1 – 6.5',
+                        action: 'Memetakan unsur layanan dengan nilai terendah (misal waktu penyelesaian atau sarana prasarana) dan tertinggi (6.1–6.3), serta memastikan anonimitas responden pengisi survei tetap terjaga agar masyarakat bebas memberi penilaian objektif (6.4).'
+                    },
+                    {
+                        phase: 'Fase 7 • Disseminate',
+                        sub: '7.1 – 7.5',
+                        action: 'Mengunggah dataset skor IKM per OPD ke Portal Satu Data Daerah bersama Walidata Diskominfo (7.1), memublikasikan laporan dan infografis IKM di website Pemda serta papan pengumuman Mal Pelayanan Publik (7.2–7.3).'
+                    },
+                    {
+                        phase: 'Fase 8 • Evaluate',
+                        sub: '8.1 – 8.3',
+                        action: 'Mengevaluasi tingkat partisipasi pengunjung loket dan kendala teknis pemindaian QR-Code di Puskesmas pelosok (8.1–8.2), lalu menyepakati rencana tindak lanjut perbaikan standar pelayanan (maklumat pelayanan) pada OPD yang nilainya di bawah target (8.3).'
+                    }
+                ]
+            },
+            case4: {
+                title: 'Studi Kasus 4: Pemutakhiran Data Kemiskinan Ekstrem & Pensasaran Bantuan Sosial Daerah (Bappeda & Dinsos)',
+                badge: 'Integrasi Data Lintas OPD • Kompromin P3KE/DTKS, Dukcapil & Verifikasi Desa',
+                badgeClass: 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300',
+                context: 'Bappeda, Dinas Sosial, Dinas Dukcapil, dan Pemerintah Kecamatan/Desa melakukan pemadanan dan pemutakhiran data keluarga miskin ekstrem (P3KE/DTKS) untuk memastikan ketepatan sasaran program bantuan sosial APBD, jaminan kesehatan daerah (PBI-JK), dan bedah rumah.',
+                flowNote: 'Ciri khas Integrasi Lintas OPD: Memadukan data register pusat/daerah dengan basis data kependudukan Dukcapil melalui record linkage NIK/No. KK serta verifikasi musyawarah desa/kelurahan.',
+                steps: [
+                    {
+                        phase: 'Fase 1 • Specify Needs',
+                        sub: '1.1 – 1.6',
+                        action: 'Tim Koordinasi Penanggulangan Kemiskinan Daerah (TKPKD) yang dipimpin Wakil Kepala Daerah & Bappeda mengidentifikasi kebutuhan daftar keluarga sasaran by-name by-address yang mutakhir untuk penyaluran bansos APBD (1.1–1.3), mengecek data P3KE/DTKS yang tersedia (1.5), dan menyusun KAK pemutakhiran (1.6).'
+                    },
+                    {
+                        phase: 'Fase 2 • Design',
+                        sub: '2.1 – 2.6',
+                        action: 'Menetapkan variabel kesejahteraan keluarga dan kode wilayah desa Kemendagri pada dokumentasi metadata MS-Var (2.2), merancang instrumen verifikasi musyawarah desa/kelurahan (2.3), serta merancang aturan pencocokan NIK/No. KK dengan database SIAK Dukcapil (2.5).'
+                    },
+                    {
+                        phase: 'Fase 3 • Build',
+                        sub: '3.1 – 3.7',
+                        action: 'Membangun modul verifikasi pre-list keluarga sasaran berbasis web/mobile untuk operator desa (3.1), mengonfigurasi skrip pencocokan NIK dengan Dukcapil dan aturan penghitungan indeks kemiskinan daerah (3.2), serta menguji keamanan akses data sensitif (3.5).'
+                    },
+                    {
+                        phase: 'Fase 4 • Collect',
+                        sub: '4.1 – 4.4',
+                        action: 'Menarik data awal P3KE/DTKS dan mendistribusikan daftar pre-list ke seluruh kecamatan dan desa/kelurahan (4.1–4.2), menghimpun hasil berita acara musyawarah desa (perubahan status meninggal, pindah, mampu, atau usulan baru) melalui aplikasi (4.3–4.4).'
+                    },
+                    {
+                        phase: 'Fase 5 • Process',
+                        sub: '5.1 – 5.8',
+                        action: 'Melakukan record linkage NIK dan Nomor KK dengan data SIAK Dukcapil untuk membersihkan data penduduk meninggal/ganda (5.1), menyeragamkan kode RT/RW/Desa Kemendagri (5.2), memvalidasi kelengkapan variabel sosial ekonomi (5.3–5.4), dan menghitung agregat rumah tangga miskin per desa (5.7).'
+                    },
+                    {
+                        phase: 'Fase 6 • Analyse',
+                        sub: '6.1 – 6.5',
+                        action: 'Menganalisis kantong-kantong kemiskinan ekstrem dan profil pekerjaan kepala rumah tangga (6.1–6.3), membandingkan tren makro dengan angka kemiskinan kabupaten/kota rilis BPS (6.2), serta memisahkan data mikro by-name by-address (khusus SK Kepala Daerah) dari tabel agregat publik (6.4).'
+                    },
+                    {
+                        phase: 'Fase 7 • Disseminate',
+                        sub: '7.1 – 7.5',
+                        action: 'Memublikasikan statistik agregat jumlah keluarga sasaran per desa/kecamatan ke Portal Satu Data Daerah bersama Walidata Diskominfo (7.1), serta menyalurkan daftar sasaran tervalidasi secara tertutup dan aman kepada OPD pengampu bansos, Dinkes (PBI), dan Dinas Perkim (7.3).'
+                    },
+                    {
+                        phase: 'Fase 8 • Evaluate',
+                        sub: '8.1 – 8.3',
+                        action: 'Mengevaluasi persentase NIK anomali/tidak padan Dukcapil dan tingkat ketepatan waktu musyawarah desa (8.1–8.2), lalu menyepakati jadwal pemutakhiran rutin setiap semester antara Bappeda, Dinsos, Dukcapil, dan Pemerintah Desa (8.3).'
+                    }
+                ]
+            }
+        };
+
+        // ==========================================
+        // 4. DATA: INTERACTIVE QUIZ SCENARIOS (6 SCENARIOS PEMDA)
+        // ==========================================
+        const quizQuestions = [
+            {
+                scenario: 'Dalam penyusunan data kemiskinan ekstrem daerah, Dinas Sosial dan Bappeda melakukan pencocokan (record linkage) jutaan catatan NIK dan Nomor KK terhadap database SIAK Dukcapil untuk menghapus data warga yang sudah meninggal dunia atau tercatat ganda, lalu menyeragamkan kode desa Kemendagri.',
+                options: [
+                    { id: 3, text: 'Fase 3: Build (Pembangunan)' },
+                    { id: 4, text: 'Fase 4: Collect (Pengumpulan)' },
+                    { id: 5, text: 'Fase 5: Process (Pengolahan)' },
+                    { id: 6, text: 'Fase 6: Analyse (Analisis)' }
+                ],
+                correct: 5,
+                explanation: 'Tepat sekali! Integrasi data lintas OPD melalui record linkage NIK (5.1), penghapusan duplikasi, serta penyeragaman kode wilayah standar Kemendagri (5.2) merupakan bagian inti dari Fase 5: Process.'
+            },
+            {
+                scenario: 'Pada akhir tahun anggaran, Bappeda, Walidata Diskominfo, dan OPD teknis menggelar rapat bersama Tim Penilai Internal (TPI) untuk membedah catatan keterlambatan laporan kecamatan, mengevaluasi hasil penilaian EPSS, dan menyepakati rencana aksi integrasi API tahun depan.',
+                options: [
+                    { id: 2, text: 'Fase 2: Design (Perancangan)' },
+                    { id: 4, text: 'Fase 4: Collect (Pengumpulan)' },
+                    { id: 7, text: 'Fase 7: Disseminate (Diseminasi)' },
+                    { id: 8, text: 'Fase 8: Evaluate (Evaluasi)' }
+                ],
+                correct: 8,
+                explanation: 'Benar! Mengumpulkan masukan kendala pelaporan (8.1), menganalisis evaluasi penyelenggaraan statistik sektoral / EPSS (8.2), dan menyepakati rencana aksi perbaikan (8.3) adalah bagian dari Fase 8: Evaluate.'
+            },
+            {
+                scenario: 'Sebelum Walidata Diskominfo memublikasikan dataset penerima bantuan sosial dan data balita stunting ke Portal Satu Data Daerah (Open Data), tim menghapus kolom NIK, nama lengkap warga, dan nomor telepon agar data pribadi masyarakat terlindungi.',
+                options: [
+                    { id: 2, text: 'Fase 2: Design (Perancangan)' },
+                    { id: 5, text: 'Fase 5: Process (Pengolahan)' },
+                    { id: 6, text: 'Fase 6: Analyse (Analisis)' },
+                    { id: 7, text: 'Fase 7: Disseminate (Diseminasi)' }
+                ],
+                correct: 6,
+                explanation: 'Tepat! Penerapan pengendalian kerahasiaan data (anonimisasi dan perlindungan data pribadi) sebelum data dipublikasikan dilakukan pada Fase 6: Analyse (Sub-proses 6.4 Apply disclosure control).'
+            },
+            {
+                scenario: 'Bappeda menyelenggarakan rapat Forum Satu Data Daerah bersama OPD teknis dan Diskominfo untuk menyepakati daftar indikator kinerja RPJMD yang dibutuhkan tahun depan, mengecek ketersediaan data di aplikasi OPD, serta mengajukan Rekomendasi Kegiatan Statistik (Romantik) ke BPS.',
+                options: [
+                    { id: 1, text: 'Fase 1: Specify Needs (Identifikasi Kebutuhan)' },
+                    { id: 2, text: 'Fase 2: Design (Perancangan)' },
+                    { id: 4, text: 'Fase 4: Collect (Pengumpulan)' },
+                    { id: 8, text: 'Fase 8: Evaluate (Evaluasi)' }
+                ],
+                correct: 1,
+                explanation: 'Sempurna! Konsultasi kebutuhan indikator daerah dalam Forum Satu Data (1.2), pemeriksaan ketersediaan data OPD (1.5), dan penyusunan KAK/pengajuan Romantik (1.6) berada di Fase 1: Specify Needs.'
+            },
+            {
+                scenario: 'Setelah formulir digital Survei Kepuasan Masyarakat (SKM) berbasis QR-Code dan rumus kalkulasi nilai IKM selesai dibuat, tim Bagian Organisasi Setda bersama Diskominfo melakukan uji coba lapangan kepada 30 pengunjung di Mal Pelayanan Publik (MPP) sebelum diluncurkan resmi.',
+                options: [
+                    { id: 2, text: 'Fase 2: Design (Perancangan)' },
+                    { id: 3, text: 'Fase 3: Build (Pembangunan)' },
+                    { id: 4, text: 'Fase 4: Collect (Pengumpulan)' },
+                    { id: 8, text: 'Fase 8: Evaluate (Evaluasi)' }
+                ],
+                correct: 3,
+                explanation: 'Tepat! Pengujian teknis sistem (3.5) dan uji coba instrumen survei / proses bisnis (3.6) sebelum pengumpulan data massal dimulai merupakan bagian dari Fase 3: Build.'
+            },
+            {
+                scenario: 'Selama bulan penimbangan balita, seluruh petugas gizi di 42 Puskesmas menginput hasil pengukuran tinggi dan berat badan balita ke sistem, dan pada tanggal 10 bulan berikutnya admin Dinas Kesehatan menutup periode pelaporan (cut-off) untuk menghimpun data mentah.',
+                options: [
+                    { id: 3, text: 'Fase 3: Build (Pembangunan)' },
+                    { id: 4, text: 'Fase 4: Collect (Pengumpulan)' },
+                    { id: 5, text: 'Fase 5: Process (Pengolahan)' },
+                    { id: 7, text: 'Fase 7: Disseminate (Diseminasi)' }
+                ],
+                correct: 4,
+                explanation: 'Luar biasa! Pelaksanaan penghimpunan laporan rutin dari unit layanan Puskesmas (4.3 Run collection) dan penutupan periode/pemuatan data mentah (4.4 Finalise collection) termasuk dalam Fase 4: Collect.'
+            }
+        ];
+
+        // ==========================================
+        // 5. STATE & INITIALIZATION
+        // ==========================================
+        let active5W1H = 'what';
+        let selectedPhaseId = 1;
+        let selectedSubCode = null;
+        let selectedPhaseFilter = 'all';
+        let activeCaseId = 'case1';
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initScrollProgress();
+            initMobileMenu();
+            render5W1HTabs();
+            render5W1HContent(active5W1H);
+            renderMatrix();
+            renderDetailInspector(1, null);
+            initSearchFilter();
+            initCaseStudies();
+            renderCaseStudy(activeCaseId);
+            initQuiz();
+            lucide.createIcons();
+        });
+
+        // ==========================================
+        // 6. THEME TOGGLE (DARK / LIGHT MODE)
+        // ==========================================
+        function initTheme() {
+            const htmlEl = document.documentElement;
+            const toggleBtn = document.getElementById('theme-toggle');
+            
+            // Check saved preference or OS preference
+            const savedTheme = localStorage.getItem('gsbpm-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                htmlEl.classList.add('dark');
+            } else {
+                htmlEl.classList.remove('dark');
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                htmlEl.classList.toggle('dark');
+                const isDark = htmlEl.classList.contains('dark');
+                localStorage.setItem('gsbpm-theme', isDark ? 'dark' : 'light');
+            });
+        }
+
+        // ==========================================
+        // 7. READING PROGRESS BAR & MOBILE MENU
+        // ==========================================
+        function initScrollProgress() {
+            const progressBar = document.getElementById('reading-progress');
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+            }, { passive: true });
+        }
+
+        function initMobileMenu() {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const links = document.querySelectorAll('.mobile-nav-link');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            });
+        }
+
+        // ==========================================
+        // 8. RENDER 5W + 1H TABS & CONTENT
+        // ==========================================
+        function render5W1HTabs() {
+            const container = document.getElementById('w5h1-tabs');
+            container.innerHTML = w5h1Data.map(item => {
+                const isActive = item.id === active5W1H;
+                return `
+                    <button 
+                        onclick="select5W1H('${item.id}')"
+                        role="tab"
+                        aria-selected="${isActive}"
+                        class="flex items-center justify-center gap-2 px-3 py-3 rounded-2xl text-xs sm:text-sm font-bold border transition-all ${
+                            isActive 
+                            ? 'bg-brand-600 text-white border-brand-600 shadow-md shadow-brand-600/20' 
+                            : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-brand-400 dark:hover:border-brand-500'
+                        }"
+                    >
+                        <i data-lucide="${item.icon}" class="w-4 h-4 shrink-0"></i>
+                        <span>${item.label}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function select5W1H(id) {
+            active5W1H = id;
+            render5W1HTabs();
+            render5W1HContent(id);
+            lucide.createIcons();
+        }
+
+        function render5W1HContent(id) {
+            const item = w5h1Data.find(d => d.id === id);
+            const container = document.getElementById('w5h1-content');
+            
+            container.innerHTML = `
+                <div class="animate-fade-in">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 text-xs font-bold mb-3">
+                        <i data-lucide="${item.icon}" class="w-4 h-4"></i>
+                        <span>${item.label}</span>
+                    </div>
+                    <h3 class="font-display font-bold text-xl sm:text-3xl text-slate-900 dark:text-white">
+                        ${item.title}
+                    </h3>
+                    <p class="mt-3 text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed border-l-4 border-brand-500 pl-4 bg-slate-50 dark:bg-slate-800/50 py-3 pr-4 rounded-r-xl">
+                        ${item.lead}
+                    </p>
+
+                    <div class="mt-7 grid grid-cols-1 md:grid-cols-3 gap-5">
+                        ${item.points.map((pt, idx) => `
+                            <div class="p-5 rounded-2xl bg-slate-50/90 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80">
+                                <div class="w-7 h-7 rounded-lg bg-brand-600/10 dark:bg-brand-400/10 text-brand-600 dark:text-brand-400 font-display font-bold text-sm flex items-center justify-center mb-3">
+                                    0${idx + 1}
+                                </div>
+                                <h4 class="font-display font-bold text-base text-slate-900 dark:text-white">${pt.heading}</h4>
+                                <p class="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${pt.text}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // 9. RENDER 8-PHASE MATRIX & SEARCH FILTER
+        // ==========================================
+        function renderMatrix(filterQuery = '') {
+            const container = document.getElementById('gsbpm-matrix');
+            const query = filterQuery.trim().toLowerCase();
+            let matchedSubCount = 0;
+            let matchedPhaseCount = 0;
+
+            const html = gsbpmPhases.map(phase => {
+                // Check phase dropdown filter
+                if (selectedPhaseFilter !== 'all' && String(phase.id) !== selectedPhaseFilter) {
+                    return '';
+                }
+
+                // Filter subprocesses if query exists
+                const matchingSubs = phase.subprocesses.filter(sub => {
+                    if (!query) return true;
+                    return (
+                        sub.code.toLowerCase().includes(query) ||
+                        sub.en.toLowerCase().includes(query) ||
+                        sub.id.toLowerCase().includes(query) ||
+                        sub.desc.toLowerCase().includes(query) ||
+                        (sub.example && sub.example.toLowerCase().includes(query))
+                    );
+                });
+
+                const phaseMatches = !query || 
+                    phase.enTitle.toLowerCase().includes(query) || 
+                    phase.idTitle.toLowerCase().includes(query) ||
+                    matchingSubs.length > 0;
+
+                if (!phaseMatches) return '';
+
+                matchedPhaseCount++;
+                matchedSubCount += matchingSubs.length;
+
+                const isPhaseSelected = selectedPhaseId === phase.id && !selectedSubCode;
+
+                return `
+                    <div class="phase-card flex flex-col rounded-2xl bg-white dark:bg-slate-900 border ${isPhaseSelected ? 'ring-2 ring-brand-500 border-brand-500' : 'border-slate-200 dark:border-slate-800'} shadow-sm overflow-hidden">
+                        <!-- Phase Header Button -->
+                        <button 
+                            onclick="inspectPhase(${phase.id})"
+                            class="w-full text-left p-4 ${phase.headerBg} text-white hover:opacity-95 transition-opacity focus:outline-none"
+                        >
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-extrabold uppercase tracking-wider bg-black/20 px-2.5 py-0.5 rounded-md">
+                                    ${phase.code} • ${phase.subprocesses.length} Sub
+                                </span>
+                                <i data-lucide="info" class="w-4 h-4 opacity-85"></i>
+                            </div>
+                            <h3 class="font-display font-bold text-lg mt-2 leading-snug">${phase.enTitle}</h3>
+                            <p class="text-xs text-white/90 font-medium">${phase.idTitle}</p>
+                        </button>
+
+                        <!-- Sub-processes List -->
+                        <div class="p-3 flex-1 flex flex-col gap-2 bg-slate-50/50 dark:bg-slate-900">
+                            ${matchingSubs.map(sub => {
+                                const isSubSelected = selectedSubCode === sub.code;
+                                return `
+                                    <button 
+                                        onclick="inspectSubprocess(${phase.id}, '${sub.code}')"
+                                        class="w-full text-left p-2.5 rounded-xl border text-xs transition-all flex items-start gap-2.5 ${
+                                            isSubSelected 
+                                            ? 'bg-brand-50 dark:bg-brand-950/80 border-brand-500 text-brand-900 dark:text-brand-100 font-semibold shadow-sm' 
+                                            : 'bg-white dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 hover:border-brand-400 dark:hover:border-brand-500'
+                                        }"
+                                    >
+                                        <span class="px-1.5 py-0.5 rounded font-mono font-bold text-[11px] shrink-0 ${phase.badgeBg}">
+                                            ${sub.code}
+                                        </span>
+                                        <div class="leading-tight">
+                                            <div class="font-semibold text-slate-900 dark:text-white">${sub.id}</div>
+                                            <div class="text-[11px] text-slate-500 dark:text-slate-400 italic mt-0.5">${sub.en}</div>
+                                        </div>
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (matchedPhaseCount === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
+                        <i data-lucide="search-x" class="w-10 h-10 text-slate-400 mx-auto mb-3"></i>
+                        <h4 class="font-display font-bold text-lg text-slate-800 dark:text-white">Tidak ditemukan sub-proses yang cocok</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Coba kata kunci lain seperti "Romantik", "RPJMD", "Walidata", "stunting", "KBLI", atau ubah filter fase.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = html;
+            }
+
+            // Update search status text
+            const statusEl = document.getElementById('search-status');
+            if (query || selectedPhaseFilter !== 'all') {
+                statusEl.textContent = `Menampilkan ${matchedSubCount} sub-proses pada ${matchedPhaseCount} fase terpilih.`;
+            } else {
+                statusEl.textContent = `Menampilkan seluruh 8 Fase dan 44 Sub-proses.`;
+            }
+
+            lucide.createIcons();
+        }
+
+        function initSearchFilter() {
+            const searchInput = document.getElementById('subprocess-search');
+            const clearBtn = document.getElementById('clear-search');
+            const phaseSelect = document.getElementById('phase-filter');
+
+            searchInput.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (val.length > 0) {
+                    clearBtn.classList.remove('hidden');
+                } else {
+                    clearBtn.classList.add('hidden');
+                }
+                renderMatrix(val);
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                clearBtn.classList.add('hidden');
+                renderMatrix('');
+            });
+
+            phaseSelect.addEventListener('change', (e) => {
+                selectedPhaseFilter = e.target.value;
+                renderMatrix(searchInput.value);
+            });
+        }
+
+        // ==========================================
+        // 10. DETAIL INSPECTOR PANEL
+        // ==========================================
+        function inspectPhase(phaseId) {
+            selectedPhaseId = phaseId;
+            selectedSubCode = null;
+            const currentSearch = document.getElementById('subprocess-search').value;
+            renderMatrix(currentSearch);
+            renderDetailInspector(phaseId, null);
+        }
+
+        function inspectSubprocess(phaseId, subCode) {
+            selectedPhaseId = phaseId;
+            selectedSubCode = subCode;
+            const currentSearch = document.getElementById('subprocess-search').value;
+            renderMatrix(currentSearch);
+            renderDetailInspector(phaseId, subCode);
+            
+            // Smooth scroll to detail inspector on mobile/tablet
+            if (window.innerWidth < 1024) {
+                document.getElementById('detail-inspector').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function renderDetailInspector(phaseId, subCode) {
+            const container = document.getElementById('detail-inspector');
+            const phase = gsbpmPhases.find(p => p.id === phaseId);
+
+            if (!subCode) {
+                // Show Phase Overview
+                container.innerHTML = `
+                    <div class="animate-fade-in">
+                        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+                            <div class="flex items-center gap-3">
+                                <span class="px-3 py-1 rounded-xl font-bold text-sm ${phase.badgeBg}">${phase.code}</span>
+                                <div>
+                                    <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-900 dark:text-white">
+                                        ${phase.enTitle} <span class="text-slate-400 font-normal">/</span> <span class="text-brand-600 dark:text-brand-400">${phase.idTitle}</span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                Terdiri dari ${phase.subprocesses.length} Sub-proses
+                            </span>
+                        </div>
+
+                        <p class="mt-4 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                            ${phase.summary}
+                        </p>
+
+                        <div class="mt-6">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
+                                Klik salah satu sub-proses di bawah untuk melihat rincian Input & Output:
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                ${phase.subprocesses.map(sub => `
+                                    <button 
+                                        onclick="inspectSubprocess(${phase.id}, '${sub.code}')"
+                                        class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-brand-600 hover:text-white dark:bg-slate-800 dark:hover:bg-brand-600 text-slate-800 dark:text-slate-200 text-xs font-semibold transition-colors"
+                                    >
+                                        <span class="font-mono font-bold mr-1">${sub.code}</span> ${sub.id}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Show Specific Sub-process Details
+                const sub = phase.subprocesses.find(s => s.code === subCode);
+                container.innerHTML = `
+                    <div class="animate-fade-in">
+                        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+                            <div class="flex items-center gap-3">
+                                <span class="px-3 py-1 rounded-xl font-mono font-extrabold text-sm ${phase.badgeBg}">
+                                    Sub-proses ${sub.code}
+                                </span>
+                                <div>
+                                    <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-900 dark:text-white">
+                                        ${sub.id}
+                                    </h3>
+                                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 italic">
+                                        Bahasa Inggris Resmi: "${sub.en}" • Bagian dari ${phase.code} (${phase.idTitle})
+                                    </p>
+                                </div>
+                            </div>
+                            <button 
+                                onclick="inspectPhase(${phase.id})"
+                                class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors"
+                            >
+                                <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Ringkasan ${phase.code}
+                            </button>
+                        </div>
+
+                        <p class="mt-4 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                            ${sub.desc}
+                        </p>
+
+                        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80">
+                                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1.5">
+                                    <i data-lucide="log-in" class="w-4 h-4"></i> Input Utama
+                                </div>
+                                <p class="text-sm text-slate-700 dark:text-slate-200">${sub.input}</p>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80">
+                                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-1.5">
+                                    <i data-lucide="log-out" class="w-4 h-4"></i> Output Utama
+                                </div>
+                                <p class="text-sm text-slate-700 dark:text-slate-200">${sub.output}</p>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-brand-50/60 dark:bg-brand-950/40 border border-brand-200/80 dark:border-brand-800/60">
+                                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-1.5">
+                                    <i data-lucide="building-2" class="w-4 h-4"></i> Contoh Aktivitas Nyata Pemda
+                                </div>
+                                <p class="text-sm text-slate-700 dark:text-slate-200">${sub.example}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // 11. REAL-WORLD CASE STUDIES LOGIC
+        // ==========================================
+        function initCaseStudies() {
+            const buttons = document.querySelectorAll('.case-tab-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activeCaseId = btn.dataset.case;
+                    
+                    // Update button styles
+                    buttons.forEach(b => {
+                        if (b.dataset.case === activeCaseId) {
+                            b.classList.remove('border-slate-200', 'dark:border-slate-800', 'bg-white/60', 'dark:bg-slate-900/60');
+                            b.classList.add('border-brand-600', 'bg-white', 'dark:bg-slate-900', 'shadow-md');
+                        } else {
+                            b.classList.add('border-slate-200', 'dark:border-slate-800', 'bg-white/60', 'dark:bg-slate-900/60');
+                            b.classList.remove('border-brand-600', 'bg-white', 'dark:bg-slate-900', 'shadow-md');
+                        }
+                    });
+
+                    renderCaseStudy(activeCaseId);
+                });
+            });
+        }
+
+        function renderCaseStudy(caseId) {
+            const study = caseStudies[caseId];
+            const container = document.getElementById('case-study-display');
+
+            container.innerHTML = `
+                <div class="animate-fade-in">
+                    <div class="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-slate-200 dark:border-slate-800">
+                        <div>
+                            <span class="px-3 py-1 rounded-lg text-xs font-bold ${study.badgeClass}">${study.badge}</span>
+                            <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-900 dark:text-white mt-2">
+                                ${study.title}
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80">
+                        <p class="text-sm sm:text-base text-slate-700 dark:text-slate-200"><strong>Konteks Kegiatan:</strong> ${study.context}</p>
+                        <p class="text-xs sm:text-sm text-brand-700 dark:text-brand-300 font-medium mt-2 flex items-center gap-1.5">
+                            <i data-lucide="info" class="w-4 h-4 shrink-0"></i> ${study.flowNote}
+                        </p>
+                    </div>
+
+                    <!-- 8-Step Implementation Timeline -->
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${study.steps.map((step, index) => `
+                            <div class="p-5 rounded-2xl bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 hover:border-brand-400 dark:hover:border-brand-500 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-display font-bold text-sm text-brand-600 dark:text-brand-400">${step.phase}</span>
+                                    <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                                        Sub: ${step.sub}
+                                    </span>
+                                </div>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                    ${step.action}
+                                </p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // 12. INTERACTIVE QUIZ LOGIC
+        // ==========================================
+        function initQuiz() {
+            const resetBtn = document.getElementById('quiz-reset-btn');
+            resetBtn.addEventListener('click', () => {
+                currentQuizIndex = 0;
+                quizScore = 0;
+                quizAnswered = false;
+                updateQuizBadges();
+                renderQuizQuestion();
+            });
+
+            updateQuizBadges();
+            renderQuizQuestion();
+        }
+
+        function updateQuizBadges() {
+            const progressBadge = document.getElementById('quiz-progress-badge');
+            const scoreBadge = document.getElementById('quiz-score-badge');
+            
+            if (currentQuizIndex < quizQuestions.length) {
+                progressBadge.textContent = `Skenario ${currentQuizIndex + 1} dari ${quizQuestions.length}`;
+            } else {
+                progressBadge.textContent = `Selesai (${quizQuestions.length} Skenario)`;
+            }
+            scoreBadge.textContent = `Skor: ${quizScore} / ${quizQuestions.length}`;
+        }
+
+        function renderQuizQuestion() {
+            const container = document.getElementById('quiz-container');
+
+            if (currentQuizIndex >= quizQuestions.length) {
+                const percentage = Math.round((quizScore / quizQuestions.length) * 100);
+                container.innerHTML = `
+                    <div class="text-center py-8 animate-fade-in">
+                        <div class="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="award" class="w-9 h-9"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-2xl text-slate-900 dark:text-white">
+                            Simulasi Selesai!
+                        </h3>
+                        <p class="mt-2 text-slate-600 dark:text-slate-300">
+                            Anda berhasil memetakan <strong>${quizScore} dari ${quizQuestions.length}</strong> skenario kegiatan statistik dengan tepat (${percentage}%).
+                        </p>
+                        <button 
+                            onclick="document.getElementById('quiz-reset-btn').click()"
+                            class="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold shadow-md transition-all"
+                        >
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Coba Ulangi Kuis
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            const q = quizQuestions[currentQuizIndex];
+            quizAnswered = false;
+
+            container.innerHTML = `
+                <div class="animate-fade-in">
+                    <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Studi Kasus Skenario:</span>
+                        <p class="mt-1.5 text-base sm:text-lg font-medium text-slate-800 dark:text-slate-100 leading-relaxed">
+                            "${q.scenario}"
+                        </p>
+                    </div>
+
+                    <p class="mt-5 text-sm font-semibold text-slate-600 dark:text-slate-300">
+                        Termasuk ke dalam Fase GSBPM manakah aktivitas di atas?
+                    </p>
+
+                    <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3" id="quiz-options">
+                        ${q.options.map(opt => `
+                            <button 
+                                onclick="submitQuizAnswer(${opt.id}, this)"
+                                data-opt-id="${opt.id}"
+                                class="quiz-opt-btn text-left p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-400 bg-white dark:bg-slate-800/50 text-sm font-semibold text-slate-800 dark:text-slate-100 transition-all"
+                            >
+                                ${opt.text}
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div id="quiz-feedback" class="hidden mt-5 p-4 rounded-2xl border"></div>
+                </div>
+            `;
+        }
+
+        function submitQuizAnswer(selectedId, btnEl) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const q = quizQuestions[currentQuizIndex];
+            const isCorrect = selectedId === q.correct;
+            if (isCorrect) quizScore++;
+
+            updateQuizBadges();
+
+            // Style all option buttons
+            const allBtns = document.querySelectorAll('.quiz-opt-btn');
+            allBtns.forEach(b => {
+                const optId = parseInt(b.dataset.optId, 10);
+                b.disabled = true;
+                b.classList.remove('hover:border-brand-500', 'dark:hover:border-brand-400');
+                
+                if (optId === q.correct) {
+                    b.classList.remove('border-slate-200', 'dark:border-slate-700');
+                    b.classList.add('border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-950/60', 'text-emerald-900', 'dark:text-emerald-200');
+                } else if (optId === selectedId && !isCorrect) {
+                    b.classList.remove('border-slate-200', 'dark:border-slate-700');
+                    b.classList.add('border-rose-500', 'bg-rose-50', 'dark:bg-rose-950/60', 'text-rose-900', 'dark:text-rose-200');
+                } else {
+                    b.classList.add('opacity-50');
+                }
+            });
+
+            // Show feedback & Next button
+            const feedbackEl = document.getElementById('quiz-feedback');
+            feedbackEl.classList.remove('hidden');
+            feedbackEl.className = `mt-5 p-5 rounded-2xl border animate-fade-in ${
+                isCorrect 
+                ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200' 
+                : 'bg-rose-50/80 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800 text-rose-900 dark:text-rose-200'
+            }`;
+
+            feedbackEl.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <i data-lucide="${isCorrect ? 'check-circle' : 'x-circle'}" class="w-5 h-5 shrink-0 mt-0.5 ${isCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}"></i>
+                    <div class="flex-1">
+                        <p class="font-bold text-sm">${isCorrect ? 'Jawaban Tepat!' : 'Kurang Tepat'}</p>
+                        <p class="text-sm mt-1 leading-relaxed opacity-90">${q.explanation}</p>
+                        <button 
+                            onclick="nextQuizQuestion()"
+                            class="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition-opacity"
+                        >
+                            ${currentQuizIndex + 1 < quizQuestions.length ? 'Skenario Berikutnya' : 'Lihat Hasil Akhir'}
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            lucide.createIcons();
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            updateQuizBadges();
+            renderQuizQuestion();
+        }
+    </script>
+</body>
+</html>
