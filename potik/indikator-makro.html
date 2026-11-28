@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamus & Panduan Lengkap Indikator Makro BPS (5W + 1H)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans, Inter, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        bps: {
+                            blue: '#005596',
+                            lightblue: '#0088cc',
+                            orange: '#f37021',
+                            green: '#68b92e',
+                            dark: '#0f172a',
+                            cardDark: '#1e293b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CustomScrollbar & Micro-interactions */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.4);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 0.6);
+        }
+
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .formula-box {
+            background-image: radial-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 1px);
+            background-size: 16px 16px;
+        }
+
+        /* Hide scrollbar for horizontal filter pills on mobile */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-blue-600 selection:text-white">
+
+    <!-- STICKY HEADER -->
+    <header class="sticky top-0 z-40 w-full border-b border-slate-200/80 dark:border-slate-800/80 bg-white/85 dark:bg-slate-900/85 glass-header transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Top Row: Brand, Search, Theme Toggle -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between py-3.5 gap-3">
+                <!-- Brand Identity -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <!-- Custom BPS-inspired Geometric SVG Logo -->
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 via-sky-500 to-emerald-500 p-0.5 shadow-md shadow-blue-500/20 flex-shrink-0">
+                            <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] flex items-center justify-center">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 17L9 11L13 14L20 6" stroke="#005596" class="dark:stroke-sky-400" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M4 20H20" stroke="#f37021" stroke-width="2.5" stroke-linecap="round"/>
+                                    <circle cx="20" cy="6" r="2.5" fill="#68b92e"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h1 class="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white leading-none">
+                                    Indikator Makro <span class="text-blue-600 dark:text-sky-400">BPS</span>
+                                </h1>
+                                <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-sky-300">
+                                    5W + 1H
+                                </span>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Kamus Metodologi & Statistik Resmi Indonesia</p>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Theme Toggle & Global Expand Button -->
+                    <div class="flex items-center gap-2 md:hidden">
+                        <button id="themeToggleMobile" aria-label="Ganti Mode Gelap/Terang" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                            <!-- Icon injected via JS -->
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search & Controls -->
+                <div class="flex items-center gap-2.5 flex-1 md:max-w-xl justify-end">
+                    <div class="relative flex-1">
+                        <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="Cari indikator, rumus, survei (mis: SBH, Susenas, TPT, MPD, IHK)..." 
+                            class="w-full pl-10 pr-9 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/70 dark:bg-slate-800/80 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
+                        >
+                        <button id="clearSearchBtn" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1" title="Hapus pencarian">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Theme Toggle -->
+                    <button id="themeToggleDesktop" aria-label="Ganti Mode Gelap/Terang" class="hidden md:flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-xs font-medium shadow-sm transition-all">
+                        <span id="themeIconDesktop"></span>
+                        <span id="themeLabelDesktop">Mode Gelap</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bottom Row: Category Filter Pills & View Mode -->
+            <div class="flex items-center justify-between gap-4 pb-3 pt-1 border-t border-slate-100 dark:border-slate-800/60">
+                <div id="categoryFilters" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+                    <button data-cat="all" class="cat-btn active px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all bg-blue-600 text-white shadow-sm">
+                        Semua (11)
+                    </button>
+                    <button data-cat="ekonomi" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                        Harga & Ekonomi (3)
+                    </button>
+                    <button data-cat="pariwisata" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                        Pariwisata (4)
+                    </button>
+                    <button data-cat="sosial" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                        Sosial & Kesejahteraan (2)
+                    </button>
+                    <button data-cat="tenagakerja" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                        Ketenagakerjaan & Gender (2)
+                    </button>
+                </div>
+
+                <!-- View Mode Toggle (Tab vs Full 5W1H) -->
+                <div class="hidden sm:flex items-center gap-1.5 flex-shrink-0 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                    <button id="modeTabBtn" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-slate-700 text-blue-600 dark:text-sky-400 shadow-sm transition-all">
+                        Mode Tab 5W+1H
+                    </button>
+                    <button id="modeFullBtn" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">
+                        Buka Semua Bagian
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO & SUMMARY SECTION -->
+    <section class="relative overflow-hidden border-b border-slate-200 dark:border-slate-800 bg-gradient-to-b from-blue-50/70 via-white to-slate-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                        Referensi Statistik Dasar Resmi • UU No. 16 Tahun 1997
+                    </div>
+                    <h2 class="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+                        Memahami 11 Indikator Strategis <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500 dark:from-sky-400 dark:to-emerald-400">Badan Pusat Statistik</span>
+                    </h2>
+                    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+                        Panduan komprehensif mengenai definisi konseptual, tujuan, cakupan responden, jadwal rilis Berita Resmi Statistik (BRS), hingga metodologi perhitungan matematis setiap indikator makro utama Indonesia dalam format terstruktur <strong>5W + 1H</strong>.
+                    </p>
+                </div>
+
+                <!-- Quick Stats Cards -->
+                <div class="lg:col-span-5 grid grid-cols-2 sm:grid-cols-2 gap-3">
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 shadow-sm">
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Total Indikator Utama</div>
+                        <div class="mt-1 flex items-baseline gap-2">
+                            <span class="font-display text-2xl font-extrabold text-blue-600 dark:text-sky-400">11</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Indikator Makro</span>
+                        </div>
+                        <div class="mt-1.5 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">4 Bidang Strategis</div>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 shadow-sm">
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Rilis Bulanan (Tgl 1 / Hari Kerja 1)</div>
+                        <div class="mt-1 flex items-baseline gap-2">
+                            <span class="font-display text-2xl font-extrabold text-orange-500">6</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Indikator</span>
+                        </div>
+                        <div class="mt-1.5 text-[11px] text-slate-500 dark:text-slate-400">Inflasi, NTP, TPK, Wisman, Wisnus, RLMT</div>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 shadow-sm">
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Triwulanan & Semesteran</div>
+                        <div class="mt-1 flex items-baseline gap-2">
+                            <span class="font-display text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">3</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Indikator</span>
+                        </div>
+                        <div class="mt-1.5 text-[11px] text-slate-500 dark:text-slate-400">PDRB/LPE, Kemiskinan, Tenaga Kerja</div>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 shadow-sm">
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Rilis Tahunan</div>
+                        <div class="mt-1 flex items-baseline gap-2">
+                            <span class="font-display text-2xl font-extrabold text-purple-600 dark:text-purple-400">2</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Indikator</span>
+                        </div>
+                        <div class="mt-1.5 text-[11px] text-slate-500 dark:text-slate-400">IPM & Indikator Gender (IPG/IDG)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Jump Navigation Pills -->
+            <div class="mt-6 pt-5 border-t border-slate-200/70 dark:border-slate-800">
+                <div class="flex items-center gap-2 mb-2.5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Lompat Cepat ke Indikator:</span>
+                </div>
+                <div id="quickJumpContainer" class="flex flex-wrap gap-1.5">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- Search Status Banner (Hidden by default) -->
+        <div id="searchStatusBanner" class="hidden items-center justify-between p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800">
+            <div class="flex items-center gap-2.5 text-sm text-blue-900 dark:text-blue-200">
+                <svg class="w-5 h-5 text-blue-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span id="searchStatusText">Menampilkan hasil pencarian...</span>
+            </div>
+            <button id="resetAllFiltersBtn" class="text-xs font-semibold text-blue-600 dark:text-sky-400 hover:underline">
+                Reset Filter
+            </button>
+        </div>
+
+        <!-- Empty State (Hidden by default) -->
+        <div id="emptyState" class="hidden text-center py-16 px-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <h3 class="font-display text-lg font-bold text-slate-900 dark:text-white">Indikator Tidak Ditemukan</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-md mx-auto">
+                Tidak ada indikator yang cocok dengan kata kunci pencarian Anda. Coba gunakan istilah lain seperti "IHK", "Susenas", "Sakernas", "PDRB", atau "IPM".
+            </p>
+            <button onclick="resetFilters()" class="mt-4 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors">
+                Tampilkan Semua Indikator
+            </button>
+        </div>
+
+        <!-- INDICATORS CONTAINER -->
+        <div id="indicatorsList" class="space-y-8">
+            <!-- Cards rendered dynamically via JS -->
+        </div>
+
+    </main>
+
+    <!-- TOAST NOTIFICATION (Replaces alert) -->
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-900 dark:bg-slate-800 text-white text-sm font-medium shadow-xl border border-slate-700">
+            <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span id="toastMessage">Berhasil disalin ke papan klip!</span>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div class="space-y-2 max-w-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="font-display font-bold text-base text-slate-900 dark:text-white">Kamus & Panduan Indikator Makro BPS</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Disusun berdasarkan konsep, definisi, dan standar metodologi resmi Badan Pusat Statistik (BPS) Republik Indonesia mengacu pada standar internasional (UNSD, ILO, UNWTO, UNDP, dan Bank Dunia). Untuk rilis angka terbaru, kunjungi portal resmi <a href="https://www.bps.go.id" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-sky-400 font-medium hover:underline">www.bps.go.id</a>.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                        </svg>
+                        Kembali ke Atas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- APPLICATION LOGIC & COMPLETE DATA -->
+    <script>
+        // =========================================================================
+        // 1. COMPREHENSIVE DATASET OF 11 BPS MACRO INDICATORS (5W + 1H)
+        // =========================================================================
+        const indicatorsData = [
+            {
+                id: "inflasi",
+                number: "01",
+                title: "Inflasi & Indeks Harga Konsumen (IHK)",
+                shortTitle: "Inflasi (IHK)",
+                category: "ekonomi",
+                categoryLabel: "Harga & Ekonomi",
+                frequency: "Bulanan",
+                frequencyColor: "blue",
+                baseYear: "Tahun Dasar 2022 = 100 (SBH 2022)",
+                tagline: "Mengukur kecenderungan kenaikan harga barang dan jasa secara umum dan terus-menerus.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "Inflasi adalah kecenderungan naiknya harga barang dan jasa secara umum dan terus-menerus dalam jangka waktu tertentu. Jika terjadi penurunan harga secara umum, disebut <strong>Deflasi</strong>.",
+                        details: [
+                            "<strong>Indikator Utama:</strong> Diukur melalui persentase perubahan <em>Indeks Harga Konsumen (IHK)</em> yang mencakup 11 kelompok pengeluaran berdasarkan klasifikasi COICOP (Makanan/Minuman/Tembakau, Pakaian, Perumahan/Air/Listrik/BBM, Perlengkapan Rumah Tangga, Kesehatan, Transportasi, Informasi/Komunikasi, Rekreasi/Olahraga/Budaya, Pendidikan, Penyediaan Makanan/Minuman/Restoran, serta Perawatan Pribadi).",
+                            "<strong>Disagregasi Inflasi:</strong> Dibagi menjadi 3 komponen: (1) <em>Inflasi Inti (Core)</em> yang dipengaruhi faktor fundamental (permintaan-penawaran, nilai tukar, ekspektasi), (2) <em>Inflasi Harga Bergejolak (Volatile Food)</em> seperti cabai, bawang, beras, dan (3) <em>Inflasi Harga Diatur Pemerintah (Administered Prices)</em> seperti BBM subsidi, tarif listrik, cukai rokok.",
+                            "<strong>Periode Hitung:</strong> Inflasi Bulanan (<em>Month-to-Month / MtM</em>), Inflasi Tahun Kalender (<em>Year-to-Date / YtD</em>), dan Inflasi Tahunan (<em>Year-on-Year / YoY</em>)."
+                        ]
+                    },
+                    why: {
+                        summary: "Menjadi barometer utama stabilitas makroekonomi, daya beli masyarakat, dan dasar penentuan kebijakan moneter maupun fiskal.",
+                        details: [
+                            "<strong>Kebijakan Moneter:</strong> Menjadi acuan utama Bank Indonesia (BI) bersama Pemerintah (Tim Pengendalian Inflasi Pusat/Daerah - TPIP/TPID) dalam menetapkan suku bunga acuan (BI-Rate).",
+                            "<strong>Penyesuaian Ekonomi:</strong> Digunakan sebagai dasar penyesuaian Upah Minimum Provinsi/Kabupaten (UMP/UMK), eskalasi nilai kontrak proyek, dan indeksasi pensiun.",
+                            "<strong>Interpretasi Angka:</strong> Inflasi yang rendah dan stabil (misalnya kisaran target 2,5% ± 1%) menandakan ekonomi tumbuh sehat. Inflasi terlalu tinggi menggerus daya beli riil masyarakat, sedangkan deflasi berkepanjangan mengindikasikan lemahnya permintaan domestik."
+                        ]
+                    },
+                    who: {
+                        summary: "Objek pencacahan adalah komoditas barang dan jasa konsumsi rumah tangga di tingkat pedagang eceran/penyedia jasa.",
+                        details: [
+                            "<strong>Responden:</strong> Pedagang eceran di pasar tradisional, pasar modern (minimarket/supermarket), penyedia jasa (sekolah, rumah sakit, bengkel, salon), serta tarif resmi pemerintah.",
+                            "<strong>Pengguna Data:</strong> Bank Indonesia, Kementerian Keuangan, Bappenas, TPID Provinsi/Kabupaten/Kota, pelaku usaha, investor, dan masyarakat umum."
+                        ]
+                    },
+                    when: {
+                        summary: "Pencacahan dilakukan secara rutin setiap minggu, dua mingguan, dan bulanan, dengan rilis resmi pada hari kerja pertama setiap bulan.",
+                        details: [
+                            "<strong>Jadwal Pencacahan:</strong> Komoditas bergejolak (bahan makanan segar) dicacah <strong>mingguan</strong> (setiap hari Senin/Selasa); komoditas non-makanan tertentu dicacah <strong>dua mingguan</strong>; komoditas tarif/jasa tetap dicacah <strong>bulanan</strong> (tanggal 10–20 setiap bulan).",
+                            "<strong>Jadwal Rilis BRS:</strong> Diumumkan pada <strong>hari kerja pertama setiap bulan</strong> (biasanya tanggal 1 pukul 11.00 WIB) untuk data inflasi bulan sebelumnya."
+                        ]
+                    },
+                    where: {
+                        summary: "Mencakup 150 kabupaten/kota di seluruh 38 provinsi di Indonesia (berdasarkan Survei Biaya Hidup / SBH 2022).",
+                        details: [
+                            "<strong>Cakupan Geografis:</strong> Terdiri dari seluruh ibu kota provinsi dan kabupaten/kota terpilih yang merepresentasikan pola konsumsi perkotaan di Indonesia.",
+                            "<strong>Penyajian Data:</strong> Tersedia angka Nasional, tingkat Provinsi (gabungan kota IHK di provinsi tersebut), dan masing-masing 150 Kabupaten/Kota IHK."
+                        ]
+                    },
+                    how: {
+                        summary: "Menggunakan diagram timbang dari Survei Biaya Hidup (SBH) 2022 dan dihitung menggunakan rumus <strong>Laspeyres yang Dimodifikasi (Modified Laspeyres)</strong>.",
+                        details: [
+                            "<strong>Tahapan Metode:</strong> (1) Menentukan paket komoditas (sekitar 847 komoditas nasional) dan bobot konsumsi dari SBH 2022, (2) Survei Harga Konsumen (SHK) mencatat harga transaksi eceran yang benar-benar dibayar konsumen, (3) Menghitung rasio perubahan harga relatif dan mengalikan dengan nilai konsumsi periode sebelumnya."
+                        ],
+                        formula: "IHK_n = [ Σ ( (P_ni / P_(n-1)i) × P_(n-1)i · Q_0i ) / Σ (P_0i · Q_0i) ] × 100\n\nInflasi (MtM) = [ (IHK_t - IHK_(t-1)) / IHK_(t-1) ] × 100%",
+                        formulaNote: "P_ni = Harga komoditas i pada bulan ke-n; P_(n-1)i = Harga bulan sebelumnya; P_0i·Q_0i = Nilai konsumsi tahun dasar (SBH 2022)."
+                    }
+                },
+                simulator: {
+                    type: "inflasi",
+                    title: "Simulasi Hitung Laju Inflasi (MtM & YoY)",
+                    inputs: [
+                        { id: "ihk_prev", label: "IHK Bulan Sebelumnya (t-1)", val: 106.25, step: "0.01" },
+                        { id: "ihk_curr", label: "IHK Bulan Berjalan (t)", val: 106.58, step: "0.01" },
+                        { id: "ihk_yoy", label: "IHK Bulan Sama Tahun Lalu (t-12)", val: 104.10, step: "0.01" }
+                    ]
+                }
+            },
+            {
+                id: "ntp",
+                number: "02",
+                title: "Nilai Tukar Petani (NTP) & NTUP",
+                shortTitle: "Nilai Tukar Petani (NTP)",
+                category: "ekonomi",
+                categoryLabel: "Harga & Ekonomi",
+                frequency: "Bulanan",
+                frequencyColor: "blue",
+                baseYear: "Tahun Dasar 2018 = 100",
+                tagline: "Indikator proksi tingkat kesejahteraan dan daya beli petani di perdesaan.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "NTP adalah perbandingan antara <strong>Indeks Harga yang Diterima Petani (It)</strong> terhadap <strong>Indeks Harga yang Dibayar Petani (Ib)</strong> yang dinyatakan dalam persentase.",
+                        details: [
+                            "<strong>Komponen It (Penerimaan):</strong> Mengukur fluktuasi harga komoditas pertanian yang dihasilkan dan dijual oleh petani (harga di tingkat produsen/gerbang usaha tani).",
+                            "<strong>Komponen Ib (Pengeluaran):</strong> Mengukur fluktuasi harga barang/jasa yang dikonsumsi rumah tangga petani (<em>Indeks Konsumsi Rumah Tangga / IKRT</em>) ditambah biaya produksi dan penambahan barang modal (<em>BPPBM</em>).",
+                            "<strong>5 Subsektor Pertanian:</strong> Tanaman Pangan (NTPP), Hortikultura (NTPH), Tanaman Perkebunan Rakyat (NTPR), Peternakan (NTPT), dan Perikanan (NTNP - gabungan Perikanan Tangkap & Budidaya).",
+                            "<strong>Indikator Turunan (NTUP):</strong> <em>Nilai Tukar Usaha Rumah Tangga Pertanian</em>, yaitu perbandingan It terhadap komponen BPPBM saja (mengeluarkan konsumsi rumah tangga)."
+                        ]
+                    },
+                    why: {
+                        summary: "Mengukur kemampuan tukar (daya beli) produk pertanian yang dihasilkan petani terhadap barang/jasa yang diperlukan untuk konsumsi rumah tangga maupun biaya produksi.",
+                        details: [
+                            "<strong>NTP > 100:</strong> Petani mengalami <strong>surplus</strong>. Kenaikan harga produksi pertanian lebih besar daripada kenaikan harga barang konsumsi dan biaya produksi. Daya beli petani meningkat dibanding tahun dasar.",
+                            "<strong>NTP = 100:</strong> Petani mengalami <strong>impas (break-even)</strong>. Kenaikan/penurunan harga produksi sama persis dengan kenaikan/penurunan harga pengeluaran.",
+                            "<strong>NTP < 100:</strong> Petani mengalami <strong>defisit</strong>. Kenaikan harga produksi lebih kecil daripada kenaikan harga barang konsumsi dan biaya produksi. Daya beli petani menurun."
+                        ]
+                    },
+                    who: {
+                        summary: "Rumah tangga usaha pertanian (petani, pekebun, peternak, nelayan, pembudidaya ikan) serta pedagang pengumpul/pasar di perdesaan.",
+                        details: [
+                            "<strong>Responden:</strong> Rumah tangga produsen pertanian di wilayah perdesaan untuk harga produsen, serta pedagang eceran di pasar perdesaan untuk harga barang konsumsi dan sarana produksi (pupuk, benih, pakan, sewa traktor, upah buruh tani).",
+                            "<strong>Pengguna Data:</strong> Kementerian Pertanian, Kementerian Kelautan dan Perikanan (KKP), Bulog, Badan Pangan Nasional (Bapanas), dan Pemerintah Daerah."
+                        ]
+                    },
+                    when: {
+                        summary: "Pencacahan dilakukan setiap bulan dan dirilis bersamaan dengan data inflasi pada hari kerja pertama setiap bulan.",
+                        details: [
+                            "<strong>Jadwal Pencacahan:</strong> Dilakukan pada tanggal 10–20 setiap bulan berjalan.",
+                            "<strong>Jadwal Rilis BRS:</strong> Dirilis setiap <strong>hari kerja pertama setiap bulan</strong> pukul 11.00 WIB."
+                        ]
+                    },
+                    where: {
+                        summary: "Mencakup wilayah perdesaan di 34/38 provinsi di Indonesia (kecuali DKI Jakarta karena karakteristik wilayah perkotaan penuh).",
+                        details: [
+                            "<strong>Penyajian Data:</strong> Tersedia untuk tingkat Nasional (gabungan 34/38 provinsi) dan tingkat Provinsi (per subsektor pertanian)."
+                        ]
+                    },
+                    how: {
+                        summary: "Dihitung melalui Survei Harga Produsen Perdesaan (HD) dan Survei Harga Konsumen Perdesaan (HKD) menggunakan metode Laspeyres yang dimodifikasi.",
+                        details: [
+                            "<strong>Diagram Timbang:</strong> Disusun berdasarkan hasil Survei Struktur Ongkos Usaha Tani (SOUT) dan Survei Sosial Ekonomi Nasional (Susenas) dengan Tahun Dasar 2018 = 100."
+                        ],
+                        formula: "NTP = ( It / Ib ) × 100\n\nNTUP = ( It / Ib_BPPBM ) × 100",
+                        formulaNote: "It = Indeks Harga yang Diterima Petani; Ib = Indeks Harga yang Dibayar Petani (IKRT + BPPBM); Ib_BPPBM = Indeks Biaya Produksi dan Penambahan Barang Modal."
+                    }
+                },
+                simulator: {
+                    type: "ntp",
+                    title: "Kalkulator Simulasi NTP",
+                    inputs: [
+                        { id: "ntp_it", label: "Indeks Harga Diterima Petani (It)", val: 121.40, step: "0.01" },
+                        { id: "ntp_ib", label: "Indeks Harga Dibayar Petani (Ib)", val: 116.85, step: "0.01" }
+                    ]
+                }
+            },
+            {
+                id: "tpk",
+                number: "03",
+                title: "Tingkat Penghunian Kamar (TPK) Hotel",
+                shortTitle: "TPK Hotel",
+                category: "pariwisata",
+                categoryLabel: "Pariwisata",
+                frequency: "Bulanan",
+                frequencyColor: "blue",
+                baseYear: "Persentase Rasio (%) Bulanan",
+                tagline: "Mengukur persentase kapasitas kamar hotel yang terisi tamu dibanding total kamar tersedia.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "TPK (<em>Room Occupancy Rate</em>) adalah perbandingan antara banyaknya <strong>malam kamar yang terpakai (terjual)</strong> dengan banyaknya <strong>malam kamar yang tersedia</strong> di usaha akomodasi, dinyatakan dalam persen.",
+                        details: [
+                            "<strong>Klasifikasi Akomodasi:</strong> Dibedakan menjadi <strong>Hotel Bintang</strong> (Bintang 1 hingga Bintang 5 yang memenuhi kriteria klasifikasi resmi) dan <strong>Hotel Nonbintang</strong> (melati, penginapan remaja, pondok wisata/homestay, vila komersial).",
+                            "<strong>Catatan Penting:</strong> Kamar yang sedang direnovasi, rusak berat, atau dipakai sendiri oleh staf/manajemen hotel tanpa bayar tidak dihitung sebagai kamar tersedia."
+                        ]
+                    },
+                    why: {
+                        summary: "Menjadi indikator kinerja langsung sektor pariwisata, perhotelan, serta aktivitas bisnis dan MICE (Meeting, Incentive, Convention, and Exhibition).",
+                        details: [
+                            "<strong>Evaluasi Pariwisata:</strong> Mengukur efektivitas promosi pariwisata daerah, dampak hari libur nasional, dan event berskala nasional/internasional.",
+                            "<strong>Keputusan Investasi:</strong> Membantu investor dan pelaku industri perhotelan menilai tingkat kejenuhan pasar (oversupply kamar) atau kebutuhan ekspansi akomodasi baru.",
+                            "<strong>Kontribusi PDRB:</strong> Menjadi indikator proksi utama dalam penghitungan nilai tambah lapangan usaha Penyediaan Akomodasi dan Makan Minum pada PDRB triwulanan."
+                        ]
+                    },
+                    who: {
+                        summary: "Pengusaha atau manajemen jasa penyediaan akomodasi komersial (hotel bintang dan nonbintang) yang terdaftar di direktori usaha pariwisata BPS.",
+                        details: [
+                            "<strong>Unit Observasi:</strong> Usaha jasa akomodasi komersial berizin maupun tidak berizin yang beroperasi secara komersial.",
+                            "<strong>Pengguna Data:</strong> Kementerian Pariwisata dan Ekonomi Kreatif, PHRI (Perhimpunan Hotel dan Restoran Indonesia), Dinas Pariwisata Daerah, dan pelaku bisnis perhotelan."
+                        ]
+                    },
+                    when: {
+                        summary: "Pencacahan dilakukan setiap bulan dan dirilis setiap hari kerja pertama bulan berikutnya.",
+                        details: [
+                            "<strong>Jadwal Pencacahan:</strong> Pendataan dilakukan pada minggu pertama hingga ketiga bulan berikutnya untuk mencatat operasional seluruh hari pada bulan referensi.",
+                            "<strong>Jadwal Rilis BRS:</strong> Dirilis setiap <strong>hari kerja pertama setiap bulan</strong> pukul 11.00 WIB (untuk data 1–2 bulan sebelumnya)."
+                        ]
+                    },
+                    where: {
+                        summary: "Seluruh kabupaten/kota di 38 provinsi di Indonesia.",
+                        details: [
+                            "<strong>Penyajian Data:</strong> Angka TPK Hotel Bintang disajikan hingga tingkat Provinsi dan Nasional. Sementara TPK Hotel Nonbintang disajikan hingga tingkat Kabupaten/Kota secara berkala."
+                        ]
+                    },
+                    how: {
+                        summary: "Dikumpulkan melalui <strong>Survei Jasa Akomodasi Bulanan (VHT-S)</strong> secara sensus untuk hotel bintang dan sampel untuk hotel nonbintang.",
+                        details: [
+                            "<strong>Metode Pengumpulan:</strong> Pengisian kuesioner mandiri secara daring (e-Form/FASIH) oleh manajemen hotel maupun pencacahan lapangan oleh petugas BPS."
+                        ],
+                        formula: "TPK = ( Jumlah Malam Kamar Terpakai / Jumlah Malam Kamar Tersedia ) × 100%",
+                        formulaNote: "Contoh: Hotel memiliki 100 kamar tersedia selama 30 hari (3.000 malam kamar tersedia), dan terjual sebanyak 1.800 malam kamar, maka TPK = (1.800 / 3.000) × 100% = 60%."
+                    }
+                },
+                simulator: {
+                    type: "tpk",
+                    title: "Kalkulator Simulasi TPK Hotel",
+                    inputs: [
+                        { id: "tpk_used", label: "Jumlah Malam Kamar Terpakai", val: 1850, step: "1" },
+                        { id: "tpk_avail", label: "Jumlah Malam Kamar Tersedia", val: 3000, step: "1" }
+                    ]
+                }
+            },
+            {
+                id: "wisman",
+                number: "04",
+                title: "Wisatawan Mancanegara (Wisman)",
+                shortTitle: "Wisman",
+                category: "pariwisata",
+                categoryLabel: "Pariwisata",
+                frequency: "Bulanan",
+                frequencyColor: "blue",
+                baseYear: "Standar Internasional UNWTO",
+                tagline: "Kunjungan warga negara asing ke Indonesia kurang dari 12 bulan tanpa tujuan mencari nafkah.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "Berdasarkan rekomendasi <em>UN Tourism (UNWTO)</em>, Wisman adalah setiap orang yang melakukan perjalanan ke suatu negara di luar negara tempat tinggalnya, selama <strong>kurang dari 12 bulan</strong>, dan tujuan utamanya bukan untuk memperoleh penghasilan dari negara yang dikunjungi.",
+                        details: [
+                            "<strong>Kategori Wisman:</strong> Mencakup <em>Tourist</em> (menginap minimal 1 malam) dan <em>Excursionist</em> (pelancong harian yang tidak menginap, seperti penumpang kapal pesiar atau pelintas batas harian).",
+                            "<strong>Pengecualian (Bukan Wisman):</strong> Diplomat/konsuler yang bertugas, personel militer asing, imigran/pengungsi, pekerja asing yang digaji perusahaan/instansi di Indonesia, serta pelajar asing yang menempuh studi ≥ 1 tahun.",
+                            "<strong>Variabel Utama:</strong> Jumlah kunjungan, kebangsaan (nationality), pintu masuk (udara, laut, darat), rata-rata lama tinggal, dan rata-rata pengeluaran per kunjungan."
+                        ]
+                    },
+                    why: {
+                        summary: "Mengukur daya saing pariwisata internasional Indonesia serta potensi penerimaan devisa negara dari sektor pariwisata.",
+                        details: [
+                            "<strong>Neraca Pembayaran & Devisa:</strong> Pengeluaran wisman di Indonesia dicatat sebagai ekspor jasa pariwisata yang memperkuat cadangan devisa negara.",
+                            "<strong>Strategi Pemasaran Global:</strong> Data berdasarkan kebangsaan dan pintu masuk membantu pemerintah menentukan negara target promosi, pembukaan rute penerbangan langsung, dan kebijakan bebas visa."
+                        ]
+                    },
+                    who: {
+                        summary: "Warga Negara Asing (WNA) yang melintasi pintu masuk batas negara Republik Indonesia, serta WNI yang berdomisili tetap di luar negeri (diaspora) yang berkunjung sementara ke Indonesia.",
+                        details: [
+                            "<strong>Sumber Instansi:</strong> Direktorat Jenderal Imigrasi (Kementerian Imigrasi dan Pemasyarakatan) serta operator seluler nasional untuk data perbatasan."
+                        ]
+                    },
+                    when: {
+                        summary: "Pencatatan dilakukan secara real-time saat pelintasan batas negara dan dirilis setiap bulan oleh BPS.",
+                        details: [
+                            "<strong>Jadwal Rilis BRS:</strong> Dirilis setiap <strong>hari kerja pertama setiap bulan</strong> pukul 11.00 WIB (menyajikan data kunjungan 1 bulan sebelumnya)."
+                        ]
+                    },
+                    where: {
+                        summary: "Seluruh Tempat Pemeriksaan Imigrasi (TPI) Utama dan Non-Utama (Bandara Internasional, Pelabuhan Laut Internasional, Pos Lintas Batas Negara / PLBN Darat) serta wilayah perbatasan.",
+                        details: [
+                            "<strong>Pintu Masuk Utama:</strong> Bandara I Gusti Ngurah Rai (Bali), Soekarno-Hatta (Banten), Juanda (Jawa Timur), Kualanamu (Sumatera Utara), Pelabuhan Batam & Bintan (Kepri), serta PLBN Atambua, Entikong, Aruk, Skouw."
+                        ]
+                    },
+                    how: {
+                        summary: "Menggabungkan metode <strong>Kompilasi Produk Administrasi (Imigrasi)</strong> dan pemanfaatan Big Data <strong>Mobile Positioning Data (MPD)</strong> di wilayah perbatasan yang tidak memiliki pos imigrasi.",
+                        details: [
+                            "<strong>Integrasi Data:</strong> Data perlintasan paspor dari Ditjen Imigrasi difilter berdasarkan jenis visa/izin tinggal untuk mengeluarkan pekerja/diplomat. Di area perbatasan darat tanpa TPI, BPS memanfaatkan sinyal roaming seluler asing melalui teknologi MPD.",
+                            "<strong>Survei Pendukung:</strong> Dilengkapi dengan <em>Passenger Exit Survey (PES)</em> untuk mengetahui profil pengeluaran dan kepuasan wisman."
+                        ],
+                        formula: "Total Kunjungan Wisman = Wisman Pintu Udara + Wisman Pintu Laut + Wisman Pintu Darat (TPI + MPD)",
+                        formulaNote: "Satu orang WNA yang masuk ke Indonesia sebanyak 3 kali dalam setahun dihitung sebagai 3 kunjungan wisman."
+                    }
+                }
+            },
+            {
+                id: "wisnus",
+                number: "05",
+                title: "Wisatawan Nusantara (Wisnus)",
+                shortTitle: "Wisnus",
+                category: "pariwisata",
+                categoryLabel: "Pariwisata",
+                frequency: "Bulanan",
+                frequencyColor: "blue",
+                baseYear: "Metodologi Big Data MPD",
+                tagline: "Perjalanan penduduk Indonesia di dalam wilayah teritorial Indonesia untuk tujuan wisata/non-rutin.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "Wisnus adalah penduduk Indonesia yang melakukan perjalanan di wilayah teritorial Indonesia di luar lingkungan sehari-harinya selama <strong>kurang dari 6 bulan</strong>, dengan tujuan bukan untuk sekolah atau bekerja (memperoleh upah/gaji) secara rutin.",
+                        details: [
+                            "<strong>Kriteria Perjalanan Wisnus:</strong> (1) Melakukan perjalanan <strong>melintasi batas kabupaten/kota</strong> asal dengan tujuan bukan rutin (bukan komuter harian kerja/sekolah), ATAU (2) Perjalanan di dalam kabupaten/kota yang sama namun mengunjungi <strong>objek wisata komersial</strong> atau <strong>menginap di akomodasi komersial</strong> minimal 6 jam.",
+                            "<strong>Satuan Hitung:</strong> Dihitung berdasarkan <strong>jumlah perjalanan (trips)</strong>, bukan jumlah orang. Satu orang yang bepergian wisata 4 kali dalam sebulan dihitung sebagai 4 perjalanan wisnus."
+                        ]
+                    },
+                    why: {
+                        summary: "Mengukur pergerakan mobilitas domestik dan kekuatan ekonomi pariwisata dalam negeri sebagai tulang punggung pemulihan dan pemerataan ekonomi daerah.",
+                        details: [
+                            "<strong>Penggerak Ekonomi Lokal:</strong> Perjalanan wisnus mendorong konsumsi transportasi darat/udara, kuliner UMKM, oleh-oleh, dan akomodasi hingga ke daerah pelosok.",
+                            "<strong>Evaluasi Libur & Mudik:</strong> Mengukur dampak kebijakan cuti bersama, libur Lebaran, Natal & Tahun Baru, serta efektivitas program 'Bangga Berwisata di Indonesia (BBWI)'."
+                        ]
+                    },
+                    who: {
+                        summary: "Seluruh penduduk yang berdomisili di wilayah Republik Indonesia (baik WNI maupun WNA yang tinggal ≥ 1 tahun di Indonesia).",
+                        details: [
+                            "<strong>Sumber Data:</strong> Pelanggan operator telekomunikasi seluler nasional (Telkomsel, Indosat Ooredoo Hutchison, XL Axiata) serta sampel rumah tangga pada survei pendukung."
+                        ]
+                    },
+                    when: {
+                        summary: "Perekaman mobilitas berlangsung kontinu setiap hari sepanjang bulan dan dirilis secara bulanan.",
+                        details: [
+                            "<strong>Jadwal Rilis BRS:</strong> Dirilis setiap <strong>hari kerja pertama setiap bulan</strong> pukul 11.00 WIB bersamaan dengan rilis Wisman dan TPK."
+                        ]
+                    },
+                    where: {
+                        summary: "Mencakup seluruh 514 kabupaten/kota di 38 provinsi di Indonesia, disajikan berdasarkan <strong>Provinsi/Kabupaten Asal (Origin)</strong> dan <strong>Provinsi/Kabupaten Tujuan (Destination)</strong>.",
+                        details: [
+                            "<strong>Matriks Asal-Tujuan (Origin-Destination):</strong> Memungkinkan pemerintah daerah mengetahui dari provinsi/kota mana saja wisatawan yang berkunjung ke wilayahnya berasal."
+                        ]
+                    },
+                    how: {
+                        summary: "Menggunakan teknologi <strong>Mobile Positioning Data (MPD)</strong> yang dipadukan dengan survei kalibrasi rumah tangga.",
+                        details: [
+                            "<strong>Algoritma MPD:</strong> Menganalisis anomali perpindahan sinyal menara BTS (Base Transceiver Station) ponsel yang teranonimisasi untuk mendeteksi titik asal domisili (home location), lokasi kerja rutin (work location), serta perjalanan non-rutin lintas batas kabupaten/kota atau ke titik koordinat destinasi wisata (Point of Interest / POI).",
+                            "<strong>Kalibrasi Statistik:</strong> Data MPD dikalibrasi dengan rasio kepemilikan ponsel, multi-SIM card, dan pendampingan anak di bawah umur berdasarkan survei BPS."
+                        ],
+                        formula: "Jumlah Perjalanan Wisnus = Σ (Perjalanan Lintas Kab/Kota Non-Rutin + Perjalanan ke POI Wisata / Akomodasi Komersial)",
+                        formulaNote: "Data telah melalui proses deduplikasi SIM card dan penyesuaian faktor penimbang populasi wilayah."
+                    }
+                }
+            },
+            {
+                id: "rlmt",
+                number: "06",
+                title: "Rata-rata Lama Menginap Tamu (RLMT)",
+                shortTitle: "Rata-rata Lama Menginap (RLMT)",
+                category: "pariwisata",
+                categoryLabel: "Pariwisata",
+                frequency: "Bulanan",
+                frequencyColor: "blue",
+                baseYear: "Satuan Hari / Malam",
+                tagline: "Mengukur rata-rata durasi hari/malam tamu menginap di usaha akomodasi komersial.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "RLMT (<em>Average Length of Stay</em>) adalah perbandingan antara banyaknya <strong>malam tamu menginap (guest nights)</strong> dengan banyaknya <strong>tamu yang datang/menginap (guest arrivals)</strong> di usaha akomodasi komersial pada periode tertentu.",
+                        details: [
+                            "<strong>Disagregasi Tamu:</strong> Dihitung secara terpisah untuk <strong>RLMT Tamu Asing</strong> (mancanegara), <strong>RLMT Tamu Indonesia</strong> (domestik), serta <strong>RLMT Gabungan</strong>.",
+                            "<strong>Perbedaan dengan TPK:</strong> TPK menghitung unit <em>kamar</em>, sedangkan RLMT menghitung unit <em>orang/tamu</em> yang menginap."
+                        ]
+                    },
+                    why: {
+                        summary: "Menunjukkan kualitas daya tarik destinasi wisata dalam menahan wisatawan untuk tinggal lebih lama (quality tourism).",
+                        details: [
+                            "<strong>Korelasi Pengeluaran:</strong> Semakin lama wisatawan menginap di suatu daerah, semakin besar belanja wisata (makan, transportasi lokal, hiburan, suvenir) yang berputar di ekonomi lokal.",
+                            "<strong>Evaluasi Destinasi:</strong> Jika TPK tinggi namun RLMT rendah (misalnya hanya 1,2 hari), artinya daerah tersebut hanya menjadi kota transit/singgah, bukan destinasi utama liburan."
+                        ]
+                    },
+                    who: {
+                        summary: "Manajemen hotel bintang dan akomodasi nonbintang yang mencatat buku tamu (registrasi check-in dan check-out).",
+                        details: [
+                            "<strong>Unit Observasi:</strong> Tamu asing dan tamu domestik yang menginap berbayar di fasilitas akomodasi komersial."
+                        ]
+                    },
+                    when: {
+                        summary: "Dicatat setiap hari pada sistem reservasi hotel, dikumpulkan bulanan, dan dirilis setiap hari kerja pertama bulan berikutnya.",
+                        details: [
+                            "<strong>Jadwal Rilis BRS:</strong> Diumumkan bersamaan dengan rilis TPK pada <strong>hari kerja pertama setiap bulan</strong> pukul 11.00 WIB."
+                        ]
+                    },
+                    where: {
+                        summary: "Mencakup seluruh 38 provinsi di Indonesia, dirinci menurut kategori Hotel Bintang dan Hotel Nonbintang.",
+                        details: [
+                            "<strong>Penyajian Data:</strong> Tersedia angka Nasional dan tingkat Provinsi."
+                        ]
+                    },
+                    how: {
+                        summary: "Diperoleh dari <strong>Survei Jasa Akomodasi Bulanan (VHT-S)</strong> dengan membagi akumulasi malam tamu menginap terhadap total kedatangan tamu.",
+                        details: [
+                            "<strong>Contoh Praktis:</strong> Jika 2 orang tamu menginap selama 3 malam di satu kamar, maka tercatat 6 malam tamu menginap dan 2 tamu datang, sehingga RLMT = 6 / 2 = 3,00 hari."
+                        ],
+                        formula: "RLMT = Jumlah Malam Tamu Menginap / Jumlah Tamu yang Datang (Check-in)",
+                        formulaNote: "Satuan dinyatakan dalam hari (atau malam), umumnya berkisar antara 1,3 hingga 3,5 hari tergantung karakteristik destinasi wisata."
+                    }
+                }
+            },
+            {
+                id: "kemiskinan",
+                number: "07",
+                title: "Kemiskinan & Ketimpangan (GK, P0, P1, P2)",
+                shortTitle: "Kemiskinan (P0, P1, P2)",
+                category: "sosial",
+                categoryLabel: "Sosial & Kesejahteraan",
+                frequency: "Semesteran",
+                frequencyColor: "emerald",
+                baseYear: "Standar 2.100 kkal/kapita/hari",
+                tagline: "Mengukur ketidakmampuan dari sisi ekonomi untuk memenuhi kebutuhan dasar makanan dan bukan makanan.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "BPS menggunakan konsep kemampuan memenuhi kebutuhan dasar (<strong>Basic Needs Approach</strong>). Penduduk Miskin adalah penduduk yang memiliki rata-rata pengeluaran per kapita per bulan di bawah <strong>Garis Kemiskinan (GK)</strong>.",
+                        details: [
+                            "<strong>Komponen Garis Kemiskinan (GK):</strong> Penjumlahan dari <strong>Garis Kemiskinan Makanan (GKM)</strong> yaitu nilai pengeluaran kebutuhan minimum makanan yang disetarakan dengan <strong>2.100 kilokalori per kapita per hari</strong> (diwakili 52 jenis komoditas makanan), ditambah <strong>Garis Kemiskinan Nonmakanan (GKNM)</strong> untuk kebutuhan minimum perumahan, sandang, pendidikan, dan kesehatan (diwakili 51 jenis komoditas perkotaan dan 47 perdesaan).",
+                            "<strong>Tiga Indikator Utama (Foster-Greer-Thorbecke):</strong><br>• <strong>P0 (Headcount Index):</strong> Persentase penduduk miskin terhadap total penduduk.<br>• <strong>P1 (Indeks Kedalaman Kemiskinan / Poverty Gap Index):</strong> Ukuran rata-rata kesenjangan pengeluaran masing-masing penduduk miskin terhadap garis kemiskinan.<br>• <strong>P2 (Indeks Keparahan Kemiskinan / Poverty Severity Index):</strong> Gambaran mengenai penyebaran/ketimpangan pengeluaran di antara penduduk miskin itu sendiri."
+                        ]
+                    },
+                    why: {
+                        summary: "Menjadi kompas utama program pengentasan kemiskinan nasional, penyaluran bantuan sosial (bansos), dan evaluasi pemerataan kesejahteraan.",
+                        details: [
+                            "<strong>Alokasi Anggaran & Kebijakan:</strong> Digunakan untuk menentukan Dana Alokasi Umum (DAU), Dana Desa, target RPJMN, serta evaluasi efektivitas program perlindungan sosial (PKH, BPNT, PBI-JKN).",
+                            "<strong>Membaca P1 dan P2:</strong> Penurunan P1 menandakan rata-rata pengeluaran penduduk miskin makin mendekati garis kemiskinan. Penurunan P2 menandakan ketimpangan di antara sesama penduduk miskin makin berkurang."
+                        ]
+                    },
+                    who: {
+                        summary: "Rumah tangga biasa di seluruh Indonesia (sekitar 345.000 sampel rumah tangga pada Susenas Maret dan 75.000 sampel pada Susenas September).",
+                        details: [
+                            "<strong>Catatan Satuan:</strong> Meskipun pencacahan dilakukan pada level rumah tangga, penghitungan Garis Kemiskinan menggunakan basis <strong>pengeluaran per kapita per bulan</strong> (total pengeluaran rumah tangga dibagi jumlah anggota rumah tangga)."
+                        ]
+                    },
+                    when: {
+                        summary: "Dilaksanakan dua kali setahun pada bulan <strong>Maret</strong> dan <strong>September</strong>.",
+                        details: [
+                            "<strong>Jadwal Rilis BRS:</strong> Data kondisi <strong>Maret</strong> dirilis sekitar bulan <strong>Juli</strong>, sedangkan data kondisi <strong>September</strong> dirilis sekitar bulan <strong>Januari</strong> tahun berikutnya."
+                        ]
+                    },
+                    where: {
+                        summary: "Disajikan menurut klasifikasi wilayah <strong>Perkotaan</strong> dan <strong>Perdesaan</strong>.",
+                        details: [
+                            "<strong>Tingkat Penyajian:</strong> Kondisi <strong>Maret</strong> disajikan hingga tingkat <strong>Kabupaten/Kota (514 kab/kota)</strong>, Provinsi, dan Nasional. Kondisi <strong>September</strong> disajikan pada tingkat <strong>Provinsi dan Nasional</strong>."
+                        ]
+                    },
+                    how: {
+                        summary: "Dihitung dari modul konsumsi dan pengeluaran pada <strong>Survei Sosial Ekonomi Nasional (Susenas)</strong> menggunakan indeks Foster-Greer-Thorbecke (FGT).",
+                        details: [
+                            "<strong>Penetapan GK:</strong> Setiap daerah (perkotaan/perdesaan tiap provinsi) memiliki nilai Garis Kemiskinan yang berbeda menyesuaikan pola konsumsi dan tingkat harga setempat."
+                        ],
+                        formula: "GK = GKM (2.100 kkal) + GKNM\n\nP_α = (1 / n) × Σ [ (z - y_i) / z ]^α",
+                        formulaNote: "z = Garis Kemiskinan; y_i = Rata-rata pengeluaran per kapita sebulan penduduk miskin ke-i (y_i < z); n = Jumlah seluruh penduduk; α = 0 untuk P0, α = 1 untuk P1, α = 2 untuk P2."
+                    }
+                }
+            },
+            {
+                id: "pdrb",
+                number: "08",
+                title: "PDRB & Laju Pertumbuhan Ekonomi (LPE)",
+                shortTitle: "PDRB & Pertumbuhan Ekonomi",
+                category: "ekonomi",
+                categoryLabel: "Harga & Ekonomi",
+                frequency: "Triwulanan",
+                frequencyColor: "amber",
+                baseYear: "Tahun Dasar 2010 = 100",
+                tagline: "Mengukur nilai tambah bruto barang dan jasa yang dihasilkan serta kecepatan pertumbuhan ekonomi wilayah.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "<strong>PDRB (Produk Domestik Regional Bruto)</strong> adalah jumlah nilai tambah bruto (<em>Gross Value Added</em>) yang dihasilkan oleh seluruh unit usaha di suatu wilayah tertentu dalam periode tertentu. Untuk tingkat nasional disebut <strong>PDB (Produk Domestik Bruto)</strong>.",
+                        details: [
+                            "<strong>Dua Dasar Harga:</strong><br>• <strong>ADHB (Atas Dasar Harga Berlaku):</strong> Menggunakan harga pada tahun berjalan. Berguna melihat <em>struktur ekonomi</em> dan nilai PDRB per kapita.<br>• <strong>ADHK (Atas Dasar Harga Konstan):</strong> Menggunakan harga pada tahun dasar (2010) untuk menghilangkan pengaruh inflasi. Berguna menghitung <em>Laju Pertumbuhan Ekonomi (LPE)</em> riil.",
+                            "<strong>Dua Pendekatan Utama:</strong><br>• <strong>Lapangan Usaha (Produksi):</strong> Terdiri dari 17 kategori KBLI (Pertanian, Pertambangan, Industri Pengolahan, Konstruksi, Perdagangan, Informasi/Komunikasi, Jasa Keuangan, dll).<br>• <strong>Pengeluaran:</strong> Terdiri dari 7 komponen (Konsumsi Rumah Tangga, Konsumsi LNPRT, Konsumsi Pemerintah, Pembentukan Modal Tetap Bruto/PMTB, Perubahan Inventori, Ekspor, dikurangi Impor).",
+                            "<strong>Jenis Pertumbuhan LPE:</strong> <em>q-to-q</em> (dibanding triwulan sebelumnya), <em>y-on-y</em> (dibanding triwulan sama tahun lalu), dan <em>c-to-c</em> (kumulatif dibanding periode kumulatif tahun lalu)."
+                        ]
+                    },
+                    why: {
+                        summary: "Indikator makroekonomi paling fundamental untuk mengukur kapasitas produksi, transformasi struktur ekonomi, dan kinerja pembangunan suatu daerah/negara.",
+                        details: [
+                            "<strong>Identifikasi Sektor Unggulan:</strong> Menunjukkan sektor mana yang menjadi motor penggerak utama (<em>sources of growth</em>) dan struktur kontribusi tiap lapangan usaha.",
+                            "<strong>PDRB per Kapita:</strong> Rasio PDRB ADHB dibagi jumlah penduduk pertengahan tahun menjadi proksi tingkat kemakmuran rata-rata penduduk."
+                        ]
+                    },
+                    who: {
+                        summary: "Seluruh unit ekonomi/pelaku usaha (perusahaan korporasi, UMKM, usaha rumah tangga, lembaga pemerintah, dan lembaga non-profit) yang berdomisili di wilayah domestik.",
+                        details: [
+                            "<strong>Sumber Data:</strong> Integrasi puluhan survei ekonomi BPS (Industri, Konstruksi, Pertambangan, Perdagangan, Pertanian) dan data administrasi kementerian/lembaga (APBN/APBD, Ekspor-Impor Bea Cukai, Perbankan BI/OJK, Pajak)."
+                        ]
+                    },
+                    when: {
+                        summary: "Dihitung secara triwulanan (Triwulan I, II, III, dan IV) serta angka tahunan.",
+                        details: [
+                            "<strong>Jadwal Rilis BRS:</strong> Dirilis sekitar <strong>tanggal 5</strong> pada bulan kedua setelah triwulan berakhir (Februari untuk TW-IV/Tahunan, Mei untuk TW-I, Agustus untuk TW-II, dan November untuk TW-III)."
+                        ]
+                    },
+                    where: {
+                        summary: "Mencakup tingkat Nasional (PDB), 38 Provinsi (PDRB Provinsi), dan 514 Kabupaten/Kota (PDRB Kabupaten/Kota).",
+                        details: [
+                            "<strong>Catatan Penyajian:</strong> PDB Nasional dan PDRB Provinsi dirilis setiap triwulan, sedangkan PDRB Kabupaten/Kota dirilis secara tahunan (setiap akhir Februari/awal Maret)."
+                        ]
+                    },
+                    how: {
+                        summary: "Mengacu pada standar internasional <em>System of National Accounts (SNA) 2008</em> dari PBB dengan menghitung Nilai Tambah Bruto (Output dikurangi Biaya Antara) serta menggunakan metode deflasi/ekstrapolasi untuk ADHK 2010.",
+                        details: [
+                            "<strong>Keseimbangan Makro:</strong> Nilai total PDRB dari sisi Lapangan Usaha selalu sama dengan total PDRB dari sisi Pengeluaran."
+                        ],
+                        formula: "LPE (y-on-y) = [ (PDRB_ADHK(t,q) - PDRB_ADHK(t-1,q)) / PDRB_ADHK(t-1,q) ] × 100%",
+                        formulaNote: "PDRB_ADHK(t,q) = PDRB Atas Dasar Harga Konstan 2010 pada tahun t triwulan q."
+                    }
+                },
+                simulator: {
+                    type: "lpe",
+                    title: "Kalkulator Laju Pertumbuhan Ekonomi (LPE)",
+                    inputs: [
+                        { id: "pdrb_prev", label: "PDRB ADHK Tahun Lalu (Rp Triliun)", val: 3120.50, step: "0.1" },
+                        { id: "pdrb_curr", label: "PDRB ADHK Tahun Berjalan (Rp Triliun)", val: 3278.40, step: "0.1" }
+                    ]
+                }
+            },
+            {
+                id: "ipm",
+                number: "09",
+                title: "Indeks Pembangunan Manusia (IPM) & Komponennya",
+                shortTitle: "IPM & Komponennya",
+                category: "sosial",
+                categoryLabel: "Sosial & Kesejahteraan",
+                frequency: "Tahunan",
+                frequencyColor: "purple",
+                baseYear: "Metodologi Baru (Rata-rata Geometrik)",
+                tagline: "Mengukur capaian pembangunan kualitas hidup manusia melalui dimensi kesehatan, pendidikan, dan ekonomi.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "IPM (<em>Human Development Index / HDI</em>) menjelaskan bagaimana penduduk dapat mengakses hasil pembangunan dalam memperoleh pendapatan, kesehatan, pendidikan, dan sebagainya. IPM dibentuk oleh <strong>3 dimensi dasar</strong> dan <strong>4 indikator komponen</strong>:",
+                        details: [
+                            "<strong>1. Dimensi Umur Panjang dan Hidup Sehat:</strong> Diukur dengan <strong>Umur Harapan Hidup saat lahir (UHH)</strong> dalam satuan tahun, yang mencerminkan derajat kesehatan masyarakat.",
+                            "<strong>2. Dimensi Pengetahuan:</strong> Diukur dengan gabungan dua indikator:<br>• <strong>Harapan Lama Sekolah (HLS):</strong> Lamanya sekolah (dalam tahun) yang diharapkan akan dirasakan oleh anak pada umur tertentu (7 tahun ke atas) di masa mendatang.<br>• <strong>Rata-rata Lama Sekolah (RLS):</strong> Jumlah tahun yang digunakan oleh penduduk usia 25 tahun ke atas dalam menjalani pendidikan formal.",
+                            "<strong>3. Dimensi Standar Hidup Layak:</strong> Diukur dengan <strong>Pengeluaran Riil per Kapita per Tahun yang Disesuaikan</strong> (dalam ribu rupiah, berbasis paritas daya beli / <em>Purchasing Power Parity - PPP</em>)."
+                        ]
+                    },
+                    why: {
+                        summary: "Menjadi ukuran utama keberhasilan upaya membangun kualitas hidup manusia (masyarakat/penduduk) dan menentukan peringkat level pembangunan suatu wilayah.",
+                        details: [
+                            "<strong>Klasifikasi Capaian IPM:</strong><br>• <strong>Sangat Tinggi:</strong> IPM ≥ 80<br>• <strong>Tinggi:</strong> 70 ≤ IPM < 80<br>• <strong>Sedang:</strong> 60 ≤ IPM < 70<br>• <strong>Rendah:</strong> IPM < 60",
+                            "<strong>Alokasi Fiskal:</strong> Menjadi salah satu variabel penentu Dana Alokasi Umum (DAU) dan evaluasi kinerja kepala daerah."
+                        ]
+                    },
+                    who: {
+                        summary: "Seluruh penduduk di suatu wilayah berdasarkan hasil survei rumah tangga berskala besar.",
+                        details: [
+                            "<strong>Sumber Data:</strong> UHH dihitung dari Sensus Penduduk (SP2020) dan Survei Penduduk Antar Sensus (SUPAS); HLS, RLS, dan Pengeluaran Riil per Kapita bersumber dari Susenas Maret."
+                        ]
+                    },
+                    when: {
+                        summary: "Dihitung dan dirilis secara tahunan (setiap akhir tahun).",
+                        details: [
+                            "<strong>Jadwal Rilis BRS:</strong> Dirilis setiap bulan <strong>November atau Desember</strong> untuk capaian tahun berjalan."
+                        ]
+                    },
+                    where: {
+                        summary: "Tersedia lengkap untuk tingkat Nasional, seluruh 38 Provinsi, dan seluruh 514 Kabupaten/Kota di Indonesia.",
+                        details: [
+                            "<strong>Komparabilitas:</strong> Karena menggunakan standar UNDP (dengan penyesuaian indikator pengeluaran riil domestik), perkembangan IPM antar kabupaten/kota dan antar provinsi dapat dibandingkan secara langsung."
+                        ]
+                    },
+                    how: {
+                        summary: "Sejak tahun 2014, BPS menerapkan <strong>Metodologi Baru</strong> dengan menghitung <strong>rata-rata geometrik</strong> dari indeks ketiga dimensi (menggantikan rata-rata aritmatik) agar ketimpangan antar dimensi lebih sensitif terdeteksi.",
+                        details: [
+                            "<strong>Standarisasi Indeks Dimensi:</strong> Setiap komponen dinormalisasi menjadi indeks berskala 0 hingga 1 menggunakan nilai minimum dan maksimum standar (UHH: min 20, max 85 tahun; HLS: min 0, max 18 tahun; RLS: min 0, max 15 tahun; Pengeluaran Riil: min Rp1.007.436, max Rp26.572.352 per tahun)."
+                        ],
+                        formula: "IPM = ∛ ( I_kesehatan × I_pendidikan × I_pengeluaran ) × 100\n\nI_pendidikan = ( I_HLS + I_RLS ) / 2",
+                        formulaNote: "I_kesehatan = (UHH - 20)/(85 - 20); I_HLS = HLS/18; I_RLS = RLS/15; I_pengeluaran = [ln(Pengeluaran) - ln(1.007.436)] / [ln(26.572.352) - ln(1.007.436)]."
+                    }
+                },
+                simulator: {
+                    type: "ipm",
+                    title: "Kalkulator Simulasi IPM (Metodologi Resmi BPS)",
+                    inputs: [
+                        { id: "ipm_uhh", label: "Umur Harapan Hidup / UHH (Tahun)", val: 73.93, step: "0.01" },
+                        { id: "ipm_hls", label: "Harapan Lama Sekolah / HLS (Tahun)", val: 13.15, step: "0.01" },
+                        { id: "ipm_rls", label: "Rata-rata Lama Sekolah / RLS (Tahun)", val: 8.77, step: "0.01" },
+                        { id: "ipm_exp", label: "Pengeluaran Riil per Kapita (Ribu Rp/Tahun)", val: 11899, step: "10" }
+                    ]
+                }
+            },
+            {
+                id: "ketenagakerjaan",
+                number: "10",
+                title: "Ketenagakerjaan (TPAK, TPT, Bekerja & Informal)",
+                shortTitle: "Ketenagakerjaan (TPT & TPAK)",
+                category: "tenagakerja",
+                categoryLabel: "Ketenagakerjaan & Gender",
+                frequency: "Semesteran",
+                frequencyColor: "emerald",
+                baseYear: "Konsep ILO (Penduduk Usia ≥ 15 Thn)",
+                tagline: "Menggambarkan struktur pasar kerja, tingkat penyerapan tenaga kerja, dan tingkat pengangguran terbuka.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "Statistik ketenagakerjaan memotret kondisi penduduk usia kerja (<strong>15 tahun ke atas</strong>) yang terbagi menjadi <strong>Angkatan Kerja</strong> (Bekerja + Pengangguran Terbuka) dan <strong>Bukan Angkatan Kerja</strong> (Sekolah, Mengurus Rumah Tangga, Lainnya).",
+                        details: [
+                            "<strong>Bekerja:</strong> Kegiatan ekonomi yang dilakukan seseorang dengan maksud memperoleh atau membantu memperoleh pendapatan/keuntungan, paling sedikit <strong>1 jam (tidak terputus)</strong> dalam seminggu yang lalu.",
+                            "<strong>Pengangguran Terbuka:</strong> Penduduk usia kerja yang (1) tak punya pekerjaan dan mencari pekerjaan, (2) tak punya pekerjaan dan mempersiapkan usaha, (3) tak punya pekerjaan dan tidak mencari karena merasa tidak mungkin mendapat pekerjaan (<em>discouraged workers</em>), atau (4) sudah punya pekerjaan tetapi belum mulai bekerja.",
+                            "<strong>Indikator Kunci:</strong><br>• <strong>TPAK (Tingkat Partisipasi Angkatan Kerja):</strong> Persentase jumlah angkatan kerja terhadap penduduk usia kerja.<br>• <strong>TPT (Tingkat Pengangguran Terbuka):</strong> Persentase jumlah pengangguran terhadap jumlah angkatan kerja.<br>• <strong>Pekerja Formal vs Informal:</strong> Formal mencakup status 'berusaha dibantu buruh tetap/dibayar' dan 'buruh/karyawan/pegawai'; sisanya (berusaha sendiri, pekerja bebas, pekerja keluarga/tak dibayar) dikategorikan sebagai pekerja informal.<br>• <strong>Setengah Pengangguran:</strong> Pekerja yang jam kerjanya di bawah jam kerja normal (< 35 jam seminggu) dan masih mencari/bersedia menerima pekerjaan tambahan."
+                        ]
+                    },
+                    why: {
+                        summary: "Mengukur kemampuan perekonomian dalam menciptakan lapangan kerja (elastisitas kesempatan kerja) serta memantau kualitas pekerjaan.",
+                        details: [
+                            "<strong>Evaluasi Pasar Kerja:</strong> TPT yang menurun disertai kenaikan proporsi pekerja formal menandakan ekspansi dunia usaha dan peningkatan kualitas kesejahteraan pekerja.",
+                            "<strong>Bonus Demografi:</strong> TPAK (khususnya TPAK perempuan dan pemuda) menjadi indikator optimalisasi pemanfaatan usia produktif."
+                        ]
+                    },
+                    who: {
+                        summary: "Anggota rumah tangga yang berumur <strong>15 tahun ke atas</strong> pada rumah tangga sampel di seluruh Indonesia.",
+                        details: [
+                            "<strong>Ukuran Sampel:</strong> Sekitar 75.000 rumah tangga pada Sakernas Februari dan 300.000 rumah tangga pada Sakernas Agustus."
+                        ]
+                    },
+                    when: {
+                        summary: "Dilaksanakan secara semesteran pada bulan <strong>Februari</strong> dan <strong>Agustus</strong>.",
+                        details: [
+                            "<strong>Jadwal Rilis BRS:</strong> Data kondisi <strong>Februari</strong> dirilis setiap awal bulan <strong>Mei</strong>, sedangkan data kondisi <strong>Agustus</strong> dirilis setiap awal bulan <strong>November</strong>."
+                        ]
+                    },
+                    where: {
+                        summary: "Mencakup seluruh wilayah Indonesia (Perkotaan dan Perdesaan).",
+                        details: [
+                            "<strong>Tingkat Penyajian:</strong> Kondisi <strong>Februari</strong> disajikan hingga tingkat <strong>Provinsi dan Nasional</strong>. Kondisi <strong>Agustus</strong> disajikan hingga tingkat <strong>Kabupaten/Kota (514 kab/kota)</strong>, Provinsi, dan Nasional."
+                        ]
+                    },
+                    how: {
+                        summary: "Dikumpulkan melalui <strong>Survei Angkatan Kerja Nasional (Sakernas)</strong> dengan merujuk pada standar konsep ketenagakerjaan <em>International Labour Organization (ILO)</em>.",
+                        details: [
+                            "<strong>Periode Referensi Pencacahan:</strong> Aktivitas bekerja mengacu pada seminggu terakhir sebelum pencacahan (<em>time reference</em> 1 minggu)."
+                        ],
+                        formula: "TPAK = ( Jumlah Angkatan Kerja / Penduduk Usia Kerja ≥ 15 Thn ) × 100%\n\nTPT = ( Jumlah Pengangguran Terbuka / Jumlah Angkatan Kerja ) × 100%",
+                        formulaNote: "Angkatan Kerja = Penduduk Bekerja + Pengangguran Terbuka."
+                    }
+                },
+                simulator: {
+                    type: "tenagakerja",
+                    title: "Kalkulator TPAK & TPT",
+                    inputs: [
+                        { id: "tk_puk", label: "Penduduk Usia Kerja ≥15 Thn (Juta)", val: 214.00, step: "0.01" },
+                        { id: "tk_bekerja", label: "Penduduk Bekerja (Juta)", val: 142.18, step: "0.01" },
+                        { id: "tk_penganggur", label: "Pengangguran Terbuka (Juta)", val: 7.20, step: "0.01" }
+                    ]
+                }
+            },
+            {
+                id: "gender",
+                number: "11",
+                title: "Indikator Gender (IPG & IDG)",
+                shortTitle: "Indikator Gender (IPG & IDG)",
+                category: "tenagakerja",
+                categoryLabel: "Ketenagakerjaan & Gender",
+                frequency: "Tahunan",
+                frequencyColor: "purple",
+                baseYear: "Standar UNDP (Kesetaraan & Pemberdayaan)",
+                tagline: "Mengukur ketimpangan capaian pembangunan manusia serta peran aktif perempuan dalam politik dan ekonomi.",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>`,
+                w5h1: {
+                    what: {
+                        summary: "Statistik pembangunan berbasis gender diukur melalui dua indeks utama yang saling melengkapi: <strong>Indeks Pembangunan Gender (IPG)</strong> dan <strong>Indeks Pemberdayaan Gender (IDG)</strong>.",
+                        details: [
+                            "<strong>1. Indeks Pembangunan Gender (IPG / Gender Development Index - GDI):</strong> Mengukur ketimpangan/kesenjangan capaian pembangunan manusia antara perempuan dan laki-laki pada 3 dimensi dasar IPM (kesehatan, pendidikan, dan pengeluaran per kapita). IPG merupakan <strong>rasio antara IPM Perempuan terhadap IPM Laki-laki</strong>.",
+                            "<strong>2. Indeks Pemberdayaan Gender (IDG / Gender Empowerment Measure - GEM):</strong> Menunjukkan sejauh mana perempuan berperan aktif dalam kehidupan ekonomi dan politik. Dibentuk oleh 3 komponen:<br>• <strong>Keterwakilan di Parlemen:</strong> Persentase anggota legislatif (DPR/DPRD) perempuan.<br>• <strong>Pengambilan Keputusan:</strong> Persentase perempuan sebagai tenaga manajer, profesional, administrasi, dan teknisi.<br>• <strong>Distribusi Pendapatan:</strong> Sumbangan pendapatan perempuan dalam pendapatan kerja rumah tangga."
+                        ]
+                    },
+                    why: {
+                        summary: "Mengevaluasi keadilan dan kesetaraan gender (<em>Pengarusutamaan Gender / PUG</em>) serta memastikan perempuan dan laki-laki memiliki peluang yang setara dalam pembangunan.",
+                        details: [
+                            "<strong>Interpretasi IPG:</strong> Nilai <strong>IPG = 100</strong> menunjukkan kesetaraan sempurna antara pembangunan manusia perempuan dan laki-laki. Semakin mendekati 100, semakin kecil kesenjangan gendernya.",
+                            "<strong>Interpretasi IDG:</strong> Semakin tinggi nilai IDG (skala 0–100), semakin besar partisipasi dan peran perempuan dalam posisi strategis pengambilan keputusan publik maupun ekonomi."
+                        ]
+                    },
+                    who: {
+                        summary: "Penduduk laki-laki dan perempuan di seluruh Indonesia, anggota legislatif terpilih, serta pekerja berdasarkan jabatan dan upah/pendapatan.",
+                        details: [
+                            "<strong>Sumber Data:</strong> Susenas (untuk UHH, HLS, RLS, Pengeluaran per kapita per jenis kelamin), Sakernas (untuk tenaga profesional/manajerial dan sumbangan pendapatan kerja), serta Sekretariat DPR/DPRD & KPU (untuk keterwakilan parlemen)."
+                        ]
+                    },
+                    when: {
+                        summary: "Dihitung dan dipublikasikan secara tahunan dalam publikasi khusus <em>Pembangunan Manusia Berbasis Gender</em>.",
+                        details: [
+                            "<strong>Jadwal Rilis:</strong> Dirilis setiap <strong>akhir tahun (November/Desember)</strong> menyusul penghitungan angka IPM tahunan."
+                        ]
+                    },
+                    where: {
+                        summary: "Mencakup tingkat Nasional, 38 Provinsi, dan 514 Kabupaten/Kota di Indonesia.",
+                        details: [
+                            "<strong>Manfaat Regional:</strong> Membantu pemerintah provinsi dan kabupaten/kota menyusun Perencanaan dan Penganggaran Responsif Gender (PPRG)."
+                        ]
+                    },
+                    how: {
+                        summary: "IPG dihitung dengan memisahkan seluruh komponen IPM berdasarkan jenis kelamin kemudian membagi nilai IPM perempuan dengan IPM laki-laki. IDG dihitung menggunakan rata-rata aritmatik dari tiga indeks komponen pemberdayaan.",
+                        details: [
+                            "<strong>Komponen IDG:</strong> Menggunakan konsep <em>Equally Distributed Equivalent Percentage (EDEP)</em> untuk mengukur kesetaraan partisipasi parlemen, tenaga profesional, dan sumbangan pendapatan."
+                        ],
+                        formula: "IPG = ( IPM_Perempuan / IPM_Laki-laki ) × 100\n\nIDG = ⅓ × ( I_Parlemen + I_Profesional + I_Pendapatan )",
+                        formulaNote: "Pada penghitungan UHH per jenis kelamin, standar nilai maksimum dan minimum dibedakan secara biologis (Perempuan: min 22,5 & max 87,5 thn; Laki-laki: min 17,5 & max 82,5 thn)."
+                    }
+                },
+                simulator: {
+                    type: "ipg",
+                    title: "Kalkulator Simulasi IPG",
+                    inputs: [
+                        { id: "ipg_fem", label: "Nilai IPM Perempuan", val: 72.15, step: "0.01" },
+                        { id: "ipg_male", label: "Nilai IPM Laki-laki", val: 78.32, step: "0.01" }
+                    ]
+                }
+            }
+        ];
+
+        // =========================================================================
+        // 2. APPLICATION STATE & THEME MANAGEMENT
+        // =========================================================================
+        let state = {
+            category: "all",
+            searchQuery: "",
+            viewMode: "tabs", // "tabs" or "full"
+            activeTabs: {} // Stores active 5W1H tab per indicator ID
+        };
+
+        // Initialize default active tab to 'what' for all indicators
+        indicatorsData.forEach(item => {
+            state.activeTabs[item.id] = "what";
+        });
+
+        // Theme Management
+        const htmlEl = document.documentElement;
+        const sunIcon = `<svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>`;
+        const moonIcon = `<svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>`;
+
+        function updateThemeUI() {
+            const isDark = htmlEl.classList.contains('dark');
+            const mobileBtn = document.getElementById('themeToggleMobile');
+            const desktopIcon = document.getElementById('themeIconDesktop');
+            const desktopLabel = document.getElementById('themeLabelDesktop');
+
+            if (mobileBtn) mobileBtn.innerHTML = isDark ? sunIcon : moonIcon;
+            if (desktopIcon) desktopIcon.innerHTML = isDark ? sunIcon : moonIcon;
+            if (desktopLabel) desktopLabel.textContent = isDark ? 'Mode Terang' : 'Mode Gelap';
+        }
+
+        function toggleTheme() {
+            htmlEl.classList.toggle('dark');
+            const isDark = htmlEl.classList.contains('dark');
+            localStorage.setItem('bps_theme', isDark ? 'dark' : 'light');
+            updateThemeUI();
+        }
+
+        // Check saved or system theme on load
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('bps_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                htmlEl.classList.add('dark');
+            }
+            updateThemeUI();
+        })();
+
+        document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme);
+        document.getElementById('themeToggleDesktop').addEventListener('click', toggleTheme);
+
+        // =========================================================================
+        // 3. TOAST & CLIPBOARD UTILITY (NO alert() USED)
+        // =========================================================================
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const msgEl = document.getElementById('toastMessage');
+            msgEl.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2600);
+        }
+
+        function copyTextToClipboard(text, label = "Ringkasan") {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(`${label} berhasil disalin ke papan klip!`);
+            } catch (err) {
+                showToast("Gagal menyalin teks.");
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // =========================================================================
+        // 4. SIMULATOR CALCULATION ENGINE
+        // =========================================================================
+        function calculateSimulation(type, indicatorId) {
+            const resultBox = document.getElementById(`sim-result-${indicatorId}`);
+            if (!resultBox) return;
+
+            if (type === "inflasi") {
+                const prev = parseFloat(document.getElementById(`inp-ihk_prev`).value) || 0;
+                const curr = parseFloat(document.getElementById(`inp-ihk_curr`).value) || 0;
+                const yoyBase = parseFloat(document.getElementById(`inp-ihk_yoy`).value) || 0;
+
+                if (prev <= 0 || yoyBase <= 0) {
+                    resultBox.innerHTML = `<span class="text-red-500 text-xs">Nilai IHK dasar harus lebih dari 0.</span>`;
+                    return;
+                }
+                const mtm = ((curr - prev) / prev) * 100;
+                const yoy = ((curr - yoyBase) / yoyBase) * 100;
+                const statusMtm = mtm > 0 ? "Inflasi" : (mtm < 0 ? "Deflasi" : "Stabil");
+                const colorClass = mtm > 0 ? "text-amber-600 dark:text-amber-400" : (mtm < 0 ? "text-emerald-600 dark:text-emerald-400" : "text-blue-600");
+
+                resultBox.innerHTML = `
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">Bulanan (MtM)</div>
+                            <div class="font-mono font-bold text-base ${colorClass}">${mtm.toFixed(2)}% (${statusMtm})</div>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">Tahunan (YoY)</div>
+                            <div class="font-mono font-bold text-base text-blue-600 dark:text-sky-400">${yoy.toFixed(2)}%</div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === "ntp") {
+                const it = parseFloat(document.getElementById(`inp-ntp_it`).value) || 0;
+                const ib = parseFloat(document.getElementById(`inp-ntp_ib`).value) || 0;
+                if (ib <= 0) return;
+
+                const ntp = (it / ib) * 100;
+                let status = "Impas (Break-even)";
+                let badge = "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-sky-300";
+                if (ntp > 100) {
+                    status = "Surplus (Daya Beli Petani Meningkat)";
+                    badge = "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300";
+                } else if (ntp < 100) {
+                    status = "Defisit (Daya Beli Petani Menurun)";
+                    badge = "bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300";
+                }
+
+                resultBox.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                        <div>
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">Hasil Nilai Tukar Petani (NTP)</div>
+                            <div class="font-mono font-bold text-xl text-slate-900 dark:text-white">${ntp.toFixed(2)}</div>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold ${badge}">${status}</span>
+                    </div>
+                `;
+            } else if (type === "tpk") {
+                const used = parseFloat(document.getElementById(`inp-tpk_used`).value) || 0;
+                const avail = parseFloat(document.getElementById(`inp-tpk_avail`).value) || 0;
+                if (avail <= 0) return;
+
+                const tpk = (used / avail) * 100;
+                resultBox.innerHTML = `
+                    <div class="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                        <div>
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">Tingkat Penghunian Kamar (TPK)</div>
+                            <div class="font-mono font-bold text-xl text-blue-600 dark:text-sky-400">${tpk.toFixed(2)}%</div>
+                        </div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 text-right">
+                            ${used.toLocaleString('id-ID')} dari ${avail.toLocaleString('id-ID')} malam kamar terisi
+                        </div>
+                    </div>
+                `;
+            } else if (type === "lpe") {
+                const prev = parseFloat(document.getElementById(`inp-pdrb_prev`).value) || 0;
+                const curr = parseFloat(document.getElementById(`inp-pdrb_curr`).value) || 0;
+                if (prev <= 0) return;
+
+                const lpe = ((curr - prev) / prev) * 100;
+                const isGrow = lpe >= 0;
+                resultBox.innerHTML = `
+                    <div class="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                        <div>
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">Laju Pertumbuhan Ekonomi (LPE)</div>
+                            <div class="font-mono font-bold text-xl ${isGrow ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">
+                                ${isGrow ? '+' : ''}${lpe.toFixed(2)}%
+                            </div>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold ${isGrow ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300' : 'bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300'}">
+                            ${isGrow ? 'Ekspansi Ekonomi' : 'Kontraksi Ekonomi'}
+                        </span>
+                    </div>
+                `;
+            } else if (type === "ipm") {
+                const uhh = parseFloat(document.getElementById(`inp-ipm_uhh`).value) || 20;
+                const hls = parseFloat(document.getElementById(`inp-ipm_hls`).value) || 0;
+                const rls = parseFloat(document.getElementById(`inp-ipm_rls`).value) || 0;
+                const expRibu = parseFloat(document.getElementById(`inp-ipm_exp`).value) || 1008;
+                const expRp = expRibu * 1000;
+
+                // BPS Standard Bounds
+                const iKes = Math.max(0, Math.min(1, (uhh - 20) / (85 - 20)));
+                const iHls = Math.max(0, Math.min(1, hls / 18));
+                const iRls = Math.max(0, Math.min(1, rls / 15));
+                const iPend = (iHls + iRls) / 2;
+
+                const minExp = Math.log(1007436);
+                const maxExp = Math.log(26572352);
+                const iPeng = Math.max(0, Math.min(1, (Math.log(Math.max(1007437, expRp)) - minExp) / (maxExp - minExp)));
+
+                const ipm = Math.cbrt(iKes * iPend * iPeng) * 100;
+                let cat = "Rendah (< 60)";
+                let badge = "bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300";
+                if (ipm >= 80) {
+                    cat = "Sangat Tinggi (≥ 80)";
+                    badge = "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300";
+                } else if (ipm >= 70) {
+                    cat = "Tinggi (70 – 79,99)";
+                    badge = "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-sky-300";
+                } else if (ipm >= 60) {
+                    cat = "Sedang (60 – 69,99)";
+                    badge = "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300";
+                }
+
+                resultBox.innerHTML = `
+                    <div class="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400">Capaian IPM Simulasi</div>
+                                <div class="font-mono font-bold text-xl text-purple-600 dark:text-purple-400">${ipm.toFixed(2)}</div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-semibold ${badge}">Kategori: ${cat}</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-100 dark:border-slate-700/70 text-[11px]">
+                            <div><span class="text-slate-400">I. Kesehatan:</span> <span class="font-mono font-semibold">${(iKes*100).toFixed(2)}</span></div>
+                            <div><span class="text-slate-400">I. Pendidikan:</span> <span class="font-mono font-semibold">${(iPend*100).toFixed(2)}</span></div>
+                            <div><span class="text-slate-400">I. Pengeluaran:</span> <span class="font-mono font-semibold">${(iPeng*100).toFixed(2)}</span></div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === "tenagakerja") {
+                const puk = parseFloat(document.getElementById(`inp-tk_puk`).value) || 0;
+                const bekerja = parseFloat(document.getElementById(`inp-tk_bekerja`).value) || 0;
+                const penganggur = parseFloat(document.getElementById(`inp-tk_penganggur`).value) || 0;
+                const ak = bekerja + penganggur;
+                if (puk <= 0 || ak <= 0) return;
+
+                const tpak = (ak / puk) * 100;
+                const tpt = (penganggur / ak) * 100;
+
+                resultBox.innerHTML = `
+                    <div class="grid grid-cols-3 gap-2.5">
+                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">Angkatan Kerja</div>
+                            <div class="font-mono font-bold text-sm sm:text-base text-slate-900 dark:text-white">${ak.toFixed(2)} Jt</div>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">TPAK</div>
+                            <div class="font-mono font-bold text-sm sm:text-base text-emerald-600 dark:text-emerald-400">${tpak.toFixed(2)}%</div>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">TPT (Pengangguran)</div>
+                            <div class="font-mono font-bold text-sm sm:text-base text-rose-600 dark:text-rose-400">${tpt.toFixed(2)}%</div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === "ipg") {
+                const fem = parseFloat(document.getElementById(`inp-ipg_fem`).value) || 0;
+                const male = parseFloat(document.getElementById(`inp-ipg_male`).value) || 0;
+                if (male <= 0) return;
+
+                const ipg = (fem / male) * 100;
+                const gap = Math.abs(100 - ipg).toFixed(2);
+                resultBox.innerHTML = `
+                    <div class="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">Indeks Pembangunan Gender (IPG)</div>
+                            <div class="font-mono font-bold text-xl text-purple-600 dark:text-purple-400">${ipg.toFixed(2)}</div>
+                        </div>
+                        <div class="text-xs text-slate-600 dark:text-slate-300">
+                            Jarak kesetaraan dari titik ideal (100): <strong class="font-mono">${gap} poin</strong>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // =========================================================================
+        // 5. RENDERING ENGINE
+        // =========================================================================
+        const w5h1TabsMeta = [
+            { key: "what", label: "WHAT", sub: "Apa & Definisi", color: "blue" },
+            { key: "why", label: "WHY", sub: "Tujuan & Makna", color: "emerald" },
+            { key: "who", label: "WHO", sub: "Subjek & Pengguna", color: "amber" },
+            { key: "when", label: "WHEN", sub: "Jadwal & Rilis", color: "purple" },
+            { key: "where", label: "WHERE", sub: "Cakupan Wilayah", color: "rose" },
+            { key: "how", label: "HOW", sub: "Metode & Rumus", color: "cyan" }
+        ];
+
+        function getBadgeColorClasses(color) {
+            const map = {
+                blue: "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-sky-300 border-blue-200 dark:border-blue-800",
+                emerald: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800",
+                amber: "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300 border-amber-200 dark:border-amber-800",
+                purple: "bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 border-purple-200 dark:border-purple-800"
+            };
+            return map[color] || map.blue;
+        }
+
+        function renderQuickJump() {
+            const container = document.getElementById('quickJumpContainer');
+            container.innerHTML = indicatorsData.map(ind => `
+                <a href="#card-${ind.id}" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-blue-500 dark:hover:border-sky-400 hover:text-blue-600 dark:hover:text-sky-400 transition-all shadow-2xs">
+                    <span class="font-mono text-[10px] font-bold text-slate-400">${ind.number}</span>
+                    <span>${ind.shortTitle}</span>
+                </a>
+            `).join('');
+        }
+
+        function renderW5H1SectionContent(ind, key) {
+            const sec = ind.w5h1[key];
+            const meta = w5h1TabsMeta.find(m => m.key === key);
+
+            let formulaHTML = "";
+            if (key === "how" && sec.formula) {
+                formulaHTML = `
+                    <div class="mt-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-900 text-slate-100 p-4 formula-box relative group">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[11px] font-mono uppercase tracking-wider text-sky-400 font-semibold">Formula Matematis Resmi BPS</span>
+                            <button onclick="copyTextToClipboard(\`${sec.formula.replace(/\n/g, ' | ')}\`, 'Rumus ${ind.shortTitle}')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-medium flex items-center gap-1 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                Salin Rumus
+                            </button>
+                        </div>
+                        <pre class="font-mono text-xs sm:text-sm text-emerald-300 whitespace-pre-wrap leading-relaxed overflow-x-auto">${sec.formula}</pre>
+                        ${sec.formulaNote ? `<p class="mt-2.5 pt-2.5 border-t border-slate-800 text-xs text-slate-400 leading-relaxed"><strong class="text-slate-300">Keterangan:</strong> ${sec.formulaNote}</p>` : ''}
+                    </div>
+                `;
+            }
+
+            let simulatorHTML = "";
+            if (key === "how" && ind.simulator) {
+                const inputsHTML = ind.simulator.inputs.map(inp => `
+                    <div>
+                        <label for="inp-${inp.id}" class="block text-[11px] font-medium text-slate-600 dark:text-slate-300 mb-1">${inp.label}</label>
+                        <input 
+                            type="number" 
+                            id="inp-${inp.id}" 
+                            value="${inp.val}" 
+                            step="${inp.step}"
+                            oninput="calculateSimulation('${ind.simulator.type}', '${ind.id}')"
+                            class="w-full px-3 py-1.5 text-sm font-mono rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+                `).join('');
+
+                simulatorHTML = `
+                    <div class="mt-4 p-4 rounded-2xl bg-blue-50/70 dark:bg-slate-800/70 border border-blue-200/80 dark:border-slate-700">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="p-1.5 rounded-lg bg-blue-600 text-white">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                            </span>
+                            <div>
+                                <h5 class="text-xs font-bold uppercase tracking-wide text-blue-900 dark:text-sky-300">${ind.simulator.title}</h5>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">Ubah angka di bawah untuk melihat hasil perhitungan secara otomatis</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${Math.min(ind.simulator.inputs.length, 4)} gap-3 mb-3">
+                            ${inputsHTML}
+                        </div>
+                        <div id="sim-result-${ind.id}"></div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="space-y-3">
+                    ${state.viewMode === 'full' ? `
+                        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200">
+                            <span class="text-blue-600 dark:text-sky-400">${meta.label}</span>
+                            <span class="text-slate-400">•</span>
+                            <span>${meta.sub}</span>
+                        </div>
+                    ` : ''}
+                    <p class="text-sm sm:text-[15px] text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
+                        ${sec.summary}
+                    </p>
+                    <ul class="space-y-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        ${sec.details.map(d => `
+                            <li class="flex items-start gap-2.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-blue-500 dark:bg-sky-400 mt-2 flex-shrink-0"></span>
+                                <span>${d}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                    ${formulaHTML}
+                    ${simulatorHTML}
+                </div>
+            `;
+        }
+
+        function switchCardTab(indicatorId, tabKey) {
+            state.activeTabs[indicatorId] = tabKey;
+            const cardBody = document.getElementById(`card-body-${indicatorId}`);
+            const ind = indicatorsData.find(i => i.id === indicatorId);
+            if (!cardBody || !ind) return;
+
+            // Update tab button active styles
+            const tabBtns = document.querySelectorAll(`.tab-btn-${indicatorId}`);
+            tabBtns.forEach(btn => {
+                const btnKey = btn.getAttribute('data-tab');
+                if (btnKey === tabKey) {
+                    btn.className = `tab-btn-${indicatorId} flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 px-3 py-2.5 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-sm transition-all`;
+                } else {
+                    btn.className = `tab-btn-${indicatorId} flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 px-3 py-2.5 rounded-xl text-xs font-medium bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-200/80 dark:hover:bg-slate-700 transition-all`;
+                }
+            });
+
+            // Re-render body
+            cardBody.innerHTML = renderW5H1SectionContent(ind, tabKey);
+
+            // Trigger simulator init if on 'how' tab
+            if (tabKey === "how" && ind.simulator) {
+                calculateSimulation(ind.simulator.type, ind.id);
+            }
+        }
+
+        function copyIndicatorSummary(indicatorId) {
+            const ind = indicatorsData.find(i => i.id === indicatorId);
+            if (!ind) return;
+            const plainSummary = `INDIKATOR MAKRO BPS: ${ind.title}
+- Kategori: ${ind.categoryLabel} | Rilis: ${ind.frequency}
+- WHAT (Apa): ${ind.w5h1.what.summary.replace(/<[^>]*>?/gm, '')}
+- WHY (Mengapa): ${ind.w5h1.why.summary.replace(/<[^>]*>?/gm, '')}
+- WHO (Siapa): ${ind.w5h1.who.summary.replace(/<[^>]*>?/gm, '')}
+- WHEN (Kapan): ${ind.w5h1.when.summary.replace(/<[^>]*>?/gm, '')}
+- WHERE (Di Mana): ${ind.w5h1.where.summary.replace(/<[^>]*>?/gm, '')}
+- HOW (Bagaimana): ${ind.w5h1.how.summary.replace(/<[^>]*>?/gm, '')}
+- Rumus: ${ind.w5h1.how.formula.replace(/\n/g, ' | ')}`;
+            copyTextToClipboard(plainSummary, `Ringkasan 5W+1H ${ind.shortTitle}`);
+        }
+
+        function renderIndicators() {
+            const container = document.getElementById('indicatorsList');
+            const emptyState = document.getElementById('emptyState');
+            const statusBanner = document.getElementById('searchStatusBanner');
+            const statusText = document.getElementById('searchStatusText');
+
+            const query = state.searchQuery.trim().toLowerCase();
+
+            // Filter logic
+            const filtered = indicatorsData.filter(ind => {
+                const matchCat = state.category === "all" || ind.category === state.category;
+                if (!matchCat) return false;
+                if (!query) return true;
+
+                // Search across title, tagline, baseYear, and all 5W+1H texts
+                const searchableBlob = [
+                    ind.title,
+                    ind.shortTitle,
+                    ind.categoryLabel,
+                    ind.frequency,
+                    ind.baseYear,
+                    ind.tagline,
+                    JSON.stringify(ind.w5h1)
+                ].join(" ").toLowerCase();
+
+                return searchableBlob.includes(query);
+            });
+
+            // Status banner management
+            if (query || state.category !== "all") {
+                statusBanner.classList.remove('hidden');
+                statusBanner.classList.add('flex');
+                statusText.innerHTML = `Menampilkan <strong>${filtered.length}</strong> dari ${indicatorsData.length} indikator makro BPS${query ? ` untuk kata kunci "<strong>${state.searchQuery}</strong>"` : ''}.`;
+            } else {
+                statusBanner.classList.add('hidden');
+                statusBanner.classList.remove('flex');
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = "";
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            container.innerHTML = filtered.map(ind => {
+                const activeTab = state.activeTabs[ind.id] || "what";
+                const badgeClass = getBadgeColorClasses(ind.frequencyColor);
+
+                // Tab bar HTML (shown in "tabs" mode)
+                const tabsBarHTML = state.viewMode === "tabs" ? `
+                    <div class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 mb-5">
+                        ${w5h1TabsMeta.map(tab => {
+                            const isActive = tab.key === activeTab;
+                            const btnClasses = isActive
+                                ? `tab-btn-${ind.id} flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 px-3 py-2.5 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-sm transition-all`
+                                : `tab-btn-${ind.id} flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 px-3 py-2.5 rounded-xl text-xs font-medium bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-200/80 dark:hover:bg-slate-700 transition-all`;
+                            return `
+                                <button data-tab="${tab.key}" onclick="switchCardTab('${ind.id}', '${tab.key}')" class="${btnClasses}">
+                                    <span class="font-mono tracking-wider">${tab.label}</span>
+                                    <span class="text-[10px] opacity-85 truncate">${tab.sub.split(' ')[0]}</span>
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                ` : '';
+
+                // Content body HTML
+                const contentBodyHTML = state.viewMode === "tabs"
+                    ? renderW5H1SectionContent(ind, activeTab)
+                    : `<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        ${w5h1TabsMeta.map(tab => `
+                            <div class="p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-700/70 ${tab.key === 'how' ? 'md:col-span-2' : ''}">
+                                ${renderW5H1SectionContent(ind, tab.key)}
+                            </div>
+                        `).join('')}
+                       </div>`;
+
+                return `
+                    <article id="card-${ind.id}" class="scroll-mt-36 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+                        <!-- Card Header -->
+                        <div class="p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800 bg-gradient-to-r from-slate-50/70 via-white to-white dark:from-slate-800/40 dark:via-slate-900 dark:to-slate-900">
+                            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                                <div class="flex items-start gap-3.5">
+                                    <div class="w-12 h-12 rounded-2xl bg-blue-600/10 dark:bg-sky-500/15 text-blue-600 dark:text-sky-400 flex items-center justify-center flex-shrink-0 border border-blue-600/15 dark:border-sky-400/20">
+                                        ${ind.icon}
+                                    </div>
+                                    <div>
+                                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                                            <span class="font-mono text-xs font-bold text-blue-600 dark:text-sky-400">#${ind.number}</span>
+                                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${badgeClass}">
+                                                Rilis: ${ind.frequency}
+                                            </span>
+                                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                                                ${ind.categoryLabel}
+                                            </span>
+                                            <span class="hidden md:inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                                                ${ind.baseYear}
+                                            </span>
+                                        </div>
+                                        <h3 class="font-display text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-snug">
+                                            ${ind.title}
+                                        </h3>
+                                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                            ${ind.tagline}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Action Copy Button -->
+                                <div class="flex items-center gap-2 self-end sm:self-start flex-shrink-0">
+                                    <button onclick="copyIndicatorSummary('${ind.id}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-medium text-slate-700 dark:text-slate-200 transition-colors" title="Salin ringkasan lengkap 5W+1H">
+                                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                                        <span>Salin 5W+1H</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Content (5W+1H Navigation & Details) -->
+                        <div class="p-5 sm:p-6">
+                            ${tabsBarHTML}
+                            <div id="card-body-${ind.id}">
+                                ${contentBodyHTML}
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            // Initialize all visible simulators
+            filtered.forEach(ind => {
+                if (ind.simulator && (state.viewMode === "full" || state.activeTabs[ind.id] === "how")) {
+                    calculateSimulation(ind.simulator.type, ind.id);
+                }
+            });
+        }
+
+        // =========================================================================
+        // 6. EVENT LISTENERS (SEARCH, FILTER, VIEW MODE)
+        // =========================================================================
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+
+        searchInput.addEventListener('input', (e) => {
+            state.searchQuery = e.target.value;
+            if (state.searchQuery.length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+            } else {
+                clearSearchBtn.classList.add('hidden');
+            }
+            renderIndicators();
+        });
+
+        clearSearchBtn.addEventListener('click', () => {
+            state.searchQuery = "";
+            searchInput.value = "";
+            clearSearchBtn.classList.add('hidden');
+            renderIndicators();
+        });
+
+        // Category filter buttons
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-btn').forEach(b => {
+                    b.className = "cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700";
+                });
+                btn.className = "cat-btn active px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all bg-blue-600 text-white shadow-sm";
+                state.category = btn.getAttribute('data-cat');
+                renderIndicators();
+            });
+        });
+
+        function resetFilters() {
+            state.category = "all";
+            state.searchQuery = "";
+            searchInput.value = "";
+            clearSearchBtn.classList.add('hidden');
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                if (b.getAttribute('data-cat') === 'all') {
+                    b.className = "cat-btn active px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all bg-blue-600 text-white shadow-sm";
+                } else {
+                    b.className = "cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700";
+                }
+            });
+            renderIndicators();
+        }
+
+        document.getElementById('resetAllFiltersBtn').addEventListener('click', resetFilters);
+
+        // View Mode Toggle (Tab 5W+1H vs Open All Sections)
+        const modeTabBtn = document.getElementById('modeTabBtn');
+        const modeFullBtn = document.getElementById('modeFullBtn');
+
+        modeTabBtn.addEventListener('click', () => {
+            state.viewMode = "tabs";
+            modeTabBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-slate-700 text-blue-600 dark:text-sky-400 shadow-sm transition-all";
+            modeFullBtn.className = "px-2.5 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all";
+            renderIndicators();
+        });
+
+        modeFullBtn.addEventListener('click', () => {
+            state.viewMode = "full";
+            modeFullBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-slate-700 text-blue-600 dark:text-sky-400 shadow-sm transition-all";
+            modeTabBtn.className = "px-2.5 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all";
+            renderIndicators();
+        });
+
+        // Initial Render on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderQuickJump();
+            renderIndicators();
+        });
+    </script>
+</body>
+</html>
