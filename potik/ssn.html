@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Statistik Nasional (SSN) Indonesia - Panduan Komprehensif 5W+1H</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        bps: {
+                            blue: '#005596',
+                            green: '#58A618',
+                            orange: '#F37021'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Kustomisasi Scrollbar & Animasi Halus */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .fade-in {
+            animation: fadeIn 0.35s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Garis konektor diagram alur */
+        .flow-line {
+            background-image: linear-gradient(to right, #3b82f6 50%, transparent 50%);
+            background-size: 12px 2px;
+            background-repeat: repeat-x;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- STICKY HEADER & PROGRESS BAR -->
+    <header class="sticky top-0 z-50 w-full glass-header bg-white/85 dark:bg-slate-900/85 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <!-- Indikator Progres Baca -->
+        <div class="w-full h-1 bg-slate-200 dark:bg-slate-800">
+            <div id="scroll-progress" class="h-full bg-gradient-to-r from-brand-600 via-sky-500 to-emerald-500 w-0 transition-all duration-150"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Judul -->
+                <a href="#beranda" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-chart-pie text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="font-heading font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white block leading-none">
+                            Portal <span class="text-brand-600 dark:text-brand-400">SSN</span> Indonesia
+                        </span>
+                        <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 hidden sm:block">
+                            Ekosistem Statistik & Satu Data
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Navigasi Desktop -->
+                <nav class="hidden md:flex items-center gap-1 lg:gap-2 text-sm font-medium">
+                    <a href="#kerangka-5w1h" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition">Kerangka 5W+1H</a>
+                    <a href="#jenis-statistik" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition">3 Jenis Statistik</a>
+                    <a href="#diagram-ekosistem" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition">Alur SDI</a>
+                    <a href="#implementasi-pemda" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition">Implementasi Pemda</a>
+                    <a href="#kuis-interaktif" class="px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition">Uji Pemahaman</a>
+                </nav>
+
+                <!-- Tombol Aksi: Mode Gelap/Terang & Menu Mobile -->
+                <div class="flex items-center gap-2">
+                    <button id="theme-toggle" aria-label="Ganti Tema Gelap atau Terang" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-400 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition flex items-center gap-2 text-xs font-semibold">
+                        <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
+                        <span id="theme-label" class="hidden sm:inline">Mode Gelap</span>
+                    </button>
+
+                    <button id="mobile-menu-btn" aria-label="Buka Menu Navigasi" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Dropdown Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-4 space-y-1">
+            <a href="#kerangka-5w1h" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-brand-50 dark:hover:bg-slate-800">1. Kerangka Lengkap 5W+1H</a>
+            <a href="#jenis-statistik" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-brand-50 dark:hover:bg-slate-800">2. Perbandingan 3 Jenis Statistik</a>
+            <a href="#diagram-ekosistem" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-brand-50 dark:hover:bg-slate-800">3. Diagram Alur SSN & Satu Data</a>
+            <a href="#implementasi-pemda" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-brand-50 dark:hover:bg-slate-800">4. Studi Kasus Nyata Pemda</a>
+            <a href="#kuis-interaktif" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-brand-50 dark:hover:bg-slate-800">5. Kuis Uji Pemahaman</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="beranda" class="relative overflow-hidden pt-12 pb-16 sm:pt-20 sm:pb-24 border-b border-slate-200 dark:border-slate-800/80">
+        <!-- Dekorasi Latar Belakang -->
+        <div class="absolute inset-0 -z-10 pointer-events-none">
+            <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-brand-500/10 dark:bg-brand-500/15 blur-3xl"></div>
+            <div class="absolute top-1/2 -left-24 w-80 h-80 rounded-full bg-emerald-500/10 dark:bg-emerald-500/10 blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 dark:bg-brand-950/80 border border-brand-200 dark:border-brand-800 text-brand-700 dark:text-brand-300 text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Landasan: UU No. 16/1997 • PP No. 51/1999 • Perpres No. 39/2019 (SDI)
+                    </div>
+
+                    <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                        Memahami <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-sky-500 dark:from-brand-400 dark:to-sky-300">Sistem Statistik Nasional</span> Secara Utuh & Praktis
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+                        Panduan komprehensif berbasis kerangka <strong>5W+1H</strong> mengenai tata kelola perstatistikan di Indonesia—mulai dari konsep dasar, pembagian peran lintas instansi, hingga penerapan nyata dalam pengambilan kebijakan di <strong>Pemerintah Daerah</strong>.
+                    </p>
+
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <a href="#kerangka-5w1h" class="px-6 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-lg shadow-brand-600/25 transition flex items-center gap-2">
+                            <i class="fa-solid fa-compass"></i> Jelajahi 5W+1H
+                        </a>
+                        <a href="#implementasi-pemda" class="px-6 py-3.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-semibold text-sm border border-slate-200 dark:border-slate-700 transition flex items-center gap-2">
+                            <i class="fa-solid fa-building-columns text-emerald-500"></i> Simulasi Studi Kasus Pemda
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Kartu Ringkasan Eksekutif -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-5">
+                        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Intisari Ekosistem Data</span>
+                            <span class="px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">1 Data Indonesia</span>
+                        </div>
+                        <blockquote class="text-sm sm:text-base italic text-slate-700 dark:text-slate-300 border-l-4 border-brand-500 pl-4 py-1 bg-slate-50 dark:bg-slate-800/50 rounded-r-lg">
+                            "Sistem Statistik Nasional adalah suatu tatanan yang terdiri atas unsur-unsur kebutuhan data statistik, sumber daya, metode, sarana dan prasarana, ilmu pengetahuan dan teknologi, perangkat hukum, serta masukan dari Forum Masyarakat Statistik yang secara teratur saling berkaitan, sehingga membentuk totalitas dalam penyelenggaraan statistik."
+                            <footer class="not-italic text-xs font-semibold text-slate-500 dark:text-slate-400 mt-2">— Pasal 1 angka 9, UU No. 16 Tahun 1997</footer>
+                        </blockquote>
+
+                        <div class="grid grid-cols-3 gap-3 pt-1 text-center">
+                            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-100 dark:border-slate-700/60">
+                                <div class="text-xl font-extrabold text-brand-600 dark:text-brand-400">3</div>
+                                <div class="text-[11px] font-medium text-slate-600 dark:text-slate-400 mt-0.5">Jenis Statistik</div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-100 dark:border-slate-700/60">
+                                <div class="text-xl font-extrabold text-emerald-600 dark:text-emerald-400">6</div>
+                                <div class="text-[11px] font-medium text-slate-600 dark:text-slate-400 mt-0.5">Unsur Utama SSN</div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-100 dark:border-slate-700/60">
+                                <div class="text-xl font-extrabold text-amber-600 dark:text-amber-400">4</div>
+                                <div class="text-[11px] font-medium text-slate-600 dark:text-slate-400 mt-0.5">Prinsip Satu Data</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 1: KERANGKA PERTANYAAN 5W+1H INTERAKTIF -->
+    <section id="kerangka-5w1h" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <span class="text-xs font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Bedah Konsep Mendalam</span>
+            <h2 class="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
+                Sistem Statistik Nasional dalam Kerangka 5W + 1H
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm sm:text-base">
+                Pilih setiap tab pertanyaan di bawah ini untuk mengeksplorasi landasan hukum, unsur pembentuk, aktor pelaksana, hingga tata cara penyelenggaraan statistik di Indonesia.
+            </p>
+        </div>
+
+        <!-- Navigasi Tab 5W+1H -->
+        <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8" role="tablist" aria-label="Navigasi 5W+1H">
+            <button onclick="switch5W1H('what')" id="tab-what" class="tab-5w1h px-4 sm:px-5 py-3 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-brand-600 text-white shadow-md shadow-brand-600/20">
+                <span class="px-2 py-0.5 rounded bg-white/20 text-xs">WHAT</span> Apa Itu SSN?
+            </button>
+            <button onclick="switch5W1H('who')" id="tab-who" class="tab-5w1h px-4 sm:px-5 py-3 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-400">
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs">WHO</span> Siapa Aktornya?
+            </button>
+            <button onclick="switch5W1H('when')" id="tab-when" class="tab-5w1h px-4 sm:px-5 py-3 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-400">
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs">WHEN</span> Kapan & Siklusnya?
+            </button>
+            <button onclick="switch5W1H('where')" id="tab-where" class="tab-5w1h px-4 sm:px-5 py-3 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-400">
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs">WHERE</span> Di Mana Cakupannya?
+            </button>
+            <button onclick="switch5W1H('why')" id="tab-why" class="tab-5w1h px-4 sm:px-5 py-3 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-400">
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs">WHY</span> Mengapa Penting?
+            </button>
+            <button onclick="switch5W1H('how')" id="tab-how" class="tab-5w1h px-4 sm:px-5 py-3 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-400">
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs">HOW</span> Bagaimana Mekanismenya?
+            </button>
+        </div>
+
+        <!-- Kontainer Konten Dinamis 5W+1H -->
+        <div id="content-5w1h" class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-lg">
+            <!-- Diisi secara dinamis melalui JavaScript saat halaman dimuat -->
+        </div>
+    </section>
+
+    <!-- BAGIAN 2: PERBANDINGAN 3 JENIS KEGIATAN STATISTIK (FILTER INTERAKTIF) -->
+    <section id="jenis-statistik" class="py-16 sm:py-20 bg-slate-100/80 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Klasifikasi UU No. 16 Tahun 1997</span>
+                    <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">
+                        3 Pilar Jenis Statistik di Indonesia
+                    </h2>
+                    <p class="text-slate-600 dark:text-slate-400 mt-2 text-sm sm:text-base max-w-2xl">
+                        Setiap kegiatan pengumpulan dan pengolahan data di Indonesia terbagi ke dalam tiga kategori berdasarkan tujuan pemanfaatan dan instansi penyelenggaranya.
+                    </p>
+                </div>
+
+                <!-- Filter & Pencarian Cepat -->
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input type="text" id="search-stat-input" placeholder="Cari contoh (misal: Inflasi, Stunting)..." class="pl-9 pr-4 py-2.5 w-full sm:w-64 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <select id="filter-stat-type" class="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <option value="all">Semua Kategori</option>
+                        <option value="dasar">Statistik Dasar (BPS)</option>
+                        <option value="sektoral">Statistik Sektoral (K/L/Pemda)</option>
+                        <option value="khusus">Statistik Khusus (Swasta/Masyarakat)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Kartu Perbandingan 3 Jenis Statistik -->
+            <div id="stat-cards-grid" class="grid md:grid-cols-3 gap-6">
+                <!-- Kartu 1: Statistik Dasar -->
+                <div data-category="dasar" class="stat-card bg-white dark:bg-slate-900 rounded-2xl p-6 border-2 border-brand-500/30 dark:border-brand-500/40 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 text-xs font-bold">1. STATISTIK DASAR</span>
+                            <div class="w-10 h-10 rounded-xl bg-brand-50 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400 flex items-center justify-center">
+                                <i class="fa-solid fa-landmark text-lg"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-slate-900 dark:text-white mb-2">Penyelenggara: Badan Pusat Statistik (BPS)</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            Statistik yang pemanfaatannya ditujukan untuk keperluan yang bersifat luas, baik bagi pemerintah maupun masyarakat, yang memiliki ciri-ciri <strong>lintas sektoral, berskala nasional, makro</strong>, dan penyelenggaraannya menjadi tanggung jawab penuh BPS.
+                        </p>
+                        <div class="space-y-2 text-xs border-t border-slate-100 dark:border-slate-800 pt-4">
+                            <div class="font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Contoh Nyata:</div>
+                            <ul class="space-y-1.5 text-slate-600 dark:text-slate-400">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-500 mt-0.5"></i> Sensus Penduduk (SP), Sensus Pertanian (ST), Sensus Ekonomi (SE)</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-500 mt-0.5"></i> Angka Inflasi & Indeks Harga Konsumen (IHK)</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-500 mt-0.5"></i> Pertumbuhan Ekonomi (PDB / PDRB), Angka Kemiskinan & Tingkat Pengangguran Terbuka (TPT)</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-500 mt-0.5"></i> Indeks Pembangunan Manusia (IPM)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <span>Metode: Sensus & Survei Nasional</span>
+                        <span class="font-semibold text-brand-600 dark:text-brand-400">Pasal 5 & 11 UU 16/1997</span>
+                    </div>
+                </div>
+
+                <!-- Kartu 2: Statistik Sektoral -->
+                <div data-category="sektoral" class="stat-card bg-white dark:bg-slate-900 rounded-2xl p-6 border-2 border-emerald-500/30 dark:border-emerald-500/40 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold">2. STATISTIK SEKTORAL</span>
+                            <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                                <i class="fa-solid fa-building-user text-lg"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-slate-900 dark:text-white mb-2">Penyelenggara: Kementerian / Lembaga / Pemda (OPD)</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            Statistik yang pemanfaatannya ditujukan untuk memenuhi kebutuhan instansi tertentu dalam rangka penyelenggaraan tugas-tugas pemerintahan dan pembangunan yang merupakan <strong>tugas pokok instansi yang bersangkutan</strong>.
+                        </p>
+                        <div class="space-y-2 text-xs border-t border-slate-100 dark:border-slate-800 pt-4">
+                            <div class="font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Contoh Nyata:</div>
+                            <ul class="space-y-1.5 text-slate-600 dark:text-slate-400">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-emerald-500 mt-0.5"></i> Data Prevalensi Stunting & Cakupan Imunisasi (Dinas Kesehatan / Kemenkes)</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-emerald-500 mt-0.5"></i> Data Dapodik Siswa & Angka Putus Sekolah (Dinas Pendidikan / Kemendikdasmen)</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-emerald-500 mt-0.5"></i> Data Luas Tanam, Panen & Produksi Padi/Hortikultura (Dinas Pertanian)</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-emerald-500 mt-0.5"></i> Data Kunjungan Wisatawan & Okupansi Hotel Daerah (Dinas Pariwisata)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <span>Metode: Survei & Kompromin</span>
+                        <span class="font-semibold text-emerald-600 dark:text-emerald-400">Wajib Rekomendasi BPS</span>
+                    </div>
+                </div>
+
+                <!-- Kartu 3: Statistik Khusus -->
+                <div data-category="khusus" class="stat-card bg-white dark:bg-slate-900 rounded-2xl p-6 border-2 border-amber-500/30 dark:border-amber-500/40 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-xs font-bold">3. STATISTIK KHUSUS</span>
+                            <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                                <i class="fa-solid fa-users-gear text-lg"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-slate-900 dark:text-white mb-2">Penyelenggara: Masyarakat, Swasta, Lembaga Riset</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            Statistik yang pemanfaatannya ditujukan untuk memenuhi kebutuhan spesifik dunia usaha, pendidikan, sosial budaya, dan kepentingan lain dalam kehidupan masyarakat yang diselenggarakan secara <strong>mandiri oleh masyarakat/lembaga non-pemerintah</strong>.
+                        </p>
+                        <div class="space-y-2 text-xs border-t border-slate-100 dark:border-slate-800 pt-4">
+                            <div class="font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Contoh Nyata:</div>
+                            <ul class="space-y-1.5 text-slate-600 dark:text-slate-400">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-amber-500 mt-0.5"></i> Survei Kepuasan Konsumen & Riset Pasar oleh Perusahaan Swasta</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-amber-500 mt-0.5"></i> Survei Opini Publik / Elektabilitas oleh Lembaga Survei Independen</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-amber-500 mt-0.5"></i> Penelitian Akademik & Survei Sosial oleh Perguruan Tinggi / NGO</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-amber-500 mt-0.5"></i> Data Perbankan & Asuransi oleh Asosiasi Industri</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <span>Wajib Lapor Sinopsis ke BPS</span>
+                        <span class="font-semibold text-amber-600 dark:text-amber-400">Pasal 13 UU 16/1997</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 3: DIAGRAM VISUAL ALUR EKOSISTEM SSN & SATU DATA INDONESIA -->
+    <section id="diagram-ekosistem" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-xs font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Sinergi Perpres No. 39 Tahun 2019</span>
+            <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">
+                Arsitektur Tata Kelola Data dalam Ekosistem SSN & SDI
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm sm:text-base">
+                Bagaimana SSN bersinergi dengan <strong>Satu Data Indonesia (SDI)</strong> di tingkat Pusat maupun Daerah agar data dari berbagai instansi dapat saling terhubung (interoperabel) dan valid.
+            </p>
+        </div>
+
+        <!-- Diagram Alur Visual Interaktif -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-200 dark:border-slate-800 shadow-lg">
+            <div class="grid lg:grid-cols-4 gap-6 relative">
+                <!-- Tahap 1: Pembina Data -->
+                <div class="relative bg-gradient-to-b from-brand-50 to-white dark:from-brand-950/50 dark:to-slate-900 p-6 rounded-2xl border border-brand-200 dark:border-brand-800/70">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center font-extrabold text-lg mb-4 shadow-md">1</div>
+                    <div class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-wider mb-1">Pembina Data</div>
+                    <h3 class="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">BPS (Pusat & Daerah)</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                        Menetapkan <strong>Standar Data</strong> statistik, struktur baku <strong>Metadata</strong>, memberikan rekomendasi kegiatan statistik (Romantik), dan membina literasi statistik OPD.
+                    </p>
+                    <div class="p-2.5 rounded-lg bg-brand-100/60 dark:bg-brand-900/40 text-[11px] font-semibold text-brand-800 dark:text-brand-200">
+                        <i class="fa-solid fa-shield-halved mr-1"></i> Penjamin Kualitas Metodologi
+                    </div>
+                </div>
+
+                <!-- Tahap 2: Produsen Data -->
+                <div class="relative bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950/40 dark:to-slate-900 p-6 rounded-2xl border border-emerald-200 dark:border-emerald-800/70">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-extrabold text-lg mb-4 shadow-md">2</div>
+                    <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-1">Produsen Data</div>
+                    <h3 class="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">K/L & OPD Teknis</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                        Dinas Kesehatan, Dinas Pendidikan, Dinas Sosial, dll. menghasilkan data sektoral sesuai standar data & metadata yang ditetapkan Pembina Data.
+                    </p>
+                    <div class="p-2.5 rounded-lg bg-emerald-100/60 dark:bg-emerald-900/40 text-[11px] font-semibold text-emerald-800 dark:text-emerald-200">
+                        <i class="fa-solid fa-database mr-1"></i> Penghasil Data Sektoral
+                    </div>
+                </div>
+
+                <!-- Tahap 3: Walidata -->
+                <div class="relative bg-gradient-to-b from-purple-50 to-white dark:from-purple-950/40 dark:to-slate-900 p-6 rounded-2xl border border-purple-200 dark:border-purple-800/70">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-600 text-white flex items-center justify-center font-extrabold text-lg mb-4 shadow-md">3</div>
+                    <div class="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider mb-1">Walidata</div>
+                    <h3 class="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">Diskominfo Daerah / Pusdatin K/L</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                        Memeriksa kesesuaian data dari Produsen Data, mengelola portal <strong>Satu Data Daerah</strong>, dan menjamin keterbukaan serta interoperabilitas data.
+                    </p>
+                    <div class="p-2.5 rounded-lg bg-purple-100/60 dark:bg-purple-900/40 text-[11px] font-semibold text-purple-800 dark:text-purple-200">
+                        <i class="fa-solid fa-server mr-1"></i> Kurator & Pengelola Portal Data
+                    </div>
+                </div>
+
+                <!-- Tahap 4: Koordinator & Pengguna -->
+                <div class="relative bg-gradient-to-b from-amber-50 to-white dark:from-amber-950/40 dark:to-slate-900 p-6 rounded-2xl border border-amber-200 dark:border-amber-800/70">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-600 text-white flex items-center justify-center font-extrabold text-lg mb-4 shadow-md">4</div>
+                    <div class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-1">Koordinator & Kebijakan</div>
+                    <h3 class="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">Bappenas / Bappeda & Publik</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                        Mengkoordinasikan Forum Satu Data, memanfaatkan data valid untuk penyusunan RPJMD/RKPD, penganggaran tepat sasaran, dan akses publik terbuka.
+                    </p>
+                    <div class="p-2.5 rounded-lg bg-amber-100/60 dark:bg-amber-900/40 text-[11px] font-semibold text-amber-800 dark:text-amber-200">
+                        <i class="fa-solid fa-bullseye mr-1"></i> Evidence-Based Policy
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Prinsip Kunci Satu Data Indonesia -->
+            <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 text-center">
+                    4 Pilar Prinsip Wajib Satu Data Indonesia (SDI)
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+                    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+                        <i class="fa-solid fa-ruler-combined text-brand-500 mb-1.5 text-base"></i>
+                        <div class="font-bold text-xs sm:text-sm text-slate-800 dark:text-white">1. Satu Standar Data</div>
+                        <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Konsep, definisi & klasifikasi seragam</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+                        <i class="fa-solid fa-tags text-emerald-500 mb-1.5 text-base"></i>
+                        <div class="font-bold text-xs sm:text-sm text-slate-800 dark:text-white">2. Satu Metadata Baku</div>
+                        <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Informasi terstruktur menjelaskan isi data</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+                        <i class="fa-solid fa-network-wired text-purple-500 mb-1.5 text-base"></i>
+                        <div class="font-bold text-xs sm:text-sm text-slate-800 dark:text-white">3. Interoperabilitas</div>
+                        <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Format terbuka & mudah dibagi-pakaikan</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700">
+                        <i class="fa-solid fa-fingerprint text-amber-500 mb-1.5 text-base"></i>
+                        <div class="font-bold text-xs sm:text-sm text-slate-800 dark:text-white">4. Kode Referensi</div>
+                        <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">NIK, Kode Wilayah Kemendagri/BPS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 4: STUDI KASUS & SIMULATOR IMPLEMENTASI NYATA DI PEMERINTAH DAERAH -->
+    <section id="implementasi-pemda" class="py-16 sm:py-20 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-900 dark:to-slate-950 border-t border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                    Praktik Nyata di Lapangan
+                </span>
+                <h2 class="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white mt-3">
+                    Implementasi Nyata SSN di Pemerintah Daerah
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm sm:text-base">
+                    Bagaimana teori UU Statistik dan Satu Data Indonesia diterjemahkan menjadi program nyata oleh Bupati/Wali Kota/Gubernur bersama OPD dan BPS Daerah? Pilih skenario studi kasus di bawah ini!
+                </p>
+            </div>
+
+            <!-- Pemilih Skenario Studi Kasus Pemda -->
+            <div class="grid md:grid-cols-3 gap-4 mb-8">
+                <button onclick="selectCaseStudy(0)" id="case-btn-0" class="case-selector text-left p-5 rounded-2xl border-2 border-brand-600 bg-white dark:bg-slate-900 shadow-md transition">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-9 h-9 rounded-lg bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase text-rose-600 dark:text-rose-400">Studi Kasus 1</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-base text-slate-900 dark:text-white">Penanganan Kemiskinan Ekstrem & Stunting</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Integrasi Data Regsosek/DTSEN, Dinkes, Dinsos & Bappeda.</p>
+                </button>
+
+                <button onclick="selectCaseStudy(1)" id="case-btn-1" class="case-selector text-left p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60 hover:border-brand-400 transition">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase text-amber-600 dark:text-amber-400">Studi Kasus 2</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-base text-slate-900 dark:text-white">Pengendalian Inflasi Daerah & Ketahanan Pangan</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Kolaborasi TPID Pemda, Dinas Pertanian, Disperindag & BPS.</p>
+                </button>
+
+                <button onclick="selectCaseStudy(2)" id="case-btn-2" class="case-selector text-left p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60 hover:border-brand-400 transition">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase text-emerald-600 dark:text-emerald-400">Studi Kasus 3</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-base text-slate-900 dark:text-white">Program Desa Cantik (Cinta Statistik)</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Peningkatan kapasitas aparatur desa kelola profil & monografi desa.</p>
+                </button>
+            </div>
+
+            <!-- Panel Detail Simulator Studi Kasus Pemda -->
+            <div id="case-study-display" class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-xl">
+                <!-- Diisi dinamis oleh JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 5: KUIS INTERAKTIF UJI PEMAHAMAN SSN -->
+    <section id="kuis-interaktif" class="py-16 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gradient-to-br from-brand-900 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-10 shadow-2xl border border-brand-800/50 relative overflow-hidden">
+            <div class="absolute -right-16 -bottom-16 w-64 h-64 rounded-full bg-brand-500/20 blur-3xl pointer-events-none"></div>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6 mb-6">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-sky-400">Evaluasi Mandiri</span>
+                    <h2 class="font-heading text-2xl sm:text-3xl font-extrabold mt-1">Uji Pemahaman SSN & Satu Data</h2>
+                </div>
+                <div id="quiz-progress-badge" class="px-4 py-2 rounded-xl bg-white/10 text-sm font-bold text-sky-300 self-start sm:self-auto">
+                    Soal 1 dari 5
+                </div>
+            </div>
+
+            <div id="quiz-container" class="space-y-6">
+                <!-- Konten Kuis Dinamis -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <div>
+                    <div class="font-heading font-bold text-slate-900 dark:text-white text-sm">Portal Edukasi Sistem Statistik Nasional (SSN)</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400">Referensi: UU No. 16/1997, PP No. 51/1999, & Perpres No. 39/2019</div>
+                </div>
+            </div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 text-center md:text-right">
+                Disusun untuk penguatan literasi statistik ASN Pemerintah Daerah, Akademisi, dan Masyarakat Umum.<br>
+                <span class="text-brand-600 dark:text-brand-400 font-semibold">"Data Mencerdaskan Bangsa • Satu Data Indonesia"</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT UTAMA -->
+    <script>
+        // ==========================================
+        // 1. MANAJEMEN TEMA GELAP / TERANG (DARK MODE)
+        // ==========================================
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeLabel = document.getElementById('theme-label');
+        const htmlEl = document.documentElement;
+
+        function applyTheme(isDark) {
+            if (isDark) {
+                htmlEl.classList.add('dark');
+                themeIcon.className = 'fa-solid fa-sun text-sm';
+                themeLabel.textContent = 'Mode Terang';
+            } else {
+                htmlEl.classList.remove('dark');
+                themeIcon.className = 'fa-solid fa-moon text-sm';
+                themeLabel.textContent = 'Mode Gelap';
+            }
+        }
+
+        // Cek preferensi tersimpan atau preferensi sistem
+        const savedTheme = localStorage.getItem('ssn-theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(savedTheme === 'dark' || (!savedTheme && systemPrefersDark));
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isCurrentlyDark = htmlEl.classList.contains('dark');
+            const nextDark = !isCurrentlyDark;
+            applyTheme(nextDark);
+            localStorage.setItem('ssn-theme', nextDark ? 'dark' : 'light');
+        });
+
+        // ==========================================
+        // 2. HEADER SCROLL PROGRESS & MOBILE MENU
+        // ==========================================
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        // ==========================================
+        // 3. KONTEN DINAMIS 5W+1H
+        // ==========================================
+        const data5W1H = {
+            what: {
+                badge: "WHAT — APA ITU SISTEM STATISTIK NASIONAL?",
+                title: "Definisi, Visi, dan 6 Unsur Utama Pembentuk SSN",
+                intro: "Berdasarkan <strong>UU No. 16 Tahun 1997 tentang Statistik</strong> dan <strong>PP No. 51 Tahun 1999 tentang Penyelenggaraan Statistik</strong>, Sistem Statistik Nasional (SSN) adalah tatanan terpadu yang menghubungkan berbagai elemen penyelenggaraan statistik di Indonesia agar menghasilkan data yang akurat, mutakhir, terpadu, dan dapat dipertanggungjawabkan.",
+                highlights: [
+                    {
+                        icon: "fa-bullseye",
+                        color: "brand",
+                        title: "Visi & Tujuan SSN",
+                        desc: "Mewujudkan sistem perstatistikan yang andal, efektif, dan efisien guna mendukung perencanaan, pelaksanaan, pemantauan, dan evaluasi pembangunan nasional maupun daerah."
+                    },
+                    {
+                        icon: "fa-cubes",
+                        color: "emerald",
+                        title: "6 Unsur Utama dalam SSN",
+                        desc: "1) Kebutuhan data statistik; 2) Sumber daya (SDM & anggaran); 3) Metode/metodologi ilmiah; 4) Sarana & prasarana; 5) Ilmu pengetahuan & teknologi (IPTEK); serta 6) Perangkat hukum & masukan Forum Masyarakat Statistik (FMS)."
+                    },
+                    {
+                        icon: "fa-scale-balanced",
+                        color: "amber",
+                        title: "Asas Penyelenggaraan",
+                        desc: "Menjunjung tinggi asas keterpaduan, keakuratan, kemutakhiran, objektivitas, serta <strong>kerahasiaan data individu responden</strong> (pasal 21 UU No. 16/1997: identitas responden dilindungi undang-undang)."
+                    }
+                ],
+                extraBox: {
+                    title: "Mengapa Disebut 'Sistem'?",
+                    text: "Karena data statistik tidak boleh diproduksi secara ego-sektoral. Data kependudukan, kemiskinan, kesehatan, pendidikan, dan ekonomi saling berkaitan. Tanpa sistem yang baku, satu indikator (misalnya jumlah penduduk miskin) bisa memiliki versi angka yang berbeda-beda antar-instansi."
+                }
+            },
+            who: {
+                badge: "WHO — SIAPA SAJA AKTOR YANG TERLIBAT?",
+                title: "Pembagian Peran Strategis Lintas Instansi & Masyarakat",
+                intro: "Penyelenggaraan SSN melibatkan kolaborasi multipihak dari tingkat pusat hingga desa. Dengan hadirnya <strong>Perpres No. 39 Tahun 2019 tentang Satu Data Indonesia (SDI)</strong>, peran tiap aktor dipertegas agar tidak tumpang tindih.",
+                highlights: [
+                    {
+                        icon: "fa-landmark",
+                        color: "brand",
+                        title: "1. Badan Pusat Statistik (BPS)",
+                        desc: "Penyelenggara <strong>Statistik Dasar</strong> sekaligus bertindak sebagai <strong>Pembina Data Statistik</strong> di tingkat Nasional, Provinsi, dan Kabupaten/Kota. BPS menetapkan standar data, metadata, dan membina K/L/OPD."
+                    },
+                    {
+                        icon: "fa-building-columns",
+                        color: "emerald",
+                        title: "2. K/L & Perangkat Daerah (OPD)",
+                        desc: "Bertindak sebagai <strong>Produsen Data</strong> untuk <strong>Statistik Sektoral</strong>. Di Pemda, <strong>Diskominfo</strong> berperan sebagai <strong>Walidata</strong> (pengelola portal data & pemeriksa kesesuaian), sedangkan <strong>Bappeda</strong> sebagai Koordinator Forum Satu Data."
+                    },
+                    {
+                        icon: "fa-users",
+                        color: "purple",
+                        title: "3. Forum Masyarakat Statistik (FMS) & Publik",
+                        desc: "<strong>FMS</strong> adalah wadah independen beranggotakan pakar, akademisi, dan tokoh masyarakat yang memberi saran kepada BPS/Pemerintah. Masyarakat luas juga berperan ganda sebagai <strong>Responden</strong> (wajib memberi keterangan jujur) dan <strong>Pengguna Data</strong>."
+                    }
+                ],
+                extraBox: {
+                    title: "Sinergi Kunci di Pemerintah Daerah (Pemda)",
+                    text: "Di setiap Kabupaten/Kota dan Provinsi, empat pilar utama SSN/SDI harus duduk bersama dalam Forum Satu Data Daerah: (1) Bappeda (Koordinator), (2) Diskominfo (Walidata), (3) Dinas Teknis/OPD (Produsen Data), dan (4) BPS Kabupaten/Kota (Pembina Data)."
+                }
+            },
+            when: {
+                badge: "WHEN — KAPAN SSN DIJALANKAN & SIKLUSNYA?",
+                title: "Tonggak Sejarah Regulasi & Siklus Periodik Pengumpulan Data",
+                intro: "SSN berjalan secara berkesinambungan (terus-menerus) mengikuti siklus perencanaan pembangunan nasional dan daerah, baik dalam rentang 10 tahunan, tahunan, triwulanan, bulanan, maupun harian.",
+                highlights: [
+                    {
+                        icon: "fa-clock-rotate-left",
+                        color: "brand",
+                        title: "Tonggak Regulasi Utama",
+                        desc: "<strong>1997:</strong> Lahirnya UU No. 16/1997 tentang Statistik. <strong>1999:</strong> PP No. 51/1999 tentang Penyelenggaraan Statistik. <strong>2019:</strong> Perpres No. 39/2019 tentang Satu Data Indonesia yang memperkuat tata kelola interoperabilitas data."
+                    },
+                    {
+                        icon: "fa-calendar-days",
+                        color: "emerald",
+                        title: "Siklus Multi-Tahunan (Sensus 10 Tahunan)",
+                        desc: "Dilaksanakan BPS berakhiran angka tertentu: <strong>Sensus Penduduk</strong> (tahun berakhiran 0, misal 2020, 2030), <strong>Sensus Pertanian</strong> (berakhiran 3, misal 2023), dan <strong>Sensus Ekonomi</strong> (berakhiran 6, misal 2026)."
+                    },
+                    {
+                        icon: "fa-arrows-spin",
+                        color: "amber",
+                        title: "Siklus Rutin (Bulanan, Triwulanan, Tahunan)",
+                        desc: "<strong>Bulanan:</strong> Survei Harga Konsumen (Inflasi), Nilai Tukar Petani (NTP), Ekspor-Impor. <strong>Triwulanan:</strong> Pertumbuhan Ekonomi (PDRB). <strong>Tahunan & Harian:</strong> Susenas, Sakernas, serta Kompilasi Produk Administrasi (Kompromin) layanan OPD setiap hari."
+                    }
+                ],
+                extraBox: {
+                    title: "Kapan OPD Wajib Berkoordinasi dengan BPS?",
+                    text: "Sebelum OPD melakukan survei statistik sektoral baru (atau sebelum penganggaran DPA berjalan), OPD wajib mengajukan pemberitahuan rancangan kegiatan statistik ke BPS melalui sistem <strong>Romantik (Rekomendasi Kegiatan Statistik)</strong> agar metodologinya valid dan tidak duplikatif."
+                }
+            },
+            where: {
+                badge: "WHERE — DI MANA SSN DITERAPKAN?",
+                title: "Cakupan Hierarki Wilayah dari Pusat hingga Tingkat Desa",
+                intro: "Sistem Statistik Nasional diterapkan di seluruh wilayah hukum Negara Kesatuan Republik Indonesia (NKRI) secara berjenjang dan terintegrasi dari level makro nasional hingga unit administrasi terkecil di tingkat desa/kelurahan.",
+                highlights: [
+                    {
+                        icon: "fa-map-location-dot",
+                        color: "brand",
+                        title: "Tingkat Pusat & Provinsi",
+                        desc: "BPS Pusat dan Kementerian/Lembaga menyusun indikator makro nasional. Di tingkat Provinsi, BPS Provinsi bersama Gubernur, Bappeda, Diskominfo, dan OPD Provinsi mengintegrasikan data lintas kabupaten/kota."
+                    },
+                    {
+                        icon: "fa-city",
+                        color: "emerald",
+                        title: "Tingkat Kabupaten/Kota & Kecamatan",
+                        desc: "BPS Kabupaten/Kota bersama Pemkab/Pemkot dan Koordinator Statistik Kecamatan (KSK) menjadi ujung tombak pengumpulan data lapangan serta penyusunan publikasi <em>Kabupaten/Kota dalam Angka</em> dan <em>Kecamatan dalam Angka</em>."
+                    },
+                    {
+                        icon: "fa-house-chimney-window",
+                        color: "amber",
+                        title: "Tingkat Desa/Kelurahan (Desa Cantik)",
+                        desc: "Melalui program <strong>Desa Cantik (Desa Cinta Statistik)</strong> dan Pendataan Potensi Desa (Podes), SSN menyentuh langsung aparat desa agar mampu mengelola data profil desa, penerima bansos, dan potensi ekonomi lokal secara mandiri."
+                    }
+                ],
+                extraBox: {
+                    title: "Integrasi Spasial & Kode Wilayah Baku",
+                    text: "Seluruh data dalam SSN menggunakan Kode Wilayah Administrasi Pemerintahan yang standar (Provinsi, Kab/Kota, Kecamatan, Desa/Kelurahan) sehingga data statistik dapat dipetakan secara geospasial (GIS) untuk melihat kantong-kantong kemiskinan atau wilayah rawan pangan secara presisi."
+                }
+            },
+            why: {
+                badge: "WHY — MENGAPA SSN SANGAT PENTING?",
+                title: "Urgensi SSN bagi Efisiensi Anggaran & Kebijakan Tepat Sasaran",
+                intro: "Tanpa Sistem Statistik Nasional yang kuat, negara dan pemerintah daerah berisiko mengambil keputusan berdasarkan asumsi ('kira-kira'), memboroskan APBN/APBD, dan salah menyalurkan bantuan kepada masyarakat.",
+                highlights: [
+                    {
+                        icon: "fa-ban",
+                        color: "rose",
+                        title: "1. Mencegah Duplikasi Survei & Pemborosan Anggaran",
+                        desc: "Tanpa koordinasi SSN, Dinas A, Dinas B, dan Kementerian C bisa melakukan survei serupa di desa yang sama dengan pertanyaan berbeda. SSN menghemat anggaran negara melalui mekanisme rekomendasi dan berbagi pakai data."
+                    },
+                    {
+                        icon: "fa-check-double",
+                        color: "brand",
+                        title: "2. Menjamin Kualitas & Keterbandingan Data",
+                        desc: "Dengan standar konsep dan definisi yang sama, angka kemiskinan atau pengangguran di Jawa Barat dapat dibandingkan secara adil (apple-to-apple) dengan Jawa Timur maupun tahun-tahun sebelumnya."
+                    },
+                    {
+                        icon: "fa-lightbulb",
+                        color: "emerald",
+                        title: "3. Mewujudkan Evidence-Based Policy",
+                        desc: "Kepala Daerah dapat merancang kebijakan berbasis bukti nyata (<em>data-driven</em>). Misalnya: membangun puskesmas baru di kecamatan yang rasio tenaga medis dan angka kesakitannya paling tinggi berdasarkan data valid."
+                    }
+                ],
+                extraBox: {
+                    title: "Dampak Langsung bagi Masyarakat",
+                    text: "Ketika data terpadu dan valid, subsidi pupuk tepat jatuh ke petani yang berhak, bantuan sosial tepat diterima keluarga miskin ekstrem, dan stabilitas harga beras di pasar terjaga karena stok pangan terpantau akurat."
+                }
+            },
+            how: {
+                badge: "HOW — BAGAIMANA MEKANISME & PROSES BISNIS SSN BERJALAN?",
+                title: "Tahapan Penyelenggaraan Statistik: Dari Perencanaan hingga Publikasi",
+                intro: "Bagaimana sebuah data statistik diproduksi secara sah, ilmiah, dan diakui dalam ekosistem Satu Data Indonesia? Berikut adalah alur proses bisnis penyelenggaraan statistik (khususnya Statistik Sektoral di K/L/Pemda):",
+                highlights: [
+                    {
+                        icon: "fa-file-signature",
+                        color: "brand",
+                        title: "Tahap 1: Perencanaan & Rekomendasi (Romantik)",
+                        desc: "Instansi penyelenggara (OPD) merancang kegiatan statistik (survei atau kompromin), lalu mengajukan pemberitahuan rancangan ke BPS melalui aplikasi <strong>Romantik</strong>. BPS menelaah metodologi dan menerbitkan Surat Rekomendasi."
+                    },
+                    {
+                        icon: "fa-clipboard-list",
+                        color: "emerald",
+                        title: "Tahap 2: Pengumpulan & Pengolahan Data",
+                        desc: "Data dikumpulkan menggunakan 3 cara utama: <strong>1) Sensus</strong> (pencacahan lengkap), <strong>2) Survei</strong> (pencacahan sampel representatif), atau <strong>3) Kompromin</strong> (Kompilasi Produk Administrasi dari catatan layanan harian OPD seperti data dukcapil/puskesmas)."
+                    },
+                    {
+                        icon: "fa-share-nodes",
+                        color: "purple",
+                        title: "Tahap 3: Pemeriksaan Walidata & Diseminasi Terbuka",
+                        desc: "OPD menyerahkan data beserta <strong>Metadata</strong> standar ke <strong>Walidata (Diskominfo)</strong>. Setelah diverifikasi kesesuaian standarnya, data dipublikasikan melalui Portal Satu Data Daerah/Nasional dalam format terbuka (CSV/JSON/API) agar bisa dimanfaatkan publik."
+                    }
+                ],
+                extraBox: {
+                    title: "Mengenal Kompromin (Kompilasi Produk Administrasi)",
+                    text: "Banyak Pemda mengira membuat statistik harus selalu turun survei mahal. Padahal, 80% statistik sektoral Pemda bersumber dari <strong>Kompromin</strong>—yakni mengolah catatan administrasi rutin yang sudah ada di Dinas (seperti data izin usaha OSS, data pasien puskesmas, data siswa sekolah) menjadi tabel statistik yang terstandar!"
+                }
+            }
+        };
+
+        function switch5W1H(key) {
+            // Update tampilan tombol tab
+            document.querySelectorAll('.tab-5w1h').forEach(btn => {
+                btn.className = "tab-5w1h px-4 sm:px-5 py-3 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-400";
+                const badge = btn.querySelector('span');
+                if (badge) badge.className = "px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs";
+            });
+
+            const activeBtn = document.getElementById('tab-' + key);
+            if (activeBtn) {
+                activeBtn.className = "tab-5w1h px-4 sm:px-5 py-3 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-brand-600 text-white shadow-md shadow-brand-600/20";
+                const badge = activeBtn.querySelector('span');
+                if (badge) badge.className = "px-2 py-0.5 rounded bg-white/20 text-xs";
+            }
+
+            // Render konten
+            const item = data5W1H[key];
+            const container = document.getElementById('content-5w1h');
+            
+            const colorMap = {
+                brand: "bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 border-brand-200 dark:border-brand-800",
+                emerald: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800",
+                amber: "bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800",
+                purple: "bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-800",
+                rose: "bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800"
+            };
+
+            const cardsHtml = item.highlights.map(h => `
+                <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/70 space-y-3">
+                    <div class="w-11 h-11 rounded-xl border flex items-center justify-center ${colorMap[h.color] || colorMap.brand}">
+                        <i class="fa-solid ${h.icon} text-lg"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-base sm:text-lg text-slate-900 dark:text-white">${h.title}</h4>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${h.desc}</p>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="fade-in space-y-6">
+                    <div>
+                        <span class="inline-block px-3 py-1 rounded-lg bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 text-xs font-extrabold tracking-wide mb-2">
+                            ${item.badge}
+                        </span>
+                        <h3 class="font-heading text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white">
+                            ${item.title}
+                        </h3>
+                        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
+                            ${item.intro}
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-5">
+                        ${cardsHtml}
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-gradient-to-r from-brand-50 to-sky-50 dark:from-brand-950/50 dark:to-slate-800/80 border border-brand-200/80 dark:border-brand-800/60 flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-heading font-bold text-sm sm:text-base text-slate-900 dark:text-white">${item.extraBox.title}</h5>
+                            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 mt-1 leading-relaxed">${item.extraBox.text}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Inisialisasi tab default ('what')
+        switch5W1H('what');
+
+        // ==========================================
+        // 4. FILTER & PENCARIAN 3 JENIS STATISTIK
+        // ==========================================
+        const searchStatInput = document.getElementById('search-stat-input');
+        const filterStatType = document.getElementById('filter-stat-type');
+        const statCards = document.querySelectorAll('.stat-card');
+
+        function filterStatCards() {
+            const query = searchStatInput.value.toLowerCase().trim();
+            const selectedType = filterStatType.value;
+
+            statCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const textContent = card.textContent.toLowerCase();
+                
+                const matchesType = selectedType === 'all' || category === selectedType;
+                const matchesSearch = query === '' || textContent.includes(query);
+
+                if (matchesType && matchesSearch) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        searchStatInput.addEventListener('input', filterStatCards);
+        filterStatType.addEventListener('change', filterStatCards);
+
+        // ==========================================
+        // 5. SIMULATOR STUDI KASUS IMPLEMENTASI PEMDA
+        // ==========================================
+        const pemdaCaseStudies = [
+            {
+                tag: "Studi Kasus 1 • Prioritas Nasional & Daerah",
+                title: "Percepatan Penghapusan Kemiskinan Ekstrem & Penurunan Stunting",
+                problem: "Pemerintah Kabupaten/Kota sering menghadapi masalah bantuan sosial tidak tepat sasaran atau intervensi gizi stunting yang tumpang tindih karena Dinas Sosial, Dinas Kesehatan, dan Kecamatan memiliki daftar nama warga yang berbeda-beda.",
+                workflow: [
+                    {
+                        role: "Pembina Data (BPS Kabupaten/Kota)",
+                        action: "Menyediakan data makro tingkat kemiskinan (Susenas), konsep/definisi rumah tangga miskin, serta pendampingan pemutakhiran Data Tunggal Sosial Ekonomi Nasional (DTSEN / Regsosek).",
+                        icon: "fa-landmark",
+                        color: "brand"
+                    },
+                    {
+                        role: "Produsen Data (Dinsos, Dinkes & Disdukcapil)",
+                        action: "Dinkes melakukan Kompromin pengukuran balita di Posyandu (e-PPGBM). Dinsos memverifikasi kondisi sosial ekonomi warga. Disdukcapil memadankan NIK sebagai kode referensi tunggal.",
+                        icon: "fa-hospital-user",
+                        color: "emerald"
+                    },
+                    {
+                        role: "Walidata (Diskominfo Daerah)",
+                        action: "Memeriksa kelengkapan metadata, menyatukan dataset Dinkes & Dinsos dalam Portal Satu Data Kabupaten/Kota dengan hak akses terkendali (menjaga kerahasiaan data individu).",
+                        icon: "fa-server",
+                        color: "purple"
+                    },
+                    {
+                        role: "Kebijakan Kepala Daerah & Bappeda",
+                        action: "Bupati/Wali Kota menerbitkan SK Penetapan Sasaran By Name By Address (BNBA). Anggaran APBD diarahkan presisi: Dinas PUPR membangun sanitasi/air bersih di desa lokus stunting, Dinsos menyalurkan BPNT, dan Dinkes memberi PMT.",
+                        icon: "fa-award",
+                        color: "amber"
+                    }
+                ],
+                impact: "Hasil Nyata: Intervensi konvergen menyasar keluarga yang sama secara serentak, menekan prevalensi stunting secara signifikan dan mencegah kebocoran anggaran bansos."
+            },
+            {
+                tag: "Studi Kasus 2 • Stabilitas Ekonomi Daerah",
+                title: "Pengendalian Inflasi Daerah & Ketahanan Pangan oleh TPID",
+                problem: "Lonjakan harga komoditas pangan (beras, cabai merah, bawang merah, telur ayam) menjelang hari besar keagamaan memicu inflasi daerah yang menggerus daya beli masyarakat.",
+                workflow: [
+                    {
+                        role: "Pembina Data (BPS Kabupaten/Kota)",
+                        action: "Merilis angka Inflasi bulanan dan Indeks Perkembangan Harga (IPH) mingguan berdasarkan Survei Harga Konsumen di pasar tradisional & modern sesuai standar metodologi nasional.",
+                        icon: "fa-chart-line",
+                        color: "brand"
+                    },
+                    {
+                        role: "Produsen Data (Dinas Pertanian & Disperindag)",
+                        action: "Dinas Pertanian mengompilasi data luas tanam, estimasi panen, dan neraca pangan. Disperindag mencatat harga harian komoditas di pasar daerah dan stok distributor.",
+                        icon: "fa-wheat-awn",
+                        color: "emerald"
+                    },
+                    {
+                        role: "Walidata (Diskominfo Daerah)",
+                        action: "Mengintegrasikan dashboard harga harian pasar dan neraca stok pangan ke dalam Sistem Informasi Pangan Daerah yang interoperabel dan mudah diakses publik.",
+                        icon: "fa-server",
+                        color: "purple"
+                    },
+                    {
+                        role: "Kebijakan Kepala Daerah & TPID",
+                        action: "Tim Pengendalian Inflasi Daerah (TPID) segera menggelar Operasi Pasar Murah di kecamatan dengan lonjakan harga tertinggi, serta menjalin Kerjasama Antar Daerah (KAD) dengan daerah surplus panen.",
+                        icon: "fa-handshake",
+                        color: "amber"
+                    }
+                ],
+                impact: "Hasil Nyata: Gejolak harga dapat diredam dalam hitungan hari sebelum memicu inflasi tinggi, sekaligus melindungi pendapatan petani lokal."
+            },
+            {
+                tag: "Studi Kasus 3 • Pemberdayaan Desa",
+                title: "Program Desa Cantik (Desa Cinta Statistik)",
+                problem: "Desa merupakan ujung tombak pembangunan, namun perangkat desa sering kesulitan menyusun monografi desa yang akurat, dan setiap dinas meminta data ke desa dengan format berulang-ulang.",
+                workflow: [
+                    {
+                        role: "Pembina Data (BPS Kabupaten/Kota)",
+                        action: "Menugaskan statistisi pembina untuk melatih perangkat desa dan agen statistik desa tentang cara mendesain kuesioner sederhana, pembersihan data, dan penyajian infografis desa.",
+                        icon: "fa-chalkboard-user",
+                        color: "brand"
+                    },
+                    {
+                        role: "Produsen Data (Pemerintah Desa & Kader)",
+                        action: "Aparatur desa memutakhirkan data profil penduduk, UMKM desa, kepemilikan jamban, dan potensi wisata desa secara terstandar melalui aplikasi/sistem informasi desa.",
+                        icon: "fa-house-user",
+                        color: "emerald"
+                    },
+                    {
+                        role: "Walidata (Diskominfo & Dinas PMD)",
+                        action: "Diskominfo dan Dinas Pemberdayaan Masyarakat Desa (PMD) menyediakan standar metadata desa agar data dari ratusan desa dapat teragregasi otomatis di tingkat kabupaten.",
+                        icon: "fa-server",
+                        color: "purple"
+                    },
+                    {
+                        role: "Kebijakan Kepala Desa & Pemda",
+                        action: "Musyawarah Desa (Musdes) menggunakan data Desa Cantik untuk menyusun APBDes yang tepat sasaran (misal: pelatihan UMKM pemuda desa atau perbaikan jalan usaha tani).",
+                        icon: "fa-award",
+                        color: "amber"
+                    }
+                ],
+                impact: "Hasil Nyata: Desa bertransformasi dari sekadar objek pendataan menjadi subjek pengelola data mandiri yang berkualitas."
+            }
+        ];
+
+        function selectCaseStudy(index) {
+            // Update gaya tombol pemilih
+            document.querySelectorAll('.case-selector').forEach((btn, idx) => {
+                if (idx === index) {
+                    btn.className = "case-selector text-left p-5 rounded-2xl border-2 border-brand-600 bg-white dark:bg-slate-900 shadow-md transition";
+                } else {
+                    btn.className = "case-selector text-left p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60 hover:border-brand-400 transition";
+                }
+            });
+
+            const study = pemdaCaseStudies[index];
+            const display = document.getElementById('case-study-display');
+
+            const badgeColors = {
+                brand: "bg-brand-600 text-white",
+                emerald: "bg-emerald-600 text-white",
+                purple: "bg-purple-600 text-white",
+                amber: "bg-amber-600 text-white"
+            };
+
+            const stepsHtml = study.workflow.map((step, i) => `
+                <div class="relative p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-extrabold ${badgeColors[step.color]}">Langkah ${i + 1}</span>
+                            <i class="fa-solid ${step.icon} text-slate-400 dark:text-slate-500 text-lg"></i>
+                        </div>
+                        <h4 class="font-heading font-bold text-sm sm:text-base text-slate-900 dark:text-white mb-2">${step.role}</h4>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${step.action}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            display.innerHTML = `
+                <div class="fade-in space-y-6">
+                    <div class="border-b border-slate-100 dark:border-slate-800 pb-5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">${study.tag}</span>
+                        <h3 class="font-heading text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">${study.title}</h3>
+                        <div class="mt-3 p-4 rounded-xl bg-rose-50/80 dark:bg-rose-950/30 border border-rose-200/70 dark:border-rose-900/50 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+                            <strong class="text-rose-700 dark:text-rose-400"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Tantangan di Lapangan:</strong> ${study.problem}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4">
+                            Alur Kolaborasi Lintas Aktor SSN & Satu Data Daerah:
+                        </div>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            ${stepsHtml}
+                        </div>
+                    </div>
+
+                    <div class="p-4 sm:p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-3 text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm font-semibold">
+                        <i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 text-xl shrink-0"></i>
+                        <span>${study.impact}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Inisialisasi studi kasus pertama
+        selectCaseStudy(0);
+
+        // ==========================================
+        // 6. KUIS INTERAKTIF UJI PEMAHAMAN SSN
+        // ==========================================
+        const quizQuestions = [
+            {
+                q: "Menurut UU No. 16 Tahun 1997, statistik yang pemanfaatannya ditujukan untuk memenuhi kebutuhan instansi tertentu dalam rangka tugas pemerintahan yang menjadi tugas pokoknya (seperti data stunting Dinas Kesehatan) disebut...",
+                options: [
+                    "Statistik Dasar",
+                    "Statistik Sektoral",
+                    "Statistik Khusus",
+                    "Statistik Makro Nasional"
+                ],
+                correct: 1,
+                explanation: "Tepat! Statistik Sektoral diselenggarakan oleh Kementerian/Lembaga atau Perangkat Daerah (OPD) sesuai tugas dan fungsinya."
+            },
+            {
+                q: "Dalam ekosistem Satu Data Indonesia (Perpres No. 39 Tahun 2019) di tingkat Pemerintah Daerah, siapakah yang berperan sebagai WALIDATA?",
+                options: [
+                    "Badan Pusat Statistik (BPS) Kabupaten/Kota",
+                    "Dinas Komunikasi dan Informatika (Diskominfo)",
+                    "Badan Perencanaan Pembangunan Daerah (Bappeda)",
+                    "Dinas Kependudukan dan Pencatatan Sipil (Disdukcapil)"
+                ],
+                correct: 1,
+                explanation: "Benar! Diskominfo bertugas sebagai Walidata yang memeriksa kesesuaian data dari Produsen Data (OPD) dan mengelola portal Satu Data Daerah. BPS adalah Pembina Data, sedangkan Bappeda adalah Koordinator Forum Satu Data."
+            },
+            {
+                q: "Sebelum Dinas/OPD melaksanakan kegiatan survei statistik sektoral, instansi tersebut wajib mengajukan pemberitahuan rancangan kegiatan ke BPS untuk mendapatkan rekomendasi melalui sistem...",
+                options: [
+                    "e-Budgeting",
+                    "Romantik (Rekomendasi Kegiatan Statistik)",
+                    "Sensus Ekonomi",
+                    "Forum Masyarakat Statistik"
+                ],
+                correct: 1,
+                explanation: "Tepat sekali! Melalui aplikasi Romantik BPS, metodologi dan kuesioner OPD ditelaah agar memenuhi standar statistik dan mencegah duplikasi survei."
+            },
+            {
+                q: "Pengumpulan data statistik sektoral dengan cara mengolah catatan layanan administrasi yang sudah dimiliki sehari-hari oleh OPD (misalnya data izin usaha, data siswa sekolah, atau data pasien puskesmas) disebut...",
+                options: [
+                    "Sensus Lengkap",
+                    "Survei Sampel Acak",
+                    "Kompromin (Kompilasi Produk Administrasi)",
+                    "Quick Count"
+                ],
+                correct: 2,
+                explanation: "Benar! Kompromin (Kompilasi Produk Administrasi) sangat efisien karena memanfaatkan catatan administrasi rutin instansi tanpa harus melakukan survei lapangan dari nol."
+            },
+            {
+                q: "Bagaimana perlindungan hukum terhadap kerahasiaan data individu responden yang dikumpulkan oleh penyelenggara statistik menurut UU No. 16 Tahun 1997?",
+                options: [
+                    "Boleh dipublikasikan beserta nama dan alamat lengkapnya ke media",
+                    "Wajib dijamin kerahasiaannya oleh penyelenggara statistik dan dilindungi undang-undang",
+                    "Dapat dijual kepada perusahaan swasta untuk pemasaran",
+                    "Hanya dirahasiakan jika responden membayar biaya administrasi"
+                ],
+                correct: 1,
+                explanation: "Sangat tepat! Pasal 21 UU No. 16 Tahun 1997 mewajibkan penyelenggara statistik menjamin kerahasiaan keterangan individu responden sehingga data hanya disajikan dalam bentuk agregat statistik."
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+        let userScore = 0;
+        let answeredCurrent = false;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            const badge = document.getElementById('quiz-progress-badge');
+
+            if (currentQuestionIdx >= quizQuestions.length) {
+                badge.textContent = "Selesai!";
+                const percentage = Math.round((userScore / quizQuestions.length) * 100);
+                let predicate = "Terus Tingkatkan Literasi Statistik!";
+                if (percentage === 100) predicate = "Luar Biasa! Anda Pakar Ekosistem SSN & Satu Data!";
+                else if (percentage >= 80) predicate = "Sangat Baik! Pemahaman Anda Sangat Kuat!";
+                else if (percentage >= 60) predicate = "Cukup Baik! Anda Memahami Konsep Dasar SSN.";
+
+                container.innerHTML = `
+                    <div class="text-center py-6 space-y-5 fade-in">
+                        <div class="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-400 text-emerald-300 flex items-center justify-center mx-auto text-3xl font-extrabold">
+                            ${percentage}%
+                        </div>
+                        <div>
+                            <h3 class="font-heading text-2xl font-extrabold text-white">${predicate}</h3>
+                            <p class="text-slate-300 text-sm mt-2">Anda menjawab benar <strong>${userScore}</strong> dari <strong>${quizQuestions.length}</strong> pertanyaan.</p>
+                        </div>
+                        <button onclick="restartQuiz()" class="px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-sm transition inline-flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-right"></i> Ulangi Kuis
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const qObj = quizQuestions[currentQuestionIdx];
+            badge.textContent = `Soal ${currentQuestionIdx + 1} dari ${quizQuestions.length}`;
+            answeredCurrent = false;
+
+            const optionsHtml = qObj.options.map((opt, idx) => `
+                <button onclick="selectAnswer(${idx})" id="opt-btn-${idx}" class="quiz-opt-btn w-full text-left p-4 rounded-xl bg-white/5 hover:bg-white/15 border border-white/15 transition flex items-center gap-3 text-sm sm:text-base">
+                    <span class="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center font-bold text-xs shrink-0">${String.fromCharCode(65 + idx)}</span>
+                    <span>${opt}</span>
+                </button>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="space-y-5 fade-in">
+                    <p class="text-base sm:text-lg font-semibold leading-relaxed text-slate-100">${qObj.q}</p>
+                    <div class="space-y-3">
+                        ${optionsHtml}
+                    </div>
+                    <div id="quiz-feedback" class="hidden p-4 rounded-xl text-sm leading-relaxed"></div>
+                    <div class="flex justify-end pt-2">
+                        <button id="next-quiz-btn" onclick="nextQuestion()" class="hidden px-6 py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-sm transition items-center gap-2">
+                            ${currentQuestionIdx === quizQuestions.length - 1 ? 'Lihat Hasil Akhir' : 'Soal Berikutnya'} <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectAnswer(selectedIndex) {
+            if (answeredCurrent) return;
+            answeredCurrent = true;
+
+            const qObj = quizQuestions[currentQuestionIdx];
+            const isCorrect = selectedIndex === qObj.correct;
+            if (isCorrect) userScore++;
+
+            // Tandai jawaban benar dan salah
+            document.querySelectorAll('.quiz-opt-btn').forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === qObj.correct) {
+                    btn.className = "quiz-opt-btn w-full text-left p-4 rounded-xl bg-emerald-500/25 border-2 border-emerald-400 text-white flex items-center gap-3 text-sm sm:text-base font-semibold";
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.className = "quiz-opt-btn w-full text-left p-4 rounded-xl bg-rose-500/25 border-2 border-rose-400 text-rose-200 flex items-center gap-3 text-sm sm:text-base";
+                } else {
+                    btn.className = "quiz-opt-btn w-full text-left p-4 rounded-xl bg-white/5 border border-white/10 opacity-50 flex items-center gap-3 text-sm sm:text-base";
+                }
+            });
+
+            const feedbackEl = document.getElementById('quiz-feedback');
+            feedbackEl.classList.remove('hidden');
+            if (isCorrect) {
+                feedbackEl.className = "p-4 rounded-xl bg-emerald-950/80 border border-emerald-500/50 text-emerald-200 text-sm leading-relaxed fade-in";
+                feedbackEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> <strong>Jawaban Benar!</strong> ${qObj.explanation}`;
+            } else {
+                feedbackEl.className = "p-4 rounded-xl bg-rose-950/80 border border-rose-500/50 text-rose-200 text-sm leading-relaxed fade-in";
+                feedbackEl.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 mr-1.5"></i> <strong>Kurang Tepat.</strong> ${qObj.explanation}`;
+            }
+
+            const nextBtn = document.getElementById('next-quiz-btn');
+            nextBtn.classList.remove('hidden');
+            nextBtn.classList.add('inline-flex');
+        }
+
+        function nextQuestion() {
+            currentQuestionIdx++;
+            renderQuiz();
+        }
+
+        function restartQuiz() {
+            currentQuestionIdx = 0;
+            userScore = 0;
+            renderQuiz();
+        }
+
+        // Render kuis pertama kali
+        renderQuiz();
+    </script>
+</body>
+</html>
