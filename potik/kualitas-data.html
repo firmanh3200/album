@@ -3,473 +3,583 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kualitas Data (5W+1H) & Implementasi Pemerintah Daerah</title>
-    <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Panduan Kualitas Data (5W+1H) & Implementasi Pemerintah Daerah</title>
+
     <!-- Google Fonts: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- Lucide Icons via CDN -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
+
+    <!-- Tailwind CSS CDN & Konfigurasi -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Konfigurasi Tailwind untuk dukungan Dark Mode berbasis class dan font kustom
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    colors: {
-                        gov: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
-                            900: '#1e3a8a',
-                        },
-                        emerald: {
-                            500: '#10b981',
-                            600: '#059669',
-                        }
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
                     }
                 }
             }
-        }
+        };
     </script>
 
+    <!-- Inisialisasi Tema Awal Sebelum Render untuk Mencegah Kedipan (FOUC) -->
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('pemda_data_theme');
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+    <!-- Custom CSS & Fallback Lengkap agar Layout Tetap Presisi dalam Segala Kondisi -->
     <style>
-        /* Kustomisasi scrollbar halus dan efek glassmorphism */
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-subtle: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-color: #e2e8f0;
+            --accent-blue: #1d4ed8;
+            --accent-blue-light: #eff6ff;
+            --accent-emerald: #059669;
+            --accent-rose: #e11d48;
+        }
+
+        html.dark {
+            --bg-primary: #020617;
+            --bg-surface: #0f172a;
+            --bg-subtle: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-color: #1e293b;
+            --accent-blue: #3b82f6;
+            --accent-blue-light: rgba(30, 58, 138, 0.35);
+            --accent-emerald: #10b981;
+            --accent-rose: #fb7185;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.25s ease, color 0.25s ease;
+            overflow-x: hidden;
         }
+
         h1, h2, h3, h4, .font-display {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
         }
-        .glass-header {
+
+        /* Sticky Header Glassmorphism */
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.25s ease, border-color 0.25s ease;
         }
+
+        html.dark .sticky-nav {
+            background-color: rgba(15, 23, 42, 0.88);
+        }
+
+        /* Active Tab Styling */
         .tab-active {
-            background: linear-gradient(135deg, #1d4ed8 0%, #059669 100%);
-            color: white;
-            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.25);
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px -2px rgba(37, 99, 235, 0.4);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        html.dark .tab-active {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%) !important;
+            color: #ffffff !important;
         }
+
+        /* Smooth Fade Animation */
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .animate-fade-in {
-            animation: fadeIn 0.35s ease-out forwards;
+            animation: fadeInSlide 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Custom Scrollbar untuk Tabel & Tab */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 9999px;
+        }
+        html.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+
+        /* Fallback Structural Styles jika CDN Lambat */
+        .container-fallback {
+            width: 100%;
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .card-surface {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
         }
     </style>
-
-    <!-- Inisialisasi Tema Sebelum Render untuk Mencegah Kedipan (FOUC) -->
-    <script>
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
 </head>
-<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
 
     <!-- =====================================================================
-         1. STICKY HEADER & NAVIGASI UTAMA
+         1. STICKY HEADER & NAVIGASI UTAMA + TOGGLE DARK/LIGHT MODE
     ====================================================================== -->
-    <header class="sticky top-0 z-50 w-full glass-header bg-white/85 dark:bg-slate-900/85 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 md:h-20">
+    <header class="sticky-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container-fallback">
+            <div class="flex items-center justify-between h-16 sm:h-18 gap-4">
                 <!-- Brand / Logo -->
-                <a href="#" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-700 to-emerald-600 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-                        <i data-lucide="database-zap" class="w-5 h-5"></i>
+                <a href="#" class="flex items-center gap-3 group shrink-0">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-700 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                            <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
+                        </svg>
                     </div>
                     <div>
-                        <span class="font-display font-extrabold text-lg tracking-tight text-slate-900 dark:text-white block leading-none">SatuData<span class="text-emerald-600 dark:text-emerald-400">Gov</span></span>
-                        <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 tracking-wider uppercase">Portal Edukasi Kualitas Data</span>
+                        <span class="font-display font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white block leading-none">
+                            SatuData<span class="text-blue-600 dark:text-blue-400">Pemda</span>
+                        </span>
+                        <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 tracking-wide">
+                            Panduan Kualitas Data 5W+1H
+                        </span>
                     </div>
                 </a>
 
-                <!-- Desktop Navigation -->
-                <nav class="hidden md:flex items-center gap-1 lg:gap-2">
-                    <a href="#konsep-5w1h" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-blue-50/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors">Konsep 5W+1H</a>
-                    <a href="#dimensi-data" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-blue-50/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors">6 Dimensi</a>
-                    <a href="#studi-kasus" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-blue-50/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors">Studi Kasus Pemda</a>
-                    <a href="#simulator-audit" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-blue-50/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors">Simulator Audit</a>
-                    <a href="#checklist-opd" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-blue-50/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors">Evaluasi OPD</a>
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center gap-1 lg:gap-2" aria-label="Navigasi Utama">
+                    <a href="#konsep-5w1h" class="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-blue-50/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors">
+                        Konsep 5W+1H
+                    </a>
+                    <a href="#dimensi-data" class="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-blue-50/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors">
+                        9 Dimensi Data
+                    </a>
+                    <a href="#studi-kasus" class="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-blue-50/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors">
+                        Studi Kasus Pemda
+                    </a>
+                    <a href="#simulator-audit" class="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-blue-50/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors">
+                        Simulator Audit
+                    </a>
+                    <a href="#checklist-opd" class="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-blue-50/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors">
+                        Evaluasi OPD
+                    </a>
                 </nav>
 
-                <!-- Action Buttons: Dark/Light Toggle & Mobile Menu -->
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <!-- Theme Toggle Button -->
-                    <button id="theme-toggle" type="button" aria-label="Ganti Mode Gelap atau Terang" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-400 border border-slate-200 dark:border-slate-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <!-- Sun Icon (muncul saat dark mode) -->
-                        <i id="icon-sun" data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
-                        <!-- Moon Icon (muncul saat light mode) -->
-                        <i id="icon-moon" data-lucide="moon" class="w-5 h-5 block dark:hidden text-slate-700"></i>
+                <!-- Action Controls: Theme Toggle & Mobile Menu Button -->
+                <div class="flex items-center gap-2">
+                    <button
+                        id="theme-toggle"
+                        type="button"
+                        onclick="toggleTheme()"
+                        aria-label="Ubah Mode Gelap atau Terang"
+                        class="flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-sm cursor-pointer"
+                    >
+                        <span id="theme-icon-container" class="flex items-center justify-center"></span>
+                        <span id="theme-label" class="text-xs font-semibold hidden sm:inline">Mode Gelap</span>
                     </button>
 
-                    <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-btn" type="button" aria-label="Buka Menu Navigasi" class="md:hidden p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
-                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    <!-- Mobile Hamburger Button -->
+                    <button
+                        id="mobile-menu-btn"
+                        type="button"
+                        onclick="toggleMobileMenu()"
+                        aria-label="Buka Menu Navigasi"
+                        aria-expanded="false"
+                        class="md:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                    >
+                        <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- Mobile Dropdown Navigation -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-4 space-y-1 shadow-lg">
-            <a href="#konsep-5w1h" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">1. Konsep Lengkap 5W+1H</a>
-            <a href="#dimensi-data" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">2. 6 Dimensi Kualitas Data</a>
-            <a href="#studi-kasus" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">3. Studi Kasus Nyata Pemda</a>
-            <a href="#simulator-audit" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">4. Simulator Audit Data</a>
-            <a href="#checklist-opd" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">5. Checklist Kesiapan OPD</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-4 space-y-1 shadow-xl">
+            <a href="#konsep-5w1h" onclick="closeMobileMenu()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">
+                1. Konsep Lengkap 5W+1H
+            </a>
+            <a href="#dimensi-data" onclick="closeMobileMenu()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">
+                2. 9 Dimensi Kualitas Data (BPS & Teknis)
+            </a>
+            <a href="#studi-kasus" onclick="closeMobileMenu()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">
+                3. Studi Kasus Nyata Pemda
+            </a>
+            <a href="#simulator-audit" onclick="closeMobileMenu()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">
+                4. Simulator Audit Data
+            </a>
+            <a href="#checklist-opd" onclick="closeMobileMenu()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800">
+                5. Checklist Kesiapan OPD
+            </a>
         </div>
     </header>
 
     <!-- =====================================================================
-         2. HERO SECTION
+         2. HERO SECTION & RINGKASAN EKSEKUTIF
     ====================================================================== -->
-    <section class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
-        <!-- Dekorasi Latar Belakang -->
-        <div class="absolute inset-0 -z-10 pointer-events-none">
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-gradient-to-tr from-blue-600/15 via-emerald-500/10 to-transparent rounded-full blur-3xl dark:from-blue-600/20 dark:via-emerald-500/10"></div>
+    <section class="relative overflow-hidden pt-12 pb-16 sm:pt-16 sm:pb-24 border-b border-slate-200/80 dark:border-slate-800/80">
+        <!-- Decorative Background Glow -->
+        <div class="pointer-events-none absolute inset-0 overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-blue-500/10 dark:bg-blue-500/15 blur-3xl"></div>
+            <div class="absolute top-1/2 -left-24 w-80 h-80 rounded-full bg-emerald-500/10 dark:bg-emerald-500/10 blur-3xl"></div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-4xl mx-auto">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/70 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-semibold mb-6">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Selaras Perpres No. 39 Tahun 2019 tentang Satu Data Indonesia
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container-fallback">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/70 border border-blue-200 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 text-xs font-bold tracking-wide mb-6">
+                    <span class="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
+                    REFERENSI TATA KELOLA DATA & PERPRES 39/2019 (SATU DATA INDONESIA)
                 </div>
 
-                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight mb-6">
-                    Fondasi Kebijakan Cerdas: <br class="hidden sm:block">
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 via-blue-600 to-emerald-600 dark:from-blue-400 dark:via-sky-400 dark:to-emerald-400">
-                        Kualitas Data (5W+1H)
-                    </span>
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                    Membangun Kebijakan Daerah Akurat Melalui <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400">Kualitas Data</span>
                 </h1>
 
-                <p class="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 leading-relaxed mb-8 max-w-3xl mx-auto">
-                    Data yang melimpah tidak berguna jika tidak akurat. Pelajari kerangka lengkap <strong>What, Why, Who, When, Where, dan How</strong> dalam tata kelola kualitas data beserta implementasi nyatanya di lingkungan Pemerintah Daerah.
+                <p class="mt-5 text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Panduan lengkap dan praktis bagi Aparatur Sipil Negara (ASN) serta Perangkat Daerah untuk memahami konsep <strong>5W+1H Kualitas Data</strong>, <strong>9 Dimensi Standar Kualitas (BPS & Teknis)</strong>, studi kasus nyata pemerintahan, hingga simulasi pembersihan data.
                 </p>
 
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="#konsep-5w1h" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-blue-700 to-blue-600 hover:from-blue-800 hover:to-blue-700 text-white font-semibold shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 transition-all">
-                        <span>Pelajari Kerangka 5W+1H</span>
-                        <i data-lucide="arrow-down-right" class="w-5 h-5"></i>
+                <div class="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+                    <a href="#konsep-5w1h" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-lg shadow-blue-600/25 transition-all">
+                        Eksplorasi 5W+1H
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </a>
-                    <a href="#simulator-audit" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-white font-semibold border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center gap-2 transition-all">
-                        <i data-lucide="play-circle" class="w-5 h-5 text-emerald-600"></i>
-                        <span>Coba Simulator Audit Data</span>
+                    <a href="#simulator-audit" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-semibold text-sm shadow-sm transition-all">
+                        Coba Simulator Audit Data
                     </a>
                 </div>
             </div>
 
-            <!-- Kartu Statistik Dampak Kualitas Data -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-14 max-w-5xl mx-auto">
-                <div class="bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
+            <!-- 3 Kartu Sorotan Utama -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm card-surface">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400">
-                            <i data-lucide="target" class="w-5 h-5"></i>
-                        </div>
-                        <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">Prinsip Utama</span>
+                        <div class="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 font-bold text-sm">5W+1H</div>
+                        <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">Kerangka Pemahaman</span>
                     </div>
-                    <p class="text-xl font-bold text-slate-900 dark:text-white">Fitness for Use</p>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Data layak digunakan untuk pengambilan keputusan publik & operasional.</p>
+                    <p class="text-xl font-bold text-slate-900 dark:text-white">6 Pertanyaan Kunci</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Menjawab Apa, Mengapa, Siapa, Kapan, Di Mana, dan Bagaimana menjaga mutu data daerah.</p>
                 </div>
 
-                <div class="bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                <div class="bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm card-surface">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-                            <i data-lucide="layers" class="w-5 h-5"></i>
-                        </div>
+                        <div class="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 font-bold text-sm">9 DIMENSI</div>
                         <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">Standar Pengukuran</span>
                     </div>
-                    <p class="text-xl font-bold text-slate-900 dark:text-white">6 Dimensi Inti</p>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Akurasi, Kelengkapan, Konsistensi, Ketepatan Waktu, Keunikan & Validitas.</p>
+                    <p class="text-xl font-bold text-slate-900 dark:text-white">6 Statistik + 3 Teknis</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Relevansi, Akurasi, Ketepatan Waktu, Aksesibilitas, Keterbandingan, Koherensi & Teknis.</p>
                 </div>
 
-                <div class="bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                <div class="bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm card-surface">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="p-2 rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400">
-                            <i data-lucide="shield-check" class="w-5 h-5"></i>
-                        </div>
-                        <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">Dampak APBD</span>
+                        <div class="p-2 rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 font-bold text-sm">PRAKTIK PEMDA</div>
+                        <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">Implementasi Nyata</span>
                     </div>
-                    <p class="text-xl font-bold text-slate-900 dark:text-white">Zero Mis-targeting</p>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Mencegah kebocoran anggaran bansos & program pembangunan salah sasaran.</p>
+                    <p class="text-xl font-bold text-slate-900 dark:text-white">4 Sektor Strategis</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Bansos (Dinsos), Stunting (Dinkes), PPDB Zonasi (Disdik), dan Pajak Daerah (Bapenda).</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- =====================================================================
-         3. BAGIAN UTAMA: BEDAH LENGKAP 5W + 1H KUALITAS DATA (INTERAKTIF)
+         3. BEDAH LENGKAP 5W + 1H KUALITAS DATA (INTERAKTIF TABS)
     ====================================================================== -->
-    <section id="konsep-5w1h" class="py-16 lg:py-24 bg-white dark:bg-slate-900/50 border-y border-slate-200/80 dark:border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Kerangka Konseptual & Tata Kelola</span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2 mb-4">Memahami Kualitas Data Secara Utuh (5W+1H)</h2>
-                <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base">
-                    Klik setiap pilar pertanyaan di bawah ini untuk mengeksplorasi penjelasan mendalam, regulasi terkait, serta penerapannya dalam tata kelola pemerintahan daerah.
+    <section id="konsep-5w1h" class="py-16 lg:py-24 bg-slate-100/70 dark:bg-slate-900/40 border-b border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container-fallback">
+            <div class="max-w-3xl mb-10">
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">Fondasi Konseptual & Tata Kelola</span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Memahami Kualitas Data dengan 5W + 1H</h2>
+                <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
+                    Pilih setiap tab di bawah ini untuk membedah konsep kualitas data secara menyeluruh—mulai dari definisi ilmiah, urgensi APBD, pembagian peran 4 aktor Satu Data Indonesia, hingga langkah teknis pelaksanaannya di perangkat daerah.
                 </p>
             </div>
 
-            <!-- Tab Navigasi 5W+1H -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 mb-8" role="tablist">
-                <button onclick="select5W1H('what')" id="btn-5w-what" class="tab-5w-btn tab-active p-3.5 sm:p-4 rounded-2xl text-left border border-slate-200 dark:border-slate-800 transition-all cursor-pointer">
-                    <span class="block text-xs font-bold uppercase opacity-80">01. WHAT</span>
-                    <span class="font-display font-bold text-base sm:text-lg">Apa Itu?</span>
+            <!-- Tab Buttons 5W+1H -->
+            <div class="flex overflow-x-auto custom-scrollbar pb-2 mb-6 gap-2" role="tablist" aria-label="Tab 5W+1H Kualitas Data">
+                <button type="button" onclick="select5W1H('what')" id="tab-5w1h-what" class="tab-5w1h-btn tab-active shrink-0 px-5 py-3 rounded-xl text-sm font-bold transition-all cursor-pointer">
+                    1. WHAT (Apa Itu?)
                 </button>
-                <button onclick="select5W1H('why')" id="btn-5w-why" class="tab-5w-btn bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 p-3.5 sm:p-4 rounded-2xl text-left border border-slate-200 dark:border-slate-700 transition-all cursor-pointer">
-                    <span class="block text-xs font-bold uppercase text-blue-600 dark:text-blue-400">02. WHY</span>
-                    <span class="font-display font-bold text-base sm:text-lg">Mengapa Penting?</span>
+                <button type="button" onclick="select5W1H('why')" id="tab-5w1h-why" class="tab-5w1h-btn shrink-0 px-5 py-3 rounded-xl text-sm font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-blue-400 transition-all cursor-pointer">
+                    2. WHY (Mengapa Penting?)
                 </button>
-                <button onclick="select5W1H('who')" id="btn-5w-who" class="tab-5w-btn bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 p-3.5 sm:p-4 rounded-2xl text-left border border-slate-200 dark:border-slate-700 transition-all cursor-pointer">
-                    <span class="block text-xs font-bold uppercase text-emerald-600 dark:text-emerald-400">03. WHO</span>
-                    <span class="font-display font-bold text-base sm:text-lg">Siapa Terlibat?</span>
+                <button type="button" onclick="select5W1H('who')" id="tab-5w1h-who" class="tab-5w1h-btn shrink-0 px-5 py-3 rounded-xl text-sm font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-blue-400 transition-all cursor-pointer">
+                    3. WHO (Siapa Aktornya?)
                 </button>
-                <button onclick="select5W1H('when')" id="btn-5w-when" class="tab-5w-btn bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 p-3.5 sm:p-4 rounded-2xl text-left border border-slate-200 dark:border-slate-700 transition-all cursor-pointer">
-                    <span class="block text-xs font-bold uppercase text-amber-600 dark:text-amber-400">04. WHEN</span>
-                    <span class="font-display font-bold text-base sm:text-lg">Kapan Diterapkan?</span>
+                <button type="button" onclick="select5W1H('when')" id="tab-5w1h-when" class="tab-5w1h-btn shrink-0 px-5 py-3 rounded-xl text-sm font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-blue-400 transition-all cursor-pointer">
+                    4. WHEN (Kapan Dijaga?)
                 </button>
-                <button onclick="select5W1H('where')" id="btn-5w-where" class="tab-5w-btn bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 p-3.5 sm:p-4 rounded-2xl text-left border border-slate-200 dark:border-slate-700 transition-all cursor-pointer">
-                    <span class="block text-xs font-bold uppercase text-purple-600 dark:text-purple-400">05. WHERE</span>
-                    <span class="font-display font-bold text-base sm:text-lg">Di Mana Letaknya?</span>
+                <button type="button" onclick="select5W1H('where')" id="tab-5w1h-where" class="tab-5w1h-btn shrink-0 px-5 py-3 rounded-xl text-sm font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-blue-400 transition-all cursor-pointer">
+                    5. WHERE (Di Mana Diterapkan?)
                 </button>
-                <button onclick="select5W1H('how')" id="btn-5w-how" class="tab-5w-btn bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 p-3.5 sm:p-4 rounded-2xl text-left border border-slate-200 dark:border-slate-700 transition-all cursor-pointer">
-                    <span class="block text-xs font-bold uppercase text-rose-600 dark:text-rose-400">06. HOW</span>
-                    <span class="font-display font-bold text-base sm:text-lg">Bagaimana Caranya?</span>
+                <button type="button" onclick="select5W1H('how')" id="tab-5w1h-how" class="tab-5w1h-btn shrink-0 px-5 py-3 rounded-xl text-sm font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-blue-400 transition-all cursor-pointer">
+                    6. HOW (Bagaimana Caranya?)
                 </button>
             </div>
 
-            <!-- Kontainer Konten Dinamis 5W+1H -->
-            <div id="content-5w1h" class="bg-slate-50 dark:bg-slate-900 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-sm min-h-[360px]">
-                <!-- Diisi otomatis via JavaScript -->
+            <!-- Kontainer Konten Tab 5W+1H -->
+            <div id="content-5w1h" class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-200/90 dark:border-slate-800 shadow-sm card-surface">
+                <!-- Diisi dinamis oleh JavaScript -->
             </div>
         </div>
     </section>
 
     <!-- =====================================================================
-         4. 6 DIMENSI UTAMA KUALITAS DATA (INTERAKTIF)
+         4. 9 DIMENSI UTAMA KUALITAS DATA (6 STATISTIK BPS/SDI + 3 TEKNIS)
     ====================================================================== -->
-    <section id="dimensi-data" class="py-16 lg:py-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">Standar Evaluasi Teknis</span>
-                    <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">6 Dimensi Utama Kualitas Data</h2>
+    <section id="dimensi-data" class="py-16 lg:py-24 border-b border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container-fallback">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
+                <div class="max-w-2xl">
+                    <span class="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">Kerangka Penjaminan Mutu (UN NQAF / BPS / DAMA)</span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">9 Dimensi Utama Kualitas Data</h2>
+                    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
+                        Menggabungkan <strong>6 Dimensi Kualitas Statistik Resmi</strong> (BPS & Satu Data Indonesia) untuk kelayakan perumusan kebijakan publik, serta <strong>3 Dimensi Teknis Database</strong> untuk integritas sistem informasi OPD.
+                    </p>
                 </div>
-                <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl">
-                    Mengacu pada standar internasional (DAMA-DMBOK) dan pedoman Badan Pusat Statistik (BPS), kualitas dataset diukur melalui enam indikator kunci berikut.
-                </p>
+
+                <!-- Filter Kategori Dimensi -->
+                <div class="flex flex-wrap items-center gap-2 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 self-start lg:self-end">
+                    <button type="button" onclick="filterDimensions('all')" id="dim-filter-all" class="dim-filter-btn tab-active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer">
+                        Semua (9 Dimensi)
+                    </button>
+                    <button type="button" onclick="filterDimensions('statistik')" id="dim-filter-statistik" class="dim-filter-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer">
+                        6 Dimensi Statistik (BPS/SDI)
+                    </button>
+                    <button type="button" onclick="filterDimensions('teknis')" id="dim-filter-teknis" class="dim-filter-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer">
+                        3 Dimensi Teknis Database
+                    </button>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="dimensions-grid">
-                <!-- Kartu 6 Dimensi dirender melalui JS agar kaya interaksi & contoh -->
-            </div>
-        </div>
-    </section>
-
-    <!-- =====================================================================
-         5. STUDI KASUS IMPLEMENTASI NYATA DI PEMERINTAH DAERAH
-    ====================================================================== -->
-    <section id="studi-kasus" class="py-16 lg:py-24 bg-slate-100/70 dark:bg-slate-900/60 border-y border-slate-200/80 dark:border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-10">
-                <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Praktik Baik (Best Practices) Birokrasi</span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2 mb-4">Implementasi Nyata di Pemerintah Daerah</h2>
-                <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base">
-                    Pilih sektor layanan publik di bawah ini untuk melihat perbandingan nyata sebelum dan sesudah penerapan tata kelola kualitas data di Kabupaten/Kota & Provinsi.
-                </p>
-            </div>
-
-            <!-- Filter Kategori Studi Kasus -->
-            <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mb-10">
-                <button onclick="selectCaseStudy('bansos')" id="case-btn-bansos" class="case-tab-btn tab-active px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-slate-200 dark:border-slate-700 transition-all cursor-pointer flex items-center gap-2">
-                    <i data-lucide="heart-handshake" class="w-4 h-4"></i>
-                    <span>1. Bansos & Kemiskinan (Dinsos)</span>
-                </button>
-                <button onclick="selectCaseStudy('stunting')" id="case-btn-stunting" class="case-tab-btn bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-slate-200 dark:border-slate-700 transition-all cursor-pointer flex items-center gap-2">
-                    <i data-lucide="baby" class="w-4 h-4 text-emerald-600"></i>
-                    <span>2. Penanganan Stunting (Dinkes)</span>
-                </button>
-                <button onclick="selectCaseStudy('ppdb')" id="case-btn-ppdb" class="case-tab-btn bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-slate-200 dark:border-slate-700 transition-all cursor-pointer flex items-center gap-2">
-                    <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i>
-                    <span>3. PPDB Zonasi (Disdik)</span>
-                </button>
-                <button onclick="selectCaseStudy('pajak')" id="case-btn-pajak" class="case-tab-btn bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-slate-200 dark:border-slate-700 transition-all cursor-pointer flex items-center gap-2">
-                    <i data-lucide="landmark" class="w-4 h-4 text-amber-600"></i>
-                    <span>4. Optimalisasi PAD & Pajak (Bapenda)</span>
-                </button>
-            </div>
-
-            <!-- Kontainer Detail Studi Kasus -->
-            <div id="case-study-container" class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-md">
-                <!-- Dirender dinamis lewat JS -->
+            <!-- Grid Kartu 9 Dimensi -->
+            <div id="dimensions-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dirender oleh JavaScript -->
             </div>
         </div>
     </section>
 
     <!-- =====================================================================
-         6. SIMULATOR AUDIT & PEMBERSIHAN DATA INTERAKTIF
+         5. STUDI KASUS NYATA PEMERINTAH DAERAH (4 SEKTOR STRATEGIS)
     ====================================================================== -->
-    <section id="simulator-audit" class="py-16 lg:py-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-3xl mx-auto text-center mb-10">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3">
-                    <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Lab Interaktif Walidata
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">Simulator Audit Kualitas Data Bansos</h2>
-                <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base">
-                    Bayangkan Anda adalah tim Walidata Diskominfo yang menerima kiriman data usulan penerima Bantuan Langsung Tunai (BLT) dari kelurahan. Uji kemampuan sistem mendeteksi anomali dan membersihkan data!
+    <section id="studi-kasus" class="py-16 lg:py-24 bg-slate-100/70 dark:bg-slate-900/40 border-b border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container-fallback">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
+                <div class="max-w-2xl">
+                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Implementasi Nyata di Lapangan</span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Studi Kasus Pemerintah Daerah</h2>
+                    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
+                        Lihat bagaimana penerapan prinsip 5W+1H dan 9 dimensi kualitas data menyelesaikan persoalan pelayanan publik dan mengoptimalkan anggaran daerah di berbagai Organisasi Perangkat Daerah (OPD).
+                    </p>
+                </div>
+
+                <!-- Filter Sektor Studi Kasus -->
+                <div class="flex flex-wrap items-center gap-2 bg-white dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 self-start lg:self-end">
+                    <button type="button" onclick="filterCases('all')" id="case-filter-all" class="case-filter-btn tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer">
+                        Semua Sektor
+                    </button>
+                    <button type="button" onclick="filterCases('bansos')" id="case-filter-bansos" class="case-filter-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer">
+                        Bansos (Dinsos)
+                    </button>
+                    <button type="button" onclick="filterCases('stunting')" id="case-filter-stunting" class="case-filter-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer">
+                        Stunting (Dinkes)
+                    </button>
+                    <button type="button" onclick="filterCases('ppdb')" id="case-filter-ppdb" class="case-filter-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer">
+                        PPDB (Disdik)
+                    </button>
+                    <button type="button" onclick="filterCases('pajak')" id="case-filter-pajak" class="case-filter-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer">
+                        PAD/Pajak (Bapenda)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid Studi Kasus -->
+            <div id="cases-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Dirender oleh JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         6. SIMULATOR AUDIT & PEMBERSIHAN DATA INTERAKTIF (DTKS / BANSOS)
+    ====================================================================== -->
+    <section id="simulator-audit" class="py-16 lg:py-24 border-b border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container-fallback">
+            <div class="max-w-3xl mb-8">
+                <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Simulasi Praktik Walidata & Produsen Data</span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Simulator Audit Kualitas Data Bansos</h2>
+                <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
+                    Uji coba bagaimana sistem audit otomatis mendeteksi anomali pada contoh tabel usulan penerima Bantuan Sosial (DTKS) berdasarkan dimensi kualitas data, lalu lakukan pembersihan otomatis (*Data Cleansing*).
                 </p>
             </div>
 
-            <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg overflow-hidden">
-                <!-- Toolbar Simulator -->
-                <div class="p-5 sm:p-6 bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-800 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-                    <div class="flex flex-wrap items-center gap-4">
+            <!-- Panel Skor & Tombol Aksi Simulator -->
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm card-surface">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-200 dark:border-slate-800">
+                    <!-- Indikator Skor Kualitas Data -->
+                    <div class="flex flex-wrap items-center gap-6">
                         <div>
-                            <span class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 block">Status Dataset</span>
-                            <span id="sim-status-badge" class="inline-flex items-center gap-1.5 text-sm font-bold text-amber-600 dark:text-amber-400">
-                                <span class="w-2 h-2 rounded-full bg-amber-500"></span> Data Mentah (Belum Diaudit)
-                            </span>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Skor Kualitas Data</span>
+                            <div class="flex items-baseline gap-2 mt-1">
+                                <span id="audit-score-text" class="text-4xl font-extrabold text-rose-600 dark:text-rose-400">29%</span>
+                                <span id="audit-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300">
+                                    Perlu Pembersihan
+                                </span>
+                            </div>
                         </div>
-                        <div class="h-8 w-px bg-slate-300 dark:bg-slate-700 hidden sm:block"></div>
-                        <div>
-                            <span class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 block">Skor Kualitas Data</span>
-                            <span id="sim-score-text" class="text-xl font-extrabold text-slate-900 dark:text-white">-- / 100%</span>
+
+                        <div class="h-10 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block"></div>
+
+                        <div class="flex gap-6 text-sm">
+                            <div>
+                                <span class="text-slate-500 dark:text-slate-400 block text-xs">Total Rekaman</span>
+                                <span id="audit-total-rows" class="font-bold text-lg text-slate-900 dark:text-white">7 Baris</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 dark:text-slate-400 block text-xs">Lolos Validasi</span>
+                                <span id="audit-valid-rows" class="font-bold text-lg text-emerald-600 dark:text-emerald-400">2 Baris</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 dark:text-slate-400 block text-xs">Anomali Terdeteksi</span>
+                                <span id="audit-issue-rows" class="font-bold text-lg text-rose-600 dark:text-rose-400">5 Baris</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-2.5 w-full lg:w-auto">
-                        <button onclick="runDataAudit()" id="btn-run-audit" class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold shadow-sm flex items-center justify-center gap-2 transition-all cursor-pointer">
-                            <i data-lucide="search-check" class="w-4 h-4"></i>
-                            <span>1. Jalankan Audit</span>
+                    <!-- Tombol Aksi -->
+                    <div class="flex flex-wrap items-center gap-3">
+                        <button type="button" onclick="cleanDataset()" id="btn-clean-data" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-md shadow-emerald-600/20 transition-all cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Bersihkan & Perbaiki Otomatis
                         </button>
-                        <button onclick="cleanDataset()" id="btn-clean-data" disabled class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold shadow-sm flex items-center justify-center gap-2 transition-all cursor-pointer">
-                            <i data-lucide="sparkles" class="w-4 h-4"></i>
-                            <span>2. Bersihkan Otomatis</span>
-                        </button>
-                        <button onclick="resetSimulator()" class="px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 text-sm font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer" title="Reset Data">
-                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-                            <span class="hidden sm:inline">Reset</span>
+                        <button type="button" onclick="resetDataset()" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm transition-all cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Reset Data Kotor
                         </button>
                     </div>
                 </div>
 
-                <!-- Tabel Data Simulasi -->
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                <!-- Notifikasi Status Audit -->
+                <div id="audit-feedback-banner" class="mt-5 p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-xs sm:text-sm text-amber-800 dark:text-amber-300 flex items-center gap-2.5">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <span><strong>Hasil Audit Awal:</strong> Ditemukan 5 anomali lintas dimensi (Keunikan, Validitas, Koherensi, Kelengkapan, dan Akurasi). Klik tombol <em>"Bersihkan & Perbaiki Otomatis"</em> untuk memproses pemutakhiran data.</span>
+                </div>
+
+                <!-- Tabel Data Simulasi Responsif -->
+                <div class="mt-6 overflow-x-auto custom-scrollbar rounded-2xl border border-slate-200 dark:border-slate-800">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
                         <thead>
-                            <tr class="bg-slate-100/80 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+                            <tr class="bg-slate-100 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700">
                                 <th class="py-3.5 px-4 font-bold">No</th>
                                 <th class="py-3.5 px-4 font-bold">NIK (16 Digit)</th>
                                 <th class="py-3.5 px-4 font-bold">Nama Lengkap</th>
                                 <th class="py-3.5 px-4 font-bold">Umur</th>
                                 <th class="py-3.5 px-4 font-bold">Status Dukcapil</th>
-                                <th class="py-3.5 px-4 font-bold">Desil Kemiskinan</th>
-                                <th class="py-3.5 px-4 font-bold">Hasil Diagnosa Kualitas</th>
+                                <th class="py-3.5 px-4 font-bold">Kategori Desil</th>
+                                <th class="py-3.5 px-4 font-bold">Status Audit & Dimensi</th>
                             </tr>
                         </thead>
-                        <tbody id="simulator-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 text-sm">
-                            <!-- Diisi via JavaScript -->
+                        <tbody id="simulator-table-body" class="divide-y divide-slate-200 dark:divide-slate-800">
+                            <!-- Diisi dinamis oleh JavaScript -->
                         </tbody>
                     </table>
-                </div>
-
-                <!-- Ringkasan Laporan Audit -->
-                <div id="audit-summary-box" class="hidden p-5 sm:p-6 bg-blue-50/70 dark:bg-blue-950/30 border-t border-blue-200 dark:border-blue-900/60">
-                    <!-- Diisi via JavaScript saat audit dijalankan -->
                 </div>
             </div>
         </div>
     </section>
 
     <!-- =====================================================================
-         7. CHECKLIST KESIAPAN KUALITAS DATA OPD & FAQ RINGKAS
+         7. CHECKLIST KEMATANGAN TATA KELOLA KUALITAS DATA OPD
     ====================================================================== -->
-    <section id="checklist-opd" class="py-16 lg:py-24 bg-slate-100/70 dark:bg-slate-900/60 border-t border-slate-200/80 dark:border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-                
-                <!-- Kolom Kiri: Self-Assessment Checklist OPD -->
-                <div class="lg:col-span-7 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Instrumen Evaluasi Mandiri</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1 mb-2">Checklist Kematangan Data OPD</h2>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">
-                        Centang indikator di bawah ini untuk mengukur tingkat kesiapan tata kelola kualitas data di Perangkat Daerah Anda:
+    <section id="checklist-opd" class="py-16 lg:py-24 bg-slate-100/70 dark:bg-slate-900/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container-fallback">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Kolom Kiri: Ringkasan Skor Kesiapan -->
+                <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm lg:sticky lg:top-24 card-surface">
+                    <span class="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">Self-Assessment Instansi</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Evaluasi Kematangan Data OPD</h2>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
+                        Centang indikator di samping yang sudah diterapkan di unit kerja atau perangkat daerah Anda untuk mengukur tingkat kematangan tata kelola kualitas data.
                     </p>
 
-                    <div class="space-y-3" id="checklist-items">
-                        <!-- Checklist items dirender oleh JS -->
+                    <div class="mt-6 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Indeks Kematangan OPD</span>
+                            <span id="checklist-percent" class="text-2xl font-extrabold text-blue-600 dark:text-blue-400">0%</span>
+                        </div>
+                        <div class="w-full h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                            <div id="checklist-progress-bar" class="h-full bg-gradient-to-r from-blue-600 to-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span id="checklist-level-badge" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200">
+                                Level 1: Rintisan (Ad-Hoc)
+                            </span>
+                            <span id="checklist-count-text" class="text-xs font-medium text-slate-500 dark:text-slate-400">0 dari 8 indikator</span>
+                        </div>
                     </div>
 
-                    <!-- Progress Bar Skor Kematangan -->
-                    <div class="mt-8 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm font-bold text-slate-700 dark:text-slate-200">Tingkat Kematangan Tata Kelola Data:</span>
-                            <span id="maturity-percentage" class="text-lg font-extrabold text-blue-700 dark:text-blue-400">0%</span>
-                        </div>
-                        <div class="w-full h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden mb-3">
-                            <div id="maturity-bar" class="h-full bg-gradient-to-r from-blue-600 to-emerald-500 transition-all duration-500" style="width: 0%"></div>
-                        </div>
-                        <p id="maturity-label" class="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300">
-                            Silakan centang indikator yang telah berjalan di instansi Anda.
-                        </p>
-                    </div>
+                    <button type="button" onclick="resetChecklist()" class="mt-4 w-full py-2.5 px-4 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+                        Atur Ulang Checklist
+                    </button>
                 </div>
 
-                <!-- Kolom Kanan: Mitos vs Fakta Kualitas Data di Birokrasi -->
-                <div class="lg:col-span-5 space-y-5">
-                    <div>
-                        <span class="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">Luruskan Pemahaman</span>
-                        <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Mitos vs Fakta di Pemda</h3>
-                    </div>
-
-                    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                        <div class="flex items-start gap-3 mb-2">
-                            <span class="px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 text-xs font-bold shrink-0 mt-0.5">MITOS</span>
-                            <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">"Kualitas data sepenuhnya adalah urusan orang IT di Diskominfo."</p>
-                        </div>
-                        <div class="flex items-start gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-                            <span class="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold shrink-0 mt-0.5">FAKTA</span>
-                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">Diskominfo menyediakan infrastruktur & standar (Walidata), namun akurasi substansi data lahir di hulu pada <strong>OPD Produsen Data</strong> dan petugas lapangan.</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                        <div class="flex items-start gap-3 mb-2">
-                            <span class="px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 text-xs font-bold shrink-0 mt-0.5">MITOS</span>
-                            <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">"Semakin banyak aplikasi baru dibuat, data otomatis semakin rapi."</p>
-                        </div>
-                        <div class="flex items-start gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-                            <span class="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold shrink-0 mt-0.5">FAKTA</span>
-                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">Membuat aplikasi terpisah tanpa standar metadata justru menciptakan <em>silo data</em> (data terkotak-kotak dan duplikat). Utamakan integrasi API.</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                        <div class="flex items-start gap-3 mb-2">
-                            <span class="px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 text-xs font-bold shrink-0 mt-0.5">MITOS</span>
-                            <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">"Pembersihan data cukup dilakukan setahun sekali saat penyusunan LKPJ."</p>
-                        </div>
-                        <div class="flex items-start gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-                            <span class="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold shrink-0 mt-0.5">FAKTA</span>
-                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">Data penduduk dan sosial bersifat dinamis (kelahiran, kematian, pindah). Validasi harus berlangsung berkelanjutan dan terhubung langsung dengan database induk.</p>
-                        </div>
-                    </div>
+                <!-- Kolom Kanan: Daftar Indikator Interaktif -->
+                <div class="lg:col-span-7 space-y-3" id="checklist-items-container">
+                    <!-- Dirender oleh JavaScript -->
                 </div>
             </div>
         </div>
@@ -478,655 +588,797 @@
     <!-- =====================================================================
          8. FOOTER
     ====================================================================== -->
-    <footer class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer class="bg-slate-900 dark:bg-slate-950 text-slate-300 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container-fallback">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-800">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-emerald-500 flex items-center justify-center text-white">
-                        <i data-lucide="database-zap" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <span class="font-display font-extrabold text-lg text-white block">SatuData<span class="text-emerald-400">Gov</span></span>
-                        <span class="text-xs text-slate-400">Referensi Tata Kelola Kualitas Data Pemerintah Daerah</span>
-                    </div>
+                <div>
+                    <span class="font-display font-extrabold text-xl text-white">
+                        SatuData<span class="text-blue-400">Pemda</span>
+                    </span>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl">
+                        Referensi edukasi tata kelola kualitas data pemerintahan daerah berbasis kerangka 5W+1H, Standar Kualitas Statistik (BPS / UN NQAF), dan Perpres No. 39 Tahun 2019.
+                    </p>
                 </div>
                 <div class="flex flex-wrap gap-4 text-sm text-slate-400">
                     <a href="#konsep-5w1h" class="hover:text-white transition-colors">Konsep 5W+1H</a>
-                    <a href="#dimensi-data" class="hover:text-white transition-colors">6 Dimensi</a>
+                    <a href="#dimensi-data" class="hover:text-white transition-colors">9 Dimensi Data</a>
                     <a href="#studi-kasus" class="hover:text-white transition-colors">Studi Kasus</a>
                     <a href="#simulator-audit" class="hover:text-white transition-colors">Simulator Audit</a>
                 </div>
             </div>
             <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-                <p>Disusun sebagai materi edukasi Transformasi Digital & Satu Data Indonesia di Lingkungan Pemerintah Daerah.</p>
-                <p>Mengacu pada Perpres No. 39 Tahun 2019 & Standar DAMA-DMBOK.</p>
+                <p>Disusun untuk mendukung Transformasi Digital & Perencanaan Pembangunan Berbasis Bukti di Pemerintah Daerah.</p>
+                <p>Mengacu pada Perpres 39/2019 (SDI), UN NQAF (BPS), & DAMA-DMBOK.</p>
             </div>
         </div>
     </footer>
 
     <!-- =====================================================================
-         9. JAVASCRIPT LOGIKA INTERAKTIF LENGKAP
+         9. JAVASCRIPT LENGKAP & MANDIRI
     ====================================================================== -->
     <script>
         // -------------------------------------------------------------------
-        // A. MANAJEMEN MODE GELAP & TERANG (DARK / LIGHT MODE)
+        // A. MANAJEMEN TEMA (DARK / LIGHT MODE) & MENU MOBILE
         // -------------------------------------------------------------------
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        themeToggleBtn.addEventListener('click', () => {
-            const htmlEl = document.documentElement;
-            if (htmlEl.classList.contains('dark')) {
-                htmlEl.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                htmlEl.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
+        function updateThemeUI() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const iconContainer = document.getElementById('theme-icon-container');
+            const label = document.getElementById('theme-label');
+
+            if (iconContainer) {
+                if (isDark) {
+                    // Ikon Matahari untuk beralih ke Mode Terang
+                    iconContainer.innerHTML = `
+                        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                        </svg>`;
+                } else {
+                    // Ikon Bulan untuk beralih ke Mode Gelap
+                    iconContainer.innerHTML = `
+                        <svg class="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                        </svg>`;
+                }
             }
-        });
 
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-        document.querySelectorAll('.mobile-nav-link').forEach(link => {
-            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-        });
+            if (label) {
+                label.textContent = isDark ? 'Mode Terang' : 'Mode Gelap';
+            }
+        }
+
+        function toggleTheme() {
+            const htmlEl = document.documentElement;
+            const willBeDark = !htmlEl.classList.contains('dark');
+            if (willBeDark) {
+                htmlEl.classList.add('dark');
+            } else {
+                htmlEl.classList.remove('dark');
+            }
+            try {
+                localStorage.setItem('pemda_data_theme', willBeDark ? 'dark' : 'light');
+            } catch (e) {}
+            updateThemeUI();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const btn = document.getElementById('mobile-menu-btn');
+            if (!menu) return;
+            const isHidden = menu.classList.contains('hidden');
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                if (btn) btn.setAttribute('aria-expanded', 'true');
+            } else {
+                menu.classList.add('hidden');
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const btn = document.getElementById('mobile-menu-btn');
+            if (menu) menu.classList.add('hidden');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
 
         // -------------------------------------------------------------------
-        // B. DATA & LOGIKA INTERAKTIF 5W + 1H
+        // B. KONTEN INTERAKTIF 5W + 1H
         // -------------------------------------------------------------------
         const data5W1H = {
             what: {
-                badge: "01. WHAT — DEFINISI & KONSEP DASAR",
-                title: "Apa itu Kualitas Data (Data Quality)?",
-                lead: "Kualitas data adalah ukuran sejauh mana suatu kumpulan data memenuhi persyaratan, akurat, lengkap, konsisten, dan layak digunakan (fitness for use) untuk mendukung pengambilan keputusan, perencanaan, dan pelayanan publik.",
+                badge: "WHAT • DEFINISI & ESENSI",
+                title: "Apa Itu Kualitas Data (Data Quality)?",
+                lead: "Kualitas data adalah tingkat kelayakan sekumpulan data untuk digunakan sesuai tujuan spesifiknya (fitness for use) dalam perencanaan, pelaksanaan, evaluasi, dan pengambilan keputusan publik.",
                 points: [
                     {
-                        heading: "Data Mentah vs Data Berkualitas",
-                        desc: "Data mentah hanyalah catatan angka atau teks hasil input lapangan yang rentan salah ketik atau ganda. Data berkualitas adalah data yang telah tervalidasi standar formatnya, terverifikasi kebenarannya di lapangan, dan disertai metadata yang jelas."
+                        heading: "Bukan Sekadar 'Ada Angkanya'",
+                        text: "Data berkualitas tidak hanya berarti tabel terisi penuh, melainkan harus akurat sesuai fakta lapangan, mutakhir, terstandar, bebas duplikasi, dan dilengkapi metadata."
                     },
                     {
-                        heading: "Prinsip 'Fitness for Use'",
-                        desc: "Suatu data dikatakan berkualitas tinggi jika relevan dan dapat diandalkan oleh penggunanya. Misalnya, data alamat warga yang hanya mencantumkan nama kecamatan cukup untuk analisis makro, tetapi tidak berkualitas untuk pengiriman bantuan sosial langsung ke rumah."
+                        heading: "Prinsip Satu Data Indonesia (Perpres 39/2019)",
+                        text: "Data pemerintah daerah wajib memenuhi 4 kaidah utama: (1) Standar Data, (2) Metadata Baku, (3) Interoperabilitas sistem, dan (4) Kode Referensi/Data Induk."
+                    },
+                    {
+                        heading: "Perbedaan Data Mentah vs Data Berkualitas",
+                        text: "Data mentah yang tidak tervalidasi melahirkan kebijakan keliru (Garbage In, Garbage Out), sedangkan data berkualitas menjadi aset strategis daerah."
                     }
                 ],
-                pemdaContext: "Dalam konteks Pemda, kualitas data berarti setiap angka statistik sektoral (seperti jumlah penduduk miskin, panjang jalan mantap, atau angka stunting) benar-benar mencerminkan kondisi riil warga di lapangan, bukan sekadar angka perkiraan di atas kertas."
+                pemdaBoxTitle: "Analogi Sederhana di Lingkungan Pemda",
+                pemdaBoxText: "Jika OPD memiliki 50.000 baris data penerima bantuan sosial, tetapi 8.000 di antaranya ber-NIK ganda, sudah meninggal dunia, atau pindah domisili, maka kuantitas datanya besar namun kualitas datanya rendah karena tidak layak dijadikan dasar pencairan APBD."
             },
             why: {
-                badge: "02. WHY — URGENSI & DAMPAK STRATEGIS",
+                badge: "WHY • URGENSI & DAMPAK KEBIJAKAN",
                 title: "Mengapa Kualitas Data Sangat Krusial bagi Pemda?",
-                lead: "Prinsip utama komputasi adalah 'Garbage In, Garbage Out' (Sampah Masuk, Sampah Keluar). Kebijakan kepala daerah sebagus apa pun akan gagal jika bertumpu pada data yang keliru.",
+                lead: "Setiap rupiah Anggaran Pendapatan dan Belanja Daerah (APBD) serta kepercayaan publik bergantung pada ketepatan data yang mendasari kebijakan Kepala Daerah.",
                 points: [
                     {
-                        heading: "Kebijakan Berbasis Bukti (Evidence-Based Policy)",
-                        desc: "Menjamin penyusunan RPJMD, RKPD, dan APBD tepat sasaran. Anggaran daerah tidak habis untuk program seremonial, melainkan menyentuh akar masalah masyarakat."
+                        heading: "Mencegah Kebocoran & Salah Sasaran Anggaran",
+                        text: "Data yang akurat memastikan bantuan sosial, subsidi pupuk, dan beasiswa pendidikan diterima oleh warga yang benar-benar berhak."
                     },
                     {
-                        heading: "Efisiensi Anggaran & Pencegahan Korupsi",
-                        desc: "Mencegah kebocoran APBD akibat penyaluran bansos ganda, penerima fiktif, atau warga yang sudah meninggal dunia namun masih terdaftar sebagai penerima subsidi."
+                        heading: "Perencanaan Pembangunan Berbasis Bukti (Evidence-Based Policy)",
+                        text: "Penyusunan RPJMD, RKPD, dan penentuan lokasi prioritas infrastruktur (jalan, puskesmas, sekolah) menjadi terukur dan objektif."
                     },
                     {
-                        heading: "Kepatuhan Regulasi Satu Data Indonesia (SDI)",
-                        desc: "Mendukung amanat Perpres No. 39 Tahun 2019 serta meningkatkan indeks Reformasi Birokrasi (RB) dan Sistem Pemerintahan Berbasis Elektronik (SPBE) daerah."
+                        heading: "Meningkatkan Nilai Evaluasi Reformasi Birokrasi & EPSS",
+                        text: "Kualitas tata kelola data berdampak langsung pada nilai Evaluasi Penyelenggaraan Statistik Sektoral (EPSS), SAKIP, dan indeks SPBE pemerintah daerah."
                     }
                 ],
-                pemdaContext: "Kesalahan 5% saja pada basis data kemiskinan daerah berpotensi menyebabkan ribuan keluarga miskin tidak menerima bantuan, sementara ribuan warga mampu justru menikmati subsidi pemerintah."
+                pemdaBoxTitle: "Risiko Nyata Jika Kualitas Data Diabaikan",
+                pemdaBoxText: "Temuan audit BPK terkait bantuan sosial tidak tepat sasaran, ketimpangan kuota PPDB zonasi, hingga rendahnya realisasi Pendapatan Asli Daerah (PAD) karena objek pajak tidak mutakhir."
             },
             who: {
-                badge: "03. WHO — AKTOR & TATA KELOLA PERAN",
-                title: "Siapa Saja yang Bertanggung Jawab atas Kualitas Data?",
-                lead: "Sesuai tata kelola Satu Data Indonesia (SDI) di tingkat daerah, kualitas data bukan tanggung jawab satu dinas saja, melainkan kolaborasi empat aktor utama:",
+                badge: "WHO • AKTOR & PEMBAGIAN PERAN",
+                title: "Siapa yang Bertanggung Jawab Menjaga Kualitas Data?",
+                lead: "Kualitas data bukan hanya tugas Dinas Kominfo atau bagian IT, melainkan tanggung jawab kolaboratif empat aktor utama dalam ekosistem Satu Data Daerah:",
                 points: [
                     {
-                        heading: "1. Produsen Data (Seluruh OPD Teknis)",
-                        desc: "Dinas Sosial, Dinkes, Disdik, PUPR, dll. Bertanggung jawab mengumpulkan, memverifikasi kebenaran substansi di lapangan, dan menyusun data sesuai standar."
+                        heading: "1. Produsen Data (Seluruh OPD Teknis & Kecamatan/Desa)",
+                        text: "Menghasilkan data sesuai standar, melakukan verifikasi faktual di lapangan, dan memastikan input awal bebas kesalahan."
                     },
                     {
-                        heading: "2. Walidata (Dinas Komunikasi dan Informatika)",
-                        desc: "Bertugas memeriksa kesesuaian data yang dikirim OPD terhadap standar data & metadata, mengelola portal Satu Data Daerah, serta menjaga interoperabilitas sistem."
+                        heading: "2. Walidata (Dinas Komunikasi dan Informatika / Diskominfo)",
+                        text: "Memeriksa kesesuaian data yang disampaikan Produsen Data terhadap standar dan metadata, serta menyebarluaskannya di Portal Satu Data."
                     },
                     {
                         heading: "3. Pembina Data (BPS Kabupaten/Kota & Bappeda)",
-                        desc: "BPS membina standar statistik & metodologi pengumpulan data; Bappeda mengoordinasikan perencanaan data prioritas pembangunan daerah."
+                        text: "BPS membina standar statistik dan metadata; Bappeda mengoordinasikan perencanaan data prioritas pembangunan daerah."
                     },
                     {
-                        heading: "4. Pengguna Data (Kepala Daerah, DPRD, Akademisi & Publik)",
-                        desc: "Memanfaatkan data untuk perumusan kebijakan, pengawasan anggaran, riset, dan memberikan umpan balik jika ditemukan kejanggalan data di lapangan."
+                        heading: "4. Pengguna Data (Kepala Daerah, DPRD, Akademisi, Masyarakat)",
+                        text: "Memanfaatkan data untuk perumusan kebijakan serta memberikan umpan balik koreksi jika ditemukan ketidaksesuaian di lapangan."
                     }
                 ],
-                pemdaContext: "Sinergi keempat aktor ini diwadahi melalui Forum Satu Data Daerah yang rutin bersidang menetapkan daftar data prioritas dan menyepakati pemutakhiran data."
+                pemdaBoxTitle: "Kunci Keberhasilan Lintas Aktor",
+                pemdaBoxText: "Forum Satu Data Daerah mempertemukan Bappeda, Diskominfo, BPS, dan seluruh OPD secara berkala untuk menyepakati daftar data prioritas serta menyelesaikan perbedaan angka antarinstansi."
             },
             when: {
-                badge: "04. WHEN — SIKLUS HIDUP & WAKTU PENERAPAN",
-                title: "Kapan Pengendalian Kualitas Data Dilakukan?",
-                lead: "Penjaminan kualitas data tidak boleh dilakukan di akhir tahun saja, melainkan harus melekat di sepanjang Siklus Hidup Data (Data Lifecycle):",
+                badge: "WHEN • SIKLUS HIDUP DATA",
+                title: "Kapan Pengendalian Kualitas Data Harus Dilakukan?",
+                lead: "Penjaminan mutu data dilakukan secara berkelanjutan di setiap tahapan siklus hidup data (Data Lifecycle), bukan hanya saat mendekati pelaporan akhir tahun.",
                 points: [
                     {
-                        heading: "Tahap 1: Perencanaan & Desain Formulir",
-                        desc: "Sebelum survei atau aplikasi dibuat, standar kode referensi (seperti kode wilayah Kemendagri) dan aturan validasi sudah dikunci."
+                        heading: "Tahap 1: Perencanaan & Perancangan Instrumen",
+                        text: "Menetapkan definisi operasional, kamus data, dan aturan validasi sebelum survei atau aplikasi pendataan diluncurkan."
                     },
                     {
-                        heading: "Tahap 2: Pengumpulan / Input di Hulu (Point of Entry)",
-                        desc: "Saat petugas kelurahan, kader posyandu, atau operator sekolah menginput data, sistem langsung menolak format yang salah (pencegahan dini)."
+                        heading: "Tahap 2: Pengumpulan & Input di Hulu (Point of Entry)",
+                        text: "Menerapkan validasi otomatis pada formulir digital (misalnya wajib 16 digit NIK dan pilihan kode desa baku) saat petugas menginput data."
                     },
                     {
-                        heading: "Tahap 3: Pemeriksaan & Pembersihan (Before Publishing)",
-                        desc: "Walidata melakukan profiling dan cleansing sebelum data dipublikasikan ke Portal Satu Data atau dipakai dalam Musrenbang."
-                    },
-                    {
-                        heading: "Tahap 4: Pemutakhiran Berkala (Real-Time / Periodik)",
-                        desc: "Pembaruan sesuai jadwal rilis: real-time untuk data kependudukan/layanan RS, bulanan untuk bansos, dan semesteran/tahunan untuk data infrastruktur."
+                        heading: "Tahap 3: Pemeriksaan Walidata & Pemutakhiran Berkala",
+                        text: "Melakukan audit data sebelum publikasi serta pembaruan rutin (harian/bulanan/triwulanan) sesuai karakteristik dinamika data."
                     }
                 ],
-                pemdaContext: "Biaya memperbaiki kesalahan data saat baru diinput (tahap 2) jauh lebih murah 10 kali lipat dibandingkan memperbaikinya setelah bantuan terlanjur dicairkan."
+                pemdaBoxTitle: "Prinsip 'Cegah di Hulu, Bukan Sekadar Bersihkan di Hilir'",
+                pemdaBoxText: "Memperbaiki data salah setelah terlanjur masuk ke laporan keuangan atau SK penerima bantuan membutuhkan biaya dan waktu 10 kali lebih besar dibanding memvalidasinya saat input awal."
             },
             where: {
-                badge: "05. WHERE — EKOSISTEM & LOKASI PENERAPAN",
+                badge: "WHERE • EKOSISTEM & LOKUS PENERAPAN",
                 title: "Di Mana Kualitas Data Diterapkan dalam Sistem Pemda?",
-                lead: "Pengawasan kualitas data diterapkan pada seluruh titik simpul informasi pemerintahan daerah, mulai dari tingkat desa/kelurahan hingga pusat data daerah:",
+                lead: "Standar kualitas data wajib melekat di seluruh simpul layanan pemerintahan daerah, mulai dari tingkat desa/kelurahan hingga pusat data pemerintah daerah.",
                 points: [
                     {
-                        heading: "Portal Satu Data Daerah & Open Data",
-                        desc: "Etalase resmi data sektoral Pemda yang diakses publik, investor, dan instansi vertikal dalam format terbuka dan terstandar."
+                        heading: "Aplikasi Layanan Publik & Sektoral OPD",
+                        text: "Sistem informasi kependudukan (SIAK), kesehatan (e-PPGBM/SIMRS), pendidikan (Dapodik), perizinan (OSS), dan pajak daerah."
                     },
                     {
                         heading: "Sistem Informasi Pemerintahan Daerah (SIPD)",
-                        desc: "Basis data perencanaan pembangunan dan penganggaran daerah yang terhubung langsung dengan Kementerian Dalam Negeri."
+                        text: "Integrasi data perencanaan, penganggaran, dan pelaporan keuangan daerah agar selaras antara indikator kinerja dan pagu anggaran."
                     },
                     {
-                        heading: "Aplikasi Layanan Publik & Command Center",
-                        desc: "Sistem perizinan (OSS), layanan kependudukan (Dukcapil), sistem informasi kesehatan puskesmas (SIMPUS), hingga dashboard pimpinan daerah."
+                        heading: "Portal Satu Data Daerah & Geoportal",
+                        text: "Pusat rujukan tunggal (Single Source of Truth) untuk data statistik sektoral maupun data geospasial terpadu."
                     }
                 ],
-                pemdaContext: "Penerapan paling vital berada pada titik integrasi (API Gateway) yang menghubungkan database OPD dengan Database Kependudukan (NIK) sebagai referensi tunggal."
+                pemdaBoxTitle: "Interoperabilitas Antar-Sistem",
+                pemdaBoxText: "Data kependudukan dari Disdukcapil menjadi referensi utama (Master Data) yang terhubung melalui API ke aplikasi Dinsos, Dinkes, Disdik, dan Bapenda sehingga warga tidak perlu berulang kali menyerahkan fotokopi dokumen."
             },
             how: {
-                badge: "06. HOW — METODE & LANGKAH TEKNIS",
-                title: "Bagaimana Cara Meningkatkan & Menjaga Kualitas Data?",
-                lead: "Pemda dapat menerapkan kombinasi tata kelola regulasi dan rekayasa teknologi berikut untuk menjaga kualitas data secara berkelanjutan:",
+                badge: "HOW • LANGKAH TEKNIS IMPLEMENTASI",
+                title: "Bagaimana Cara Mewujudkan Data Berkualitas di OPD?",
+                lead: "Implementasi peningkatan kualitas data dapat dijalankan melalui 5 langkah praktis dan terstruktur di setiap Perangkat Daerah:",
                 points: [
                     {
-                        heading: "1. Standardisasi & Metadata Baku",
-                        desc: "Menerapkan Kamus Data daerah agar seluruh OPD menggunakan definisi yang sama (misal: definisi 'Rumah Tidak Layak Huni' seragam antara Dinsos dan Dinas Perkim)."
+                        heading: "1. Tetapkan Standar Data & Metadata Baku",
+                        text: "Buat kamus data yang jelas: apa definisi tiap kolom, satuannya apa (orang, unit, rupiah), dan siapa penanggung jawabnya."
                     },
                     {
-                        heading: "2. Validasi Otomatis pada Antarmuka Input",
-                        desc: "Membatasi input bebas (free text) dengan pilihan dropdown, validasi panjang 16 digit NIK, dan pengecekan koordinat GPS otomatis."
+                        heading: "2. Gunakan Kode Referensi & Master Data Tunggal",
+                        text: "Gunakan NIK untuk individu, NIB untuk pelaku usaha, dan kode wilayah Kemendagri agar data mudah digabungkan antar-OPD."
                     },
                     {
-                        heading: "3. Interoperabilitas & Single Source of Truth",
-                        desc: "Menghentikan praktik input ulang data warga di tiap dinas. OPD cukup menarik data induk kependudukan via API resmi."
+                        heading: "3. Lakukan Data Profiling & Cleansing Berkala",
+                        text: "Audit database secara rutin untuk mendeteksi nilai kosong, duplikasi NIK, format salah, dan status warga yang sudah berubah."
                     },
                     {
-                        heading: "4. Audit Data Berkala & Mekanisme Aduan Warga",
-                        desc: "Melakukan uji petik lapangan, rekonsiliasi data lintas OPD, serta membuka fitur 'Usul-Sanggah' agar warga bisa mengoreksi status datanya sendiri."
+                        heading: "4. Verifikasi Faktual Lapangan & Uji Petik",
+                        text: "Libatkan kelurahan/desa, kader posyandu, atau petugas lapangan dengan bukti foto geotagging untuk mengonfirmasi kebenaran data."
                     }
                 ],
-                pemdaContext: "Kunci keberhasilan teknis adalah menerapkan 'Validasi di Hulu': mencegah data kotor masuk ke database jauh lebih efektif daripada membersihkannya belakangan."
+                pemdaBoxTitle: "Budaya Kerja Berbasis Data",
+                pemdaBoxText: "Jadikan skor kelengkapan dan keakuratan data sebagai bagian dari indikator kinerja utama (IKU) bagi pengelola data di setiap bidang pada masing-masing OPD."
             }
         };
 
         function select5W1H(key) {
-            // Update state tombol tab
-            document.querySelectorAll('.tab-5w-btn').forEach(btn => {
-                btn.classList.remove('tab-active');
-                btn.classList.add('bg-slate-50', 'dark:bg-slate-800/80', 'text-slate-700', 'dark:text-slate-200');
-            });
-            const activeBtn = document.getElementById(`btn-5w-${key}`);
-            activeBtn.classList.remove('bg-slate-50', 'dark:bg-slate-800/80', 'text-slate-700', 'dark:text-slate-200');
-            activeBtn.classList.add('tab-active');
-
-            // Render konten
             const item = data5W1H[key];
+            if (!item) return;
+
+            document.querySelectorAll('.tab-5w1h-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-800');
+            });
+
+            const activeBtn = document.getElementById(`tab-5w1h-${key}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-800');
+                activeBtn.classList.add('tab-active');
+            }
+
             const container = document.getElementById('content-5w1h');
-            
-            const pointsHTML = item.points.map(pt => `
-                <div class="bg-white dark:bg-slate-800/70 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700/80">
-                    <h4 class="font-bold text-slate-900 dark:text-white text-base mb-1.5 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        ${pt.heading}
-                    </h4>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${pt.desc}</p>
-                </div>
-            `).join('');
+            if (!container) return;
 
             container.innerHTML = `
                 <div class="animate-fade-in">
-                    <span class="inline-block px-3 py-1 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-bold tracking-wider mb-3">
+                    <span class="inline-block px-3 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 text-xs font-extrabold tracking-wider mb-3">
                         ${item.badge}
                     </span>
                     <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-3">${item.title}</h3>
-                    <p class="text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6">${item.lead}</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        ${pointsHTML}
+                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8">${item.lead}</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+                        ${item.points.map((pt, idx) => `
+                            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80">
+                                <div class="flex items-center gap-2.5 mb-2">
+                                    <span class="w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center shrink-0">${idx + 1}</span>
+                                    <h4 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">${pt.heading}</h4>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed pl-8">${pt.text}</p>
+                            </div>
+                        `).join('')}
                     </div>
 
-                    <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-emerald-50 dark:from-blue-950/50 dark:to-emerald-950/40 border border-blue-200/80 dark:border-blue-800/60 flex items-start gap-3.5">
-                        <div class="p-2 rounded-xl bg-blue-600 text-white shrink-0 mt-0.5">
-                            <i data-lucide="building-2" class="w-5 h-5"></i>
-                        </div>
-                        <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-blue-800 dark:text-blue-300 block mb-0.5">Konteks Pemerintah Daerah</span>
-                            <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">${item.pemdaContext}</p>
+                    <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/40 border border-blue-200/80 dark:border-blue-800/60">
+                        <div class="flex items-start gap-3">
+                            <div class="p-2 rounded-xl bg-blue-600 text-white shrink-0 mt-0.5">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-blue-900 dark:text-blue-200 text-sm sm:text-base">${item.pemdaBoxTitle}</h4>
+                                <p class="text-xs sm:text-sm text-blue-800/90 dark:text-blue-300/90 mt-1 leading-relaxed">${item.pemdaBoxText}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
-            lucide.createIcons();
         }
 
         // -------------------------------------------------------------------
-        // C. RENDER 6 DIMENSI KUALITAS DATA
+        // C. 9 DIMENSI KUALITAS DATA (6 STATISTIK BPS/SDI + 3 TEKNIS)
         // -------------------------------------------------------------------
         const dimensionsData = [
             {
                 num: "01",
-                name: "Akurasi (Accuracy)",
-                icon: "crosshair",
-                color: "blue",
-                desc: "Sejauh mana data merepresentasikan nilai atau kondisi sebenarnya di dunia nyata.",
-                badExample: "Warga berpenghasilan tinggi tercatat memiliki penghasilan Rp 500.000/bulan di database bantuan.",
-                goodExample: "Data penghasilan & aset terverifikasi faktual melalui survei lapangan dan foto rumah ber-geotagging."
+                category: "statistik",
+                categoryLabel: "Dimensi Statistik (BPS/SDI)",
+                name: "Relevansi (Relevance)",
+                desc: "Sejauh mana data yang dikumpulkan benar-benar memenuhi kebutuhan nyata pengguna dan menjawab persoalan perumusan kebijakan pembangunan daerah.",
+                pemdaImpl: "Musrenbang & Penyusunan RKPD (Bappeda): Memastikan indikator survei daerah selaras dengan prioritas RPJMD, bukan sekadar mengumpulkan tabel rutin yang tidak pernah dipakai.",
+                badExample: "OPD mengumpulkan puluhan tabel jumlah peserta rapat tiap tahun, tetapi tidak memiliki data jumlah pengangguran terdidik per kecamatan untuk merancang pelatihan kerja.",
+                goodExample: "Dinas Tenaga Kerja mengumpulkan data angkatan kerja berbasis keterampilan dan domisili kecamatan sehingga program Balai Latihan Kerja (BLK) tepat sasaran."
             },
             {
                 num: "02",
-                name: "Kelengkapan (Completeness)",
-                icon: "check-square",
-                color: "emerald",
-                desc: "Ketersediaan seluruh atribut wajib tanpa ada kolom penting yang kosong (null).",
-                badExample: "Data penderita stunting tidak mencantumkan alamat RT/RW dan nama orang tua sehingga sulit dikunjungi.",
-                goodExample: "100% baris data memiliki NIK, Nama, Tanggal Lahir, Alamat lengkap, dan titik koordinat."
+                category: "statistik",
+                categoryLabel: "Dimensi Statistik (BPS/SDI)",
+                name: "Akurasi (Accuracy)",
+                desc: "Tingkat kedekatan atau kesesuaian antara nilai data yang dicatat dalam sistem dengan kondisi faktual yang sebenarnya di lapangan.",
+                pemdaImpl: "Verifikasi & Validasi DTKS/Bansos (Dinsos & Kelurahan): Pengecekan kondisi sosial ekonomi warga langsung ke rumah disertai foto ber-geotagging.",
+                badExample: "Keluarga dengan rumah bertingkat dan kendaraan roda empat tercatat berpenghasilan di bawah garis kemiskinan akibat input tanpa verifikasi lapangan.",
+                goodExample: "Nilai aset, kondisi fisik rumah, dan status pekerjaan warga terverifikasi faktual melalui musyawarah kelurahan dan uji petik petugas lapangan."
             },
             {
                 num: "03",
-                name: "Konsistensi (Consistency)",
-                icon: "git-compare",
-                color: "purple",
-                desc: "Keseragaman nilai dan format data ketika disimpan di beberapa sistem atau OPD berbeda.",
-                badExample: "Jumlah sekolah rusak tercatat 45 unit di laporan Disdik, tetapi tercatat 62 unit di laporan Bappeda.",
-                goodExample: "Seluruh OPD merujuk pada satu sumber referensi yang sama sehingga angka sinkron di semua laporan."
+                category: "statistik",
+                categoryLabel: "Dimensi Statistik (BPS/SDI)",
+                name: "Ketepatan Waktu & Aktualitas (Timeliness)",
+                desc: "Ketersediaan data mutakhir tepat pada saat dibutuhkan untuk pengambilan keputusan sesuai jadwal rilis yang telah ditetapkan.",
+                pemdaImpl: "Pengendalian Inflasi Daerah (TPID) & Realisasi APBD: Pelaporan harga komoditas pangan pasar harian/mingguan sebelum rapat koordinasi pengendalian harga.",
+                badExample: "Data lonjakan harga beras atau laporan kasus demam berdarah baru diterima Kepala Daerah dua bulan setelah kejadian puncak berlalu.",
+                goodExample: "Dashboard harga pangan pokok dan serapan anggaran diperbarui secara harian/mingguan sehingga operasi pasar dapat segera digelar."
             },
             {
                 num: "04",
-                name: "Ketepatan Waktu (Timeliness)",
-                icon: "clock",
-                color: "amber",
-                desc: "Ketersediaan data mutakhir pada saat dibutuhkan untuk pengambilan keputusan.",
-                badExample: "Penyaluran bantuan bencana masih memakai data penduduk 3 tahun lalu sehingga warga baru tidak terdata.",
-                goodExample: "Data mutasi penduduk (lahir, mati, pindah) diperbarui secara otomatis dan tersedia saat dibutuhkan."
+                category: "statistik",
+                categoryLabel: "Dimensi Statistik (BPS/SDI)",
+                name: "Aksesibilitas & Kejelasan (Accessibility)",
+                desc: "Kemudahan data ditemukan, diunduh dalam format terbuka terbaca mesin (CSV/JSON/API), serta disertai metadata dan kamus data yang mudah dipahami.",
+                pemdaImpl: "Portal Satu Data Daerah & Open Data (Diskominfo): Menyediakan katalog dataset publik lengkap dengan definisi variabel, satuan, tahun rilis, dan layanan API.",
+                badExample: "Data anggaran dan statistik infrastruktur hanya diunggah dalam bentuk file PDF hasil scan miring tanpa penjelasan definisi istilah teknis.",
+                goodExample: "Dataset tersedia di Portal Satu Data dalam format CSV/API terbuka disertai metadata baku (konsep, definisi, metodologi, dan jadwal pemutakhiran)."
             },
             {
                 num: "05",
-                name: "Keunikan (Uniqueness)",
-                icon: "fingerprint",
-                color: "rose",
-                desc: "Tidak adanya duplikasi pencatatan atas entitas atau individu yang sama dalam satu dataset.",
-                badExample: "Satu warga terdaftar dua kali sebagai penerima bansos karena perbedaan penulisan gelar atau ejaan nama.",
-                goodExample: "Penggunaan NIK sebagai Primary Key menjamin satu individu hanya tercatat satu kali."
+                category: "statistik",
+                categoryLabel: "Dimensi Statistik (BPS/SDI)",
+                name: "Keterbandingan (Comparability)",
+                desc: "Kemampuan data untuk dibandingkan secara adil antarwilayah (antarkecamatan/desa) maupun antarwaktu (tahun ke tahun) menggunakan definisi dan standar klasifikasi yang sama.",
+                pemdaImpl: "Evaluasi Kemiskinan & Prevalensi Stunting Antarkecamatan (Bappeda & Dinkes): Menggunakan standar pengukuran antropometri WHO dan kode wilayah Kemendagri yang seragam dari tahun ke tahun.",
+                badExample: "Tahun lalu definisi 'jalan rusak' mencakup rusak ringan, sedangkan tahun ini hanya menghitung rusak berat sehingga tren perbaikan jalan tampak semu.",
+                goodExample: "Standar klasifikasi kondisi jalan mantap dan kode wilayah baku diterapkan konsisten di seluruh kecamatan sehingga progres pembangunan antartahun terukur objektif."
             },
             {
                 num: "06",
+                category: "statistik",
+                categoryLabel: "Dimensi Statistik (BPS/SDI)",
+                name: "Koherensi (Coherence)",
+                desc: "Tingkat keselarasan dan konsistensi data ketika digabungkan atau disandingkan dari berbagai sumber atau OPD yang berbeda.",
+                pemdaImpl: "Sinkronisasi Data Kependudukan, Penerima PBI JKN & Pemilih (Disdukcapil, Dinsos, Dinkes): Menggunakan Nomor Induk Kependudukan (NIK) sebagai kunci penghubung lintas instansi.",
+                badExample: "Jumlah penduduk miskin penerima jaminan kesehatan di database Dinkes berbeda jauh dengan data warga miskin pada database Dinsos dan Dukcapil.",
+                goodExample: "Seluruh database OPD terhubung ke Master Data Kependudukan (Single Source of Truth) sehingga angka lintas sektor saling selaras dan dapat diintegrasikan."
+            },
+            {
+                num: "07",
+                category: "teknis",
+                categoryLabel: "Dimensi Teknis Database",
+                name: "Kelengkapan (Completeness)",
+                desc: "Ketersediaan seluruh atribut atau kolom wajib pada setiap baris pencatatan tanpa ada informasi penting yang dibiarkan kosong (null).",
+                pemdaImpl: "Pencatatan Sasaran Intervensi Stunting (Puskesmas & Posyandu): Mengunci kolom wajib seperti NIK anak, nama ibu, alamat RT/RW, dan hasil ukur tinggi/berat badan.",
+                badExample: "Data balita berisiko stunting tidak mencantumkan alamat RT/RW dan nomor kontak orang tua sehingga kader kesulitan melakukan kunjungan rumah.",
+                goodExample: "100% rekaman data memiliki identitas lengkap (By Name By Address) beserta titik koordinat domisili."
+            },
+            {
+                num: "08",
+                category: "teknis",
+                categoryLabel: "Dimensi Teknis Database",
+                name: "Keunikan (Uniqueness)",
+                desc: "Jaminan tidak adanya duplikasi pencatatan atas entitas, individu, atau objek yang sama dalam satu kumpulan data.",
+                pemdaImpl: "Deduplikasi Master Data Wajib Pajak PBB-P2 & Bansos (Bapenda & Dinsos): Validasi otomatis berbasis NIK dan Nomor Objek Pajak (NOP).",
+                badExample: "Satu warga terdaftar dua kali sebagai penerima bantuan tunai karena perbedaan penulisan gelar atau singkatan nama depan.",
+                goodExample: "Penerapan Primary Key NIK/NOP menolak otomatis entri ganda sehingga kuota anggaran daerah tidak terbuang sia-sia."
+            },
+            {
+                num: "09",
+                category: "teknis",
+                categoryLabel: "Dimensi Teknis Database",
                 name: "Validitas (Validity)",
-                icon: "shield-check",
-                color: "sky",
-                desc: "Kesesuaian data terhadap aturan sintaks, tipe data, format, dan rentang nilai yang ditetapkan.",
-                badExample: "Kolom NIK terisi 14 digit angka, tanggal lahir tertulis '31 Februari', atau kode kecamatan tidak sesuai Permendagri.",
-                goodExample: "Sistem otomatis memvalidasi NIK tepat 16 digit angka dan kode wilayah sesuai master Kemendagri."
+                desc: "Kesesuaian nilai data terhadap aturan sintaks, tipe karakter, panjang digit, dan rentang nilai logis yang telah ditetapkan.",
+                pemdaImpl: "Validasi Formulir Aplikasi Layanan Publik (Diskominfo): Pembatasan format input 16 digit NIK angka dan pilihan dropdown kode desa/kecamatan resmi.",
+                badExample: "Kolom NIK terisi 14 digit angka, umur warga tercatat negatif (-25), atau nama kecamatan diketik bebas dengan berbagai variasi ejaan.",
+                goodExample: "Sistem otomatis memvalidasi format 16 digit NIK, rentang nilai wajar, dan referensi kode wilayah sesuai Permendagri."
             }
         ];
 
+        let activeDimensionFilter = 'all';
+
+        function filterDimensions(category) {
+            activeDimensionFilter = category;
+            document.querySelectorAll('.dim-filter-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-slate-600', 'dark:text-slate-300');
+            });
+            const activeBtn = document.getElementById(`dim-filter-${category}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'dark:text-slate-300');
+                activeBtn.classList.add('tab-active');
+            }
+            renderDimensions();
+        }
+
         function renderDimensions() {
             const grid = document.getElementById('dimensions-grid');
-            grid.innerHTML = dimensionsData.map(d => `
-                <div class="group bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/90 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-blue-400 dark:hover:border-blue-600 transition-all flex flex-col justify-between">
+            if (!grid) return;
+
+            const filtered = activeDimensionFilter === 'all'
+                ? dimensionsData
+                : dimensionsData.filter(d => d.category === activeDimensionFilter);
+
+            grid.innerHTML = filtered.map(d => {
+                const badgeStyle = d.category === 'statistik'
+                    ? 'bg-blue-100/80 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/70'
+                    : 'bg-emerald-100/80 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/70';
+
+                return `
+                <article class="animate-fade-in group bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/90 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-blue-400 dark:hover:border-blue-600 transition-all flex flex-col justify-between card-surface">
                     <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-11 h-11 rounded-xl bg-blue-50 dark:bg-slate-800 text-blue-700 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <i data-lucide="${d.icon}" class="w-5 h-5"></i>
-                            </div>
-                            <span class="font-display font-extrabold text-2xl text-slate-200 dark:text-slate-800 group-hover:text-blue-200 dark:group-hover:text-slate-700 transition-colors">${d.num}</span>
+                        <div class="flex items-center justify-between gap-2 mb-4">
+                            <span class="px-2.5 py-1 rounded-lg border text-[11px] font-bold ${badgeStyle}">${d.categoryLabel}</span>
+                            <span class="font-display font-extrabold text-2xl text-slate-300 dark:text-slate-700 group-hover:text-blue-500 transition-colors">${d.num}</span>
                         </div>
                         <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mb-2">${d.name}</h3>
-                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">${d.desc}</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">${d.desc}</p>
+
+                        <!-- Kotak Implementasi Nyata Pemda -->
+                        <div class="p-3.5 rounded-xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/60 mb-4 text-xs">
+                            <span class="font-bold text-blue-800 dark:text-blue-300 block mb-1">
+                                Implementasi Nyata di Pemda:
+                            </span>
+                            <span class="text-slate-700 dark:text-slate-300 leading-relaxed">${d.pemdaImpl}</span>
+                        </div>
                     </div>
 
                     <div class="space-y-2.5 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
-                        <div class="p-2.5 rounded-xl bg-rose-50/80 dark:bg-rose-950/30 border border-rose-100 dark:border-rose-900/50">
+                        <div class="p-3 rounded-xl bg-rose-50/80 dark:bg-rose-950/30 border border-rose-100 dark:border-rose-900/50">
                             <span class="font-bold text-rose-700 dark:text-rose-400 block mb-0.5">Contoh Masalah:</span>
                             <span class="text-slate-700 dark:text-slate-300">${d.badExample}</span>
                         </div>
-                        <div class="p-2.5 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50">
+                        <div class="p-3 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50">
                             <span class="font-bold text-emerald-700 dark:text-emerald-400 block mb-0.5">Standar Berkualitas:</span>
                             <span class="text-slate-700 dark:text-slate-300">${d.goodExample}</span>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                </article>
+                `;
+            }).join('');
         }
 
         // -------------------------------------------------------------------
         // D. STUDI KASUS NYATA PEMERINTAH DAERAH
         // -------------------------------------------------------------------
-        const caseStudies = {
-            bansos: {
-                title: "Pemadanan Data Kemiskinan & Penyaluran Bantuan Sosial",
-                opd: "Dinas Sosial, Disdukcapil, Diskominfo & Pemerintah Desa/Kelurahan",
-                dimensionFocus: "Keunikan, Akurasi, dan Ketepatan Waktu",
-                before: [
-                    "Data penerima bantuan dikumpulkan via file Excel terpisah dari tiap kelurahan tanpa standar format.",
-                    "Ditemukan ribuan NIK ganda, warga yang sudah meninggal dunia masih menerima transfer bantuan, serta ASN/keluarga mampu ikut terdaftar.",
-                    "Memicu protes sosial di masyarakat dan temuan audit BPK terkait penyaluran tidak tepat sasaran."
-                ],
-                intervention: [
-                    "<strong>What & How:</strong> Pembersihan data (cleansing) dan pemadanan NIK otomatis melalui API Disdukcapil serta integrasi DTKS Kemensos.",
-                    "<strong>Who & Where:</strong> Operator desa melakukan verifikasi lapangan (musyawarah kelurahan) dilengkapi foto rumah ber-geotagging pada aplikasi Satu Data Kemiskinan Daerah.",
-                    "<strong>When:</strong> Pemutakhiran dilakukan setiap bulan sebelum surat keputusan pencairan bantuan diterbitkan."
-                ],
-                impact: [
-                    "Menghapus 18% data tidak layak/ganda sehingga menghemat miliaran rupiah APBD.",
-                    "Anggaran hasil efisiensi dialihkan untuk meng-cover 100% warga miskin ekstrem yang sebelumnya terlewat (inclusion & exclusion error turun drastis)."
-                ]
+        const casesData = [
+            {
+                sector: "bansos",
+                opd: "Dinas Sosial & Disdukcapil",
+                title: "Pemutakhiran Data Terpadu Kesejahteraan Sosial (DTKS) & Bansos Daerah",
+                dimensionsUsed: ["Akurasi", "Koherensi", "Keunikan", "Ketepatan Waktu"],
+                before: "Banyak warga mampu masih menerima bantuan sosial sementara lansia miskin terlewat; ditemukan ribuan NIK ganda dan penerima yang sudah meninggal dunia.",
+                intervention: "Integrasi API database Dinsos dengan SIAK Disdukcapil (Koherensi), validasi otomatis 16 digit NIK unik (Keunikan), serta musyawarah kelurahan setiap bulan dengan bukti foto geotagging (Akurasi & Ketepatan Waktu).",
+                impact: "Penghematan APBD miliaran rupiah dari pencoretan penerima tidak layak dan pengalihan tepat sasaran kepada keluarga miskin ekstrem."
             },
-            stunting: {
-                title: "Intervensi Penurunan Stunting Berbasis Data 'By Name By Address'",
-                opd: "Dinas Kesehatan, DP3AP2KB, Bappeda & Kader Posyandu",
-                dimensionFocus: "Kelengkapan, Akurasi, dan Konsistensi",
-                before: [
-                    "Data balita stunting hanya dilaporkan dalam bentuk angka rekapitulasi agregat per kecamatan (misal: 'Kecamatan A ada 120 anak stunting').",
-                    "Antara data Puskesmas dan data BKKBN terjadi perbedaan angka akibat perbedaan metode pencatatan.",
-                    "Bantuan Pemberian Makanan Tambahan (PMT) dibagi rata secara umum, tidak fokus pada anak yang benar-benar membutuhkan."
-                ],
-                intervention: [
-                    "<strong>What & How:</strong> Penerapan standar metadata e-PPGBM terintegrasi dengan NIK anak dan orang tua (By Name By Address By Coordinate).",
-                    "<strong>Who & When:</strong> Kader Posyandu menginput hasil ukur tinggi/berat badan bulanan pada aplikasi mobile dengan validasi rentang angka otomatis (mencegah salah ketik tinggi badan).",
-                    "<strong>Where:</strong> Dashboard Geospasial Stunting di Command Center Pemda memetakan sebaran balita stunting hingga tingkat RT."
-                ],
-                impact: [
-                    "Intervensi gizi, sanitasi air bersih, dan bedah rumah tepat menyasar keluarga dengan balita berisiko stunting.",
-                    "Prevalensi stunting daerah turun signifikan dalam 1 tahun karena anggaran lintas OPD (Dinkes, PUPR, Ketahanan Pangan) terkonsentrasi pada lokus yang sama."
-                ]
+            {
+                sector: "stunting",
+                opd: "Dinas Kesehatan, Puskesmas & DP3AP2KB",
+                title: "Intervensi Spesifik & Sensitif Percepatan Penurunan Stunting",
+                dimensionsUsed: ["Kelengkapan", "Keterbandingan", "Relevansi", "Akurasi"],
+                before: "Data pengukuran balita di Posyandu sering tidak mencantumkan NIK ibu dan alamat RT/RW; alat ukur berbeda-beda sehingga angka prevalensi antar-kecamatan sulit dibandingkan.",
+                intervention: "Standardisasi alat antropometri digital & definisi WHO (Keterbandingan), kewajiban input By Name By Address lengkap pada aplikasi e-PPGBM (Kelengkapan), serta penggabungan data sanitasi/air bersih Dinas PUPR (Relevansi).",
+                impact: "Tim Pendamping Keluarga (TPK) dapat menyalurkan paket gizi dan perbaikan sanitasi langsung ke rumah balita berisiko tinggi secara presisi."
             },
-            ppdb: {
-                title: "Penerimaan Peserta Didik Baru (PPDB) Jalur Zonasi Transparan",
-                opd: "Dinas Pendidikan, Disdukcapil & Diskominfo",
-                dimensionFocus: "Validitas, Akurasi, dan Konsistensi",
-                before: [
-                    "Orang tua siswa menginput titik koordinat rumah secara manual di peta online, sehingga rawan manipulasi titik lokasi mendekati sekolah favorit.",
-                    "Terjadi sengketa dan antrean verifikasi berkas Kartu Keluarga (KK) fisik yang memakan waktu berhari-hari di sekolah."
-                ],
-                intervention: [
-                    "<strong>What & How:</strong> Integrasi langsung sistem PPDB Online dengan database kependudukan Disdukcapil menggunakan NIK dan Nomor KK.",
-                    "<strong>Where & How:</strong> Titik koordinat domisili dikunci otomatis berdasarkan alamat resmi pada KK yang diterbitkan minimal 1 tahun sebelum pendaftaran.",
-                    "<strong>Who:</strong> Diskominfo bertindak sebagai Walidata menjamin keamanan akses API dan keandalan server selama masa pendaftaran."
-                ],
-                impact: [
-                    "Proses pendaftaran 100% paperless dan bebas manipulasi titik koordinat domisili.",
-                    "Tingkat keluhan masyarakat turun hingga 90% dan pemerataan kualitas siswa antar sekolah negeri terwujud."
-                ]
+            {
+                sector: "ppdb",
+                opd: "Dinas Pendidikan & Dinas Kependudukan",
+                title: "Penentuan Kuota & Zonasi Penerimaan Peserta Didik Baru (PPDB)",
+                dimensionsUsed: ["Validitas", "Koherensi", "Aksesibilitas", "Akurasi"],
+                before: "Penumpukan pendaftar di sekolah favorit akibat manipulasi titik koordinat alamat dan ketidaksesuaian jumlah lulusan SD dengan daya tampung SMP di beberapa kecamatan.",
+                intervention: "Penarikan otomatis titik koordinat dari Kartu Keluarga resmi Dukcapil yang terbit minimal 1 tahun sebelumnya (Koherensi & Validitas) serta publikasi peta daya tampung sekolah secara terbuka (Aksesibilitas).",
+                impact: "Proses seleksi PPDB berlangsung transparan, objektif, meminimalkan sengketa wali murid, dan menjadi dasar pembangunan ruang kelas baru di wilayah padat penduduk."
             },
-            pajak: {
-                title: "Optimalisasi Pendapatan Asli Daerah (PAD) Pajak PBB-P2 & Restoran",
-                opd: "Badan Pendapatan Daerah (Bapenda), DPMPTSP & Badan Pertanahan (BPN)",
-                dimensionFocus: "Keunikan, Kelengkapan, dan Akurasi",
-                before: [
-                    "Banyak objek Pajak Bumi dan Bangunan (PBB-P2) yang sudah berubah fungsi dari lahan kosong menjadi ruko/perumahan, namun tagihan pajaknya masih tarif tanah kosong.",
-                    "Ditemukan Nomor Objek Pajak (NOP) ganda dan data wajib pajak restoran/hotel yang tidak sinkron dengan data perizinan usaha."
-                ],
-                intervention: [
-                    "<strong>What & How:</strong> Rekonsiliasi dan pembersihan master data wajib pajak dengan menyandingkan data NOP Bapenda, peta persil BPN, dan NIB perizinan DPMPTSP.",
-                    "<strong>Where:</strong> Pemutakhiran peta digital (GIS) objek pajak daerah berbasis citra satelit resolusi tinggi dan pendataan lapangan.",
-                    "<strong>When:</strong> Pemutakhiran basis data pajak dilakukan secara berkelanjutan setiap ada penerbitan izin mendirikan bangunan (PBG) baru."
-                ],
-                impact: [
-                    "Peningkatan realisasi PAD sebesar 22% tanpa harus menaikkan tarif pajak masyarakat, melainkan murni dari perbaikan akurasi basis data objek pajak.",
-                    "Piutang pajak fiktif akibat data ganda berhasil dihapuskan sehingga laporan keuangan Pemda meraih opini Wajar Tanpa Pengecualian (WTP)."
-                ]
+            {
+                sector: "pajak",
+                opd: "Badan Pendapatan Daerah (Bapenda) & DPMPTSP",
+                title: "Optimalisasi Pendapatan Asli Daerah (PAD) Pajak Restoran, Hotel & PBB-P2",
+                dimensionsUsed: ["Keunikan", "Koherensi", "Ketepatan Waktu", "Relevansi"],
+                before: "Banyak usaha hotel dan restoran baru yang sudah mengantongi izin usaha tetapi belum terdaftar sebagai wajib pajak aktif; data luas bangunan PBB-P2 tidak sesuai kondisi terkini.",
+                intervention: "Pertukaran data rutin antara database perizinan OSS DPMPTSP dengan master wajib pajak Bapenda (Koherensi), pemetaan citra satelit/drone untuk pembaruan luas bangunan (Akurasi), dan pemantauan transaksi harian (Ketepatan Waktu).",
+                impact: "Peningkatan realisasi PAD secara signifikan tanpa menaikkan tarif pajak masyarakat karena basis data objek pajak menjadi mutakhir."
             }
-        };
+        ];
 
-        function selectCaseStudy(caseKey) {
-            document.querySelectorAll('.case-tab-btn').forEach(btn => {
+        let activeCaseFilter = 'all';
+
+        function filterCases(sector) {
+            activeCaseFilter = sector;
+            document.querySelectorAll('.case-filter-btn').forEach(btn => {
                 btn.classList.remove('tab-active');
-                btn.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
+                btn.classList.add('text-slate-600', 'dark:text-slate-300');
             });
-            const activeBtn = document.getElementById(`case-btn-${caseKey}`);
-            activeBtn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
-            activeBtn.classList.add('tab-active');
+            const activeBtn = document.getElementById(`case-filter-${sector}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'dark:text-slate-300');
+                activeBtn.classList.add('tab-active');
+            }
+            renderCases();
+        }
 
-            const cs = caseStudies[caseKey];
-            const container = document.getElementById('case-study-container');
+        function renderCases() {
+            const grid = document.getElementById('cases-grid');
+            if (!grid) return;
 
-            container.innerHTML = `
-                <div class="animate-fade-in">
-                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-200 dark:border-slate-800">
-                        <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Aktor Terlibat: ${cs.opd}</span>
-                            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-1">${cs.title}</h3>
-                        </div>
-                        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 text-xs font-bold shrink-0">
-                            <i data-lucide="award" class="w-4 h-4"></i> Fokus: ${cs.dimensionFocus}
-                        </span>
-                    </div>
+            const filtered = activeCaseFilter === 'all'
+                ? casesData
+                : casesData.filter(c => c.sector === activeCaseFilter);
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <!-- Kolom 1: Sebelum -->
-                        <div class="p-5 rounded-2xl bg-rose-50/70 dark:bg-rose-950/25 border border-rose-200/80 dark:border-rose-900/50">
-                            <div class="flex items-center gap-2 text-rose-700 dark:text-rose-400 font-bold text-sm uppercase tracking-wider mb-3">
-                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-                                <span>Kondisi Sebelum (Data Buruk)</span>
+            grid.innerHTML = filtered.map(c => `
+                <article class="animate-fade-in bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col justify-between card-surface">
+                    <div>
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                            <span class="px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
+                                ${c.opd}
+                            </span>
+                            <div class="flex flex-wrap gap-1.5">
+                                ${c.dimensionsUsed.map(dim => `
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[11px] font-semibold">
+                                        ${dim}
+                                    </span>
+                                `).join('')}
                             </div>
-                            <ul class="space-y-2.5 text-sm text-slate-700 dark:text-slate-300">
-                                ${cs.before.map(item => `<li class="flex items-start gap-2"><span class="text-rose-500 font-bold">•</span><span>${item}</span></li>`).join('')}
-                            </ul>
-                        </div>
-
-                        <!-- Kolom 2: Intervensi 5W+1H -->
-                        <div class="p-5 rounded-2xl bg-blue-50/70 dark:bg-blue-950/25 border border-blue-200/80 dark:border-blue-900/50">
-                            <div class="flex items-center gap-2 text-blue-700 dark:text-blue-400 font-bold text-sm uppercase tracking-wider mb-3">
-                                <i data-lucide="wrench" class="w-4 h-4"></i>
-                                <span>Intervensi Kualitas Data</span>
-                            </div>
-                            <ul class="space-y-2.5 text-sm text-slate-700 dark:text-slate-300">
-                                ${cs.intervention.map(item => `<li class="flex items-start gap-2"><span class="text-blue-600 font-bold">✓</span><span>${item}</span></li>`).join('')}
-                            </ul>
                         </div>
 
-                        <!-- Kolom 3: Dampak Nyata -->
-                        <div class="p-5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/25 border border-emerald-200/80 dark:border-emerald-900/50">
-                            <div class="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold text-sm uppercase tracking-wider mb-3">
-                                <i data-lucide="trending-up" class="w-4 h-4"></i>
-                                <span>Dampak Nyata Setelah Perbaikan</span>
+                        <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-5">${c.title}</h3>
+
+                        <div class="space-y-3 text-xs sm:text-sm">
+                            <div class="p-3.5 rounded-2xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-100 dark:border-rose-900/50">
+                                <span class="font-bold text-rose-700 dark:text-rose-400 block mb-1">1. Kondisi Sebelum Pembenahan Data:</span>
+                                <p class="text-slate-700 dark:text-slate-300 leading-relaxed">${c.before}</p>
                             </div>
-                            <ul class="space-y-2.5 text-sm text-slate-700 dark:text-slate-300">
-                                ${cs.impact.map(item => `<li class="flex items-start gap-2"><span class="text-emerald-600 font-bold">★</span><span>${item}</span></li>`).join('')}
-                            </ul>
+
+                            <div class="p-3.5 rounded-2xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50">
+                                <span class="font-bold text-blue-700 dark:text-blue-400 block mb-1">2. Intervensi Kualitas Data (5W+1H):</span>
+                                <p class="text-slate-700 dark:text-slate-300 leading-relaxed">${c.intervention}</p>
+                            </div>
+
+                            <div class="p-3.5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50">
+                                <span class="font-bold text-emerald-700 dark:text-emerald-400 block mb-1">3. Dampak Nyata bagi Daerah & Masyarakat:</span>
+                                <p class="text-slate-700 dark:text-slate-300 leading-relaxed">${c.impact}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-            lucide.createIcons();
+                </article>
+            `).join('');
         }
 
         // -------------------------------------------------------------------
         // E. SIMULATOR AUDIT & PEMBERSIHAN DATA INTERAKTIF
         // -------------------------------------------------------------------
         const initialRawDataset = [
-            { id: 1, nik: "3273011205800001", nama: "Budi Santoso", umur: 46, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "valid", issueDesc: "Memenuhi seluruh 6 dimensi kualitas data." },
-            { id: 2, nik: "3273011205800001", nama: "Budi Santoso, S.E.", umur: 46, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "duplicate", issueDesc: "Melanggar Dimensi KEUNIKAN: NIK ganda dengan baris #1." },
-            { id: 3, nik: "32730145089200", nama: "Siti Aminah", umur: 34, statusDukcapil: "Hidup", desil: "Desil 2 (Miskin)", issueType: "validity", issueDesc: "Melanggar Dimensi VALIDITAS: NIK hanya 14 digit (seharusnya 16 digit)." },
-            { id: 4, nik: "3273012203550004", nama: "H. Ahmad Fauzi", umur: 71, statusDukcapil: "Meninggal Dunia", desil: "Desil 1 (Sangat Miskin)", issueType: "timeliness", issueDesc: "Melanggar Dimensi KETEPATAN WAKTU: Status Dukcapil sudah meninggal." },
-            { id: 5, nik: "3273016011880009", nama: "Rina Marlina", umur: 38, statusDukcapil: "Hidup", desil: "", issueType: "completeness", issueDesc: "Melanggar Dimensi KELENGKAPAN: Kolom Desil Kemiskinan kosong." },
-            { id: 6, nik: "3273010501950002", nama: "Dedi Kurniawan", umur: -25, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "accuracy", issueDesc: "Melanggar Dimensi AKURASI & VALIDITAS: Nilai umur negatif (-25)." },
-            { id: 7, nik: "3273015409850007", nama: "Ratna Dewi", umur: 41, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "valid", issueDesc: "Memenuhi seluruh 6 dimensi kualitas data." }
+            { id: 1, nik: "3273011205800001", nama: "Budi Santoso", umur: 46, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "valid", issueDesc: "Lolos Audit: Memenuhi seluruh dimensi kualitas data." },
+            { id: 2, nik: "3273011205800001", nama: "Budi Santoso, S.E.", umur: 46, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "duplicate", issueDesc: "Anomali KEUNIKAN: NIK ganda dengan baris #1." },
+            { id: 3, nik: "32730145089200", nama: "Siti Aminah", umur: 34, statusDukcapil: "Hidup", desil: "Desil 2 (Miskin)", issueType: "validity", issueDesc: "Anomali VALIDITAS: NIK hanya 14 digit (seharusnya 16 digit)." },
+            { id: 4, nik: "3273012203550004", nama: "H. Ahmad Fauzi", umur: 71, statusDukcapil: "Meninggal Dunia", desil: "Desil 1 (Sangat Miskin)", issueType: "coherence", issueDesc: "Anomali KOHERENSI & AKTUALITAS: Status Dukcapil sudah meninggal dunia." },
+            { id: 5, nik: "3273016011880009", nama: "Rina Marlina", umur: 38, statusDukcapil: "Hidup", desil: "", issueType: "completeness", issueDesc: "Anomali KELENGKAPAN: Kategori Desil kemiskinan kosong." },
+            { id: 6, nik: "3273010501950002", nama: "Dedi Kurniawan", umur: -25, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "accuracy", issueDesc: "Anomali AKURASI & VALIDITAS: Nilai umur negatif (-25)." },
+            { id: 7, nik: "3273015409850007", nama: "Ratna Dewi", umur: 41, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "valid", issueDesc: "Lolos Audit: Memenuhi seluruh dimensi kualitas data." }
         ];
 
-        let currentSimData = JSON.parse(JSON.stringify(initialRawDataset));
-        let simState = 'raw'; // 'raw' | 'audited' | 'cleaned'
+        const cleanedDataset = [
+            { id: 1, nik: "3273011205800001", nama: "Budi Santoso", umur: 46, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "valid", issueDesc: "Tervalidasi: Duplikasi baris #2 telah dihapus (Keunikan)." },
+            { id: 2, nik: "3273014508920003", nama: "Siti Aminah", umur: 34, statusDukcapil: "Hidup", desil: "Desil 2 (Miskin)", issueType: "valid", issueDesc: "Diperbaiki: NIK disinkronkan menjadi 16 digit baku Dukcapil (Validitas)." },
+            { id: 3, nik: "3273016011880009", nama: "Rina Marlina", umur: 38, statusDukcapil: "Hidup", desil: "Desil 2 (Miskin)", issueType: "valid", issueDesc: "Dilengkapi: Hasil musyawarah kelurahan menetapkan Desil 2 (Kelengkapan)." },
+            { id: 4, nik: "3273010501950002", nama: "Dedi Kurniawan", umur: 31, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "valid", issueDesc: "Dikoreksi: Umur dihitung otomatis dari tanggal lahir pada NIK (Akurasi)." },
+            { id: 5, nik: "3273015409850007", nama: "Ratna Dewi", umur: 41, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "valid", issueDesc: "Tervalidasi: Memenuhi seluruh dimensi kualitas data." }
+        ];
 
-        function renderSimulatorTable() {
+        let currentDataset = JSON.parse(JSON.stringify(initialRawDataset));
+        let isDatasetCleaned = false;
+
+        function renderSimulator() {
             const tbody = document.getElementById('simulator-table-body');
-            tbody.innerHTML = currentSimData.map((row, idx) => {
-                let rowBg = "hover:bg-slate-50 dark:hover:bg-slate-800/40";
-                let diagBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium">Menunggu Audit</span>`;
+            if (!tbody) return;
 
-                if (simState === 'audited') {
-                    if (row.issueType === 'valid') {
-                        rowBg = "bg-emerald-50/40 dark:bg-emerald-950/15";
-                        diagBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-bold">✓ Valid & Akurat</span>`;
-                    } else {
-                        rowBg = "bg-rose-50/70 dark:bg-rose-950/30";
-                        diagBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-rose-100 dark:bg-rose-900/60 text-rose-700 dark:text-rose-300 text-xs font-bold">✕ ${row.issueDesc}</span>`;
-                    }
-                } else if (simState === 'cleaned') {
-                    rowBg = "bg-emerald-50/50 dark:bg-emerald-950/20";
-                    diagBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-bold">✓ Terverifikasi & Siap Salur</span>`;
+            const totalRows = currentDataset.length;
+            const validRows = currentDataset.filter(r => r.issueType === 'valid').length;
+            const issueRows = totalRows - validRows;
+            const score = totalRows > 0 ? Math.round((validRows / totalRows) * 100) : 0;
+
+            const scoreTextEl = document.getElementById('audit-score-text');
+            const badgeEl = document.getElementById('audit-badge');
+            const totalEl = document.getElementById('audit-total-rows');
+            const validEl = document.getElementById('audit-valid-rows');
+            const issueEl = document.getElementById('audit-issue-rows');
+            const bannerEl = document.getElementById('audit-feedback-banner');
+
+            if (scoreTextEl) {
+                scoreTextEl.textContent = `${score}%`;
+                scoreTextEl.className = score === 100
+                    ? 'text-4xl font-extrabold text-emerald-600 dark:text-emerald-400'
+                    : 'text-4xl font-extrabold text-rose-600 dark:text-rose-400';
+            }
+
+            if (badgeEl) {
+                if (score === 100) {
+                    badgeEl.textContent = 'Siap Salur (100% Valid)';
+                    badgeEl.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300';
+                } else {
+                    badgeEl.textContent = 'Perlu Pembersihan';
+                    badgeEl.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300';
                 }
+            }
+
+            if (totalEl) totalEl.textContent = `${totalRows} Baris`;
+            if (validEl) validEl.textContent = `${validRows} Baris`;
+            if (issueEl) issueEl.textContent = `${issueRows} Baris`;
+
+            if (bannerEl) {
+                if (isDatasetCleaned) {
+                    bannerEl.className = 'mt-5 p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs sm:text-sm text-emerald-800 dark:text-emerald-300 flex items-center gap-2.5';
+                    bannerEl.innerHTML = `
+                        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span><strong>Pembersihan Selesai (Skor 100%):</strong> 1 duplikasi dihapus, 1 penerima meninggal dunia dinonaktifkan dari daftar salur, serta 3 rekaman diperbaiki melalui sinkronisasi Dukcapil & verifikasi kelurahan.</span>
+                    `;
+                } else {
+                    bannerEl.className = 'mt-5 p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-xs sm:text-sm text-amber-800 dark:text-amber-300 flex items-center gap-2.5';
+                    bannerEl.innerHTML = `
+                        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        <span><strong>Hasil Audit Awal:</strong> Ditemukan 5 anomali lintas dimensi (Keunikan, Validitas, Koherensi, Kelengkapan, dan Akurasi). Klik tombol <em>"Bersihkan & Perbaiki Otomatis"</em> untuk memproses pemutakhiran data.</span>
+                    `;
+                }
+            }
+
+            tbody.innerHTML = currentDataset.map((row, idx) => {
+                const isValid = row.issueType === 'valid';
+                const rowBg = isValid
+                    ? 'bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                    : 'bg-rose-50/60 dark:bg-rose-950/25 hover:bg-rose-50 dark:hover:bg-rose-950/40';
+
+                const statusBadge = isValid
+                    ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 font-semibold text-xs">${row.issueDesc}</span>`
+                    : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 font-semibold text-xs">${row.issueDesc}</span>`;
 
                 return `
                     <tr class="${rowBg} transition-colors">
                         <td class="py-3.5 px-4 font-semibold text-slate-500 dark:text-slate-400">${idx + 1}</td>
-                        <td class="py-3.5 px-4 font-mono text-xs sm:text-sm ${simState === 'audited' && (row.issueType === 'validity' || row.issueType === 'duplicate') ? 'text-rose-600 dark:text-rose-400 font-bold' : 'text-slate-800 dark:text-slate-200'}">${row.nik}</td>
+                        <td class="py-3.5 px-4 font-mono text-xs font-semibold ${row.nik.length !== 16 ? 'text-rose-600 dark:text-rose-400 underline' : 'text-slate-800 dark:text-slate-200'}">${row.nik}</td>
                         <td class="py-3.5 px-4 font-semibold text-slate-900 dark:text-white">${row.nama}</td>
-                        <td class="py-3.5 px-4 ${simState === 'audited' && row.issueType === 'accuracy' ? 'text-rose-600 dark:text-rose-400 font-bold' : 'text-slate-700 dark:text-slate-300'}">${row.umur} thn</td>
-                        <td class="py-3.5 px-4">
-                            <span class="px-2 py-0.5 rounded text-xs font-semibold ${row.statusDukcapil === 'Meninggal Dunia' ? 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'}">
-                                ${row.statusDukcapil}
-                            </span>
-                        </td>
-                        <td class="py-3.5 px-4 text-slate-700 dark:text-slate-300">${row.desil || '<span class="italic text-rose-500 font-semibold">[KOSONG]</span>'}</td>
-                        <td class="py-3.5 px-4">${diagBadge}</td>
+                        <td class="py-3.5 px-4 ${row.umur < 0 ? 'text-rose-600 dark:text-rose-400 font-bold' : 'text-slate-700 dark:text-slate-300'}">${row.umur} thn</td>
+                        <td class="py-3.5 px-4 ${row.statusDukcapil !== 'Hidup' ? 'text-rose-600 dark:text-rose-400 font-bold' : 'text-slate-700 dark:text-slate-300'}">${row.statusDukcapil}</td>
+                        <td class="py-3.5 px-4">${row.desil ? `<span class="text-slate-700 dark:text-slate-300">${row.desil}</span>` : `<span class="italic text-rose-600 dark:text-rose-400 font-semibold">[Kosong]</span>`}</td>
+                        <td class="py-3.5 px-4">${statusBadge}</td>
                     </tr>
                 `;
             }).join('');
         }
 
-        function runDataAudit() {
-            simState = 'audited';
-            renderSimulatorTable();
-
-            // Hitung skor: hanya 2 dari 7 baris awal yang 100% bersih (28.5%)
-            document.getElementById('sim-score-text').innerHTML = `<span class="text-rose-600 dark:text-rose-400">28.6%</span> <span class="text-xs font-normal text-slate-500">(Kritis)</span>`;
-            document.getElementById('sim-status-badge').innerHTML = `<span class="w-2 h-2 rounded-full bg-rose-500"></span> <span class="text-rose-600 dark:text-rose-400">Ditemukan 5 Anomali Data</span>`;
-            
-            document.getElementById('btn-clean-data').disabled = false;
-            document.getElementById('btn-run-audit').disabled = true;
-            document.getElementById('btn-run-audit').classList.add('opacity-50', 'cursor-not-allowed');
-
-            const summaryBox = document.getElementById('audit-summary-box');
-            summaryBox.classList.remove('hidden');
-            summaryBox.innerHTML = `
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div>
-                        <h4 class="font-bold text-slate-900 dark:text-white text-base mb-1">Hasil Profiling Walidata: 5 Masalah Terdeteksi!</h4>
-                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-                            Ditemukan <strong>1 duplikasi NIK</strong>, <strong>1 format NIK 14 digit</strong>, <strong>1 penerima meninggal dunia</strong>, <strong>1 kolom desil kosong</strong>, dan <strong>1 nilai umur negatif</strong>. Klik tombol <strong>"2. Bersihkan Otomatis"</strong> untuk melakukan remediasi data.
-                        </p>
-                    </div>
-                </div>
-            `;
-        }
-
         function cleanDataset() {
-            simState = 'cleaned';
-            // Simulasi pembersihan: hapus duplikat (#2) & meninggal (#4), perbaiki format NIK (#3), lengkapi desil (#5) dari DTKS, koreksi umur (#6) dari tanggal lahir NIK
-            currentSimData = [
-                { id: 1, nik: "3273011205800001", nama: "Budi Santoso", umur: 46, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "valid" },
-                { id: 3, nik: "3273014508920003", nama: "Siti Aminah", umur: 34, statusDukcapil: "Hidup", desil: "Desil 2 (Miskin)", issueType: "valid" },
-                { id: 5, nik: "3273016011880009", nama: "Rina Marlina", umur: 38, statusDukcapil: "Hidup", desil: "Desil 2 (Miskin - Sync DTKS)", issueType: "valid" },
-                { id: 6, nik: "3273010501950002", nama: "Dedi Kurniawan", umur: 31, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "valid" },
-                { id: 7, nik: "3273015409850007", nama: "Ratna Dewi", umur: 41, statusDukcapil: "Hidup", desil: "Desil 1 (Sangat Miskin)", issueType: "valid" }
-            ];
-
-            renderSimulatorTable();
-
-            document.getElementById('sim-score-text').innerHTML = `<span class="text-emerald-600 dark:text-emerald-400">100%</span> <span class="text-xs font-normal text-slate-500">(Optimal)</span>`;
-            document.getElementById('sim-status-badge').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span> <span class="text-emerald-600 dark:text-emerald-400">Data Bersih & Terstandar SDI</span>`;
-            document.getElementById('btn-clean-data').disabled = true;
-
-            const summaryBox = document.getElementById('audit-summary-box');
-            summaryBox.className = "p-5 sm:p-6 bg-emerald-50/80 dark:bg-emerald-950/30 border-t border-emerald-200 dark:border-emerald-900/60";
-            summaryBox.innerHTML = `
-                <div>
-                    <h4 class="font-bold text-emerald-800 dark:text-emerald-300 text-base mb-1">Pembersihan Data Selesai (Skor Kualitas: 100%)</h4>
-                    <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                        • <strong>Deduplikasi:</strong> Baris ganda Budi Santoso dihapus (menghemat 1 kuota bansos).<br>
-                        • <strong>Pemadanan Dukcapil:</strong> Penerima meninggal dunia otomatis dikeluarkan dari daftar salur; NIK 14 digit & umur negatif dikoreksi sesuai tanggal lahir pada database induk kependudukan.
-                    </p>
-                </div>
-            `;
+            currentDataset = JSON.parse(JSON.stringify(cleanedDataset));
+            isDatasetCleaned = true;
+            renderSimulator();
         }
 
-        function resetSimulator() {
-            currentSimData = JSON.parse(JSON.stringify(initialRawDataset));
-            simState = 'raw';
-            renderSimulatorTable();
-
-            document.getElementById('sim-score-text').innerHTML = `-- / 100%`;
-            document.getElementById('sim-status-badge').innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500"></span> Data Mentah (Belum Diaudit)`;
-            
-            const btnAudit = document.getElementById('btn-run-audit');
-            btnAudit.disabled = false;
-            btnAudit.classList.remove('opacity-50', 'cursor-not-allowed');
-            
-            document.getElementById('btn-clean-data').disabled = true;
-            const summaryBox = document.getElementById('audit-summary-box');
-            summaryBox.classList.add('hidden');
-            summaryBox.className = "hidden p-5 sm:p-6 bg-blue-50/70 dark:bg-blue-950/30 border-t border-blue-200 dark:border-blue-900/60";
+        function resetDataset() {
+            currentDataset = JSON.parse(JSON.stringify(initialRawDataset));
+            isDatasetCleaned = false;
+            renderSimulator();
         }
 
         // -------------------------------------------------------------------
-        // F. CHECKLIST KESIAPAN KUALITAS DATA OPD
+        // F. CHECKLIST KEMATANGAN TATA KELOLA KUALITAS DATA OPD
         // -------------------------------------------------------------------
-        const checklistQuestions = [
-            "OPD telah menetapkan daftar data prioritas dan standar metadata bersama Walidata (Diskominfo) & Pembina Data (BPS).",
-            "Formulir input aplikasi sudah menggunakan validasi otomatis (dropdown kode wilayah baku, validasi 16 digit NIK, dan wajib isi kolom utama).",
-            "Database layanan OPD sudah terhubung melalui API (interoperabilitas) sehingga tidak meminta warga menginput ulang data dasar.",
-            "Terdapat jadwal pemutakhiran data yang rutin (bulanan/semesteran) serta petugas verifikator yang ditunjuk secara resmi.",
-            "Dilakukan audit/pembersihan data berkala sebelum data dipublikasikan ke Portal Satu Data Daerah atau digunakan dalam Musrenbang."
+        const checklistIndicators = [
+            {
+                id: "chk-1",
+                title: "Penunjukan Resmi Pengelola Data / Tim Produsen Data OPD",
+                desc: "Terdapat SK Kepala OPD yang menetapkan pejabat/staf penanggung jawab pengumpulan dan pemeriksaan kualitas data."
+            },
+            {
+                id: "chk-2",
+                title: "Tersedia Standar Data & Metadata Baku untuk Setiap Dataset",
+                desc: "Setiap tabel atau indikator memiliki definisi operasional, satuan, dan jadwal pemutakhiran yang jelas sesuai standar BPS/SDI."
+            },
+            {
+                id: "chk-3",
+                title: "Validasi Otomatis di Titik Input Aplikasi (Point of Entry)",
+                desc: "Formulir digital telah membatasi format NIK 16 digit, wajib isi pada kolom kunci, dan menggunakan dropdown kode wilayah baku."
+            },
+            {
+                id: "chk-4",
+                title: "Penggunaan Kode Referensi & Master Data Tunggal (NIK / NIB / Kode Wilayah)",
+                desc: "Database OPD menggunakan identitas unik nasional sehingga dapat disandingkan (koheren) dengan data OPD lain."
+            },
+            {
+                id: "chk-5",
+                title: "Verifikasi & Validasi Lapangan Secara Berkala",
+                desc: "Dilakukan uji petik atau pengecekan faktual kondisi lapangan (misalnya foto geotagging atau musyawarah desa/kelurahan)."
+            },
+            {
+                id: "chk-6",
+                title: "Interoperabilitas Sistem (Pertukaran Data via API)",
+                desc: "Pertukaran data antar-OPD dilakukan melalui layanan berbagi pakai terintegrasi, tidak lagi mengandalkan file Excel terpisah via email/chat."
+            },
+            {
+                id: "chk-7",
+                title: "Publikasi Dataset Terbuka di Portal Satu Data Daerah",
+                desc: "Dataset publik dirilis tepat waktu dalam format terbuka (CSV/JSON) yang mudah diakses masyarakat dan pimpinan daerah."
+            },
+            {
+                id: "chk-8",
+                title: "Pemanfaatan Data dalam Penyusunan Renja, RKPD, dan Evaluasi Kinerja",
+                desc: "Data terverifikasi dijadikan dasar resmi penentuan target program dan alokasi anggaran APBD."
+            }
         ];
 
         function renderChecklist() {
-            const container = document.getElementById('checklist-items');
-            container.innerHTML = checklistQuestions.map((q, index) => `
-                <label class="flex items-start gap-3.5 p-3.5 rounded-2xl bg-slate-50/80 dark:bg-slate-800/50 hover:bg-blue-50/60 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 cursor-pointer transition-colors">
-                    <input type="checkbox" onchange="updateMaturityScore()" class="opd-check mt-1 w-5 h-5 rounded text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-slate-600 cursor-pointer">
-                    <span class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">${q}</span>
+            const container = document.getElementById('checklist-items-container');
+            if (!container) return;
+
+            container.innerHTML = checklistIndicators.map((item, index) => `
+                <label for="${item.id}" class="flex items-start gap-4 p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600 transition-all cursor-pointer shadow-sm card-surface">
+                    <input
+                        type="checkbox"
+                        id="${item.id}"
+                        onchange="updateChecklistScore()"
+                        class="opd-checklist-box mt-1 w-5 h-5 rounded-md border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer shrink-0"
+                    >
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 block mb-0.5">Indikator #${index + 1}</span>
+                        <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">${item.title}</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">${item.desc}</p>
+                    </div>
                 </label>
             `).join('');
         }
 
-        function updateMaturityScore() {
-            const checkboxes = document.querySelectorAll('.opd-check');
-            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
-            const pct = Math.round((checkedCount / checkboxes.length) * 100);
+        function updateChecklistScore() {
+            const boxes = document.querySelectorAll('.opd-checklist-box');
+            const total = boxes.length;
+            let checkedCount = 0;
+            boxes.forEach(box => {
+                if (box.checked) checkedCount++;
+            });
 
-            document.getElementById('maturity-percentage').textContent = `${pct}%`;
-            document.getElementById('maturity-bar').style.width = `${pct}%`;
+            const percent = total > 0 ? Math.round((checkedCount / total) * 100) : 0;
 
-            const labelEl = document.getElementById('maturity-label');
-            if (pct === 0) {
-                labelEl.textContent = "Silakan centang indikator yang telah berjalan di instansi Anda.";
-            } else if (pct <= 40) {
-                labelEl.innerHTML = `<span class="text-amber-600 dark:text-amber-400 font-bold">Tahap Awal (Ad-Hoc):</span> Data masih dikelola manual/terpisah. Perlu segera menyusun standar metadata bersama Walidata.`;
-            } else if (pct <= 80) {
-                labelEl.innerHTML = `<span class="text-blue-600 dark:text-blue-400 font-bold">Tahap Berkembang (Terstandar):</span> Fondasi tata kelola sudah berjalan baik. Tingkatkan otomatisasi API dan audit berkala.`;
-            } else {
-                labelEl.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold">Tahap Optimal (Data-Driven OPD):</span> Instansi Anda siap menjadi percontohan implementasi Satu Data Indonesia di daerah!`;
+            const percentEl = document.getElementById('checklist-percent');
+            const barEl = document.getElementById('checklist-progress-bar');
+            const levelEl = document.getElementById('checklist-level-badge');
+            const countEl = document.getElementById('checklist-count-text');
+
+            if (percentEl) percentEl.textContent = `${percent}%`;
+            if (barEl) barEl.style.width = `${percent}%`;
+            if (countEl) countEl.textContent = `${checkedCount} dari ${total} indikator`;
+
+            if (levelEl) {
+                if (checkedCount <= 2) {
+                    levelEl.textContent = 'Level 1: Rintisan (Ad-Hoc)';
+                    levelEl.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300';
+                } else if (checkedCount <= 4) {
+                    levelEl.textContent = 'Level 2: Terkelola Sebagian';
+                    levelEl.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300';
+                } else if (checkedCount <= 6) {
+                    levelEl.textContent = 'Level 3: Terstandar Satu Data';
+                    levelEl.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300';
+                } else {
+                    levelEl.textContent = 'Level 4: Optimal & Berbasis Bukti';
+                    levelEl.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300';
+                }
             }
         }
 
+        function resetChecklist() {
+            document.querySelectorAll('.opd-checklist-box').forEach(box => {
+                box.checked = false;
+            });
+            updateChecklistScore();
+        }
+
         // -------------------------------------------------------------------
-        // INISIALISASI HALAMAN SAAT DIMUAT
+        // G. INISIALISASI HALAMAN SAAT DOM SIAP
         // -------------------------------------------------------------------
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function () {
+            updateThemeUI();
             select5W1H('what');
             renderDimensions();
-            selectCaseStudy('bansos');
-            renderSimulatorTable();
+            renderCases();
+            renderSimulator();
             renderChecklist();
-            lucide.createIcons();
+            updateChecklistScore();
         });
     </script>
 </body>
