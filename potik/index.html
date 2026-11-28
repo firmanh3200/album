@@ -1,0 +1,2326 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LKE Pojok Statistik — Lembar Kerja Evaluasi & Monev</title>
+  <style>
+    :root {
+      --bg-page: #f4f7fb;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-header: rgba(255, 255, 255, 0.88);
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-soft: #e0f2fe;
+      --accent: #0d9488;
+      --accent-soft: #ccfbf1;
+      --success: #16a34a;
+      --success-soft: #dcfce7;
+      --warning: #d97706;
+      --warning-soft: #fef3c7;
+      --danger: #dc2626;
+      --danger-soft: #fee2e2;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --radius-sm: 8px;
+    }
+
+    [data-theme="dark"] {
+      --bg-page: #0b1120;
+      --bg-surface: #131c31;
+      --bg-subtle: #19243d;
+      --bg-header: rgba(19, 28, 49, 0.88);
+      --border: #25334d;
+      --border-strong: #36496b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #7dd3fc;
+      --primary-soft: rgba(56, 189, 248, 0.15);
+      --accent: #2dd4bf;
+      --accent-soft: rgba(45, 212, 191, 0.15);
+      --success: #4ade80;
+      --success-soft: rgba(74, 222, 128, 0.15);
+      --warning: #fbbf24;
+      --warning-soft: rgba(251, 191, 36, 0.15);
+      --danger: #f87171;
+      --danger-soft: rgba(248, 113, 113, 0.15);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 10px 28px -6px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.55;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Sticky Header */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-header);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .brand-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0284c7, #0d9488);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 0.92rem;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.28);
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    /* Navigation Dropdown Menus */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .nav-caret {
+      font-size: 0.65rem;
+      opacity: 0.75;
+      transition: transform 0.2s ease;
+    }
+
+    .nav-dropdown.open .nav-caret {
+      transform: rotate(180deg);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 0.42rem);
+      right: 0;
+      min-width: 220px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      padding: 0.38rem;
+      display: none;
+      flex-direction: column;
+      gap: 0.2rem;
+      z-index: 150;
+    }
+
+    .nav-dropdown.open .nav-dropdown-menu {
+      display: flex;
+    }
+
+    .nav-dropdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.5rem 0.7rem;
+      border-radius: 7px;
+      border: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 500;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-dropdown-item:hover {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .nav-ext-icon {
+      font-size: 0.72rem;
+      opacity: 0.65;
+    }
+
+    .mobile-section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      padding: 0.45rem 0.25rem 0.15rem;
+      border-top: 1px solid var(--border);
+      margin-top: 0.2rem;
+    }
+
+    .mobile-section-label:first-child {
+      border-top: none;
+      margin-top: 0;
+    }
+
+    .progress-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 0.38rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .mini-bar {
+      width: 64px;
+      height: 6px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .mini-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0284c7, #10b981);
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.42rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--bg-subtle);
+    }
+
+    .btn-icon {
+      padding: 0.5rem;
+      width: 36px;
+      height: 36px;
+    }
+
+    .hamburger-btn {
+      display: none;
+    }
+
+    .mobile-menu {
+      display: none;
+      padding: 0.75rem 1.25rem 1rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg-surface);
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3.5rem;
+    }
+
+    /* Hero & Metadata Card */
+    .hero-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #0284c7, #0d9488, #10b981);
+    }
+
+    .hero-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      max-width: 780px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.85rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-field label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .meta-field input {
+      width: 100%;
+      padding: 0.5rem 0.7rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      transition: border-color 0.2s;
+    }
+
+    .meta-field input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--bg-surface);
+    }
+
+    /* KPI Summary Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .kpi-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .kpi-value {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .kpi-foot {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      margin-top: 0.35rem;
+    }
+
+    /* Dimension Category Pills */
+    .dim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .dim-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.8rem 0.95rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+
+    .dim-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .dim-card.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .dim-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.45rem;
+    }
+
+    .dim-count {
+      font-size: 0.72rem;
+      padding: 0.12rem 0.45rem;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .dim-bar {
+      width: 100%;
+      height: 5px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .dim-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    /* Filter & Controls Toolbar */
+    .toolbar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1 1 280px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.55rem 0.85rem 0.55rem 2.2rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+      font-size: 0.86rem;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--bg-surface);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    select.control-select {
+      padding: 0.52rem 0.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    select.control-select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* DataTable Card */
+    .table-wrapper {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+
+    thead {
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      text-align: left;
+      padding: 0.85rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    td {
+      padding: 0.95rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      font-size: 0.88rem;
+    }
+
+    tbody tr {
+      transition: background-color 0.15s ease;
+    }
+
+    tbody tr:hover {
+      background-color: var(--bg-subtle);
+    }
+
+    tbody tr.completed-row {
+      background-color: rgba(16, 185, 129, 0.035);
+    }
+
+    .col-no {
+      width: 64px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .no-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 28px;
+      padding: 0 0.45rem;
+      border-radius: 8px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .col-indikator {
+      width: 33%;
+    }
+
+    .indikator-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+    }
+
+    .indikator-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+    }
+
+    .tag-dim {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .tag-hint {
+      font-size: 0.71rem;
+      color: var(--text-muted);
+    }
+
+    .col-monev {
+      width: 40%;
+    }
+
+    .monev-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    
+    .multi-choice-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      padding: 0.55rem 0.65rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-subtle);
+    }
+
+    .multi-choice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding-bottom: 0.25rem;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .multi-choice-badge {
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .multi-choice-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.42rem 0.55rem;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      cursor: pointer;
+      font-size: 0.81rem;
+      line-height: 1.4;
+      color: var(--text-primary);
+      transition: all 0.16s ease;
+    }
+
+    .multi-choice-item:hover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .multi-choice-item.checked {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 600;
+    }
+
+    .multi-choice-item input[type="checkbox"] {
+      margin-top: 0.18rem;
+      accent-color: var(--accent);
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .dropdown-select {
+      width: 100%;
+      padding: 0.48rem 0.65rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+
+    .dropdown-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--bg-surface);
+    }
+
+    .dropdown-select[data-score="4"] {
+      background: var(--success-soft);
+      color: var(--success);
+      border-color: rgba(22, 163, 74, 0.35);
+    }
+
+    .dropdown-select[data-score="3"] {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-color: rgba(2, 132, 199, 0.35);
+    }
+
+    .dropdown-select[data-score="2"] {
+      background: var(--warning-soft);
+      color: var(--warning);
+      border-color: rgba(217, 119, 6, 0.35);
+    }
+
+    .dropdown-select[data-score="1"] {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: rgba(220, 38, 38, 0.35);
+    }
+
+    .dropdown-select[data-score="0"] {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: rgba(13, 148, 136, 0.35);
+    }
+
+    .selected-pill-preview {
+      font-size: 0.78rem;
+      line-height: 1.45;
+      padding: 0.45rem 0.65rem;
+      border-radius: 7px;
+      background: var(--bg-subtle);
+      border-left: 3px solid var(--primary);
+      color: var(--text-secondary);
+    }
+
+    .selected-pill-preview[data-score="4"] {
+      border-left-color: var(--success);
+    }
+
+    .selected-pill-preview[data-score="3"] {
+      border-left-color: var(--primary);
+    }
+
+    .selected-pill-preview[data-score="2"] {
+      border-left-color: var(--warning);
+    }
+
+    .selected-pill-preview[data-score="1"] {
+      border-left-color: var(--danger);
+    }
+
+    .selected-pill-preview[data-score="0"] {
+      border-left-color: var(--accent);
+    }
+
+    .monev-textarea {
+      width: 100%;
+      min-height: 46px;
+      padding: 0.45rem 0.65rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.8rem;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+
+    .monev-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--bg-surface);
+    }
+
+    .col-tautan {
+      width: 22%;
+    }
+
+    .link-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .link-input-wrap {
+      display: flex;
+      gap: 0.35rem;
+    }
+
+    .link-input {
+      flex: 1;
+      min-width: 0;
+      padding: 0.45rem 0.65rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+      font-size: 0.8rem;
+    }
+
+    .link-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--bg-surface);
+    }
+
+    .link-preview {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      background: var(--primary-soft);
+      width: fit-content;
+    }
+
+    .link-preview:hover {
+      text-decoration: underline;
+    }
+
+    /* Pagination Footer */
+    .table-footer {
+      padding: 0.9rem 1.1rem;
+      background: var(--bg-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .page-btn {
+      min-width: 32px;
+      height: 32px;
+      padding: 0 0.55rem;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .page-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .page-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      background: var(--text-primary);
+      color: var(--bg-surface);
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 200;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1024px) {
+      .desktop-only {
+        display: none !important;
+      }
+      .hamburger-btn {
+        display: inline-flex;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      .sticky-header,
+      .toolbar,
+      .dim-grid,
+      .table-footer,
+      .btn,
+      .link-input-wrap,
+      .dropdown-select,
+      .multi-choice-group,
+      .toast {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .container {
+        max-width: 100%;
+        padding: 0;
+      }
+      .hero-card,
+      .kpi-card,
+      .table-wrapper {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+      }
+      table {
+        min-width: 100% !important;
+      }
+      .monev-textarea {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        min-height: auto !important;
+        resize: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header class="sticky-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-badge">LKE</div>
+        <div>
+          <div class="brand-title">LKE Pojok Statistik</div>
+          <div class="brand-sub">Lembar Kerja Evaluasi dan Monitoring Penyelenggaraan</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="progress-pill" title="Progres Pengisian Monev">
+          <span id="headerProgressText">0/33 (0%)</span>
+          <div class="mini-bar">
+            <div class="mini-bar-fill" id="headerProgressBar"></div>
+          </div>
+        </div>
+
+        <!-- Menu Program -->
+        <a class="btn desktop-only" href="rencana-kerja.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" title="Buka Rencana Program Kerja di tab baru">
+          📋 Program <span class="nav-ext-icon">↗</span>
+        </a>
+
+        <!-- Menu Literasi -->
+        <div class="nav-dropdown desktop-only" id="dropdown-literasi">
+          <button type="button" class="btn nav-dropdown-btn" onclick="toggleNavDropdown('dropdown-literasi', event)">
+            📚 Literasi <span class="nav-caret">▼</span>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a class="nav-dropdown-item" href="gsbpm.html" target="_blank" rel="noopener noreferrer" onclick="closeAllDropdowns()">
+              <span>GSBPM</span><span class="nav-ext-icon">↗</span>
+            </a>
+            <a class="nav-dropdown-item" href="kualitas-data.html" target="_blank" rel="noopener noreferrer" onclick="closeAllDropdowns()">
+              <span>Kualitas Data</span><span class="nav-ext-icon">↗</span>
+            </a>
+            <a class="nav-dropdown-item" href="ssn.html" target="_blank" rel="noopener noreferrer" onclick="closeAllDropdowns()">
+              <span>S S N</span><span class="nav-ext-icon">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Menu Promosi -->
+        <div class="nav-dropdown desktop-only" id="dropdown-promosi">
+          <button type="button" class="btn nav-dropdown-btn" onclick="toggleNavDropdown('dropdown-promosi', event)">
+            📢 Promosi <span class="nav-caret">▼</span>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a class="nav-dropdown-item" href="https://www.bps.go.id" target="_blank" rel="noopener noreferrer" onclick="closeAllDropdowns()">
+              <span>Website BPS</span><span class="nav-ext-icon">↗</span>
+            </a>
+            <a class="nav-dropdown-item" href="https://jabar.bps.go.id" target="_blank" rel="noopener noreferrer" onclick="closeAllDropdowns()">
+              <span>Website BPS Jabar</span><span class="nav-ext-icon">↗</span>
+            </a>
+            <a class="nav-dropdown-item" href="https://firmanh3200.github.io/album/pss/" target="_blank" rel="noopener noreferrer" onclick="closeAllDropdowns()">
+              <span>Open Data Jabar</span><span class="nav-ext-icon">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Menu Ekspor (Gabungan Ekspor & Cetak) -->
+        <div class="nav-dropdown desktop-only" id="dropdown-ekspor">
+          <button type="button" class="btn nav-dropdown-btn" onclick="toggleNavDropdown('dropdown-ekspor', event)">
+            📤 Ekspor <span class="nav-caret">▼</span>
+          </button>
+          <div class="nav-dropdown-menu">
+            <button type="button" class="nav-dropdown-item" onclick="exportCSV(); closeAllDropdowns()">
+              <span>📥 Ekspor CSV</span>
+            </button>
+            <button type="button" class="nav-dropdown-item" onclick="exportJSON(); closeAllDropdowns()">
+              <span>💾 Ekspor JSON</span>
+            </button>
+            <button type="button" class="nav-dropdown-item" onclick="window.print(); closeAllDropdowns()">
+              <span>🖨️ Cetak / Simpan PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Impor JSON -->
+        <label class="btn desktop-only" style="margin:0;" title="Muat ulang cadangan JSON">
+          📂 Impor
+          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)" />
+        </label>
+
+        <button class="btn btn-icon" id="themeToggle" onclick="toggleTheme()" title="Ganti Mode Terang / Gelap" aria-label="Ganti Tema">
+          🌙
+        </button>
+        <button class="btn btn-icon hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+          ☰
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Hamburger Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-section-label">Program</div>
+      <a class="btn" href="rencana-kerja.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" onclick="toggleMobileMenu()">📋 Program (rencana-kerja.html) ↗</a>
+
+      <div class="mobile-section-label">Literasi</div>
+      <a class="btn" href="gsbpm.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" onclick="toggleMobileMenu()">📘 GSBPM ↗</a>
+      <a class="btn" href="kualitas-data.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" onclick="toggleMobileMenu()">📗 Kualitas Data ↗</a>
+      <a class="btn" href="ssn.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" onclick="toggleMobileMenu()">📙 S S N ↗</a>
+
+      <div class="mobile-section-label">Promosi</div>
+      <a class="btn" href="https://www.bps.go.id" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" onclick="toggleMobileMenu()">🌐 Website BPS ↗</a>
+      <a class="btn" href="https://jabar.bps.go.id" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" onclick="toggleMobileMenu()">🏛️ Website BPS Jabar ↗</a>
+      <a class="btn" href="https://firmanh3200.github.io/album/pss/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" onclick="toggleMobileMenu()">📊 Open Data Jabar ↗</a>
+
+      <div class="mobile-section-label">Ekspor &amp; Data</div>
+      <button class="btn" onclick="exportCSV(); toggleMobileMenu()">📥 Ekspor CSV (Google Sheets)</button>
+      <button class="btn" onclick="exportJSON(); toggleMobileMenu()">💾 Ekspor Cadangan JSON</button>
+      <button class="btn" onclick="window.print(); toggleMobileMenu()">🖨️ Cetak / Simpan PDF</button>
+      <label class="btn" style="margin:0;">
+        📂 Impor Cadangan JSON
+        <input type="file" accept=".json" style="display:none" onchange="importJSON(event); toggleMobileMenu()" />
+      </label>
+      <button class="btn" style="color:var(--danger);" onclick="resetAllData(); toggleMobileMenu()">🗑️ Reset Semua Isian</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero & Identitas Unit -->
+    <section class="hero-card">
+      <div class="hero-top">
+        <div>
+          <h1 class="hero-title">Monitoring &amp; Evaluasi Pojok Statistik</h1>
+          <p class="hero-desc">
+            Instrumen pemantauan mandiri penyelenggaraan Pojok Statistik (30 Indikator Utama / 33 Butir Penilaian) dengan pilihan dropdown Monev yang telah disinkronkan persis dengan daftar validasi pada file spreadsheet LKE.
+          </p>
+        </div>
+        <button class="btn desktop-only" style="color:var(--danger);" onclick="resetAllData()">
+          🗑️ Reset Data
+        </button>
+      </div>
+
+      <div class="meta-grid">
+        <div class="meta-field">
+          <label for="metaUniv">Perguruan Tinggi / Lokasi Potik</label>
+          <input type="text" id="metaUniv" placeholder="Contoh: Pojok Statistik Universitas Padjadjaran" oninput="saveMeta()" />
+        </div>
+        <div class="meta-field">
+          <label for="metaBps">BPS Pembina</label>
+          <input type="text" id="metaBps" placeholder="Contoh: BPS Provinsi Jawa Barat / Kab. Sumedang" oninput="saveMeta()" />
+        </div>
+        <div class="meta-field">
+          <label for="metaPeriode">Periode Monev</label>
+          <input type="text" id="metaPeriode" placeholder="Contoh: Semester II 2026" oninput="saveMeta()" />
+        </div>
+        <div class="meta-field">
+          <label for="metaPetugas">PIC / Agen Statistik</label>
+          <input type="text" id="metaPetugas" placeholder="Nama penanggung jawab" oninput="saveMeta()" />
+        </div>
+      </div>
+    </section>
+
+    <!-- KPI Summary Cards -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Butir Indikator</div>
+        <div class="kpi-value" id="kpiTotal">33</div>
+        <div class="kpi-foot">30 Nomor Pokok (termasuk sub-butir RPK)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Terisi / Termonitor</div>
+        <div class="kpi-value" id="kpiFilled" style="color:var(--primary);">0</div>
+        <div class="kpi-foot" id="kpiPercent">0% kelengkapan isian monev</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Rata-rata Skor Indikator</div>
+        <div class="kpi-value" id="kpiAvgScore" style="color:var(--success);">0.00</div>
+        <div class="kpi-foot" id="kpiScoreDetail">Skala 1–4 pada indikator berskor</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Tautan Bukti Dukung</div>
+        <div class="kpi-value" id="kpiLinks" style="color:var(--accent);">0</div>
+        <div class="kpi-foot">Dokumen / foto / bukti daring terlampir</div>
+      </div>
+    </section>
+
+    <!-- Dimension Filter Cards -->
+    <section class="dim-grid" id="dimGrid"></section>
+
+    <!-- Search & Filter Toolbar -->
+    <section class="toolbar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Cari nomor, pertanyaan indikator, opsi pilihan monev, atau tautan..." oninput="handleFilterChange()" />
+      </div>
+
+      <div class="filter-group">
+        <select class="control-select" id="dimFilter" onchange="handleFilterChange()">
+          <option value="ALL">Semua Dimensi (6)</option>
+          <option value="Tata Kelola">1. Tata Kelola &amp; Perencanaan</option>
+          <option value="Sarpras">2. Ruang &amp; Sarana Prasarana</option>
+          <option value="SDM & Pembinaan">3. SDM, Agen &amp; Pembinaan</option>
+          <option value="Promosi & Edukasi">4. Promosi, Konten &amp; Edukasi</option>
+          <option value="Layanan Konsultasi">5. Layanan Konsultasi Statistik</option>
+          <option value="Kolaborasi">6. Inovasi &amp; Kolaborasi</option>
+        </select>
+
+        <select class="control-select" id="statusFilter" onchange="handleFilterChange()">
+          <option value="ALL">Semua Status Pengisian</option>
+          <option value="FILLED">Sudah Diisi</option>
+          <option value="EMPTY">Belum Diisi</option>
+          <option value="SCORE_4">Skor 4 (Optimal)</option>
+          <option value="SCORE_3">Skor 3 (Baik)</option>
+          <option value="SCORE_2">Skor 2 (Cukup)</option>
+          <option value="SCORE_1">Skor 1 (Kurang)</option>
+        </select>
+
+        <select class="control-select" id="pageSizeSelect" onchange="handlePageSizeChange()">
+          <option value="5" selected>5 baris / hal</option>
+          <option value="10">10 baris / hal</option>
+          <option value="20">20 baris / hal</option>
+          <option value="50">Semua (33)</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- DataTable -->
+    <section class="table-wrapper">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Pertanyaan / Indikator</th>
+              <th>Monev (Pilihan &amp; Keterangan)</th>
+              <th>Tautan</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <div id="paginationInfo">Menampilkan 1–5 dari 33 indikator</div>
+        <div class="pagination-controls" id="paginationControls"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">Perubahan tersimpan otomatis</div>
+
+  <script>
+    const INDICATORS = [
+  {
+    "uid": "1",
+    "no": "1",
+    "dim": "Tata Kelola",
+    "q": "Apakah tersedia dasar hukum yang relevan?",
+    "hint": "SK Rektor/Dekan, PKS/MoU BPS dengan Perguruan Tinggi",
+    "options": [
+      "4. Tersedia 4 dokumen kelembagaan secara lengkap dan relevan",
+      "3. Tersedia 3 dokumen kelembagaan secara lengkap dan relevan",
+      "2. Tersedia 2 dokumen kelembagaan secara lengkap dan relevan",
+      "1. Tersedia 1 dokumen kelembagaan secara lengkap dan relevan"
+    ]
+  },
+  {
+    "uid": "2",
+    "no": "2",
+    "dim": "Tata Kelola",
+    "q": "Apakah tersedia Program Kerja 2026?",
+    "hint": "Dokumen Rencana Program Kerja (RPK) Tahun 2026",
+    "options": [
+      "4. Sudah input dan upload file RPK",
+      "3. Sudah input RPK, namun tidak upload file",
+      "2. Tidak input RPK namun sudah upload file",
+      "1. Tidak input dan upload file RPK"
+    ]
+  },
+  {
+    "uid": "3",
+    "no": "3",
+    "dim": "Sarpras",
+    "q": "Di mana lokasi Ruang Pojok Statistik?",
+    "hint": "Gedung, lantai, atau titik strategis kampus (perpustakaan/fakultas)",
+    "options": [
+      "4. Area Perpustakaan Utama Perguruan Tinggi",
+      "3. Area Gedung lain yang berada di bawah kewenangan Rektorat",
+      "2. Area Perpustakaan Fakultas",
+      "1. Area Gedung Perkuliahan yang berada di bawah kewenangan Fakultas"
+    ]
+  },
+  {
+    "uid": "4",
+    "no": "4",
+    "dim": "Sarpras",
+    "q": "Berapa luas ruang Pojok Statistik?",
+    "hint": "Komponen identitas & tata ruang standar Pojok Statistik",
+    "options": [
+      "Tersedia Papan nama di luar ruangan yang memuat nama dan logo baik BPS maupun Perguruan Tinggi",
+      "Tersedia backdrop/spanduk background yang memuat tulisan : Pojok Statistik",
+      "Tersedia rak buku dengan bentuk Sigma",
+      "Nuansa ruangan mengacu pada nuansa warna Pojok Statistik"
+    ]
+  },
+  {
+    "uid": "5",
+    "no": "5",
+    "dim": "Sarpras",
+    "q": "Apakah ruang Pojok Statistik telah memenuhi standar dekorasi?",
+    "hint": "Kelengkapan 4 komponen dekorasi ruangan Potik",
+    "options": [
+      "4. Tersedia 4 komponen ruangan Potik yang memenuhi standar",
+      "3. Tersedia 3 komponen ruangan Potik yang memenuhi standar",
+      "2. Tersedia 2 komponen ruangan Potik yang memenuhi standar",
+      "1. Tersedia 1 komponen ruangan Potik yang memenuhi standar"
+    ]
+  },
+  {
+    "uid": "6",
+    "no": "6",
+    "dim": "Sarpras",
+    "q": "Bagaimana kondisi jaringan listrik di ruang Pojok Statistik?",
+    "hint": "Ketersediaan stopkontak, stabilitas daya, keamanan instalasi",
+    "options": [
+      "4. Tersedia jaringan listrik dan selalu berfungsi",
+      "3. Tersedia jaringan listrik dan sering berfungsi",
+      "2. Tersedia jaringan listrik dan jarang berfungsi",
+      "1. Tidak tersedia jaringan listrik"
+    ]
+  },
+  {
+    "uid": "7",
+    "no": "7",
+    "dim": "Sarpras",
+    "q": "Apakah ruang Pojok Statistik memiliki jaringan internet?",
+    "hint": "Wi-Fi kampus / LAN khusus layanan Pojok Statistik",
+    "options": [
+      "4. Ya, Tersedia WIFI dan LAN",
+      "3. Ya, Tersedia WIFI",
+      "2. Ya, Tersedia LAN",
+      "1. Tidak tersedia jaringan internet"
+    ]
+  },
+  {
+    "uid": "8",
+    "no": "8",
+    "dim": "Sarpras",
+    "q": "Bagaimana kondisi jaringan internet di ruang Pojok Statistik?",
+    "hint": "Kecepatan akses, kestabilan koneksi saat konsultasi daring",
+    "options": [
+      "4. Jaringan internet selalu berfungsi",
+      "3. Jaringan internet sering berfungsi",
+      "2. Jaringan internet jarang berfungsi",
+      "1. Jaringan internet tidak berfungsi"
+    ]
+  },
+  {
+    "uid": "9",
+    "no": "9",
+    "multi": true,
+    "dim": "Sarpras",
+    "q": "Fasilitas apa saja yang tersedia di area konsultasi statistik?",
+    "hint": "Meja, kursi, PC/laptop layanan, perangkat buku tamu PST",
+    "options": [
+      "Tersedia meja khusus untuk layanan konsultasi statistik",
+      "Tersedia kursi khusus untuk layanan konsultasi statistik",
+      "Tersedia Komputer Unit/Laptop khusus untuk layanan Konsultasi Statistik",
+      "Tersedia Komputer untuk mengakses buku tamu elektronik yang terintegrasi dengan buku tamu PST BPS"
+    ]
+  },
+  {
+    "uid": "10",
+    "no": "10",
+    "multi": true,
+    "dim": "Sarpras",
+    "q": "Fasilitas apa saja yang tersedia di area literasi/area baca di Pojok statistik?",
+    "hint": "Meja baca, tempat duduk/bean bag, publikasi/buku, rak buku",
+    "options": [
+      "Tersedia meja baca di area literasi",
+      "Tersedia tempat duduk/bean bag di area literasi",
+      "Tersedia publikasi/buku yang dapat diakses oleh pengunjung",
+      "Tersedia rak buku"
+    ]
+  },
+  {
+    "uid": "11",
+    "no": "11",
+    "multi": true,
+    "dim": "Sarpras",
+    "q": "Sarana promosi apa saja yang tersedia di ruang Pojok Statistik?",
+    "hint": "TV LED digital, Banner, Poster informasi terkini, Leaflet",
+    "options": [
+      "Tersedia media promosi digital berupa TV LED yang menampilkan informasi",
+      "Tersedia media promosi dalam bentuk Banner",
+      "Tersedia media promosi dalam bentuk Poster yang memuat informasi terkini",
+      "Tersedia media promosi dalam bentuk Leaflet"
+    ]
+  },
+  {
+    "uid": "12",
+    "no": "12",
+    "dim": "SDM & Pembinaan",
+    "q": "Apakah terdapat keterlibatan Mahasiswa dalam kegiatan Pojok Statistik",
+    "hint": "Peran aktif mahasiswa sebagai Agen Statistik & SK/Surat Tugas",
+    "options": [
+      "4. Terdapat pelibatan Mahasiswa Agen Statistik dengan Surat Keputusan/Surat Tugas Perguruan Tinggi",
+      "3. Terdapat pelibatan Mahasiswa Agen Statistik tanpa Surat Keputusan/Surat Tugas Perguruan Tinggi",
+      "2. Terdapat pelibatan Mahasiswa dalam kegiatan Pojok Statistik namun bukan sebagai Agen Statistik",
+      "1. Tidak ada pelibatan Mahasiswa dalam kegiatan Pojok Statistik"
+    ]
+  },
+  {
+    "uid": "13",
+    "no": "13",
+    "dim": "SDM & Pembinaan",
+    "q": "Bagaimana mekanisme pemilihan/rekrutmen Agen Statistik?",
+    "hint": "Seleksi terbuka, tertutup, atau penunjukan langsung PT",
+    "options": [
+      "4. Dengan proses seleksi secara terbuka/diumumkan di media sosial/media kampus",
+      "3. Dengan proses seleksi secara tertutup",
+      "2. Penunjukan langsung oleh Perguruan Tinggi dengan Surat Keputusan/Surat Tugas",
+      "1. Penunjukan langsung oleh Perguruan Tinggi tanpa Surat Keputusan/ Surat Tugas"
+    ]
+  },
+  {
+    "uid": "14",
+    "no": "14",
+    "dim": "SDM & Pembinaan",
+    "q": "Apakah terdapat jadwal pembinaan Agen Statistik?",
+    "hint": "Matriks jadwal pelatihan & tingkat keterlaksanaan pembinaan",
+    "options": [
+      "4. Ya, Terdapat jadwal Pembinaan Agen Statistik secara berkala dan terlaksana sesuai jadwal (100%)",
+      "3. Ya, Terdapat jadwal Pembinaan Agen Statistik namun belum terlaksana sepenuhnya",
+      "2. Tidak terdapat jadwal, namun telah dilaksanakan Pembinaan Agen Statistik",
+      "1. Tidak terdapat jadwal pembinaan Agen Statistik dan belum ada kegiatan pembinaan Agen Statistik"
+    ]
+  },
+  {
+    "uid": "15",
+    "no": "15",
+    "dim": "SDM & Pembinaan",
+    "q": "Apakah terdapat jadwal pengawasan/asistensi/kunjungan dari BPS Pembina?",
+    "hint": "Agenda supervisi rutin oleh Tim Pembina BPS Prov/Kab/Kota",
+    "options": [
+      "4. Terdapat jadwal pengawasan/asistensi dan terlaksana sesuai jadwal (100%)",
+      "3. Terdapat jadwal pengawasan/asistensi namun belum terlaksana sepenuhnya",
+      "2. Tidak terdapat jadwal pengawasan/asistensi namun telah dilakukan pengawasan/asistensi",
+      "1. Tidak terdapat jadwal pengawasan/asistensi dan belum dilakukan pengawasan/asistensi"
+    ]
+  },
+  {
+    "uid": "16",
+    "no": "16",
+    "dim": "SDM & Pembinaan",
+    "q": "Jadwal pengawasan/asistensi/kunjungan ke Pojok Statistik",
+    "hint": "Frekuensi pelaksanaan pengawasan/asistensi/kunjungan",
+    "options": [
+      "4. Harian (lebih dari 1 hari per pekan)",
+      "3. Mingguan/Pekanan (1 hari per pekan)",
+      "2. Bulanan (1 hari per bulan)",
+      "1. Tentatif (tidak terjadwal)"
+    ]
+  },
+  {
+    "uid": "17",
+    "no": "17",
+    "multi": true,
+    "dim": "Promosi & Edukasi",
+    "q": "Media dan cakupan promosi statistik yang telah dilakukan?",
+    "hint": "Media sosial resmi & cakupan pameran/sosialisasi",
+    "options": [
+      "Promosi statistik secara digital melalui media sosial resmi Pojok Statistik/media sosial resmi Perguruan Tinggi",
+      "Promosi statistik secara tatap muka dalam bentuk pameran/event lainnya dengan cakupan eksternal (publik)",
+      "Promosi statistik secara tatap muka dalam bentuk event (pameran/sosialisasi) dengan cakupan internal Perguruan Tinggi (lintas fakultas)",
+      "Promosi Statistik tatap muka dalam bentuk event (pameran/sosialisasi) dengan cakupan internal Fakultas"
+    ]
+  },
+  {
+    "uid": "18",
+    "no": "18",
+    "dim": "Promosi & Edukasi",
+    "q": "Persentase penyusun infografis",
+    "hint": "Proporsi Agen Statistik yang terlibat menyusun infografis",
+    "options": [
+      "4. Ya, >75% infografis disusun oleh Agen Statistik",
+      "3. Ya, 50-75% infografis disusun oleh Agen Statistik",
+      "2. Ya, ≤50% infografis disusun oleh Agen Statistik",
+      "1. Tidak, seluruh infografis disusun oleh BPS"
+    ]
+  },
+  {
+    "uid": "19A",
+    "no": "19",
+    "dim": "Promosi & Edukasi",
+    "q": "A. Frekuensi tayang infografis di PSV",
+    "hint": "Frekuensi tayang infografis pada Pojok Statistik Virtual (PSV)",
+    "options": [
+      "Harian (lebih dari 1 hari setiap pekan)",
+      "Pekanan/Mingguan (1 hari per pekan)",
+      "Bulanan (1 hari per bulan)",
+      "Triwulanan (1 hari per triwulan)",
+      "Semesteran (1 hari per semester)",
+      "Tentatif (tidak menentu)"
+    ]
+  },
+  {
+    "uid": "19B",
+    "no": "19",
+    "dim": "Promosi & Edukasi",
+    "q": "B. Kesesuaian realisasi infografis dengan target di Rencana Program Kerja (RPK)",
+    "hint": "Capaian/frekuensi realisasi infografis terhadap target RPK",
+    "options": [
+      "Harian (lebih dari 1 hari setiap pekan)",
+      "Pekanan/Mingguan (1 hari per pekan)",
+      "Bulanan (1 hari per bulan)",
+      "Triwulanan (1 hari per triwulan)",
+      "Semesteran (1 hari per semester)",
+      "Tentatif (tidak menentu)"
+    ]
+  },
+  {
+    "uid": "20",
+    "no": "20",
+    "dim": "Promosi & Edukasi",
+    "q": "Persentase penyusun video",
+    "hint": "Proporsi Agen Statistik yang terlibat memproduksi video",
+    "options": [
+      "4. Ya, >75% infografis disusun oleh Agen Statistik",
+      "3. Ya, 50-75% infografis disusun oleh Agen Statistik",
+      "2. Ya, ≤50% infografis disusun oleh Agen Statistik",
+      "1. Tidak, seluruh infografis disusun oleh BPS"
+    ]
+  },
+  {
+    "uid": "21A",
+    "no": "21",
+    "dim": "Promosi & Edukasi",
+    "q": "A. Frekuensi videografis tayang di PSV",
+    "hint": "Frekuensi tayang videografis pada Pojok Statistik Virtual (PSV)",
+    "options": [
+      "Harian (lebih dari 1 hari setiap pekan)",
+      "Pekanan/Mingguan (1 hari per pekan)",
+      "Bulanan (1 hari per bulan)",
+      "Triwulanan (1 hari per triwulan)",
+      "Semesteran (1 hari per semester)",
+      "Tentatif (tidak menentu)"
+    ]
+  },
+  {
+    "uid": "21B",
+    "no": "21",
+    "dim": "Promosi & Edukasi",
+    "q": "B. Kesesuaian realisasi videografis dengan target di Rencana Program Kerja (RPK)",
+    "hint": "Capaian/frekuensi realisasi videografis terhadap target RPK",
+    "options": [
+      "Harian (lebih dari 1 hari setiap pekan)",
+      "Pekanan/Mingguan (1 hari per pekan)",
+      "Bulanan (1 hari per bulan)",
+      "Triwulanan (1 hari per triwulan)",
+      "Semesteran (1 hari per semester)",
+      "Tentatif (tidak menentu)"
+    ]
+  },
+  {
+    "uid": "22",
+    "no": "22",
+    "dim": "Promosi & Edukasi",
+    "q": "Kegiatan Edukasi Statistik yang diselenggarakan oleh Pojok Statistik",
+    "hint": "Cakupan materi edukasi: Promosi, Pemanfaatan Data & Pembangunan Statistik",
+    "options": [
+      "4. Ada, berkaitan dengan Promosi Data BPS, Pemanfaatan Data BPS bagi perguruan tinggi dan Pembangunan Statistik bagi Pemerintah dan Masyarakat",
+      "3. Ada, berkaitan dengan Promosi Data BPS dan Pembangunan Statistik bagi Pemerintah dan Masyarakat",
+      "2. Ada, berkaitan dengan Promosi Data BPS dan Pemanfaatan Data BPS bagi perguruan tinggi",
+      "1. Ada, berkaitan dengan Promosi Data BPS"
+    ]
+  },
+  {
+    "uid": "23A",
+    "no": "23",
+    "dim": "Promosi & Edukasi",
+    "q": "A. Frekuensi Kegiatan Edukasi Statistik",
+    "hint": "Frekuensi pelaksanaan kegiatan edukasi statistik",
+    "options": [
+      "Harian (lebih dari 1 hari setiap pekan)",
+      "Pekanan/Mingguan (1 hari per pekan)",
+      "Bulanan (1 hari per bulan)",
+      "Triwulanan (1 hari per triwulan)",
+      "Semesteran (1 hari per semester)",
+      "Tentatif (tidak menentu)"
+    ]
+  },
+  {
+    "uid": "23B",
+    "no": "23",
+    "dim": "Promosi & Edukasi",
+    "q": "B. Kesesuaian realisasi Edukasi Statistik dengan target di Rencana Program Kerja (RPK)",
+    "hint": "Capaian/frekuensi realisasi edukasi statistik terhadap target RPK",
+    "options": [
+      "Harian (lebih dari 1 hari setiap pekan)",
+      "Pekanan/Mingguan (1 hari per pekan)",
+      "Bulanan (1 hari per bulan)",
+      "Triwulanan (1 hari per triwulan)",
+      "Semesteran (1 hari per semester)",
+      "Tentatif (tidak menentu)"
+    ]
+  },
+  {
+    "uid": "24",
+    "no": "24",
+    "dim": "Layanan Konsultasi",
+    "q": "Apakah terdapat layanan Konsultasi Statistik di Pojok Statistik?",
+    "hint": "Ketersediaan layanan konsultasi tatap muka terjadwal & terbuka",
+    "options": [
+      "4. Terdapat layanan konsultasi statistik tatap muka yang terjadwal dan jadwal tersebut disampaikan secara terbuka kepada pengguna",
+      "3. Terdapat layanan konsultasi statistik tatap muka yang terjadwal namun jadwal tersebut tidak disampaikan secara terbuka kepada pengguna",
+      "2. Terdapat layanan konsultasi statistik tatap muka namun tidak terjadwal",
+      "1. Tidak terdapat layanan konsultasi statistik tatap muka"
+    ]
+  },
+  {
+    "uid": "25",
+    "no": "25",
+    "dim": "Layanan Konsultasi",
+    "q": "Rata-rata transaksi/kunjungan konsultasi tatap muka di Pojok Statistik per bulan (Agustus - Juli)",
+    "hint": "Rata-rata kunjungan konsultasi tatap muka per bulan",
+    "options": [
+      "4. > 50",
+      "3. 31 - 50",
+      "2. 11 - 30",
+      "1. <= 10"
+    ]
+  },
+  {
+    "uid": "26",
+    "no": "26",
+    "dim": "Layanan Konsultasi",
+    "q": "Kapan waktu pelayanan Konsultasi Statistik di Pojok Statistik?",
+    "hint": "Frekuensi hari operasional pelayanan konsultasi statistik",
+    "options": [
+      "4. Harian (lebih dari 1 hari setiap pekan)",
+      "3. Pekanan/Mingguan (1 hari per pekan)",
+      "2. Bulanan (1 hari per bulan)",
+      "1. Tentatif (tidak menentu)"
+    ]
+  },
+  {
+    "uid": "27",
+    "no": "27",
+    "multi": true,
+    "dim": "Kolaborasi",
+    "q": "Apakah ada kegiatan lain yang diselenggarakan dalam program Pojok Statistik?",
+    "hint": "Joint Research, MSIB/Magang, Maha Cantik, pendataan/survei, publikasi",
+    "options": [
+      "Joint Research",
+      "Kegiatan MSIB/Magang",
+      "Kegiatan BPS lainnya : Maha Cantik, pendataan/survey, penyusunan publikasi"
+    ]
+  },
+  {
+    "uid": "28",
+    "no": "28",
+    "multi": true,
+    "dim": "Kolaborasi",
+    "q": "Apakah terdapat kolaborasi pembiayaan dalam penyelenggaraan Pojok Statistik?",
+    "hint": "Dukungan pembiayaan saat inisiasi, peresmian, maupun operasional",
+    "options": [
+      "Kolaborasi pembiayaan pada saat proses inisiasi dan pembentukan",
+      "Kolaborasi pembiayaan pada saat peresmian",
+      "Kolaborasi pembiayaan pada operasional kegiatan"
+    ]
+  },
+  {
+    "uid": "29",
+    "no": "29",
+    "dim": "Kolaborasi",
+    "q": "Apakah terdapat kolaborasi Pojok Statistik dalam Program Pembangunan Statistik di tingkat Desa?",
+    "hint": "Sinergi KKN Tematik / pendampingan Desa Cantik",
+    "options": [
+      "4. Ya, terdapat kegiatan kolaborasi dengan Desa Cantik dan melibatkan mahasiswa Agen Statistik dalam bentuk kegiatan KKN",
+      "3. Ya, terdapat kegiatan kolaborasi dengan Desa Cantik dan melibatkan mahasiswa Agen Statistik selain kegiatan KKN",
+      "2. Ya, terdapat kegiatan kolaborasi yang melibatkan mahasiswa Agen Statistik di luar lokus Desa Cantik",
+      "1. Tidak terdapat kegiatan kolaborasi Pojok Statistik dalam Program Pembangunan Statistik di tingkat Desa"
+    ]
+  },
+  {
+    "uid": "30",
+    "no": "30",
+    "dim": "Kolaborasi",
+    "q": "Apakah terdapat kolaborasi Pojok Statistik dengan Pembinaan Statistik Sektoral?",
+    "hint": "Keterlibatan dalam pendampingan Pembinaan Statistik Sektoral / EPSS",
+    "options": [
+      "4. Terdapat kegiatan Pojok Statistik yang berkolaborasi dengan Perguruan Tinggi dengan melibatkan Mahasiswa Agen Statistik untuk mendukung percepatan capaian Pembinaan Statistik Sektoral",
+      "3. Terdapat kegiatan Pojok Statistik yang berkolaborasi dengan Perguruan Tinggi dengan melibatkan Mahasiswa selain Agen Statistik untuk mendukung percepatan capaian Pembinaan Statistik Sektoral",
+      "2. Terdapat kegiatan Pojok Statistik untuk mendukung percepatan capaian Pembinaan Statistik Sektoral tanpa berkolaborasi dengan Perguruan Tinggi",
+      "1. Belum terdapat kegiatan Pojok Statistik yang mendukung percepatan capaian Pembinaan Statistik Sektoral"
+    ]
+  }
+];
+
+    const DIMENSIONS = [
+      { key: "Tata Kelola", label: "1. Tata Kelola" },
+      { key: "Sarpras", label: "2. Ruang & Sarpras" },
+      { key: "SDM & Pembinaan", label: "3. SDM & Pembinaan" },
+      { key: "Promosi & Edukasi", label: "4. Promosi & Edukasi" },
+      { key: "Layanan Konsultasi", label: "5. Konsultasi" },
+      { key: "Kolaborasi", label: "6. Kolaborasi" }
+    ];
+
+    const STORAGE_KEY = "lke_potik_2026_v2";
+    const THEME_KEY = "lke_potik_theme";
+
+    let state = {
+      meta: { univ: "", bps: "", periode: "", petugas: "" },
+      items: {}
+    };
+
+    let currentPage = 1;
+    let pageSize = 5;
+    let toastTimer = null;
+
+    const MULTI_DELIMITER = " | ";
+
+    function getSelectedArray(item, rawMonev) {
+      if (Array.isArray(rawMonev)) return rawMonev.filter(Boolean);
+      if (!rawMonev || typeof rawMonev !== "string") return [];
+      const trimmed = rawMonev.trim();
+      if (!trimmed) return [];
+      const opts = item && item.options ? item.options : [];
+      const matched = opts.filter(opt => trimmed.includes(opt));
+      if (matched.length > 0) return matched;
+      return trimmed.split(MULTI_DELIMITER).map(s => s.trim()).filter(Boolean);
+    }
+
+    function formatMonevText(item, rawMonev) {
+      if (item && item.multi) {
+        return getSelectedArray(item, rawMonev).join(MULTI_DELIMITER);
+      }
+      return Array.isArray(rawMonev) ? rawMonev.join(MULTI_DELIMITER) : (rawMonev || "");
+    }
+
+    function getScoreLevel(selectedValue) {
+      if (Array.isArray(selectedValue)) {
+        return selectedValue.length > 0 ? "0" : "";
+      }
+      if (!selectedValue) return "";
+      const match = String(selectedValue).trim().match(/^([1-4])\./);
+      if (match) return match[1];
+      return "0";
+    }
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && typeof parsed === "object") {
+            state.meta = { ...state.meta, ...(parsed.meta || {}) };
+            state.items = parsed.items || {};
+          }
+        }
+      } catch (e) {
+        console.error("Gagal memuat state:", e);
+      }
+
+      document.getElementById("metaUniv").value = state.meta.univ || "";
+      document.getElementById("metaBps").value = state.meta.bps || "";
+      document.getElementById("metaPeriode").value = state.meta.periode || "";
+      document.getElementById("metaPetugas").value = state.meta.petugas || "";
+    }
+
+    function persistState(silent = false) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        if (!silent) showToast("Tersimpan otomatis ke browser");
+      } catch (e) {
+        console.error("Gagal menyimpan state:", e);
+      }
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove("show"), 2000);
+    }
+
+    function saveMeta() {
+      state.meta.univ = document.getElementById("metaUniv").value;
+      state.meta.bps = document.getElementById("metaBps").value;
+      state.meta.periode = document.getElementById("metaPeriode").value;
+      state.meta.petugas = document.getElementById("metaPetugas").value;
+      persistState(true);
+    }
+
+    function toggleMultiOption(uid, optionIndex, checked) {
+      const item = INDICATORS.find(i => i.uid === uid);
+      if (!item || !item.options) return;
+      const optText = item.options[optionIndex];
+      if (!optText) return;
+
+      if (!state.items[uid]) {
+        state.items[uid] = { monev: [], note: "", tautan: "" };
+      }
+      const currentList = getSelectedArray(item, state.items[uid].monev);
+      let nextList;
+      if (checked) {
+        nextList = currentList.includes(optText) ? currentList : [...currentList, optText];
+      } else {
+        nextList = currentList.filter(v => v !== optText);
+      }
+      // Preserve canonical option order
+      nextList = item.options.filter(opt => nextList.includes(opt));
+
+      state.items[uid].monev = nextList;
+      persistState(false);
+      updateMetrics();
+
+      // Update checkbox visual states & badge
+      item.options.forEach((opt, idx) => {
+        const labelEl = document.getElementById(`multi-label-${uid}-${idx}`);
+        if (labelEl) {
+          labelEl.classList.toggle("checked", nextList.includes(opt));
+        }
+      });
+
+      const badgeEl = document.getElementById(`multi-count-${uid}`);
+      if (badgeEl) {
+        badgeEl.textContent = `${nextList.length}/${item.options.length} dipilih`;
+      }
+
+      const preview = document.getElementById(`monev-preview-${uid}`);
+      if (preview) {
+        if (nextList.length > 0) {
+          preview.style.display = "block";
+          preview.setAttribute("data-score", "0");
+          preview.innerHTML = nextList.map(v => `• ${escapeHtml(v)}`).join("<br>");
+        } else {
+          preview.style.display = "none";
+          preview.innerHTML = "";
+        }
+      }
+
+      const row = document.getElementById(`row-${uid}`);
+      if (row) {
+        row.classList.toggle("completed-row", isItemFilled(uid));
+      }
+    }
+
+    function updateItem(uid, field, value) {
+      if (!state.items[uid]) {
+        state.items[uid] = { monev: "", note: "", tautan: "" };
+      }
+      state.items[uid][field] = value;
+      persistState(false);
+      updateMetrics();
+
+      if (field === "monev") {
+        const sel = document.getElementById(`monev-select-${uid}`);
+        const score = getScoreLevel(value);
+        if (sel) sel.setAttribute("data-score", score);
+
+        const preview = document.getElementById(`monev-preview-${uid}`);
+        if (preview) {
+          if (value) {
+            preview.style.display = "block";
+            preview.setAttribute("data-score", score);
+            preview.textContent = value;
+          } else {
+            preview.style.display = "none";
+            preview.textContent = "";
+          }
+        }
+
+        const row = document.getElementById(`row-${uid}`);
+        if (row) {
+          row.classList.toggle("completed-row", isItemFilled(uid));
+        }
+      }
+
+      if (field === "tautan") {
+        renderLinkPreview(uid, value);
+      }
+    }
+
+    function renderLinkPreview(uid, url) {
+      const container = document.getElementById(`link-preview-wrap-${uid}`);
+      if (!container) return;
+      const clean = (url || "").trim();
+      if (clean) {
+        const href = /^https?:\/\//i.test(clean) ? clean : `https://${clean}`;
+        container.innerHTML = `<a class="link-preview" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">🔗 Buka Bukti Dukung ↗</a>`;
+      } else {
+        container.innerHTML = "";
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function isItemFilled(uid) {
+      const d = state.items[uid];
+      if (!d) return false;
+      const item = INDICATORS.find(i => i.uid === uid);
+      const monevStr = formatMonevText(item, d.monev);
+      return Boolean((monevStr && monevStr.trim()) || (d.note && d.note.trim()));
+    }
+
+    function getFilteredIndicators() {
+      const q = document.getElementById("searchInput").value.trim().toLowerCase();
+      const dim = document.getElementById("dimFilter").value;
+      const status = document.getElementById("statusFilter").value;
+
+      return INDICATORS.filter(item => {
+        const d = state.items[item.uid] || { monev: "", note: "", tautan: "" };
+        const filled = isItemFilled(item.uid);
+        const score = getScoreLevel(d.monev);
+
+        if (dim !== "ALL" && item.dim !== dim) return false;
+
+        if (status === "FILLED" && !filled) return false;
+        if (status === "EMPTY" && filled) return false;
+        if (status === "SCORE_4" && score !== "4") return false;
+        if (status === "SCORE_3" && score !== "3") return false;
+        if (status === "SCORE_2" && score !== "2") return false;
+        if (status === "SCORE_1" && score !== "1") return false;
+
+        if (q) {
+          const optsText = (item.options || []).join(" ");
+          const monevStr = formatMonevText(item, d.monev);
+          const hay = `${item.no} ${item.uid} ${item.dim} ${item.q} ${item.hint} ${optsText} ${monevStr} ${d.note} ${d.tautan}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function updateMetrics() {
+      const total = INDICATORS.length;
+      let filled = 0;
+      let links = 0;
+      let scoreSum = 0;
+      let scoreCount = 0;
+
+      INDICATORS.forEach(item => {
+        const d = state.items[item.uid] || {};
+        if (isItemFilled(item.uid)) filled++;
+        if (d.tautan && d.tautan.trim()) links++;
+        const sc = parseInt(getScoreLevel(d.monev), 10);
+        if (sc >= 1 && sc <= 4) {
+          scoreSum += sc;
+          scoreCount++;
+        }
+      });
+
+      const pct = Math.round((filled / total) * 100);
+      const avg = scoreCount > 0 ? (scoreSum / scoreCount).toFixed(2) : "0.00";
+
+      document.getElementById("headerProgressText").textContent = `${filled}/${total} (${pct}%)`;
+      document.getElementById("headerProgressBar").style.width = `${pct}%`;
+
+      document.getElementById("kpiTotal").textContent = total;
+      document.getElementById("kpiFilled").textContent = filled;
+      document.getElementById("kpiPercent").textContent = `${pct}% kelengkapan isian monev`;
+      document.getElementById("kpiAvgScore").textContent = avg;
+      document.getElementById("kpiScoreDetail").textContent = `Dari ${scoreCount} indikator berskala 1–4 terisi`;
+      document.getElementById("kpiLinks").textContent = links;
+
+      renderDimensionCards();
+    }
+
+    function renderDimensionCards() {
+      const activeDim = document.getElementById("dimFilter").value;
+      const grid = document.getElementById("dimGrid");
+
+      grid.innerHTML = DIMENSIONS.map(dim => {
+        const list = INDICATORS.filter(i => i.dim === dim.key);
+        const done = list.filter(i => isItemFilled(i.uid)).length;
+        const pct = Math.round((done / list.length) * 100);
+        const isActive = activeDim === dim.key;
+
+        return `
+          <button type="button" class="dim-card ${isActive ? "active" : ""}" onclick="selectDimension('${dim.key}')">
+            <div class="dim-head">
+              <span>${dim.label}</span>
+              <span class="dim-count">${done}/${list.length}</span>
+            </div>
+            <div class="dim-bar">
+              <div class="dim-bar-fill" style="width:${pct}%"></div>
+            </div>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function selectDimension(dimKey) {
+      const sel = document.getElementById("dimFilter");
+      sel.value = sel.value === dimKey ? "ALL" : dimKey;
+      currentPage = 1;
+      renderTable();
+      renderDimensionCards();
+    }
+
+    function handleFilterChange() {
+      currentPage = 1;
+      renderTable();
+      renderDimensionCards();
+    }
+
+    function handlePageSizeChange() {
+      pageSize = parseInt(document.getElementById("pageSizeSelect").value, 10) || 5;
+      currentPage = 1;
+      renderTable();
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      renderTable();
+    }
+
+    function renderTable() {
+      const filtered = getFilteredIndicators();
+      const totalItems = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIdx = (currentPage - 1) * pageSize;
+      const endIdx = Math.min(startIdx + pageSize, totalItems);
+      const slice = filtered.slice(startIdx, endIdx);
+
+      const tbody = document.getElementById("tableBody");
+
+      if (slice.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align:center; padding:2.5rem 1rem; color:var(--text-muted);">
+              Tidak ada indikator yang sesuai dengan kriteria pencarian atau filter saat ini.
+            </td>
+          </tr>
+        `;
+      } else {
+        tbody.innerHTML = slice.map(item => {
+          const d = state.items[item.uid] || { monev: "", note: "", tautan: "" };
+          const filled = isItemFilled(item.uid);
+          const score = getScoreLevel(d.monev);
+          const cleanUrl = (d.tautan || "").trim();
+          const href = cleanUrl ? (/^https?:\/\//i.test(cleanUrl) ? cleanUrl : `https://${cleanUrl}`) : "";
+
+          let selectorHtml = "";
+          let previewHtml = "";
+
+          if (item.multi) {
+            const selectedArr = getSelectedArray(item, d.monev);
+            const checkboxesHtml = (item.options || []).map((opt, idx) => {
+              const isChecked = selectedArr.includes(opt);
+              return `
+                <label id="multi-label-${item.uid}-${idx}" class="multi-choice-item ${isChecked ? "checked" : ""}">
+                  <input
+                    type="checkbox"
+                    ${isChecked ? "checked" : ""}
+                    onchange="toggleMultiOption('${item.uid}', ${idx}, this.checked)"
+                  />
+                  <span>${escapeHtml(opt)}</span>
+                </label>
+              `;
+            }).join("");
+
+            selectorHtml = `
+              <div class="multi-choice-group">
+                <div class="multi-choice-header">
+                  <span>Pilihan Ganda (boleh pilih &gt; 1)</span>
+                  <span id="multi-count-${item.uid}" class="multi-choice-badge">${selectedArr.length}/${(item.options || []).length} dipilih</span>
+                </div>
+                ${checkboxesHtml}
+              </div>
+            `;
+
+            const previewContent = selectedArr.map(v => `• ${escapeHtml(v)}`).join("<br>");
+            previewHtml = `
+              <div
+                id="monev-preview-${item.uid}"
+                class="selected-pill-preview"
+                data-score="0"
+                style="display:${selectedArr.length > 0 ? "block" : "none"};"
+              >${previewContent}</div>
+            `;
+          } else {
+            const optionsHtml = (item.options || []).map(opt => {
+              const isSelected = d.monev === opt ? "selected" : "";
+              return `<option value="${escapeHtml(opt)}" ${isSelected}>${escapeHtml(opt)}</option>`;
+            }).join("");
+
+            selectorHtml = `
+              <select
+                id="monev-select-${item.uid}"
+                class="dropdown-select"
+                data-score="${score}"
+                onchange="updateItem('${item.uid}', 'monev', this.value)"
+              >
+                <option value="" ${!d.monev ? "selected" : ""}>— Pilih Jawaban / Kondisi Monev —</option>
+                ${optionsHtml}
+              </select>
+            `;
+
+            previewHtml = `
+              <div
+                id="monev-preview-${item.uid}"
+                class="selected-pill-preview"
+                data-score="${score}"
+                style="display:${d.monev ? "block" : "none"};"
+              >${escapeHtml(d.monev || "")}</div>
+            `;
+          }
+
+          return `
+            <tr id="row-${item.uid}" class="${filled ? "completed-row" : ""}">
+              <td class="col-no">
+                <span class="no-badge">${escapeHtml(item.no)}</span>
+              </td>
+              <td class="col-indikator">
+                <div class="indikator-title">${escapeHtml(item.q)}</div>
+                <div class="indikator-tags">
+                  <span class="tag-dim">${escapeHtml(item.dim)}</span>
+                  <span class="tag-hint">${escapeHtml(item.hint)}</span>
+                </div>
+              </td>
+              <td class="col-monev">
+                <div class="monev-controls">
+                  ${selectorHtml}
+                  ${previewHtml}
+
+                  <textarea
+                    class="monev-textarea"
+                    placeholder="Catatan tambahan / rincian kuantitatif (opsional)..."
+                    oninput="updateItem('${item.uid}', 'note', this.value)"
+                  >${escapeHtml(d.note || "")}</textarea>
+                </div>
+              </td>
+              <td class="col-tautan">
+                <div class="link-box">
+                  <div class="link-input-wrap">
+                    <input
+                      type="url"
+                      class="link-input"
+                      value="${escapeHtml(d.tautan || "")}"
+                      placeholder="https://drive.google.com/..."
+                      oninput="updateItem('${item.uid}', 'tautan', this.value)"
+                    />
+                  </div>
+                  <div id="link-preview-wrap-${item.uid}">
+                    ${href ? `<a class="link-preview" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">🔗 Buka Bukti Dukung ↗</a>` : ""}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      const infoEl = document.getElementById("paginationInfo");
+      if (totalItems === 0) {
+        infoEl.textContent = "Menampilkan 0 indikator";
+      } else {
+        infoEl.textContent = `Menampilkan ${startIdx + 1}–${endIdx} dari ${totalItems} indikator`;
+      }
+
+      const ctrlEl = document.getElementById("paginationControls");
+      let btns = `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage <= 1 ? "disabled" : ""}>‹</button>`;
+      for (let p = 1; p <= totalPages; p++) {
+        btns += `<button class="page-btn ${p === currentPage ? "active" : ""}" onclick="goToPage(${p})">${p}</button>`;
+      }
+      btns += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage >= totalPages ? "disabled" : ""}>›</button>`;
+      ctrlEl.innerHTML = btns;
+    }
+
+    function exportCSV() {
+      const headers = ["No", "Pertanyaan/ Indikator", "Monev", "Tautan", "Catatan Tambahan"];
+      const rows = INDICATORS.map(item => {
+        const d = state.items[item.uid] || { monev: "", note: "", tautan: "" };
+        return [
+          item.no,
+          item.q,
+          formatMonevText(item, d.monev),
+          d.tautan || "",
+          d.note || ""
+        ].map(val => `"${String(val).replace(/"/g, '""')}"`).join(",");
+      });
+
+      const csvContent = "\uFEFF" + [headers.join(","), ...rows].join("\n");
+      downloadBlob(csvContent, "lke-pojok-statistik-2026.csv", "text/csv;charset=utf-8;");
+      showToast("File CSV siap ditempel ke Spreadsheet");
+    }
+
+    function exportJSON() {
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        source: "LKE Pojok Statistik 2026",
+        meta: state.meta,
+        items: state.items
+      };
+      downloadBlob(JSON.stringify(payload, null, 2), "lke-pojok-statistik-2026.json", "application/json");
+      showToast("Cadangan JSON berhasil diunduh");
+    }
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && parsed.items) {
+            state.meta = { ...state.meta, ...(parsed.meta || {}) };
+            state.items = parsed.items;
+            document.getElementById("metaUniv").value = state.meta.univ || "";
+            document.getElementById("metaBps").value = state.meta.bps || "";
+            document.getElementById("metaPeriode").value = state.meta.periode || "";
+            document.getElementById("metaPetugas").value = state.meta.petugas || "";
+            persistState(true);
+            updateMetrics();
+            renderTable();
+            showToast("Data JSON berhasil dipulihkan");
+          } else {
+            alert("Format file JSON tidak dikenali.");
+          }
+        } catch (err) {
+          alert("Gagal membaca file JSON: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = "";
+    }
+
+    function downloadBlob(content, filename, mime) {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function resetAllData() {
+      if (!confirm("Hapus seluruh isian Monev, Tautan, dan Identitas yang tersimpan di browser ini?")) return;
+      state = { meta: { univ: "", bps: "", periode: "", petugas: "" }, items: {} };
+      localStorage.removeItem(STORAGE_KEY);
+      document.getElementById("metaUniv").value = "";
+      document.getElementById("metaBps").value = "";
+      document.getElementById("metaPeriode").value = "";
+      document.getElementById("metaPetugas").value = "";
+      updateMetrics();
+      renderTable();
+      showToast("Semua data telah direset");
+    }
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem(THEME_KEY) || "light";
+      applyTheme(savedTheme);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "light" ? "dark" : "light";
+      applyTheme(next);
+      localStorage.setItem(THEME_KEY, next);
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      const btn = document.getElementById("themeToggle");
+      if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
+    }
+
+    function toggleNavDropdown(id, event) {
+      if (event) event.stopPropagation();
+      const target = document.getElementById(id);
+      const isOpen = target && target.classList.contains("open");
+      closeAllDropdowns();
+      if (target && !isOpen) {
+        target.classList.add("open");
+      }
+    }
+
+    function closeAllDropdowns() {
+      document.querySelectorAll(".nav-dropdown.open").forEach(el => el.classList.remove("open"));
+    }
+
+    document.addEventListener("click", function(e) {
+      if (!e.target.closest(".nav-dropdown")) {
+        closeAllDropdowns();
+      }
+    });
+
+    function toggleMobileMenu() {
+      document.getElementById("mobileMenu").classList.toggle("open");
+    }
+
+    initTheme();
+    loadState();
+    updateMetrics();
+    renderTable();
+  </script>
+</body>
+</html>
